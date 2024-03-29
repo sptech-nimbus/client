@@ -11,26 +11,27 @@ export const IconWrapper = styled.span`
 export const Wrapper = styled.div`
    display: flex;
    align-items: center;
+   justify-content: space-between;
    gap: 8px;
    background-color: #212121;
    border: 1px solid ${Colors.gray600};
-   padding: 0.5rem 1rem;
+   padding: 0.5rem 0.7rem;
    border-radius: 0.6rem;
    transition: all .1s;
    color: #7D7D7D;
    font-weight: bold;
-   font-size: 1.8rem;
-
+   font-size: 1.5rem;
    &:focus-within {
       border-color: ${Colors.orange100};
    }
 `
 
 export const Input = styled.input`
+   width: ${props => props.width};
    background-color: #212121;
    border: none;
    font-family: 'Poppins', sans-serif;
-   font-size: 1rem;
+   font-size: 0.8rem;
 
    &:focus {
       outline: none;
@@ -56,4 +57,20 @@ export const Text = styled.span`
    font-weight: 500;
    font-family: 'Poppins';
    color: ${Colors.gray100};
+`
+
+export const EyeWrapper = styled.span`
+   cursor: pointer;
+   margin: 0;
+   padding: 0;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+`
+
+export const InputAndIcon = styled.span`
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   gap: 8px;
 `

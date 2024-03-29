@@ -10,9 +10,13 @@ function App() {
 
   return (
     <>
-      <Button.Primary
-      value={'Enviar'}
-      size={'sm'}
+      <Input.Default
+      placeholder={'seu@email.com'}
+      >
+        <Envelope />
+      </Input.Default>
+      <Input.Password
+      placeholder={"***********"} 
       />
     </>
   )
