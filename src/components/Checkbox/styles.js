@@ -7,7 +7,6 @@ export const CheckboxContainer = styled.span`
    align-items: center;
    gap: 8px;
    text-transform: capitalize;
-   font-family: 'Poppins', sans-serif;
    font-weight: 400;
    font-size: smaller;
    padding: 0.5rem;

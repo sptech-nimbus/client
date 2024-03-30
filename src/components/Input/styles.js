@@ -32,6 +32,7 @@ export const Input = styled.input`
    border: none;
    font-family: 'Poppins', sans-serif;
    font-size: 0.8rem;
+   color: ${Colors.gray100};
 
    &:focus {
       outline: none;

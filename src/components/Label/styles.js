@@ -5,6 +5,5 @@ export const Label = styled.label`
    flex-direction: column;
    text-align: left;
    gap: 4px;
-   font-family: 'Poppins', sans-serif;
    font-size: 0.9rem;
 `
