@@ -52,6 +52,10 @@ export function ContinueWithGoogle() {
    )
 }
 
+export function InputSelect() {
+
+}
+
 const Input = {
    Default: InputDefault,
    Google: ContinueWithGoogle,

@@ -33,6 +33,7 @@ export const Input = styled.input`
    font-family: 'Poppins', sans-serif;
    color: ${Colors.gray100};
    font-size: ${props => props.fontSize};
+   color-scheme: dark;
 
    &:focus {
       outline: none;

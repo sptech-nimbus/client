@@ -6,6 +6,10 @@ import { Envelope } from "@phosphor-icons/react";
 import Button from "../../components/Button/Button";
 
 export default function Login() {
+   function validateInput() {
+      
+   }
+
    return (
       <S.Header>
          <Background.Login />
