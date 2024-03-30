@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Colors } from "../../values/colors";
+import { Colors } from "../../utils/Colors";
 
 export const IconWrapper = styled.span`
    display: flex;

@@ -1,7 +1,8 @@
 import styled from "styled-components";
-import { Colors } from "../../values/colors";
+import { Colors } from "../../utils/Colors";
 
 export const Title = styled.h1`
+   position: absolute;
    top: 0;
    color: ${Colors.orange100};
    font-family: 'Catamaran', sans-serif;
@@ -12,7 +13,6 @@ export const Title = styled.h1`
 
    @media (min-width: 1700px) {
       font-size: 5rem;
-      position: absolute;
    }
 
    @media (max-width: 800px) {
@@ -45,6 +45,8 @@ export const Header = styled.header`
 `
 
 export const Form = styled.form`
+   position: absolute;
+   top: 20%;
    display: flex;
    flex-direction: column;
    gap: 1.2rem;
@@ -53,7 +55,7 @@ export const Form = styled.form`
    z-index: 1;
    margin: auto;
 
-   @media (max-width: 1100px) {
+   @media (max-width: 1000px) {
       width: 45vw;
    }
 

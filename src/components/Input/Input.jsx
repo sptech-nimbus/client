@@ -2,7 +2,7 @@ import { useState } from 'react';
 import * as S from './Input.styled';
 import { Eye, EyeClosed, LockSimple } from '@phosphor-icons/react';
 
-function InputDefault({type, placeholder, children, width, fontSize}) {
+function InputDefault({type, placeholder, children, width, fontSize, onChange, value=''}) {
    return (
          <S.Wrapper>
             <S.InputAndIcon>
@@ -12,13 +12,15 @@ function InputDefault({type, placeholder, children, width, fontSize}) {
                placeholder={placeholder}
                width={width}
                fontSize={fontSize}
+               value={value}
+               onChange={onChange}
                />
             </S.InputAndIcon>
          </S.Wrapper>
    )
 }
 
-function InputPassword({placeholder, width, fontSize}) {
+function InputPassword({placeholder, width, fontSize, onChange, value=''}) {
    const [isVisible, setIsVisible] = useState(false); 
 
    const toggleVisibility = () => {
@@ -34,6 +36,8 @@ function InputPassword({placeholder, width, fontSize}) {
                placeholder={placeholder}
                width={width}
                fontSize={fontSize}
+               value={value}
+               onChange={onChange}
                />
             </S.InputAndIcon>
          <S.EyeWrapper onClick={toggleVisibility}>
@@ -50,10 +54,6 @@ export function ContinueWithGoogle() {
          <S.Text>Continuar com o google</S.Text>
       </S.WrapperGoogle>
    )
-}
-
-export function InputSelect() {
-
 }
 
 const Input = {
