@@ -24,8 +24,6 @@ Após clonar este repositório, siga estas etapas para configurar e executar o p
     npm run dev
     ```
 
-    Este comando iniciará o projeto localmente. Você poderá acessá-lo em seu navegador padrão em `http://localhost:3000` (ou outra porta, se especificada).
-
 Certifique-se de ter o Node.js e o npm instalados em sua máquina antes de prosseguir. Você pode baixá-los e instalá-los a partir do [site oficial do Node.js](https://nodejs.org/).
 ## Documentação de cores
 
