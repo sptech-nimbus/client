@@ -1,0 +1,13 @@
+header {
+   width: 100vw;
+   height: 100vh;
+}
+
+.bg-image {
+   width: 100vw;
+   height: 100vh;
+   background-image: url('/public/assets/background-noise.png');
+   background-size: cover;
+   mix-blend-mode: overlay;
+   opacity: 1;
+}
