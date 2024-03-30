@@ -10,9 +10,7 @@ export const CheckboxContainer = styled.span`
    font-family: 'Poppins', sans-serif;
    font-weight: 400;
    font-size: smaller;
-   button {
-      padding: 0.5rem;
-   }
+   padding: 0.5rem;
 `
 
 export const CheckboxRoot = styled(CheckboxPrimitive.Root)`
