@@ -4,18 +4,27 @@ import './App.css'
 import { Input } from './components/Input';
 import { Envelope } from '@phosphor-icons/react';
 import { Button } from './components/Button';
+import { Label } from './components/Label';
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
     <>
-      <Input.Default placeholder={'seu@email.com'} width={'300px'}>
-        <Envelope />
-      </Input.Default>
+      <Label>
+        Insira seu email
+        <Input.Default placeholder={'seu@email.com'} width={'300px'}>
+          <Envelope />
+        </Input.Default>
+      </Label>
+
       <br />
-      <Input.Password placeholder={"***********"}width={'300px'} />
+
+      <Label>
+        Insira sua senha
+        <Input.Password placeholder={"***********"}width={'300px'} />
+      </Label>
+
       <br />
+
       <Button.Primary size={'md'} width={'300px'}/>
     </>
   )
