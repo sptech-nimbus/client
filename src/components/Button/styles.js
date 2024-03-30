@@ -2,32 +2,28 @@ import styled from "styled-components";
 import { Colors } from "../../values/colors";
 
 export const PrimaryButton = styled.input`
+   width: ${props => props.width};
    font-size: ${props => 
-      props.size == `xl` ? `2rem` : 
-      props.size == `md` ? `1.5rem` : 
-      props.size == `sm` ? `1.2rem` : `1.2rem`
+      props.size == `md` ? `1.1rem` : 
+      props.size == `sm` ? `0.7rem` : `1rem`
    };
    padding: ${props => 
-      props.size == `xl` ? `1rem 5rem` : 
-      props.size == `md` ? `0.5rem 3.5rem` : 
+      props.size == `md` ? `0.2rem 3.3rem` : 
       props.size == `sm` ? `0.1rem 1.5rem` : `0.1rem 1.5rem`
    };
    border-radius: ${props => 
-      props.size == `xl` ? `2rem` : 
-      props.size == `md` ? `1.5rem` : 
-      props.size == `sm` ? `1rem` : '1rem'
+      props.size == `md` ? `0.8rem` : 
+      props.size == `sm` ? `0.5rem` : '0.5rem'
    };
    border: ${props => 
-      props.size == `xl` ? `8px` : 
-      props.size == `md` ? `5.3px` : 
-      props.size == `sm` ? `4px` : '4px'
+      props.size == `md` ? `3px` : 
+      props.size == `sm` ? `2px` : '2px'
    } solid ${Colors.orange500};
    background-color: ${Colors.orange500};
    color: ${Colors.orange100};
    cursor: pointer;
    text-transform: capitalize;
    font-weight: bold;
-   border: none;
    font-family: 'Catamaran', sans-serif;
    transition: background-color .2s ease-in, border-color .2s ease-in, color .2s ease-in;
 
@@ -40,7 +36,6 @@ export const PrimaryButton = styled.input`
       transition: none;
       background-color: ${Colors.orange500};
       border-color: ${Colors.orange500};
-      margin-top: 1px;
    }
 `
 

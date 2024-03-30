@@ -9,6 +9,7 @@ export const IconWrapper = styled.span`
 `
 
 export const Wrapper = styled.div`
+   width: ${props => props.width};
    display: flex;
    align-items: center;
    justify-content: space-between;
@@ -27,7 +28,6 @@ export const Wrapper = styled.div`
 `
 
 export const Input = styled.input`
-   width: ${props => props.width};
    background-color: #212121;
    border: none;
    font-family: 'Poppins', sans-serif;

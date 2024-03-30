@@ -10,14 +10,13 @@ function App() {
 
   return (
     <>
-      <Input.Default
-      placeholder={'seu@email.com'}
-      >
+      <Input.Default placeholder={'seu@email.com'} width={'300px'}>
         <Envelope />
       </Input.Default>
-      <Input.Password
-      placeholder={"***********"} 
-      />
+      <br />
+      <Input.Password placeholder={"***********"}width={'300px'} />
+      <br />
+      <Button.Primary size={'md'} width={'300px'}/>
     </>
   )
 }
