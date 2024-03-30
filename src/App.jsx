@@ -1,11 +1,6 @@
-import { useState } from 'react'
-import './App.css'
+import { useState } from 'react';
 
-import { Input } from './components/Input';
-import { Envelope } from '@phosphor-icons/react';
-import { Button } from './components/Button';
-import { Label } from './components/Label';
-import { Checkbox } from './components/Checkbox';
+import './App.css'
 
 function App() {
   return (
