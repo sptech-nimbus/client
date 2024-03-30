@@ -5,5 +5,5 @@ export const Label = styled.label`
    flex-direction: column;
    text-align: left;
    gap: 4px;
-   font-size: 0.9rem;
+   font-size: ${props => props.fontSize ? props.fontSize : '0.9rem'};
 `

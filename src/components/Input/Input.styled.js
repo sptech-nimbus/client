@@ -16,7 +16,7 @@ export const Wrapper = styled.div`
    gap: 8px;
    background-color: #212121;
    border: 1px solid ${Colors.gray600};
-   padding: 0.5rem 0.7rem;
+   padding: 0.7rem 1rem;
    border-radius: 0.6rem;
    transition: all .1s;
    color: #7D7D7D;
@@ -31,8 +31,8 @@ export const Input = styled.input`
    background-color: #212121;
    border: none;
    font-family: 'Poppins', sans-serif;
-   font-size: 0.8rem;
    color: ${Colors.gray100};
+   font-size: ${props => props.fontSize};
 
    &:focus {
       outline: none;

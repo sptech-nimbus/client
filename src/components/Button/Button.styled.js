@@ -4,6 +4,7 @@ import { Colors } from "../../values/colors";
 export const PrimaryButton = styled.input`
    width: ${props => props.width};
    font-size: ${props => 
+      props.fontSize ? props.fontSize :
       props.size == `md` ? `1.1rem` : 
       props.size == `sm` ? `0.7rem` : `1rem`
    };
