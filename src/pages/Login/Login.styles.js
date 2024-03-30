@@ -2,18 +2,21 @@ import styled from "styled-components";
 import { Colors } from "../../values/colors";
 
 export const Title = styled.h1`
+   top: 0;
    color: ${Colors.orange100};
    font-family: 'Catamaran', sans-serif;
    font-weight: 900;
    text-transform: uppercase;
-   font-size: 5rem;
+   font-size: 4rem;
+   margin: 0;
 
-   @media (max-width: 1100px) {
-      
+   @media (min-width: 1700px) {
+      font-size: 5rem;
+      position: absolute;
    }
 
    @media (max-width: 800px) {
-      font-size: 4rem;
+      font-size: 3rem;
    }
 
    @media (max-width: 599px) {
@@ -44,10 +47,11 @@ export const Header = styled.header`
 export const Form = styled.form`
    display: flex;
    flex-direction: column;
-   gap: 1.5rem;
-   width: 30vw;
+   gap: 1.2rem;
+   width: 25vw;
    height: fit-content;
    z-index: 1;
+   margin: auto;
 
    @media (max-width: 1100px) {
       width: 45vw;
@@ -91,5 +95,4 @@ export const Line = styled.hr`
 export const Link = styled.a`
    color: ${Colors.gray100};
    cursor: pointer;
-   text-decoration: none;
 `
