@@ -10,24 +10,7 @@ import { Checkbox } from './components/Checkbox';
 function App() {
   return (
     <>
-      <Label>
-        Insira seu email
-        <Input.Default placeholder={'seu@email.com'} width={'300px'}>
-          <Envelope />
-        </Input.Default>
-      </Label>
 
-      <br />
-
-      <Label>
-        Insira sua senha
-        <Input.Password placeholder={"***********"}width={'300px'} />
-      </Label>
-
-      <br />
-
-      <Button.Primary size={'md'} width={'300px'}/>
-      <Checkbox id={2} label={'ola mundo'}/>
     </>
   )
 }
