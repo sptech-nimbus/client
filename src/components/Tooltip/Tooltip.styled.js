@@ -2,8 +2,10 @@ import styled, { keyframes } from "styled-components";
 import * as T from "@radix-ui/react-tooltip";
 import { Colors } from "../../utils/Colors";
 
+
 export const Arrow = styled(T.Arrow)`
    fill: ${Colors.gray700};
+
 `
 
 export const Trigger = styled(T.Trigger)`
@@ -44,6 +46,17 @@ export const Content = styled(T.Content)`
                0px 0px 0px rgba(0, 0, 0, 0.1);
    gap: 4px;
 
+   @media (max-width: 1150px) {
+      max-width: 250px;
+   }
+
+   @media (max-width: 1000px) {
+      max-width: 150px;
+   }
+
+   @media (max-width: 850px) {
+      max-width: 120px;
+   }
 `
 
 const slideRightAndFade = keyframes`

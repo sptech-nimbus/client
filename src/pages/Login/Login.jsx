@@ -32,7 +32,7 @@ export default function Login() {
                </Label>
                <Label >
                   Insira sua senha
-                  <Input.Password placeholder={'**********'} />
+                  <Input.Password placeholder={'**********'} hasIcon/>
                </Label>
             </S.InputsContainer>
             <Button.Primary 

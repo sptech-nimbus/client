@@ -21,7 +21,7 @@ function InputDefault({type, placeholder, children, width, fontSize, onChange, v
    )
 }
 
-function InputPassword({placeholder, width, fontSize, onChange, value='', ...props}) {
+function InputPassword({placeholder, width, fontSize, onChange, value='', hasIcon, ...props}) {
    const [isVisible, setIsVisible] = useState(false); 
 
    const toggleVisibility = () => {
@@ -31,7 +31,7 @@ function InputPassword({placeholder, width, fontSize, onChange, value='', ...pro
    return (
       <S.Wrapper>
             <S.InputAndIcon>
-               <LockSimple />
+               {hasIcon && <LockSimple />}
                <S.Input
                type={isVisible ? 'text' : 'password'}
                placeholder={placeholder}

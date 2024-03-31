@@ -25,7 +25,7 @@ export default function Tooltip({children, icon, open, side = 'right', color, on
             <S.Trigger color={color} onMouseEnter={onHover} onMouseLeave={onHover}>
                {icon ? icon : <Info size={25} weight='fill'/>}
             </S.Trigger>
-            <S.Content side={side}>
+            <S.Content side={side} avoidCollisions={false}>
                {children}
             <S.Arrow />
             </S.Content>
@@ -43,7 +43,7 @@ export function TooltipInput({children, icon, open, side = 'right', color, onHov
             <S.TriggerInput color={color} onMouseEnter={onHover} onMouseLeave={onHover}>
                {icon ? icon : <Info size={25} weight='fill'/>}
             </S.TriggerInput>
-            <S.Content side={side}>
+            <S.Content side={side} avoidCollisions={false}>
                {children}
             <S.Arrow />
             </S.Content>
