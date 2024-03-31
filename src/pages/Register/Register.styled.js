@@ -1,6 +1,7 @@
 import * as LS from '../Login/Login.styles'
 import styled from 'styled-components'
 
+
 export const Form = styled(LS.Form)`
    top: 25%;
 `
@@ -16,4 +17,13 @@ export const Text = styled.span`
    @media (min-width: 1700px) {
       font-size: 1.5rem;
    }
+`
+
+export const InputLine = styled.div`
+   position: relative;
+   display: flex;
+   align-items: center;
+   width: 100%;
+   gap: 1rem;
+   justify-content: space-between;
 `

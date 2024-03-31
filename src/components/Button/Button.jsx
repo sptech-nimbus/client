@@ -1,6 +1,6 @@
 import * as S from './Button.styled';
 
-export function PrimaryButton({value, size, width, fontSize, onClick}) {
+export function PrimaryButton({value, size, width, fontSize, onClick, ...props}) {
    return (
       <>
          <S.PrimaryButton 
@@ -10,12 +10,13 @@ export function PrimaryButton({value, size, width, fontSize, onClick}) {
          width={width}
          fontSize={fontSize}
          onClick={onClick}
+         {...props}
          />
       </>
    )
 }
 
-export function SecondaryButton({value, size, width, fontSize, onClick}) {
+export function SecondaryButton({value, size, width, fontSize, onClick, ...props}) {
    return (
       <>
          <S.SecondaryButton 
@@ -25,6 +26,7 @@ export function SecondaryButton({value, size, width, fontSize, onClick}) {
          width={width}
          fontSize={fontSize}
          onClick={onClick}
+         {...props}
          />
       </>
    )

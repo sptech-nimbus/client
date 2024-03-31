@@ -16,7 +16,7 @@ export function PasswordValidation(password, customCondition) {
 }
 
 export function TextValidation(text, customCondition) {
-   const regexNumber = /\d/;
+   const regex = /[^a-zA-Z]+/;
 
    if(text == null || text == undefined || text == '') {
       return false;
@@ -24,7 +24,7 @@ export function TextValidation(text, customCondition) {
    else if(text.length < 2) {
       return false;
    }
-   else if(regexNumber.test(text)) {
+   else if(!regex.test(text)) {
       return false;
    }
    else if(typeof customCondition == 'function' && !customCondition(text)) {

@@ -5,6 +5,7 @@ import Background from '../../components/Background/Background';
 import Label from '../../components/Label/Label';
 import Input from '../../components/Input/Input';
 import Button from '../../components/Button/Button';
+import { TooltipInput as Tooltip } from '../../components/Tooltip/Tooltip';
 import { TextValidation, PastDateValidation } from '../../utils/Validations';
 
 export default function Register() {
@@ -14,6 +15,9 @@ export default function Register() {
    const [nameErr, setNameErr] = useState(false);
    const [surnameErr, setSurnameErr] = useState(false);
    const [dateErr, setDateErr] = useState(false);
+   const [nameTtpOpen, setNameTtpOpen] = useState(false);
+   const [surnameTtpOpen, setSurnameTtpOpen] = useState(false);
+   const [dateTtpOpen, setDateTtpOpen] = useState(false);
 
    function handleNameChange(e) {
       const { value } = e.target;
@@ -28,6 +32,18 @@ export default function Register() {
    function handleDateChange(e) {
       const { value } = e.target;
       setDate(value);
+   }
+
+   function handleNameTtpChange() {
+      setNameTtpOpen(!nameTtpOpen);
+   }
+
+   function handleSurnameTtpChange() {
+      setSurnameTtpOpen(!surnameTtpOpen);
+   }
+
+   function handleDateTtpChange() {
+      setDateTtpOpen(!dateTtpOpen);
    }
 
    function handleSubmit(e) {
@@ -54,29 +70,45 @@ export default function Register() {
             <LS.InputsContainer>
                <Label>
                   Nome
-                  <Input.Default 
-                     placeholder={'John'} 
-                     value={name} 
-                     onChange={handleNameChange}
-                  />
+                  <S.InputLine>
+                     <Input.Default
+                        placeholder={'John'}
+                        value={name}
+                        onChange={handleNameChange}
+                        onFocus={handleNameTtpChange}
+                        onBlur={handleNameTtpChange}
+                     />
+                     <Tooltip side='right' open={nameTtpOpen} onHover={handleNameTtpChange}>
+                        <span>O nome deve possuir pelo menos 2 caracteres e não deve possuir números ou caracteres especiais.</span>
+                     </Tooltip>
+                  </S.InputLine>
                </Label>
 
                <Label>
                   Sobrenome
-                  <Input.Default 
-                     placeholder={'Doe'} 
-                     value={surname}
-                     onChange={handleSurnameChange}
-                  />
+                  <S.InputLine>
+                     <Input.Default
+                        placeholder={'Doe'}
+                        value={surname}
+                        onChange={handleSurnameChange}
+                        onFocus={handleSurnameTtpChange}
+                        onBlur={handleSurnameTtpChange}
+                     />
+                     <Tooltip side='right' open={surnameTtpOpen} onHover={handleSurnameTtpChange}>
+                        <span>O sobrenome deve possuir pelo menos 2 caracteres e não deve possuir números ou caracteres especiais.</span>
+                     </Tooltip>
+                  </S.InputLine>
                </Label>
 
                <Label>
                   Data de nascimento
-                  <Input.Default 
-                     type={'date'} 
-                     value={date}
-                     onChange={handleDateChange}
-                  />
+                  <S.InputLine>
+                     <Input.Default
+                        type={'date'}
+                        value={date}
+                        onChange={handleDateChange}
+                     />
+                  </S.InputLine>
                </Label>
             </LS.InputsContainer>
             <Button.Primary 
