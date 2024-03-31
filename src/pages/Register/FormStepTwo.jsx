@@ -58,7 +58,9 @@ export default function FormStepTwo({onSubmit}) {
       e.preventDefault();
 
       if(!EmailValidation(email) || !PasswordValidation(password) || !ConfirmPasswordValidation(password, confirmPassword)) {
-         console.log('Dados inválidos.');
+         if(!EmailValidation(email)) console.error('Email inválido.')
+         if(!PasswordValidation(password)) console.error('Senha inválida.')
+         if(!PasswordValidation(confirmPassword)) console.error('Senhas não batem.');
       }
       else {
          onSubmit({email, phone, password});

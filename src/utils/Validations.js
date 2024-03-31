@@ -1,10 +1,10 @@
 export function PasswordValidation(password, customCondition) {
-   const regexPassword = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@#*_])[A-Za-z\d@#*_]{8,}$/;
+   const regexPassword = /^(?=.*[!@#$%^&*()-_+=|{}[\]:;'"<>,.?/~])(?=.*[A-Z])(?=.*[0-9]).{8,}$/;
 
    if(password == null || password == undefined || password == '') {
       return false;
    }
-   else if(regexPassword.test(password)) {
+   else if(!regexPassword.test(password)) {
       return false;
    } 
    else if(typeof customCondition == 'function' && !customCondition(password)) {
@@ -16,15 +16,13 @@ export function PasswordValidation(password, customCondition) {
 }
 
 export function ConfirmPasswordValidation(password, confirmPassword, customCondition) {
-   const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@#*_])[A-Za-z\d@#*_]{8,}$/;
-
-   if(password == null || password == undefined || password == '') {
+   if(confirmPassword == null || confirmPassword == undefined || confirmPassword == '') {
       return false;
    }
-   else if(regex == confirmPassword) {
+   else if(password != confirmPassword) {
       return false;
-   } 
-   else if(typeof customCondition == 'function' && !customCondition(password)) {
+   }
+   else if(typeof customCondition == 'function' && !customCondition(confirmPassword)) {
       return false;
    }
    else {

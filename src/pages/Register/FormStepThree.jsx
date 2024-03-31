@@ -64,7 +64,7 @@ export default function FormStepThree() {
       <S.Form>
       <LS.InputsContainer>
          <Label>
-            Nome
+            Código do time existente   
             <S.InputLine>
                <Input.Default
                   placeholder={'John'}
@@ -74,13 +74,16 @@ export default function FormStepThree() {
                   onBlur={handleNameTtpChange}
                />
                <Tooltip side='right' open={nameTtpOpen} onHover={handleNameTtpChange}>
-                  <span>O nome deve possuir pelo menos 2 caracteres e não deve possuir números ou caracteres especiais.</span>
+                  <span>
+                     O código do time é disponibilizado pelo treinador atual do time que deseja se cadastrar. Caso haja
+                     uma passagem de responsabilidade, contate o treinador do time em questão e peça para ele gerar o código.
+                  </span>
                </Tooltip>
             </S.InputLine>
          </Label>
 
          <Label>
-            Sobrenome
+            Nome do time
             <S.InputLine>
                <Input.Default
                   placeholder={'Doe'}
@@ -96,10 +99,9 @@ export default function FormStepThree() {
          </Label>
 
          <Label>
-            Data de nascimento
+            Categoria
             <S.InputLine>
                <Input.Default
-                  type={'date'}
                   value={date}
                   onChange={handleDateChange}
                />
@@ -113,14 +115,6 @@ export default function FormStepThree() {
          fontSize={'1.5rem'}
          onClick={handleSubmit}
       />
-      <LS.FormFooter>
-         <span>
-            Já possui uma conta? <br />
-            <LS.Link>
-               <highlight>Faça login</highlight>
-            </LS.Link>
-         </span>
-      </LS.FormFooter>
    </S.Form>
    )
 }
