@@ -4,49 +4,73 @@ import * as LS from '../Login/Login.styles';
 import Label from '../../components/Label/Label';
 import Input from '../../components/Input/Input';
 import Button from '../../components/Button/Button';
+import Checkbox from '../../components/Checkbox/Checkbox';
 import { TooltipInput as Tooltip } from '../../components/Tooltip/Tooltip';
 import { TextValidation, PastDateValidation } from '../../utils/Validations';
-import { useMediaQuery } from 'react-responsive'
+import { useMediaQuery } from 'react-responsive';
 
 export default function FormStepThree() {
-   const [name, setName] = useState('');
-   const [surname, setSurname] = useState('');
-   const [date, setDate] = useState('');
-   const [nameErr, setNameErr] = useState(false);
-   const [surnameErr, setSurnameErr] = useState(false);
-   const [dateErr, setDateErr] = useState(false);
-   const [nameTtpOpen, setNameTtpOpen] = useState(false);
-   const [surnameTtpOpen, setSurnameTtpOpen] = useState(false);
-   const [dateTtpOpen, setDateTtpOpen] = useState(false);
+   const [teamName, setTeamName] = useState('');
+   const [teamCode, setTeamCode] = useState('');
+   const [category, setCategory] = useState('');
+   const [teamLogo, setTeamLogo] = useState('');
 
-   function handleNameChange(e) {
-      const { value } = e.target;
-      setName(value);
-   }
+   const [teamNameErr, setTeamNameErr] = useState(false);
+   const [teamCodeErr, setTeamCodeErr] = useState(false);
+   const [categoryErr, setCategoryErr] = useState(false);
 
-   function handleSurnameChange(e) {
-      const { value } = e.target;
-      setSurname(value);
-   }
+   const [teamNameTtpOpen, setTeamNameTtpOpen] = useState(false);
+   const [teamCodeTtpOpen, setTeamCodeTtpOpen] = useState(false);
+   const [teamLogoTtpOpen, setTeamLogoTtpOpen] = useState(false);
 
-   function handleDateChange(e) {
-      const { value } = e.target;
-      setDate(value);
-   }
-
-   function handleNameTtpChange() {
-      setNameTtpOpen(!nameTtpOpen);
-   }
-
-   function handleSurnameTtpChange() {
-      setSurnameTtpOpen(!surnameTtpOpen);
-   }
-
-   function handleDateTtpChange() {
-      setDateTtpOpen(!dateTtpOpen);
-   }
+   const [toastPosition, setToastPosition] = useState('top-right');
 
    const isBelow799 = useMediaQuery({ maxWidth: 799 });
+   const isBelow1050 = useMediaQuery({maxWidth: 1050});
+
+   useEffect(() => {
+      if (isBelow1050) {
+        setToastPosition('top-center');
+      } else {
+        setToastPosition('top-right');
+      }
+    }, [isBelow1050]);
+
+   function handleTeamNameChange(e) {
+      const { value } = e.target;
+      setTeamName(value);
+   }
+
+   function handleTeamCodeChange(e) {
+      const { value } = e.target;
+      setTeamCode(value);
+   }
+
+   function handleCategoryChange(e) {
+      const { value } = e.target;
+      setCategory(value);
+   }
+
+   function handleTeamLogoChange(e) {
+      const { value } = e.target;
+      setTeamLogo(value);
+   }
+
+   function handleTeamNameTtpChange() {
+      setTeamNameTtpOpen(!teamNameTtpOpen);
+   }
+
+   function handleTeamCodeTtpChange() {
+      setTeamCodeTtpOpen(!teamCodeTtpOpen);
+   }
+
+   function handleCategoryTtpChange() {
+      setCategoryTtpOpen(!categoryTtpOpen);
+   }
+
+   function handleTeamLogoTtpChange() {
+      setTeamLogoTtpOpen(!teamLogoTtpOpen);
+   }
 
    function handleSubmit(e) {
       e.preventDefault();
@@ -62,18 +86,30 @@ export default function FormStepThree() {
 
    return (
       <S.Form>
+      <ToastContainer
+         position={toastPosition}
+         autoClose={8000}
+         hideProgressBar={false}
+         newestOnTop={false}
+         closeOnClick
+         rtl={false}
+         pauseOnFocusLoss
+         draggable
+         theme="dark"
+         limit={3}
+      />
       <LS.InputsContainer>
          <Label>
             Código do time existente   
             <S.InputLine>
                <Input.Default
-                  placeholder={'John'}
-                  value={name}
-                  onChange={handleNameChange}
-                  onFocus={handleNameTtpChange}
-                  onBlur={handleNameTtpChange}
+                  placeholder={'1A2B3C'}
+                  value={teamCode}
+                  onChange={handleTeamCodeChange}
+                  onFocus={handleTeamCodeTtpChange}
+                  onBlur={handleTeamCodeTtpChange}
                />
-               <Tooltip side='right' open={nameTtpOpen} onHover={handleNameTtpChange}>
+               <Tooltip side='right' open={teamCodeTtpOpen} onHover={handleTeamCodeTtpChange}>
                   <span>
                      O código do time é disponibilizado pelo treinador atual do time que deseja se cadastrar. Caso haja
                      uma passagem de responsabilidade, contate o treinador do time em questão e peça para ele gerar o código.
@@ -81,19 +117,23 @@ export default function FormStepThree() {
                </Tooltip>
             </S.InputLine>
          </Label>
-
+         <LS.LineContainer>
+               <LS.Line />
+               Ou
+               <LS.Line />
+            </LS.LineContainer>
          <Label>
             Nome do time
             <S.InputLine>
                <Input.Default
-                  placeholder={'Doe'}
-                  value={surname}
-                  onChange={handleSurnameChange}
-                  onFocus={handleSurnameTtpChange}
-                  onBlur={handleSurnameTtpChange}
+                  placeholder={'Nome do Time SC'}
+                  value={teamName}
+                  onChange={handleTeamNameChange}
+                  onFocus={handleTeamNameTtpChange}
+                  onBlur={handleTeamNameTtpChange}
                />
-               <Tooltip side='right' open={surnameTtpOpen} onHover={handleSurnameTtpChange}>
-                  <span>O sobrenome deve possuir pelo menos 2 caracteres e não deve possuir números ou caracteres especiais.</span>
+               <Tooltip side='right' open={teamNameTtpOpen} onHover={handleTeamNameTtpChange}>
+                  <span>O nome do time deve possuir pelo menos 2 caracteres e não deve possuir números ou caracteres especiais.</span>
                </Tooltip>
             </S.InputLine>
          </Label>
@@ -102,11 +142,24 @@ export default function FormStepThree() {
             Categoria
             <S.InputLine>
                <Input.Default
-                  value={date}
-                  onChange={handleDateChange}
+                  placeholder={'Sub-20'}
+                  value={category}
+                  onChange={handleCategoryChange}
                />
             </S.InputLine>
          </Label>
+
+         <Label>
+            Escudo do time
+            <S.InputLine>
+               <Input.Default
+                  type={'file'}
+                  value={teamLogo}
+                  onChange={handleTeamLogoChange}
+               />
+            </S.InputLine>
+         </Label>
+         <Checkbox id={'isAmateur'} label={'Sou um time amador.'}/>
       </LS.InputsContainer>
       <Button.Primary 
          value={'Continuar'}

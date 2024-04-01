@@ -2,13 +2,14 @@ import { useState } from 'react';
 import * as S from './Input.styled';
 import { Eye, EyeClosed, LockSimple } from '@phosphor-icons/react';
 
-function InputDefault({type, placeholder, children, width, fontSize, onChange, value='', ...props}) {
+function InputDefault({type, placeholder, children, width, fontSize, onChange, value='', mask,...props}) {
    return (
          <S.Wrapper>
             <S.InputAndIcon>
                {children}
                <S.Input
                type={type ? type : 'text'}
+               mask={mask}
                placeholder={placeholder}
                width={width}
                fontSize={fontSize}

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import * as S from './Register.styled';
 import * as LS from '../Login/Login.styles';
 import Label from '../../components/Label/Label';
@@ -22,6 +22,19 @@ export default function FormStepOne({onSubmit}) {
    const [nameTtpOpen, setNameTtpOpen] = useState(false);
    const [surnameTtpOpen, setSurnameTtpOpen] = useState(false);
    const [dateTtpOpen, setDateTtpOpen] = useState(false);
+
+   const [toastPosition, setToastPosition] = useState('top-right');
+
+   const isBelow799 = useMediaQuery({ maxWidth: 799 });
+   const isBelow1050 = useMediaQuery({maxWidth: 1050});
+
+   useEffect(() => {
+      if (isBelow1050) {
+        setToastPosition('top-center');
+      } else {
+        setToastPosition('top-right');
+      }
+    }, [isBelow1050]);
 
    function handleNameChange(e) {
       const { value } = e.target;
@@ -50,21 +63,34 @@ export default function FormStepOne({onSubmit}) {
       setDateTtpOpen(!dateTtpOpen);
    }
 
-   const isBelow799 = useMediaQuery({ maxWidth: 799 });
-
    function handleSubmit(e) {
       e.preventDefault();
 
-      if(!TextValidation(name) || !TextValidation(surname) || !PastDateValidation(date)) {
-         console.log('Dados inválidos.');
-      }
-      else {
+      if(TextValidation(name) && TextValidation(surname) && PastDateValidation(date)) {
          onSubmit({name, surname, date})
       }
+      else {
+         if(!TextValidation(name)) toast.error("O nome inserido não é válido.");
+         if(!TextValidation(surname)) toast.error("O sobrenome inserido não é válido.");
+         if(!PastDateValidation(date)) toast.error("A data de nascimento inserida não é válida. Datas futuras não são aceitas.");
+      }
+
    }
 
    return (
       <S.Form>
+         <ToastContainer
+            position={toastPosition}
+            autoClose={8000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            theme="dark"
+            limit={3}
+         /> 
       <LS.InputsContainer>
          <Label>
             Nome

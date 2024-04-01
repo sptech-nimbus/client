@@ -20,6 +20,12 @@
     /* Tons variados */
     --green: #3FB03D;
     --red: #FF3838;
+
+    /* personalização do toast */
+    --toastify-font-family: 'Poppins', sans-serif;
+    --toastify-color-error: var(--orange500);
+    --toastify-color-dark: var(--gray600);
+    --toastify-toast-width: 420px;
 }
 
 body {
@@ -38,4 +44,9 @@ highlight {
 
 underlined {
   text-decoration: underline;
+}
+
+.Toastify__toast-body {
+  font-size: 0.9rem;
+  text-align: left;
 }

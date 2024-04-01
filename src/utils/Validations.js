@@ -96,3 +96,20 @@ export function PastDateValidation(date) {
       return true;
    }
 }
+
+export function BrPhoneValidation(phone) {
+   const regex = /^\d{11}$/;
+
+   if(phone == null || phone == undefined || phone == '') {
+      return false;
+   }
+   else if(!regex.test(phone)) {
+      return false;
+   }
+   else if(typeof customCondition == 'function' && !customCondition(email)) {
+      return false;
+   }
+   else {
+      return true;
+   }
+}

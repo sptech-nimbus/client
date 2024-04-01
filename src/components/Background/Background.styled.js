@@ -14,7 +14,7 @@ export const BackgroundDiv = styled.div`
 
 export const WaveVector = styled.img`
    position: absolute;
-   bottom: 0;
+   bottom: -2%;
    left: 0;
    width: 100%;
 `

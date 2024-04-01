@@ -1,11 +1,11 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import * as S from './Register.styled';
 import * as LS from '../Login/Login.styles';
 import Label from '../../components/Label/Label';
 import Input from '../../components/Input/Input';
 import Button from '../../components/Button/Button';
 import { TooltipInput as Tooltip } from '../../components/Tooltip/Tooltip';
-import { EmailValidation, PasswordValidation, ConfirmPasswordValidation } from '../../utils/Validations';
+import { EmailValidation, PasswordValidation, ConfirmPasswordValidation, BrPhoneValidation } from '../../utils/Validations';
 import { useMediaQuery } from 'react-responsive'
 import { ToastContainer, toast } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
@@ -23,6 +23,19 @@ export default function FormStepTwo({onSubmit}) {
 
    const [passwordTtpOpen, setPasswordTtpOpen] = useState(false);
    const [confirmPasswordTtpOpen, setConfirmPasswordTtpOpen] = useState(false);
+
+   const [toastPosition, setToastPosition] = useState('top-right');
+
+   const isBelow799 = useMediaQuery({ maxWidth: 799 });
+   const isBelow1050 = useMediaQuery({maxWidth: 1050});
+
+   useEffect(() => {
+      if (isBelow1050) {
+        setToastPosition('top-center');
+      } else {
+        setToastPosition('top-right');
+      }
+    }, [isBelow1050]);
 
    function handleEmailChange(e) {
       const { value } = e.target;
@@ -52,23 +65,39 @@ export default function FormStepTwo({onSubmit}) {
       setConfirmPasswordTtpOpen(!confirmPasswordTtpOpen);
   }
 
-  const isBelow799 = useMediaQuery({ maxWidth: 799 });
-
    function handleSubmit(e) {
       e.preventDefault();
 
-      if(!EmailValidation(email) || !PasswordValidation(password) || !ConfirmPasswordValidation(password, confirmPassword)) {
-         if(!EmailValidation(email)) console.error('Email inválido.')
-         if(!PasswordValidation(password)) console.error('Senha inválida.')
-         if(!PasswordValidation(confirmPassword)) console.error('Senhas não batem.');
+      if(
+         EmailValidation(email) && 
+         PasswordValidation(password) && 
+         ConfirmPasswordValidation(password, confirmPassword) &&
+         BrPhoneValidation(phone)) 
+      {
+         onSubmit({email, phone, password});
       }
       else {
-         onSubmit({email, phone, password});
+         if(!EmailValidation(email)) toast.error('Email inválido.');
+         if(!BrPhoneValidation(phone)) toast.error('Telefone inválido.')
+         if(!PasswordValidation(password)) toast.error('Senha inválida.');
+         if(!PasswordValidation(confirmPassword)) toast.error('As senhas não correspondem.');
       }
    }
 
    return (
       <S.Form onSubmit={onSubmit}>
+      <ToastContainer
+         position={toastPosition}
+         autoClose={8000}
+         hideProgressBar={false}
+         newestOnTop={false}
+         closeOnClick
+         rtl={false}
+         pauseOnFocusLoss
+         draggable
+         theme="dark"
+         limit={3}
+      /> 
       <LS.InputsContainer>
          <Label>
             E-mail
@@ -85,6 +114,7 @@ export default function FormStepTwo({onSubmit}) {
             Telefone
             <S.InputLine>
                <Input.Default
+                  mask={'(00) 00000-0000'}
                   placeholder={'(99) 99999-9999'}
                   value={phone}
                   onChange={handlePhoneChange}

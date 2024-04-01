@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { Colors } from "../../utils/Colors";
+import { IMaskInput } from "react-imask";
 
 export const IconWrapper = styled.span`
    display: flex;
@@ -27,7 +28,7 @@ export const Wrapper = styled.div`
    }
 `
 
-export const Input = styled.input`
+export const Input = styled(IMaskInput)`
    background-color: #212121;
    border: none;
    font-family: 'Poppins', sans-serif;

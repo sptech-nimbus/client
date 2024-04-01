@@ -13,15 +13,13 @@ export default function Register() {
 
    function handleFormSubmit(formData) {
       Object.assign(userRegister, formData);
+      console.log(userRegister);
       setStep(step + 1);
    };
    
    return(
       <LS.Header>
          <Background.Login />
-         {/* <S.Text>
-            Insira algumas informações sobre você para que possamos criar a sua conta!
-         </S.Text> */}
          <LS.Title>
             Cadastro
          </LS.Title>
@@ -32,6 +30,7 @@ export default function Register() {
          <FormStepTwo onSubmit={handleFormSubmit} /> :
          <FormStepThree onSubmit={handleFormSubmit} />
          }
+         {/* <FormStepThree onSubmit={handleFormSubmit} /> */}
       </LS.Header>
    )
 }

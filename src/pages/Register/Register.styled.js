@@ -6,6 +6,10 @@ export const Form = styled(LS.Form)`
    top: 25%;
 `
 
+export const FormStepThree = styled(LS.Form)`
+   top: 25%;
+`
+
 export const Text = styled.span`
    position: absolute;
    width: 20vw;
