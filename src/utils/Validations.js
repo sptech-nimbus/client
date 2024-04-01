@@ -1,7 +1,7 @@
 export function PasswordValidation(password, customCondition) {
    const regexPassword = /^(?=.*[!@#$%^&*()-_+=|{}[\]:;'"<>,.?/~])(?=.*[A-Z])(?=.*[0-9]).{8,}$/;
 
-   if(password == null || password == undefined || password == '') {
+   if(!password) {
       return false;
    }
    else if(!regexPassword.test(password)) {
@@ -16,7 +16,7 @@ export function PasswordValidation(password, customCondition) {
 }
 
 export function ConfirmPasswordValidation(password, confirmPassword, customCondition) {
-   if(confirmPassword == null || confirmPassword == undefined || confirmPassword == '') {
+   if(!confirmPassword) {
       return false;
    }
    else if(password != confirmPassword) {
@@ -33,7 +33,7 @@ export function ConfirmPasswordValidation(password, confirmPassword, customCondi
 export function TextValidation(text, customCondition) {
    const regex = /^[a-zA-Z]+$/;
 
-   if(text == null || text == undefined || text == '') {
+   if(!text) {
       return false;
    }
    else if(text.length < 2) {
@@ -53,7 +53,7 @@ export function TextValidation(text, customCondition) {
 export function EmailValidation(email) {
    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-   if(email == null || email == undefined || email == '') {
+   if(!email) {
       return false;
    }
    else if(!regex.test(email)) {
@@ -71,7 +71,7 @@ export function FutureDateValidation(date) {
    const currentDate = new Date();
    const inputDate = new Date(date);
 
-   if(date == null || date == undefined || date == '') {
+   if(!date) {
       return false;
    }
    else if(inputDate < currentDate) {
@@ -86,7 +86,7 @@ export function PastDateValidation(date) {
    const currentDate = new Date();
    const inputDate = new Date(date);
 
-   if(date == null || date == undefined || date == '') {
+   if(!date) {
       return false;
    }
    else if(inputDate > currentDate) {
@@ -100,13 +100,48 @@ export function PastDateValidation(date) {
 export function BrPhoneValidation(phone) {
    const regex = /^\d{11}$/;
 
-   if(phone == null || phone == undefined || phone == '') {
+   if(!phone == null) {
       return false;
    }
    else if(!regex.test(phone)) {
       return false;
    }
-   else if(typeof customCondition == 'function' && !customCondition(email)) {
+   else if(typeof customCondition == 'function' && !customCondition(phone)) {
+      return false;
+   }
+   else {
+      return true;
+   }
+}
+
+export function TeamCodeValidation(teamCode) {
+   const regex = /^[^\sA-Za-z0-9]{6}$/;
+
+   if(!teamCode) {
+      return false;
+   }
+   else if(!regex.test(teamCode)) {
+      return false;
+   }
+   else if(typeof customCondition == 'function' && !customCondition(teamCode)) {
+      return false;
+   }
+   else {
+      return true;
+   }
+}
+
+export function FileExtensionValidation(fileName, allowedExtensions) {
+   if(!fileName) {
+      return false;
+   }
+
+   const extension = fileName.split('.').pop().toLowerCase();
+
+   if(!allowedExtensions.includes(extension)) {
+      return false;
+   }
+   else if(typeof customCondition == 'function' && !customCondition(fileName)) {
       return false;
    }
    else {

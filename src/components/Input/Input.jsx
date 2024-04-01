@@ -2,9 +2,9 @@ import { useState } from 'react';
 import * as S from './Input.styled';
 import { Eye, EyeClosed, LockSimple } from '@phosphor-icons/react';
 
-function InputDefault({type, placeholder, children, width, fontSize, onChange, value='', mask,...props}) {
+function InputDefault({type, placeholder, children, width, fontSize, onChange, value='', mask, disabled,...props}) {
    return (
-         <S.Wrapper>
+         <S.Wrapper disabled={disabled}>
             <S.InputAndIcon>
                {children}
                <S.Input
@@ -15,6 +15,7 @@ function InputDefault({type, placeholder, children, width, fontSize, onChange, v
                fontSize={fontSize}
                value={value}
                onChange={onChange}
+               disabled={disabled}
                {...props}
                />
             </S.InputAndIcon>
@@ -22,7 +23,7 @@ function InputDefault({type, placeholder, children, width, fontSize, onChange, v
    )
 }
 
-function InputPassword({placeholder, width, fontSize, onChange, value='', hasIcon, ...props}) {
+function InputPassword({placeholder, width, fontSize, onChange, value='', hasIcon, disabled, ...props}) {
    const [isVisible, setIsVisible] = useState(false); 
 
    const toggleVisibility = () => {

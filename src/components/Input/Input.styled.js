@@ -2,6 +2,8 @@ import styled from "styled-components";
 import { Colors } from "../../utils/Colors";
 import { IMaskInput } from "react-imask";
 
+const inputColor = props => props.disabled ? '#303030' : '#212121'
+
 export const IconWrapper = styled.span`
    display: flex;
    align-items: center;
@@ -15,7 +17,7 @@ export const Wrapper = styled.div`
    align-items: center;
    justify-content: space-between;
    gap: 8px;
-   background-color: #212121;
+   background-color: ${inputColor};
    border: 1px solid ${Colors.gray600};
    padding: 0.7rem 1rem;
    border-radius: 0.6rem;
@@ -29,7 +31,7 @@ export const Wrapper = styled.div`
 `
 
 export const Input = styled(IMaskInput)`
-   background-color: #212121;
+   background-color: transparent;
    border: none;
    font-family: 'Poppins', sans-serif;
    color: ${Colors.gray100};

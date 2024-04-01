@@ -23,14 +23,14 @@ export default function Register() {
          <LS.Title>
             Cadastro
          </LS.Title>
-         {
+         {/* {
          step == 1 ? 
          <FormStepOne onSubmit={handleFormSubmit} /> : 
          step == 2 ?
          <FormStepTwo onSubmit={handleFormSubmit} /> :
          <FormStepThree onSubmit={handleFormSubmit} />
-         }
-         {/* <FormStepThree onSubmit={handleFormSubmit} /> */}
+         } */}
+         <FormStepThree onSubmit={handleFormSubmit} />
       </LS.Header>
    )
 }

@@ -1,15 +1,16 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import * as S from './Register.styled';
 import * as LS from '../Login/Login.styles';
 import Label from '../../components/Label/Label';
 import Input from '../../components/Input/Input';
 import Button from '../../components/Button/Button';
 import Checkbox from '../../components/Checkbox/Checkbox';
+import { ToastContainer, toast } from 'react-toastify';
 import { TooltipInput as Tooltip } from '../../components/Tooltip/Tooltip';
-import { TextValidation, PastDateValidation } from '../../utils/Validations';
+import { TextValidation, PastDateValidation, FileExtensionValidation } from '../../utils/Validations';
 import { useMediaQuery } from 'react-responsive';
 
-export default function FormStepThree() {
+export default function FormStepThree({onSubmit}) {
    const [teamName, setTeamName] = useState('');
    const [teamCode, setTeamCode] = useState('');
    const [category, setCategory] = useState('');
@@ -52,8 +53,8 @@ export default function FormStepThree() {
    }
 
    function handleTeamLogoChange(e) {
-      const { value } = e.target;
-      setTeamLogo(value);
+      const selectedFile = e.target.files[0];
+      setTeamLogo(selectedFile);
    }
 
    function handleTeamNameTtpChange() {
@@ -75,11 +76,19 @@ export default function FormStepThree() {
    function handleSubmit(e) {
       e.preventDefault();
 
-      if(!TextValidation(name) || !TextValidation(surname) || !PastDateValidation(date)) {
-         console.log('false');
+      if(
+         TextValidation(teamName) && 
+         TeamCodeValidation(teamCode) && 
+         TextValidation(category) && 
+         FileExtensionValidation(teamLogo, ['.jpg', '.png', '.jpeg'])) 
+      {
+         onSubmit(teamName, teamCode, category, teamLogo);
       }
       else {
-         console.log('true');
+         if(TextValidation(teamName)) toast.error('Nome do time é inválido');
+         if(TeamCodeValidation(teamCode)) toast.error('Código inserido é inválido');
+         if(TextValidation(category)) toast.error('Categoria inserida é inválida');
+         if(FileExtensionValidation(teamLogo)) toast.error('A extensão de arquivo inserida é inválida');
       }
    }
 
@@ -108,13 +117,17 @@ export default function FormStepThree() {
                   onChange={handleTeamCodeChange}
                   onFocus={handleTeamCodeTtpChange}
                   onBlur={handleTeamCodeTtpChange}
+                  disabled={teamName || category || teamLogo ? true : false}
                />
-               <Tooltip side='right' open={teamCodeTtpOpen} onHover={handleTeamCodeTtpChange}>
-                  <span>
-                     O código do time é disponibilizado pelo treinador atual do time que deseja se cadastrar. Caso haja
-                     uma passagem de responsabilidade, contate o treinador do time em questão e peça para ele gerar o código.
-                  </span>
-               </Tooltip>
+               {
+                  !isBelow799 &&
+                  <Tooltip side='right' open={teamCodeTtpOpen} onHover={handleTeamCodeTtpChange}>
+                     <span>
+                        O código do time é disponibilizado pelo treinador atual do time que deseja se cadastrar. Caso haja
+                        uma passagem de responsabilidade, contate o treinador do time em questão e peça para ele gerar o código.
+                     </span>
+                  </Tooltip>
+               }
             </S.InputLine>
          </Label>
          <LS.LineContainer>
@@ -131,10 +144,14 @@ export default function FormStepThree() {
                   onChange={handleTeamNameChange}
                   onFocus={handleTeamNameTtpChange}
                   onBlur={handleTeamNameTtpChange}
+                  disabled={teamCode ? true : false}
                />
-               <Tooltip side='right' open={teamNameTtpOpen} onHover={handleTeamNameTtpChange}>
-                  <span>O nome do time deve possuir pelo menos 2 caracteres e não deve possuir números ou caracteres especiais.</span>
-               </Tooltip>
+               {
+                  !isBelow799 &&
+                  <Tooltip side='right' open={teamNameTtpOpen} onHover={handleTeamNameTtpChange}>
+                     <span>O nome do time deve possuir pelo menos 2 caracteres e não deve possuir números ou caracteres especiais.</span>
+                  </Tooltip>
+               }
             </S.InputLine>
          </Label>
 
@@ -145,6 +162,7 @@ export default function FormStepThree() {
                   placeholder={'Sub-20'}
                   value={category}
                   onChange={handleCategoryChange}
+                  disabled={teamCode ? true : false}
                />
             </S.InputLine>
          </Label>
@@ -156,7 +174,16 @@ export default function FormStepThree() {
                   type={'file'}
                   value={teamLogo}
                   onChange={handleTeamLogoChange}
+                  onFocus={handleTeamLogoTtpChange}
+                  onBlur={handleTeamLogoTtpChange}
+                  disabled={teamCode ? true : false}
                />
+               {
+                  !isBelow799 &&
+                  <Tooltip side='right' open={teamLogoTtpOpen} onHover={handleTeamLogoTtpChange}>
+                     <span>As extensões de arquivo aceitas são .jpg, .jpeg e .png.</span>
+                  </Tooltip>
+               }
             </S.InputLine>
          </Label>
          <Checkbox id={'isAmateur'} label={'Sou um time amador.'}/>
