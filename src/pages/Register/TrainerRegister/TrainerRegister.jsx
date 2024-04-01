@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import * as S from './Register.styled';
-import * as LS from '../Login/Login.styles';
-import Background from '../../components/Background/Background';
+import * as LS from '../../Login/Login.styles';
+import Background from '../../../components/Background/Background';
 import FormStepOne from './FormStepOne';
 import FormStepTwo from './FormStepTwo';
 import FormStepThree from './FormStepThree';
