@@ -113,7 +113,7 @@ export default function FormStepTwo({onSubmit}) {
          <Label>
             Telefone
             <S.InputLine>
-               <Input.Default
+               <Input.Masked
                   mask={'(00) 00000-0000'}
                   placeholder={'(99) 99999-9999'}
                   value={phone}

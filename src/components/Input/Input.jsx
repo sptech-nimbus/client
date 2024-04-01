@@ -2,12 +2,50 @@ import { useState } from 'react';
 import * as S from './Input.styled';
 import { Eye, EyeClosed, LockSimple } from '@phosphor-icons/react';
 
-function InputDefault({type, placeholder, children, width, fontSize, onChange, value='', mask, disabled,...props}) {
+function InputDefault({type, placeholder, children, width, fontSize, onChange, value='', disabled,...props}) {
    return (
          <S.Wrapper disabled={disabled}>
             <S.InputAndIcon>
                {children}
                <S.Input
+               type={type ? type : 'text'}
+               placeholder={placeholder}
+               width={width}
+               fontSize={fontSize}
+               value={value}
+               onChange={onChange}
+               disabled={disabled}
+               {...props}
+               />
+            </S.InputAndIcon>
+         </S.Wrapper>
+   )
+}
+
+function InputImage({type, placeholder, children, width, fontSize, onChange, disabled}) {
+   return (
+         <S.Wrapper disabled={disabled}>
+            <S.InputAndIcon>
+               {children}
+               <S.Input
+               type={type ? type : 'text'}
+               placeholder={placeholder}
+               width={width}
+               fontSize={fontSize}
+               onChange={onChange}
+               disabled={disabled}
+               />
+            </S.InputAndIcon>
+         </S.Wrapper>
+   )
+}
+
+function InputMasked({type, placeholder, children, width, fontSize, onChange, value='', mask, disabled,...props}) {
+   return (
+         <S.Wrapper disabled={disabled}>
+            <S.InputAndIcon>
+               {children}
+               <S.MaskedInput
                type={type ? type : 'text'}
                mask={mask}
                placeholder={placeholder}
@@ -63,7 +101,9 @@ export function ContinueWithGoogle() {
 const Input = {
    Default: InputDefault,
    Google: ContinueWithGoogle,
-   Password: InputPassword
+   Password: InputPassword,
+   Masked: InputMasked,
+   Image: InputImage
 }
 
 export default Input;

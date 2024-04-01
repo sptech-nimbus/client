@@ -1,7 +1,6 @@
 import * as LS from '../Login/Login.styles'
 import styled from 'styled-components'
 
-
 export const Form = styled(LS.Form)`
    top: 25%;
 `

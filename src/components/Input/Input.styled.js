@@ -30,7 +30,26 @@ export const Wrapper = styled.div`
    }
 `
 
-export const Input = styled(IMaskInput)`
+export const Input = styled.input`
+   width: 100%;
+   background-color: transparent;
+   border: none;
+   font-family: 'Poppins', sans-serif;
+   color: ${Colors.gray100};
+   font-size: ${props => props.fontSize};
+   color-scheme: dark;
+
+   &:focus {
+      outline: none;
+      border: none;
+   }
+
+   &::placeholder {
+      color: #7D7D7D;
+   }
+`
+
+export const MaskedInput = styled(IMaskInput)`
    width: 100%;
    background-color: transparent;
    border: none;

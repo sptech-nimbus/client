@@ -17,14 +17,12 @@ export default function Register() {
       password: null
    });
    const [teamData, setTeamData] = useState({
-      teamCode: null,
-      teamName: null,
+      code: null,
+      name: null,
       category: null,
-      teamLogo: null,
+      logo: null,
       isAmateur: null,
    })
-
-   let teamDatas = {};
 
    function handleFormSubmit(formData) {
       if(step == 1) {
@@ -37,21 +35,26 @@ export default function Register() {
          userData.email = formData.email;
          userData.phone = formData.phone;
          userData.password = formData.password;
-
+         postUser(userData);
          setStep(step + 1);
       }
-      else if(step == 3){
-         teamData.teamCode = formData.teamCode;
-         teamData.teamName = formData.teamName;
-         teamData.category = formData.category;
-         teamData.teamLogo = formData.teamLogo;
-         teamData.isAmateur = formData.chkAmateur;
-      }
       else {
-         alert('as')
+         teamData.code = formData.teamCode;
+         teamData.name = formData.teamName;
+         teamData.category = formData.category;
+         teamData.logo = formData.teamLogo;
+         teamData.isAmateur = formData.chkAmateur;
       }
    }
    
+   function postUser() {
+      //adicionar lógica para requisição http na api
+   }
+
+   function postTeam() {
+      //adicionar lógica para requisição http na api
+   }
+
    return(
       <LS.Header>
          <Background.Login />

@@ -115,12 +115,14 @@ export function BrPhoneValidation(phone) {
 }
 
 export function TeamCodeValidation(teamCode) {
-   const regex = /^[^\sA-Za-z0-9]{6}$/;
+   // const regex = /^[^\sA-Za-z0-9]{6}$/;
+
+   //adicionar lógica envolvendo requisição do banco
 
    if(!teamCode) {
       return false;
    }
-   else if(!regex.test(teamCode)) {
+   else if(teamCode.length < 6) {
       return false;
    }
    else if(typeof customCondition == 'function' && !customCondition(teamCode)) {
@@ -137,6 +139,10 @@ export function FileExtensionValidation(fileName, allowedExtensions) {
    }
 
    const extension = fileName.split('.').pop().toLowerCase();
+   // console.log('extension '+extension);
+   // console.log('fileName '+fileName);
+   // console.log(allowedExtensions);
+   // console.log(allowedExtensions.includes(extension));
 
    if(!allowedExtensions.includes(extension)) {
       return false;

@@ -30,6 +30,8 @@ export default function FormStepThree({onSubmit}) {
    const isBelow799 = useMediaQuery({ maxWidth: 799 });
    const isBelow1050 = useMediaQuery({maxWidth: 1050});
 
+   const allowedExtensions = ['jpg', 'png', 'jpeg'];
+
    useEffect(() => {
       if (isBelow1050) {
         setToastPosition('top-center');
@@ -54,8 +56,7 @@ export default function FormStepThree({onSubmit}) {
    }
 
    function handleTeamLogoChange(e) {
-      const selectedFile = e.target.files[0];
-      setTeamLogo(selectedFile);
+      setTeamLogo(e.target.files[0]);
    }
 
    function handleChkAmateur() {
@@ -79,20 +80,22 @@ export default function FormStepThree({onSubmit}) {
 
       if(TeamCodeValidation(teamCode)) {
          onSubmit(teamCode);
-         console.log('teste')
       }
       else if(
          TextValidation(teamName) && 
          TextValidation(category) && 
-         FileExtensionValidation(teamLogo, ['.jpg', '.png', '.jpeg'])) 
+         FileExtensionValidation(teamLogo.name, allowedExtensions)) 
       {
-         onSubmit(teamName, category, teamLogo, chkAmateur);
+         onSubmit({teamName, category, teamLogo, chkAmateur});
       }
       else {
-         if(TextValidation(teamName)) toast.error('Nome do time é inválido');
-         if(TeamCodeValidation(teamCode)) toast.error('Código inserido é inválido');
-         if(TextValidation(category)) toast.error('Categoria inserida é inválida');
-         if(FileExtensionValidation(teamLogo)) toast.error('A extensão de arquivo inserida é inválida');
+         if(teamCode) {
+            if(!TeamCodeValidation(teamCode)) toast.error('Código inserido é inválido');
+         } else {
+            if(!TextValidation(teamName)) toast.error('Nome do time é inválido');
+            // if(TextValidation(category)) toast.error('Categoria inserida é inválida');
+            if(!FileExtensionValidation(teamLogo.name), allowedExtensions) toast.error('A extensão de arquivo inserida é inválida');
+         }
       }
    }
 
@@ -174,9 +177,8 @@ export default function FormStepThree({onSubmit}) {
          <Label>
             Escudo do time
             <S.InputLine>
-               <Input.Default
+               <Input.Image
                   type={'file'}
-                  value={teamLogo}
                   onChange={handleTeamLogoChange}
                   onFocus={handleTeamLogoTtpChange}
                   onBlur={handleTeamLogoTtpChange}
