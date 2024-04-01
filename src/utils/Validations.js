@@ -103,7 +103,7 @@ export function BrPhoneValidation(phone) {
    if(!phone == null) {
       return false;
    }
-   else if(!regex.test(phone)) {
+   else if(regex.test(phone)) {
       return false;
    }
    else if(typeof customCondition == 'function' && !customCondition(phone)) {
