@@ -80,7 +80,7 @@ export default function FormStepTwo({onSubmit}) {
          if(!EmailValidation(email)) toast.error('Email inválido.');
          if(!BrPhoneValidation(phone)) toast.error('Telefone inválido.')
          if(!PasswordValidation(password)) toast.error('Senha inválida.');
-         if(!PasswordValidation(confirmPassword)) toast.error('As senhas não correspondem.');
+         if(!ConfirmPasswordValidation(password, confirmPassword)) toast.error('As senhas não correspondem.');
       }
    }
 

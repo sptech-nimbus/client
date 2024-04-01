@@ -7,7 +7,7 @@ export const Form = styled(LS.Form)`
 `
 
 export const FormStepThree = styled(LS.Form)`
-   top: 25%;
+   top: 15%;
 `
 
 export const Text = styled.span`

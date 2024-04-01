@@ -98,3 +98,8 @@ export const Link = styled.a`
    color: ${Colors.gray100};
    cursor: pointer;
 `
+
+export const Highlight = styled.span`
+   color: ${Colors.orange500};
+  font-weight: 600;
+`

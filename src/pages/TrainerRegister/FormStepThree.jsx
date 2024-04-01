@@ -7,7 +7,7 @@ import Button from '../../components/Button/Button';
 import Checkbox from '../../components/Checkbox/Checkbox';
 import { ToastContainer, toast } from 'react-toastify';
 import { TooltipInput as Tooltip } from '../../components/Tooltip/Tooltip';
-import { TextValidation, PastDateValidation, FileExtensionValidation } from '../../utils/Validations';
+import { TextValidation, TeamCodeValidation, FileExtensionValidation } from '../../utils/Validations';
 import { useMediaQuery } from 'react-responsive';
 
 export default function FormStepThree({onSubmit}) {
@@ -15,6 +15,7 @@ export default function FormStepThree({onSubmit}) {
    const [teamCode, setTeamCode] = useState('');
    const [category, setCategory] = useState('');
    const [teamLogo, setTeamLogo] = useState('');
+   const [chkAmateur, setChkAmateur] = useState(false);
 
    const [teamNameErr, setTeamNameErr] = useState(false);
    const [teamCodeErr, setTeamCodeErr] = useState(false);
@@ -57,16 +58,16 @@ export default function FormStepThree({onSubmit}) {
       setTeamLogo(selectedFile);
    }
 
+   function handleChkAmateur() {
+      setChkAmateur(!chkAmateur);
+   }
+
    function handleTeamNameTtpChange() {
       setTeamNameTtpOpen(!teamNameTtpOpen);
    }
 
    function handleTeamCodeTtpChange() {
       setTeamCodeTtpOpen(!teamCodeTtpOpen);
-   }
-
-   function handleCategoryTtpChange() {
-      setCategoryTtpOpen(!categoryTtpOpen);
    }
 
    function handleTeamLogoTtpChange() {
@@ -76,13 +77,16 @@ export default function FormStepThree({onSubmit}) {
    function handleSubmit(e) {
       e.preventDefault();
 
-      if(
+      if(TeamCodeValidation(teamCode)) {
+         onSubmit(teamCode);
+         console.log('teste')
+      }
+      else if(
          TextValidation(teamName) && 
-         TeamCodeValidation(teamCode) && 
          TextValidation(category) && 
          FileExtensionValidation(teamLogo, ['.jpg', '.png', '.jpeg'])) 
       {
-         onSubmit(teamName, teamCode, category, teamLogo);
+         onSubmit(teamName, category, teamLogo, chkAmateur);
       }
       else {
          if(TextValidation(teamName)) toast.error('Nome do time é inválido');
@@ -92,9 +96,8 @@ export default function FormStepThree({onSubmit}) {
       }
    }
 
-
    return (
-      <S.Form>
+      <S.FormStepThree>
       <ToastContainer
          position={toastPosition}
          autoClose={8000}
@@ -118,6 +121,7 @@ export default function FormStepThree({onSubmit}) {
                   onFocus={handleTeamCodeTtpChange}
                   onBlur={handleTeamCodeTtpChange}
                   disabled={teamName || category || teamLogo ? true : false}
+                  maxLength={6}
                />
                {
                   !isBelow799 &&
@@ -186,7 +190,12 @@ export default function FormStepThree({onSubmit}) {
                }
             </S.InputLine>
          </Label>
-         <Checkbox id={'isAmateur'} label={'Sou um time amador.'}/>
+         <Checkbox 
+         id={'isAmateur'} 
+         label={'Sou um time amador.'} 
+         checked={chkAmateur}
+         onClick={handleChkAmateur}
+         />
       </LS.InputsContainer>
       <Button.Primary 
          value={'Continuar'}
@@ -195,6 +204,6 @@ export default function FormStepThree({onSubmit}) {
          fontSize={'1.5rem'}
          onClick={handleSubmit}
       />
-   </S.Form>
+   </S.FormStepThree>
    )
 }

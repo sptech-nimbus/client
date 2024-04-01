@@ -150,7 +150,7 @@ export default function FormStepOne({onSubmit}) {
          <span>
             Já possui uma conta? <br />
             <LS.Link>
-               <highlight>Faça login</highlight>
+               <LS.Highlight>Faça login</LS.Highlight>
             </LS.Link>
          </span>
       </LS.FormFooter>

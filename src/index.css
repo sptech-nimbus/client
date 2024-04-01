@@ -37,11 +37,6 @@ body {
   overflow-x: hidden;
 }
 
-highlight {
-  color: var(--orange500);
-  font-weight: 600;
-}
-
 underlined {
   text-decoration: underline;
 }

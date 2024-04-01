@@ -6,10 +6,6 @@ import { Envelope } from "@phosphor-icons/react";
 import Button from "../../components/Button/Button";
 
 export default function Login() {
-   function validateInput() {
-      
-   }
-
    return (
       <S.Header>
          <Background.Login />
@@ -50,7 +46,7 @@ export default function Login() {
                <span>
                   Não possui uma conta ainda? <br />
                   <S.Link>
-                     <highlight>Faça seu cadastro!</highlight>
+                     <S.Highlight>Faça seu cadastro!</S.Highlight>
                   </S.Link>
                   </span>
             </S.FormFooter>
