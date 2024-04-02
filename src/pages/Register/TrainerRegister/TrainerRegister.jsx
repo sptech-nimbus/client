@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import * as S from './Register.styled';
 import * as LS from '../../Login/Login.styles';
-import Background from '../../../components/Background/Background';
-import Stepper from '../../../components/Stepper/Stepper';
+import Background from '@components/Background/Background';
+import Stepper from '@components/Stepper/Stepper';
 import FormStepOne from './FormStepOne';
 import FormStepTwo from './FormStepTwo';
 import FormStepThree from './FormStepThree';

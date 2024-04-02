@@ -1,13 +1,13 @@
 import { useState, useEffect } from 'react';
 import * as S from './Register.styled';
 import * as LS from '../../Login/Login.styles';
-import Label from '../../../components/Label/Label';
-import Input from '../../../components/Input/Input';
-import Button from '../../../components/Button/Button';
-import Checkbox from '../../../components/Checkbox/Checkbox';
+import Label from '@components/Label/Label';
+import Input from '@components/Input/Input';
+import Button from '@components/Button/Button';
+import Checkbox from '@components/Checkbox/Checkbox';
 import { ToastContainer, toast } from 'react-toastify';
-import { TooltipInput as Tooltip } from '../../../components/Tooltip/Tooltip';
-import { TextValidation, TeamCodeValidation, ImageValidation } from '../../../utils/Validations';
+import { TooltipInput as Tooltip } from '@components/Tooltip/Tooltip';
+import { TextValidation, TeamCodeValidation, ImageValidation } from '@utils/Validations';
 import { useMediaQuery } from 'react-responsive';
 
 export default function FormStepThree({onSubmit}) {

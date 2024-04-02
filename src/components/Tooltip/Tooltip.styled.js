@@ -1,6 +1,6 @@
 import styled, { keyframes } from "styled-components";
 import * as T from "@radix-ui/react-tooltip";
-import { Colors } from "../../utils/Colors";
+import { Colors } from "@utils/Colors";
 
 
 export const Arrow = styled(T.Arrow)`
