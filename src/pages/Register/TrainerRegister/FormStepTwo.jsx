@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react';
 import * as S from './Register.styled';
 import * as LS from '../../Login/Login.styles';
-import Label from '../../../components/Label/Label';
-import Input from '../../../components/Input/Input';
-import Button from '../../../components/Button/Button';
-import { TooltipInput as Tooltip } from '../../../components/Tooltip/Tooltip';
-import { EmailValidation, PasswordValidation, ConfirmPasswordValidation, BrPhoneValidation } from '../../../utils/Validations';
+import Label from '@components/Label/Label';
+import Input from '@components/Input/Input';
+import Button from '@components/Button/Button';
+import { TooltipInput as Tooltip } from '@components/Tooltip/Tooltip';
+import { EmailValidation, PasswordValidation, ConfirmPasswordValidation, BrPhoneValidation } from '@utils/Validations';
 import { useMediaQuery } from 'react-responsive'
 import { ToastContainer, toast } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";

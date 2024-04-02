@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Colors } from "../../utils/Colors";
+import { Colors } from "@utils/Colors";
 import * as CheckboxPrimitive from '@radix-ui/react-checkbox';
 
 export const CheckboxContainer = styled.span`

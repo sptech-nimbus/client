@@ -1,9 +1,9 @@
 import * as S from "./Login.styles";
-import Background from "../../components/Background/Background";
-import Input from "../../components/Input/Input";
-import Label from "../../components/Label/Label";
+import Background from "@components/Background/Background";
+import Input from "@components/Input/Input";
+import Label from "@components/Label/Label";
 import { Envelope } from "@phosphor-icons/react";
-import Button from "../../components/Button/Button";
+import Button from "@components/Button/Button";
 
 export default function Login() {
    return (
