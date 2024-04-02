@@ -7,7 +7,7 @@ import Button from '../../../components/Button/Button';
 import Checkbox from '../../../components/Checkbox/Checkbox';
 import { ToastContainer, toast } from 'react-toastify';
 import { TooltipInput as Tooltip } from '../../../components/Tooltip/Tooltip';
-import { TextValidation, TeamCodeValidation, FileExtensionValidation } from '../../../utils/Validations';
+import { TextValidation, TeamCodeValidation, ImageValidation } from '../../../utils/Validations';
 import { useMediaQuery } from 'react-responsive';
 
 export default function FormStepThree({onSubmit}) {
@@ -29,8 +29,6 @@ export default function FormStepThree({onSubmit}) {
 
    const isBelow799 = useMediaQuery({ maxWidth: 799 });
    const isBelow1050 = useMediaQuery({maxWidth: 1050});
-
-   const allowedExtensions = ['jpg', 'png', 'jpeg'];
 
    useEffect(() => {
       if (isBelow1050) {
@@ -84,7 +82,7 @@ export default function FormStepThree({onSubmit}) {
       else if(
          TextValidation(teamName) && 
          TextValidation(category) && 
-         FileExtensionValidation(teamLogo.name, allowedExtensions)) 
+         ImageValidation(teamLogo)) 
       {
          onSubmit({teamName, category, teamLogo, chkAmateur});
       }
@@ -94,7 +92,7 @@ export default function FormStepThree({onSubmit}) {
          } else {
             if(!TextValidation(teamName)) toast.error('Nome do time é inválido');
             // if(TextValidation(category)) toast.error('Categoria inserida é inválida');
-            if(!FileExtensionValidation(teamLogo.name), allowedExtensions) toast.error('A extensão de arquivo inserida é inválida');
+            if(!ImageValidation(teamLogo)) toast.error('A extensão de arquivo inserida é inválida');
          }
       }
    }
