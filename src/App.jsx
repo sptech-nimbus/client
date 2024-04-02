@@ -1,6 +1,7 @@
 import { useState } from 'react';
-import Login from './pages/Login/Login';
+import Stepper from './components/Stepper/Stepper';
 import TrainerRegister from './pages/Register/TrainerRegister/TrainerRegister';
+
 import './App.css'
 
 function App() {
