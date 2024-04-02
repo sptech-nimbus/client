@@ -2,6 +2,7 @@ import { useState } from 'react';
 import * as S from './Register.styled';
 import * as LS from '../../Login/Login.styles';
 import Background from '../../../components/Background/Background';
+import Stepper from '../../../components/Stepper/Stepper';
 import FormStepOne from './FormStepOne';
 import FormStepTwo from './FormStepTwo';
 import FormStepThree from './FormStepThree';
@@ -65,6 +66,10 @@ export default function Register() {
          <LS.Title>
             Cadastro
          </LS.Title>
+
+         <S.StepperWrapper>
+            <Stepper steps={3} currentStep={step}/>
+         </S.StepperWrapper>
          {
          step == 1 ? 
          <FormStepOne onSubmit={handleFormSubmit} /> : 

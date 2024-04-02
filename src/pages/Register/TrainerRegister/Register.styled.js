@@ -1,12 +1,25 @@
 import * as LS from '../../Login/Login.styles'
 import styled from 'styled-components'
 
+export const StepperWrapper = styled.div`
+   position: absolute;
+   top: 13%;
+
+   @media (min-width: 1700px) {
+      top: 14%;
+   }
+`
+
 export const Form = styled(LS.Form)`
    top: 25%;
 `
 
 export const FormStepThree = styled(LS.Form)`
    top: 15%;
+
+   @media (min-width: 1700px) {
+      top: 20%;
+   }
 `
 
 export const Text = styled.span`
