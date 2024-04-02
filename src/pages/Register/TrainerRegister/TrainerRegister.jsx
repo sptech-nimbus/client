@@ -44,15 +44,19 @@ export default function Register() {
          teamData.category = formData.category;
          teamData.logo = formData.teamLogo;
          teamData.isAmateur = formData.chkAmateur;
+
+         postTeam();
       }
    }
    
    function postUser() {
       //adicionar lógica para requisição http na api
+      console.log(userData);
    }
 
    function postTeam() {
       //adicionar lógica para requisição http na api
+      console.log(teamData);
    }
 
    return(

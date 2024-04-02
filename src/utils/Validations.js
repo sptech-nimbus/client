@@ -133,16 +133,15 @@ export function TeamCodeValidation(teamCode) {
    }
 }
 
-export function FileExtensionValidation(fileName, allowedExtensions) {
-   if(!fileName) {
+export function ImageValidation(file) {
+   const allowedExtensions = ['image/jpeg', 'image/png', 'image/jpeg'];
+
+   if(!file) {
       return false;
    }
 
-   const extension = fileName.split('.').pop().toLowerCase();
-   // console.log('extension '+extension);
-   // console.log('fileName '+fileName);
-   // console.log(allowedExtensions);
-   // console.log(allowedExtensions.includes(extension));
+   console.log(file.type)
+   const extension = file.type;
 
    if(!allowedExtensions.includes(extension)) {
       return false;
