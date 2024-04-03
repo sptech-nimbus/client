@@ -1,10 +1,10 @@
 import * as S from "./Sidebar.styled";
-import { House, ChartDonut, NewspaperClipping, UsersFour, ChatCircleDots, CalendarBlank, Gear } from "@phosphor-icons/react";
+import { House, ChartDonut, NewspaperClipping, UsersFour, ChatCircleDots, CalendarBlank, Gear, Placeholder } from "@phosphor-icons/react";
 
 export default function Sidebar({page, logo, children}) {
    return (
       <S.Container>
-         {logo}
+         {logo ? logo : <Placeholder /> }
          <S.IconGroup>
             <S.Icon>
                <House
@@ -35,7 +35,7 @@ export default function Sidebar({page, logo, children}) {
             </S.Icon>
             <S.Icon>
                <CalendarBlank
-               weight={page == 'calendar' ? 'fill' : 'regular'}
+               weight={page == 'agenda' ? 'fill' : 'regular'}
                />
             </S.Icon>
          </S.IconGroup>

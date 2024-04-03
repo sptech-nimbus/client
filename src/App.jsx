@@ -6,7 +6,7 @@ import './App.css'
 function App() {
   return (
     <>
-      <Sidebar logo={<Placeholder />} />
+      <Sidebar page={'home'}/>
     </>
   )
 }
