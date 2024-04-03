@@ -6,6 +6,7 @@ import Stepper from '@components/Stepper/Stepper';
 import FormStepOne from './FormStepOne';
 import FormStepTwo from './FormStepTwo';
 import FormStepThree from './FormStepThree';
+import { useMediaQuery } from 'react-responsive';
 
 export default function Register() {
    const [step, setStep] = useState(1);

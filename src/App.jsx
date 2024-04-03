@@ -1,13 +1,12 @@
 import { useState } from 'react';
-import Stepper from './components/Stepper/Stepper';
-import TrainerRegister from '@pages/Register/TrainerRegister/TrainerRegister';
-
+import Sidebar, { IconGroup } from '@components/Sidebar/Sidebar';
+import { Placeholder } from '@phosphor-icons/react';
 import './App.css'
 
 function App() {
   return (
     <>
-      <TrainerRegister />
+      <Sidebar logo={<Placeholder />} />
     </>
   )
 }
