@@ -1,5 +1,13 @@
 import styled from "styled-components";
 import { Colors } from "@utils/Colors";
+import { House, ChartDonut, NewspaperClipping, UsersFour, ChatCircleDots, CalendarBlank, Gear } from "@phosphor-icons/react";
+
+export const Icon = styled.div`
+   cursor: pointer;
+   margin: 0;
+   padding: 0;
+   height: 2rem;
+`
 
 export const Container = styled.div`
    box-sizing: border-box;
@@ -24,6 +32,10 @@ export const IconGroup = styled.div`
    color: ${Colors.orange100};
 `
 
+export const IconGroupFooter = styled(IconGroup)`
+   gap: 0.1rem;
+`
+
 export const IconGroupTitle = styled.span`
    font-size: 0.7rem;
    font-weight: 600;
@@ -31,7 +43,7 @@ export const IconGroupTitle = styled.span`
 `
 
 export const Line = styled.hr`
-   width: 100%;
+   width: 80%;
 `
 
 export const Image = styled.div`
@@ -40,3 +52,4 @@ export const Image = styled.div`
    background-color: aliceblue;
    border-radius: 50%;
 `
+
