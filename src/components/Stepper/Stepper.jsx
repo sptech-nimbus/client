@@ -43,7 +43,7 @@ export default function Stepper({ steps, currentStep }) {
 
    function generateSteps() {
       let stepsArray = [];
-      let stepStates = []; // Lista de estados de todos os passos
+      let stepStates = [];
 
       for (let i = 1; i <= steps; i++) {
          let state;
@@ -57,10 +57,10 @@ export default function Stepper({ steps, currentStep }) {
          stepsArray.push(
             <Step key={`step${i}`} state={state} />
          );
-         stepStates.push(state); // Adiciona o estado do passo à lista
+         stepStates.push(state);
       }
 
-      return { stepsArray, stepStates }; // Retorna a lista de estados junto com os passos
+      return { stepsArray, stepStates };
    }
 
    function generateLines(stepStates) {
@@ -84,8 +84,8 @@ export default function Stepper({ steps, currentStep }) {
       for (let i = 0; i < stepsArray.length; i++) {
          stepper.push(stepsArray[i]);
 
-         if (i < stepStates.length - 1) { // Verifica se ainda há linhas a serem adicionadas
-            stepper.push(generateLines(stepStates)[i]); // Adiciona a linha correspondente ao estado do passo anterior
+         if (i < stepStates.length - 1) { 
+            stepper.push(generateLines(stepStates)[i]); 
          }
       }
 
