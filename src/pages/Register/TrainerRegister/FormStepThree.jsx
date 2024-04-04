@@ -14,7 +14,8 @@ export default function FormStepThree({onSubmit}) {
    const [teamName, setTeamName] = useState('');
    const [teamCode, setTeamCode] = useState('');
    const [category, setCategory] = useState('');
-   const [teamLogo, setTeamLogo] = useState('');
+   const [teamPicture, setTeamPicture] = useState('');
+   const [local, setLocal] = useState('');
    const [chkAmateur, setChkAmateur] = useState(false);
 
    const [teamNameErr, setTeamNameErr] = useState(false);
@@ -23,7 +24,7 @@ export default function FormStepThree({onSubmit}) {
 
    const [teamNameTtpOpen, setTeamNameTtpOpen] = useState(false);
    const [teamCodeTtpOpen, setTeamCodeTtpOpen] = useState(false);
-   const [teamLogoTtpOpen, setTeamLogoTtpOpen] = useState(false);
+   const [teamPictureTtpOpen, setTeamPictureTtpOpen] = useState(false);
 
    const [toastPosition, setToastPosition] = useState('top-right');
 
@@ -37,6 +38,11 @@ export default function FormStepThree({onSubmit}) {
         setToastPosition('top-right');
       }
     }, [isBelow1050]);
+
+   function handleLocalChange(e) {
+      const { value } = e.target;
+      setLocal(value);
+   }
 
    function handleTeamNameChange(e) {
       const { value } = e.target;
@@ -53,8 +59,8 @@ export default function FormStepThree({onSubmit}) {
       setCategory(value);
    }
 
-   function handleTeamLogoChange(e) {
-      setTeamLogo(e.target.files[0]);
+   function handleTeamPictureChange(e) {
+      setTeamPicture(e.target.files[0]);
    }
 
    function handleChkAmateur() {
@@ -69,8 +75,8 @@ export default function FormStepThree({onSubmit}) {
       setTeamCodeTtpOpen(!teamCodeTtpOpen);
    }
 
-   function handleTeamLogoTtpChange() {
-      setTeamLogoTtpOpen(!teamLogoTtpOpen);
+   function handleTeamPictureTtpChange() {
+      setTeamPictureTtpOpen(!teamPictureTtpOpen);
    }
 
    function handleSubmit(e) {
@@ -81,18 +87,17 @@ export default function FormStepThree({onSubmit}) {
       }
       else if(
          TextValidation(teamName) && 
-         TextValidation(category) && 
-         ImageValidation(teamLogo)) 
+         TextValidation(category) &&
+         ImageValidation(teamPicture)) 
       {
-         onSubmit({teamName, category, teamLogo, chkAmateur});
+         onSubmit({teamName, category, teamPicture, chkAmateur, local});
       }
       else {
          if(teamCode) {
             if(!TeamCodeValidation(teamCode)) toast.error('Código inserido é inválido');
          } else {
             if(!TextValidation(teamName)) toast.error('Nome do time é inválido');
-            // if(TextValidation(category)) toast.error('Categoria inserida é inválida');
-            if(!ImageValidation(teamLogo)) toast.error('A extensão de arquivo inserida é inválida');
+            if(!ImageValidation(teamPicture)) toast.error('A extensão de arquivo inserida é inválida');
          }
       }
    }
@@ -121,7 +126,7 @@ export default function FormStepThree({onSubmit}) {
                   onChange={handleTeamCodeChange}
                   onFocus={handleTeamCodeTtpChange}
                   onBlur={handleTeamCodeTtpChange}
-                  disabled={teamName || category || teamLogo ? true : false}
+                  disabled={teamName || category || teamPicture ? true : false}
                   maxLength={6}
                />
                {
@@ -160,41 +165,52 @@ export default function FormStepThree({onSubmit}) {
             </S.InputLine>
          </Label>
 
-         <Label>
-            Categoria
-            <S.InputLine>
+         <S.InputContainer>
+            <Label>
+               Categoria
                <Input.Default
                   placeholder={'Sub-20'}
                   value={category}
                   onChange={handleCategoryChange}
                   disabled={teamCode ? true : false}
+                  width='40%'
                />
-            </S.InputLine>
-         </Label>
+            </Label>
+            <Label>
+               Endereço do time
+               <S.InputLine>
+                  <Input.Default
+                  value={local}
+                  placeholder={'Rua XV'}
+                  onChange={handleLocalChange}
+                  />
+               </S.InputLine>
+            </Label>
+         </S.InputContainer>
 
          <Label>
             Escudo do time
             <S.InputLine>
                <Input.Image
                   type={'file'}
-                  onChange={handleTeamLogoChange}
-                  onFocus={handleTeamLogoTtpChange}
-                  onBlur={handleTeamLogoTtpChange}
+                  onChange={handleTeamPictureChange}
+                  onFocus={handleTeamPictureTtpChange}
+                  onBlur={handleTeamPictureTtpChange}
                   disabled={teamCode ? true : false}
                />
                {
                   !isBelow799 &&
-                  <Tooltip side='right' open={teamLogoTtpOpen} onHover={handleTeamLogoTtpChange}>
+                  <Tooltip side='right' open={teamPictureTtpOpen} onHover={handleTeamPictureTtpChange}>
                      <span>As extensões de arquivo aceitas são .jpg, .jpeg e .png.</span>
                   </Tooltip>
                }
             </S.InputLine>
          </Label>
          <Checkbox 
-         id={'isAmateur'} 
-         label={'Sou um time amador.'} 
-         checked={chkAmateur}
-         onClick={handleChkAmateur}
+            id={'isAmateur'} 
+            label={'Sou um time amador.'} 
+            checked={chkAmateur}
+            onClick={handleChkAmateur}
          />
       </LS.InputsContainer>
       <Button.Primary 

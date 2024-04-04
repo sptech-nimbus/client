@@ -74,7 +74,8 @@ export default function FormStepTwo({onSubmit}) {
          ConfirmPasswordValidation(password, confirmPassword) &&
          BrPhoneValidation(phone)) 
       {
-         onSubmit({email, phone, password});
+         let formattedPhone = phone.replace(" ", "").replace("(", "").replace(")", "").replace("-", "");
+         onSubmit({email, formattedPhone, password});
       }
       else {
          if(!EmailValidation(email)) toast.error('Email inválido.');

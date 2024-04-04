@@ -4,13 +4,13 @@ import { Eye, EyeClosed, LockSimple } from '@phosphor-icons/react';
 
 function InputDefault({type, placeholder, children, width, fontSize, onChange, value='', disabled,...props}) {
    return (
-         <S.Wrapper disabled={disabled}>
+         <S.Wrapper disabled={disabled} width={width}>
             <S.InputAndIcon>
                {children}
                <S.Input
                type={type ? type : 'text'}
                placeholder={placeholder}
-               width={width}
+               
                fontSize={fontSize}
                value={value}
                onChange={onChange}

@@ -11,40 +11,54 @@ import user from '@api/user';
 export default function Register() {
    const [step, setStep] = useState(1);
    const [userData, setUserData] = useState({
-      name: null,
       email: null,
-      lastName: null,
-      birthDate: null,
-      phone: null,
-      password: null
+      password: null,
+      coach: {
+         firstName: null,
+         lastName: null,
+         birthDate: null,
+         phone: null,
+         picture: null
+      }
    });
+
    const [teamData, setTeamData] = useState({
       code: null,
       name: null,
       category: null,
-      logo: null,
-      isAmateur: null,
-   })
+      picture: null,
+      local: null,
+      isAmateur: null
+   });
 
    function handleFormSubmit(formData) {
       if(step == 1) {
-         userData.name = formData.name;
-         userData.lastName = formData.lastName;
-         userData.birthDate = formData.date;
+         userData.coach.firstName = formData.name;
+         userData.coach.lastName = formData.lastName;
+         userData.coach.birthDate = formData.date;
          setStep(step + 1);
       }
       else if(step == 2) {
          userData.email = formData.email;
-         userData.phone = formData.phone;
          userData.password = formData.password;
-         user.post(userData);
+         userData.coach.phone = formData.formattedPhone;
+
+         console.log(userData);
+
+         user.post(userData)
+            .then(response => {
+               console.log(response);
+            })
+            .catch(err => {
+               console.error(err);
+            });
          setStep(step + 1);
       }
       else {
          teamData.code = formData.teamCode;
          teamData.name = formData.teamName;
          teamData.category = formData.category;
-         teamData.logo = formData.teamLogo;
+         teamData.logo = formData.teamPicture;
          teamData.isAmateur = formData.chkAmateur;
       }
    }
@@ -59,13 +73,14 @@ export default function Register() {
          <S.StepperWrapper>
             <Stepper steps={3} currentStep={step}/>
          </S.StepperWrapper>
-         {
+         {/* {
          step == 1 ? 
          <FormStepOne onSubmit={handleFormSubmit} /> : 
          step == 2 ?
          <FormStepTwo onSubmit={handleFormSubmit} /> :
          <FormStepThree onSubmit={handleFormSubmit} />
-         }
+         } */}
+         <FormStepThree onSubmit={handleFormSubmit} />
       </LS.Header>
    )
 }

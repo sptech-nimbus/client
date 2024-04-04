@@ -48,3 +48,9 @@ export const InputLine = styled.div`
    gap: 1rem;
    justify-content: space-between;
 `
+
+export const InputContainer = styled.div`
+   width: fit-content;
+   display: flex;
+   gap: 1rem;
+`
