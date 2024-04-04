@@ -139,11 +139,7 @@ export function ImageValidation(file) {
    if(!file) {
       return false;
    }
-
-   console.log(file.type)
-   const extension = file.type;
-
-   if(!allowedExtensions.includes(extension)) {
+   else if(!allowedExtensions.includes(file.type)) {
       return false;
    }
    else if(typeof customCondition == 'function' && !customCondition(fileName)) {

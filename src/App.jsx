@@ -1,14 +1,11 @@
-import { useState } from 'react';
-import Sidebar, { IconGroup } from '@components/Sidebar/Sidebar';
-import { Placeholder } from '@phosphor-icons/react';
-import './App.css'
+import TrainerRegister from "@pages/Register/TrainerRegister";
 
 function App() {
   return (
     <>
-      <Sidebar page={'home'}/>
+      <TrainerRegister />
     </>
   )
 }
 
-export default App
+export default App;
