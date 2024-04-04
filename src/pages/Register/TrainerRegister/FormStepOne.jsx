@@ -12,15 +12,15 @@ import "react-toastify/dist/ReactToastify.css";
 
 export default function FormStepOne({onSubmit}) {
    const [name, setName] = useState('');
-   const [surname, setSurname] = useState('');
+   const [lastName, setLastName] = useState('');
    const [date, setDate] = useState('');
 
    const [nameErr, setNameErr] = useState(false);
-   const [surnameErr, setSurnameErr] = useState(false);
+   const [lastNameErr, setLastNameErr] = useState(false);
    const [dateErr, setDateErr] = useState(false);
 
    const [nameTtpOpen, setNameTtpOpen] = useState(false);
-   const [surnameTtpOpen, setSurnameTtpOpen] = useState(false);
+   const [lastNameTtpOpen, setLastNameTtpOpen] = useState(false);
    const [dateTtpOpen, setDateTtpOpen] = useState(false);
 
    const [toastPosition, setToastPosition] = useState('top-right');
@@ -41,9 +41,9 @@ export default function FormStepOne({onSubmit}) {
       setName(value);
    }
 
-   function handleSurnameChange(e) {
+   function handleLastNameChange(e) {
       const { value } = e.target;
-      setSurname(value);
+      setLastName(value);
    }
 
    function handleDateChange(e) {
@@ -55,8 +55,8 @@ export default function FormStepOne({onSubmit}) {
       setNameTtpOpen(!nameTtpOpen);
    }
 
-   function handleSurnameTtpChange() {
-      setSurnameTtpOpen(!surnameTtpOpen);
+   function handleLastNameTtpChange() {
+      setLastNameTtpOpen(!lastNameTtpOpen);
    }
 
    function handleDateTtpChange() {
@@ -66,12 +66,12 @@ export default function FormStepOne({onSubmit}) {
    function handleSubmit(e) {
       e.preventDefault();
 
-      if(TextValidation(name) && TextValidation(surname) && PastDateValidation(date)) {
-         onSubmit({name, surname, date})
+      if(TextValidation(name) && TextValidation(lastName) && PastDateValidation(date)) {
+         onSubmit({name, lastName, date})
       }
       else {
          if(!TextValidation(name)) toast.error("O nome inserido não é válido.");
-         if(!TextValidation(surname)) toast.error("O sobrenome inserido não é válido.");
+         if(!TextValidation(lastName)) toast.error("O sobrenome inserido não é válido.");
          if(!PastDateValidation(date)) toast.error("A data de nascimento inserida não é válida. Datas futuras não são aceitas.");
       }
 
@@ -93,7 +93,7 @@ export default function FormStepOne({onSubmit}) {
          /> 
       <LS.InputsContainer>
          <Label>
-            Nome
+            <span>Nome <S.Mandatory>*</S.Mandatory></span>
             <S.InputLine>
                <Input.Default
                   placeholder={'John'}
@@ -111,17 +111,17 @@ export default function FormStepOne({onSubmit}) {
          </Label>
 
          <Label>
-            Sobrenome
+            <span>Sobrenome <S.Mandatory>*</S.Mandatory></span>
             <S.InputLine>
                <Input.Default
                   placeholder={'Doe'}
-                  value={surname}
-                  onChange={handleSurnameChange}
-                  onFocus={handleSurnameTtpChange}
-                  onBlur={handleSurnameTtpChange}
+                  value={lastName}
+                  onChange={handleLastNameChange}
+                  onFocus={handleLastNameTtpChange}
+                  onBlur={handleLastNameTtpChange}
                />
                {!isBelow799 &&  
-               <Tooltip side='right' open={surnameTtpOpen} onHover={handleSurnameTtpChange}>
+               <Tooltip side='right' open={lastNameTtpOpen} onHover={handleLastNameTtpChange}>
                   <span>O sobrenome deve possuir pelo menos 2 caracteres e não deve possuir números ou caracteres especiais.</span>
                </Tooltip>
                }
@@ -129,7 +129,7 @@ export default function FormStepOne({onSubmit}) {
          </Label>
 
          <Label>
-            Data de nascimento
+            <span>Data de nascimento <S.Mandatory>*</S.Mandatory></span>
             <S.InputLine>
                <Input.Default
                   type={'date'}

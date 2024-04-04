@@ -135,11 +135,11 @@ export default function FormStepThree({onSubmit}) {
                }
             </S.InputLine>
          </Label>
-         <LS.LineContainer>
+         {/* <LS.LineContainer>
                <LS.Line />
                Ou
                <LS.Line />
-            </LS.LineContainer>
+         </LS.LineContainer> */}
          <Label>
             Nome do time
             <S.InputLine>
