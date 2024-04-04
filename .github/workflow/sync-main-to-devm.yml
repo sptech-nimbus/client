@@ -15,5 +15,7 @@ jobs:
         run: |
           git fetch origin
           git checkout devm
-          git merge origin/main
+          git merge --no-commit --no-ff origin/main
+          git checkout $(git diff --name-only --diff-filter=U | awk -F/ '{print $1}' | sort -u)
+          git commit -m "Merge changes from main into devm"
           git push origin devm
