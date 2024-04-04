@@ -100,7 +100,7 @@ export default function FormStepTwo({onSubmit}) {
       /> 
       <LS.InputsContainer>
          <Label>
-            E-mail
+            <span>E-mail <S.Mandatory>*</S.Mandatory></span>
             <S.InputLine>
                <Input.Default
                   placeholder={'seu@email.com'}
@@ -123,7 +123,7 @@ export default function FormStepTwo({onSubmit}) {
          </Label>
 
          <Label>
-            Senha
+            <span>Senha <S.Mandatory>*</S.Mandatory></span>
             <S.InputLine>
                <Input.Password
                   value={password}
@@ -147,7 +147,7 @@ export default function FormStepTwo({onSubmit}) {
          </Label>
 
          <Label>
-            Confimar senha
+            <span>Confimar senha <S.Mandatory>*</S.Mandatory></span>
             <S.InputLine>
                <Input.Password
                   value={confirmPassword}
