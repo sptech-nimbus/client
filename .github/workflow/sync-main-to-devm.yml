@@ -1,0 +1,19 @@
+name: Sync Branch with Main
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  sync-branch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Merge changes from main into devm
+        run: |
+          git fetch origin
+          git checkout devm
+          git merge origin/main
+          git push origin devm
