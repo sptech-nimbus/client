@@ -48,4 +48,5 @@ Certifique-se de ter o Node.js e o npm instalados em sua máquina antes de pross
 
 - [@YuriOlivs](https://www.github.com/YuriOlivs)
 - [@KauanMO](https://www.github.com/KauanMO)
+- [@zzzmike](https://github.com/zzzmiike)
 
