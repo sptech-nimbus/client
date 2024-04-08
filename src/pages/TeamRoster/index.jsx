@@ -2,6 +2,7 @@ import { useState } from "react";
 import Sidebar from "@components/Sidebar/Sidebar";
 import Title from "@components/Title/Title";
 import Input from "@components/Input/Input";
+import ToggleGroup from "@components/ToggleGroup/ToggleGroup";
 
 import { MagnifyingGlass, SquaresFour, Rows, Faders } from "@phosphor-icons/react";
 
@@ -34,10 +35,14 @@ export default function TeamRoster() {
 
                   <Faders size={36}/>
 
-                  <S.Filters>
-                     <SquaresFour size={36}/>
-                     <Rows size={36}/>
-                  </S.Filters>
+                  <ToggleGroup.Root type="single">
+                     <ToggleGroup.Item value="grid" aria-label="Alinhado por grades">
+                        <Rows size={36}/>
+                     </ToggleGroup.Item>
+                     <ToggleGroup.Item value="rows" aria-label="Alinhado por linhas">
+                        <SquaresFour size={36}/>
+                     </ToggleGroup.Item>
+                  </ToggleGroup.Root>
                </S.FilterLine>
 
             </S.MainContainer>

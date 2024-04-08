@@ -23,12 +23,9 @@ export const MainContainer = styled.div`
 
 export const FilterLine = styled.div`
    display: flex;
+   align-items: center;
    margin: 0;
    padding: 0;
    color: ${Colors.orange500};
    gap: 1rem;
-`
-
-export const Filters = styled.div`
-   display: flex;
 `
