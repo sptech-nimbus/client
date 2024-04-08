@@ -10,10 +10,24 @@ import * as S from "./Team.styled"
 
 export default function TeamRoster() {
    const [search, setSearch] = useState('');
+   const [gridState, setGridState] = useState('');
+   const [tableState, setTableState] = useState('');
 
    function handleSearchChange(e) {
       const { value } = e.target;
       setSearch(value);
+   }
+
+   function handleGridStateChange(e) {
+      const { value } = e.target;
+      setGridState(!gridState);
+      if(tableState) setTableState(!setTableState);
+   }
+
+   function handleTableStateChange(e) {
+      const { value } = e.target;
+      setTableState(!tableState);
+      if(gridState) setGridState(!setGridState);
    }
 
    return(
@@ -35,11 +49,11 @@ export default function TeamRoster() {
 
                   <Faders size={36}/>
 
-                  <ToggleGroup.Root type="single">
-                     <ToggleGroup.Item value="grid" aria-label="Alinhado por grades">
+                  <ToggleGroup.Root type="single" defaultValue={"grid"}>
+                     <ToggleGroup.Item value="grid" aria-label="Alinhado por grades" dataState={gridState} onClick={handleGridStateChange}>
                         <Rows size={36}/>
                      </ToggleGroup.Item>
-                     <ToggleGroup.Item value="rows" aria-label="Alinhado por linhas">
+                     <ToggleGroup.Item value="rows" aria-label="Alinhado por linhas" dataState={tableState} onClick={handleTableStateChange}>
                         <SquaresFour size={36}/>
                      </ToggleGroup.Item>
                   </ToggleGroup.Root>

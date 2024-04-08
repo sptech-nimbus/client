@@ -8,9 +8,15 @@ function ToggleGroupRoot({children, type}) {
    )
 }
 
-function ToggleGroupItem({children}) {
+function ToggleGroupItem({children, dataState, onClick}) {
+   if(dataState) {
+      dataState = "on"
+   }
+   else {
+      dataState = "off"
+   }
    return(
-      <S.Item>
+      <S.Item data-state={dataState} onClick={onClick}>
          {children}
       </S.Item>
    )

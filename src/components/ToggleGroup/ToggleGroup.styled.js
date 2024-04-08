@@ -18,6 +18,7 @@ export const Item = styled(TG.Item)`
   justify-content: center;
   color: ${Colors.gray100};
   border: none;
+  cursor: pointer;
 
   &:first-child {
     margin-left: 0;
@@ -30,12 +31,12 @@ export const Item = styled(TG.Item)`
     border-bottom-right-radius: 4px;
   }
 
- &:hover {
-  background-color: ${Colors.gray600};
- }
-`
+  &:hover {
+    background-color: ${Colors.gray600};
+  }
 
-const ItemDateSate = styled(TG.Item).attrs({"data-state": "on"})`
+  &[data-state="on"] {
     background-color: ${Colors.orange500};
-    color: ${Colors.gray100};
+    color: ${Colors.orange100};
+  }
 `
