@@ -4,14 +4,16 @@ import Title from "@components/Title/Title";
 import Input from "@components/Input/Input";
 import ToggleGroup from "@components/ToggleGroup/ToggleGroup";
 
+import TeamGrid from "./TeamGrid";
+
 import { MagnifyingGlass, SquaresFour, Rows, Faders } from "@phosphor-icons/react";
 
 import * as S from "./Team.styled"
 
 export default function TeamRoster() {
    const [search, setSearch] = useState('');
-   const [gridState, setGridState] = useState('');
-   const [tableState, setTableState] = useState('');
+   const [gridState, setGridState] = useState(true);
+   const [tableState, setTableState] = useState(false);
 
    function handleSearchChange(e) {
       const { value } = e.target;
@@ -20,13 +22,18 @@ export default function TeamRoster() {
 
    function handleGridStateChange(e) {
       const { value } = e.target;
-      setGridState(!gridState);
+      if(tableState) {
+         setGridState(!gridState);
+      }
       if(tableState) setTableState(!setTableState);
    }
 
    function handleTableStateChange(e) {
       const { value } = e.target;
-      setTableState(!tableState);
+      if(gridState) {
+         setTableState(!tableState);
+      }
+
       if(gridState) setGridState(!setGridState);
    }
 
@@ -35,9 +42,7 @@ export default function TeamRoster() {
          <Sidebar page='team'/>
          <S.ContentContainer>
             <Title text="Elenco" uppercase size='3rem'/>
-            <S.MainContainer>
-
-               <S.FilterLine>
+            <S.FilterLine>
                   <Input.Default
                   value={search}
                   onChange={handleSearchChange}
@@ -51,14 +56,15 @@ export default function TeamRoster() {
 
                   <ToggleGroup.Root type="single" defaultValue={"grid"}>
                      <ToggleGroup.Item value="grid" aria-label="Alinhado por grades" dataState={gridState} onClick={handleGridStateChange}>
-                        <Rows size={36}/>
+                        <SquaresFour size={36}/>
                      </ToggleGroup.Item>
                      <ToggleGroup.Item value="rows" aria-label="Alinhado por linhas" dataState={tableState} onClick={handleTableStateChange}>
-                        <SquaresFour size={36}/>
+                        <Rows size={36}/>
                      </ToggleGroup.Item>
                   </ToggleGroup.Root>
                </S.FilterLine>
-
+            <S.MainContainer>
+               <TeamGrid />
             </S.MainContainer>
          </S.ContentContainer>
       </S.PageContainer>
