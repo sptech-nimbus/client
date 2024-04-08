@@ -13,7 +13,7 @@ export const Trigger = styled(T.Trigger)`
    border: none;
    padding: none;
    margin: none;
-   color: ${props => props.color? props.color : Colors.orange100};
+   color: ${props => props.color? props.color : Colors.gray100};
 `
 
 export const TriggerInput = styled(Trigger)`
