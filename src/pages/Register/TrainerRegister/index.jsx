@@ -73,14 +73,13 @@ export default function Register() {
          <S.StepperWrapper>
             <Stepper steps={3} currentStep={step}/>
          </S.StepperWrapper>
-         {/* {
+         {
          step == 1 ? 
          <FormStepOne onSubmit={handleFormSubmit} /> : 
          step == 2 ?
          <FormStepTwo onSubmit={handleFormSubmit} /> :
          <FormStepThree onSubmit={handleFormSubmit} />
-         } */}
-         <FormStepThree onSubmit={handleFormSubmit} />
+         }
       </LS.Header>
    )
 }

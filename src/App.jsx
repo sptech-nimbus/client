@@ -1,4 +1,4 @@
-import TrainerRegister from "@pages/Register/TrainerRegister";
+import TrainerRegister from "@pages/Register/TrainerRegister"
 
 function App() {
   return (
