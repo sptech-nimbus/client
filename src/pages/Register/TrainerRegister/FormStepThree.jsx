@@ -76,14 +76,21 @@ export default function FormStepThree({onSubmit}) {
    function handleSubmit(e) {
       e.preventDefault();
 
-      if(TeamCodeValidation(teamCode)) {
+       if (TeamCodeValidation(teamCode)) {
+           console.log("Enviando solicitação com o código do time existente:", teamCode);
          onSubmit(teamCode);
       }
       else if(
          TextValidation(teamName) && 
          TextValidation(category) && 
          ImageValidation(teamLogo)) 
-      {
+       {
+           console.log("Enviando solicitação com os seguintes dados:");
+           console.log("Nome do time:", teamName);
+           console.log("Categoria:", category);
+           console.log("Logo do time:", teamLogo);
+           console.log("Amador:", chkAmateur);
+
          onSubmit({teamName, category, teamLogo, chkAmateur});
       }
       else {

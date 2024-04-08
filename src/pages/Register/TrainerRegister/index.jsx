@@ -7,6 +7,7 @@ import FormStepOne from './FormStepOne';
 import FormStepTwo from './FormStepTwo';
 import FormStepThree from './FormStepThree';
 import user from '@api/user';
+import team from '@api/team';
 
 export default function Register() {
    const [step, setStep] = useState(1);
@@ -40,12 +41,13 @@ export default function Register() {
          user.post(userData);
          setStep(step + 1);
       }
-      else {
+      else if (step == 3){
          teamData.code = formData.teamCode;
          teamData.name = formData.teamName;
          teamData.category = formData.category;
          teamData.logo = formData.teamLogo;
-         teamData.isAmateur = formData.chkAmateur;
+          teamData.isAmateur = formData.chkAmateur;
+          team.post(teamData);
       }
    }
 
