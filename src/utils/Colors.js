@@ -1,4 +1,4 @@
-export const Colors = {
+const Colors = {
    //tons de laranja
    orange100: '#FFEAE0',
    orange300: '#FFA877',
@@ -15,3 +15,5 @@ export const Colors = {
    green: '#3FB03D',
    red: '#FF3838'
 }
+
+export default Colors;

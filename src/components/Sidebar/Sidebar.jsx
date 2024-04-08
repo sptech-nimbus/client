@@ -1,4 +1,5 @@
 import * as S from "./Sidebar.styled";
+import Tooltip from "@components/Tooltip/Tooltip";
 import { House, ChartDonut, NewspaperClipping, UsersFour, ChatCircleDots, CalendarBlank, Gear, Placeholder } from "@phosphor-icons/react";
 
 export default function Sidebar({page, logo, children}) {

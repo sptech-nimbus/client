@@ -1,5 +1,5 @@
 import * as LS from '@pages/Login/Login.styles'
-import { Colors } from "@utils/Colors";
+import Colors from "@utils/Colors";
 import styled from 'styled-components'
 
 export const Mandatory = styled.span`
