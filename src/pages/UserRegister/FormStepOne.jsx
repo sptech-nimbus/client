@@ -78,10 +78,10 @@ export default function FormStepOne({onSubmit}) {
       }
    }
 
-    const handleTabClick = (value) => {
-        setActiveTab(value);
-    };
-    function handleFuncs(value) {
+    
+    const handleTabClick = (value) => { {
+            setActiveTab(value);
+        };
         if (value === "treinador") {
             // Adicione a lógica específica para o botão "Treinador" aqui
             console.log("Clicou no botão Treinador");
@@ -94,15 +94,15 @@ export default function FormStepOne({onSubmit}) {
         <S.Form onSubmit={handleSubmit}>
             <S.TabsRoot>
                 <S.TabsList>
-                    <S.TabsTrigger value="treinador" onClick={() => handleTabClick("treinador")} active={activeTab === "treinador"}>
+                    <S.TabsTrigger value="treinador" onClick={(e) => { e.preventDefault(); handleTabClick("treinador"); }} active={activeTab === "treinador"}>
                         Treinador
                     </S.TabsTrigger>
-                    <S.TabsTrigger value="jogador" onClick={() => handleTabClick("jogador")} active={activeTab === "jogador"}>
+                    <S.TabsTrigger value="jogador" onClick={(e) => { e.preventDefault(); handleTabClick("jogador"); }} active={activeTab === "jogador"}>
                         Jogador
                     </S.TabsTrigger>
                 </S.TabsList>
             </S.TabsRoot>
-            <S.TabsContent value="treinador">
+            <S.TabsContent value="{activeTab}">
                 <ToastContainer
                     position={toastPosition}
                     autoClose={8000}
