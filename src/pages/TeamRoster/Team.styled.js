@@ -108,3 +108,107 @@ export const CardsContainer = styled.div`
       background: #b30000; 
    }
 `
+
+export const TableWrapper = styled.div`
+   width: 100%;
+   max-height: 70vh;
+   overflow-y: scroll;
+   padding-right: 1rem;
+
+   &::-webkit-scrollbar {
+      width: 10px;
+   }
+
+   &::-webkit-scrollbar-track {
+      border-radius: 10px;
+      background-color: ${Colors.gray700};
+   }
+
+   &::-webkit-scrollbar-thumb {
+      background: ${Colors.orange500}; 
+      border-radius: 10px;
+   }
+
+   &::-webkit-scrollbar-thumb:hover {
+      background: #b30000; 
+   }
+`
+
+export const Table = styled.table`
+   width: 100%;
+   box-sizing: border-box;
+   border-spacing: 0;
+   overflow: scroll;
+`  
+
+export const PlayerTableImage = styled.img`
+   width: 3.5rem;
+   border-radius: 0.5rem;
+`
+
+export const Thead = styled.thead`
+   background-color: ${Colors.orange500};
+   position: sticky;
+   top: 0; 
+   background-color: #f8f9fa; 
+   z-index: 1; 
+`
+
+export const Tbody = styled.tbody`
+   background-color: ${Colors.gray800};
+`
+
+export const Th = styled.th`
+   text-align: start;
+   background-color: ${Colors.orange500};
+   padding: 1rem 1.8rem;
+   font-family: "Catamaran";
+   font-weight: 800;
+   font-size: 1.2rem;
+
+   &:first-child {
+      border-top-left-radius: 1rem;
+   }
+
+   &:last-child {
+      border-top-right-radius: 1rem;
+   }
+`
+
+export const ThImg = styled(Th)`
+   width: 5vw;
+`
+
+export const ThActions = styled(Th)`
+   width: 5vw;
+`
+
+export const Td = styled.td`
+   padding: 1.2rem 1.8rem;
+`
+
+export const TdActions = styled(Td)`
+   display: flex;
+   gap: .5rem;
+`
+
+export const EditButton = styled.button`
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   font-size: 1.5rem;
+   border: none;
+   padding: .5rem;
+   color: ${Colors.gray100};
+   border-radius: .5rem;
+   background-color: ${Colors.green};
+   cursor: pointer;
+`
+
+export const DeleteButton = styled(EditButton)`
+   background-color: ${Colors.red};
+`
+
+export const InfoButton = styled(EditButton)`
+   background-color: ${Colors.orange500};
+`

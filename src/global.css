@@ -28,6 +28,10 @@
     --toastify-toast-width: 420px;
 }
 
+* {
+  box-sizing: border-box;
+}
+
 body {
   margin: 0;
   display: flex;
