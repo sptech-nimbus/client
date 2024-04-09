@@ -64,7 +64,9 @@ export default function TeamRoster() {
                   </ToggleGroup.Root>
                </S.FilterLine>
             <S.MainContainer>
-               <TeamGrid />
+               {gridState ?
+               <TeamGrid /> :
+               <TeamTable />}
             </S.MainContainer>
          </S.ContentContainer>
       </S.PageContainer>

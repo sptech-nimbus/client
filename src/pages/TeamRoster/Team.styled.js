@@ -13,7 +13,8 @@ export const ContentContainer = styled.div`
    flex-direction: column;
    width: 95vw;
    height: 100vh;
-   padding: 1rem 3rem;
+   padding: 1rem 8rem;
+   gap: 1.2rem;
 `
 
 export const MainContainer = styled.div`
