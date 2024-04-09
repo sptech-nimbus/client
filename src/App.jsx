@@ -1,9 +1,9 @@
-import TeamRoster from "@pages/TeamRoster";
+import TrainerRegister from "@pages/Register/index";
 
 function App() {
   return (
     <>
-      <TeamRoster />
+          <TrainerRegister />
     </>
   )
 }
