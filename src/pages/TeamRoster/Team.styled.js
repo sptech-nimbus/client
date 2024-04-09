@@ -5,7 +5,6 @@ export const PageContainer = styled.div`
    display: flex;
    width: 100vw;
    height: 100vh;
-   background-color: ${Colors.gray900};
 `
 
 export const ContentContainer = styled.div`
@@ -13,7 +12,8 @@ export const ContentContainer = styled.div`
    flex-direction: column;
    width: 95vw;
    height: 100vh;
-   padding: 1rem 3rem;
+   padding: 1rem 8rem;
+   gap: 2rem;
 `
 
 export const MainContainer = styled.div`
@@ -31,8 +31,8 @@ export const FilterLine = styled.div`
 `
 
 export const PlayerImage = styled.image`
-   width: 200px;
-   height: 200px;
+   width: 250px;
+   height: 250px;
    background-color: ${Colors.gray200};
    border-radius: 1rem;
 `
@@ -76,5 +76,35 @@ export const ShowInfoButton = styled.button`
 
    &:hover {
       background-color: ${Colors.orange300};
+   }
+`
+
+export const CardsContainer = styled.div`
+   display: flex;
+   width: 100%;
+   max-height: 70vh;
+   overflow-y: scroll;
+   justify-content: space-between;
+   align-items: start;
+   flex-wrap: wrap;
+   gap: 3rem;
+   padding-right: 1rem;
+
+   &::-webkit-scrollbar {
+      width: 10px;
+   }
+
+   &::-webkit-scrollbar-track {
+      border-radius: 10px;
+      background-color: ${Colors.gray700};
+   }
+
+   &::-webkit-scrollbar-thumb {
+      background: ${Colors.orange500}; 
+      border-radius: 10px;
+   }
+
+   &::-webkit-scrollbar-thumb:hover {
+      background: #b30000; 
    }
 `

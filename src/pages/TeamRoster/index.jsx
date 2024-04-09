@@ -3,6 +3,7 @@ import Sidebar from "@components/Sidebar/Sidebar";
 import Title from "@components/Title/Title";
 import Input from "@components/Input/Input";
 import ToggleGroup from "@components/ToggleGroup/ToggleGroup";
+import Background from "@components/Background/Background";
 
 import TeamGrid from "./TeamGrid";
 
@@ -37,8 +38,33 @@ export default function TeamRoster() {
       if(gridState) setGridState(!setGridState);
    }
 
+
+   const players = [
+      { firstName: 'Alice', lastName: 'Smith', position: 'Armador' },
+      { firstName: 'Bob', lastName: 'Johnson', position: 'Ala-Armador' },
+      { firstName: 'Charlie', lastName: 'Williams', position: 'Ala' },
+      { firstName: 'David', lastName: 'Jones', position: 'Ala-Pivô' },
+      { firstName: 'Emma', lastName: 'Brown', position: 'Pivô' },
+      { firstName: 'Ethan', lastName: 'Davis', position: 'Pivô' },
+      { firstName: 'Grace', lastName: 'Miller', position: 'Pivô' },
+      { firstName: 'Henry', lastName: 'Wilson', position: 'Pivô' },
+      { firstName: 'Isabella', lastName: 'Moore', position: 'Pivô' },
+      { firstName: 'Jack', lastName: 'Taylor', position: 'Pivô' },
+      { firstName: 'Sophia', lastName: 'Anderson', position: 'Pivô' },
+      { firstName: 'Liam', lastName: 'Martinez', position: 'Pivô' },
+      { firstName: 'Olivia', lastName: 'Thompson', position: 'Pivô' },
+      { firstName: 'Noah', lastName: 'Garcia', position: 'Pivô' },
+      { firstName: 'Ava', lastName: 'Martinez', position: 'Pivô' },
+      { firstName: 'William', lastName: 'Robinson', position: 'Pivô' },
+      { firstName: 'Mia', lastName: 'Clark', position: 'Pivô' },
+      { firstName: 'James', lastName: 'Rodriguez', position: 'Pivô' },
+      { firstName: 'Charlotte', lastName: 'Lewis', position: 'Pivô' },
+      { firstName: 'Benjamin', lastName: 'Lee', position: 'Pivô' }
+  ];  
+
    return(
       <S.PageContainer>
+         <Background.Default />
          <Sidebar page='team'/>
          <S.ContentContainer>
             <Title text="Elenco" uppercase size='3rem'/>
@@ -64,7 +90,7 @@ export default function TeamRoster() {
                   </ToggleGroup.Root>
                </S.FilterLine>
             <S.MainContainer>
-               <TeamGrid />
+               <TeamGrid players={players}/>
             </S.MainContainer>
          </S.ContentContainer>
       </S.PageContainer>
