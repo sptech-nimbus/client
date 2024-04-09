@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Colors } from "@utils/Colors";
+import Colors from "@utils/Colors";
 import { House, ChartDonut, NewspaperClipping, UsersFour, ChatCircleDots, CalendarBlank, Gear } from "@phosphor-icons/react";
 
 export const Icon = styled.div`

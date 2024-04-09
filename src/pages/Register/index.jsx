@@ -1,11 +1,11 @@
 import { useState } from 'react';
-import * as S from './Register.styled';
+import * as S from '../Register/assets/Register.styled';
 import * as LS from '@pages/Login/Login.styles';
 import Background from '@components/Background/Background';
 import Stepper from '@components/Stepper/Stepper';
-import FormStepOne from './FormStepOne';
-import FormStepTwo from './FormStepTwo';
-import FormStepThree from './FormStepThree';
+import FormStepOne from '../UserRegister/FormStepOne';
+import FormStepTwo from '../UserRegister/TrainerRegister/FormStepTwo';
+import FormStepThree from '../UserRegister/TrainerRegister/FormStepThree';
 import user from '@api/user';
 import team from '@api/team';
 

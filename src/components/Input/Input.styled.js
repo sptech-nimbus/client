@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Colors } from "@utils/Colors";
+import Colors from "@utils/Colors";
 import { IMaskInput } from "react-imask";
 
 const inputColor = props => props.disabled ? '#303030' : '#212121'
@@ -19,7 +19,7 @@ export const Wrapper = styled.div`
    gap: 8px;
    background-color: ${inputColor};
    border: 1px solid ${Colors.gray600};
-   padding: 0.7rem 1rem;
+   padding: 0.5rem 0.8rem;
    border-radius: 0.6rem;
    transition: all .1s;
    color: #7D7D7D;
@@ -31,7 +31,6 @@ export const Wrapper = styled.div`
 `
 
 export const Input = styled.input`
-   width: 100%;
    background-color: transparent;
    border: none;
    font-family: 'Poppins', sans-serif;

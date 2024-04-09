@@ -1,9 +1,9 @@
-import TrainerRegister from "@pages/Register/TrainerRegister";
+import TrainerRegister from "@pages/Register/index";
 
 function App() {
   return (
     <>
-      <TrainerRegister />
+          <TrainerRegister />
     </>
   )
 }

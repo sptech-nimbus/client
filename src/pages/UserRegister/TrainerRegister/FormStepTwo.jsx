@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import * as S from './Register.styled';
+import * as S from '../../Register/assets/Register.styled';
 import * as LS from '../../Login/Login.styles';
 import Label from '@components/Label/Label';
 import Input from '@components/Input/Input';
@@ -74,7 +74,8 @@ export default function FormStepTwo({onSubmit}) {
          ConfirmPasswordValidation(password, confirmPassword) &&
          BrPhoneValidation(phone)) 
       {
-         onSubmit({email, phone, password});
+         let formattedPhone = phone.replace(" ", "").replace("(", "").replace(")", "").replace("-", "");
+         onSubmit({email, formattedPhone, password});
       }
       else {
          if(!EmailValidation(email)) toast.error('Email inválido.');
