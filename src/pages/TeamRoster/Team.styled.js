@@ -30,7 +30,7 @@ export const FilterLine = styled.div`
    gap: 1rem;
 `
 
-export const PlayerImage = styled.image`
+export const PlayerImage = styled.img`
    width: 250px;
    height: 250px;
    background-color: ${Colors.gray200};
@@ -82,10 +82,11 @@ export const ShowInfoButton = styled.button`
 export const CardsContainer = styled.div`
    display: flex;
    width: 100%;
+   height: ${props => props.hasData ? 'fit-content' : '70vh'};;
    max-height: 70vh;
-   overflow-y: scroll;
-   justify-content: space-between;
-   align-items: start;
+   overflow-y: ${props => props.hasData ? "scroll" : "hidden"};
+   justify-content: ${props => props.hasData ? 'space-between' : 'center'};
+   align-items: ${props => props.hasData ? 'start' : 'center'};
    flex-wrap: wrap;
    gap: 3rem;
    padding-right: 1rem;
@@ -150,7 +151,6 @@ export const Thead = styled.thead`
    background-color: ${Colors.orange500};
    position: sticky;
    top: 0; 
-   background-color: #f8f9fa; 
    z-index: 1; 
 `
 
@@ -211,4 +211,11 @@ export const DeleteButton = styled(EditButton)`
 
 export const InfoButton = styled(EditButton)`
    background-color: ${Colors.orange500};
+`
+
+export const NotFoundMessage = styled.span`
+   color: #a6a6a6;
+   font-family: 'Catamaran';
+   font-weight: 800;
+   font-size: 2rem;
 `
