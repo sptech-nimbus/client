@@ -13,7 +13,7 @@ export default function TeamTable({players}) {
                <S.Td><S.PlayerTableImage src={player.picture} alt={`Imagem do jogador ${player.firstName} ${player.lastName}`} /></S.Td>
                <S.Td>{`${player.firstName} ${player.lastName}`}</S.Td>
                <S.Td>{player.position}</S.Td>
-               <S.Td>{CalcAge(player.birthDate)}</S.Td>
+               <S.Td>{`${CalcAge(player.birthDate)} anos`}</S.Td>
                <S.Td>{player.number}</S.Td>
                <S.TdActions>
                   <S.InfoButton>
