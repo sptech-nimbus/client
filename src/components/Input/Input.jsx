@@ -10,7 +10,6 @@ function InputDefault({type, placeholder, children, width, fontSize, onChange, v
                <S.Input
                type={type ? type : 'text'}
                placeholder={placeholder}
-               
                fontSize={fontSize}
                value={value}
                onChange={onChange}
