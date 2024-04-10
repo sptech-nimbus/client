@@ -9,9 +9,9 @@ export default function TeamTable({players}) {
    if(players && players.length > 0) {
       playerRows = players.map(player => {
          return (
-            <tr key={player.firstName + player.lastName}>
+            <tr key={player.fullName}>
                <S.Td><S.PlayerTableImage src={player.picture} alt={`Imagem do jogador ${player.firstName} ${player.lastName}`} /></S.Td>
-               <S.Td>{`${player.firstName} ${player.lastName}`}</S.Td>
+               <S.Td>{player.fullName}</S.Td>
                <S.Td>{player.position}</S.Td>
                <S.Td>{`${CalcAge(player.birthDate)} anos`}</S.Td>
                <S.Td>{player.number}</S.Td>

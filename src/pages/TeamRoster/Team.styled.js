@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import Colors from "@utils/Colors";
+import { MagnifyingGlass } from "@phosphor-icons/react";
 
 export const PageContainer = styled.div`
    display: flex;
@@ -161,7 +162,7 @@ export const Tbody = styled.tbody`
 export const Th = styled.th`
    text-align: start;
    background-color: ${Colors.orange500};
-   padding: 1rem 1.8rem;
+   padding: 0.5rem 1.8rem;
    font-family: "Catamaran";
    font-weight: 800;
    font-size: 1.2rem;
@@ -218,4 +219,13 @@ export const NotFoundMessage = styled.span`
    font-family: 'Catamaran';
    font-weight: 800;
    font-size: 2rem;
+`
+
+export const SearchIcon = styled(MagnifyingGlass)`
+   cursor: pointer;
+   transition: all .2s ease-in;
+    
+   &:hover {
+      color: ${Colors.orange500};
+   }
 `

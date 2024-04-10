@@ -10,10 +10,10 @@ export default function TeamGrid({players}) {
       hasData = true;
       playerCards =  players.map(player => {
          return (
-            <Card width="250px">
+            <Card width="250px" key={player.fullName}>
             <S.PlayerImage src={player.picture}/>
             <S.PlayerName>
-               {`${player.firstName} ${player.lastName}`}
+               {player.fullName}
             </S.PlayerName>
             <S.PlayerLine>
                <S.PlayerPosition>

@@ -31,6 +31,7 @@ export const Wrapper = styled.div`
 `
 
 export const Input = styled.input`
+   width: 100%;
    background-color: transparent;
    border: none;
    font-family: 'Poppins', sans-serif;
