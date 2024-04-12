@@ -2,32 +2,55 @@ import styled, { keyframes } from "styled-components";
 import Colors from "@utils/Colors";
 import * as D from "@radix-ui/react-dialog";
 
-export const DialogOverlay = styled(D.Overlay)` 
+export const DrawerOverlay = styled(D.Overlay)` 
    background-color: ${Colors.gray900};
    position: fixed;
    inset: 0;
    opacity: .5;
+   z-index: 1;
    transition: all .5s ease-in-out;
 `
 
-export const DialogContent = styled(D.Content)`
-   width: 40vw;
+export const DrawerContent = styled(D.Content)`
+   width: 30vw;
    height: 100vh;
-   max-width: 500px;
+   max-width: 400px;
    background-color: ${Colors.gray700};
    position: fixed;
    top: 0;
    right: 0;
+   z-index: 1;
    &:focus { outline: 'none' }
+   overflow-y: auto;
+
+   &::-webkit-scrollbar {
+      width: 8px;
+   }
+
+   &::-webkit-scrollbar-track {
+      border-radius: 10px;
+      background-color: ${Colors.gray800};
+   }
+
+   &::-webkit-scrollbar-thumb {
+      background: ${Colors.orange500}; 
+      border-radius: 10px;
+      transition: all .2s ease-in;
+   }
+
+   &::-webkit-scrollbar-thumb:hover {
+      background: ${Colors.orange300}; 
+   }
 `
 
-export const DialogTitle = styled(D.Title)`
+export const DrawerTitle = styled(D.Title)`
    width: 100%;
-   text-align: center;
+   text-align: left;
    font-family: "Catamaran", sans-serif;
+   color: ${Colors.orange500};
 `
 
-export const DialogHeader = styled.div`
+export const DrawerHeader = styled.div`
    display: flex;
    justify-content: space-between;
    align-items: center;
@@ -35,12 +58,12 @@ export const DialogHeader = styled.div`
    padding: 0 3rem;
 `
 
-export const DialogDescription = styled(D.Description)`
+export const DrawerDescription = styled(D.Description)`
    width: 100%;
-   padding: 1rem 3rem;
+   padding: 0rem 3rem;
 `
 
-export const DialogClose = styled(D.Close)`
+export const DrawerClose = styled(D.Close)`
    background: none;
    display: flex;
    align-items: center;
@@ -57,7 +80,7 @@ export const DialogClose = styled(D.Close)`
    }
 `
 
-export const DialogTrigger = styled(D.Trigger)`
+export const DrawerTrigger = styled(D.Trigger)`
    background: none;
    border: none;
    color: ${Colors.orange500};

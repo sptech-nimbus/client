@@ -5,24 +5,24 @@ import { X } from "@phosphor-icons/react";
 export function Drawer({title, children, trigger}) {
    return (
       <D.Root>
-         <S.DialogTrigger>
+         <S.DrawerTrigger>
             {trigger}
-         </S.DialogTrigger>
+         </S.DrawerTrigger>
          <D.Portal>
-            <S.DialogOverlay />
-            <S.DialogContent>
-               <S.DialogHeader>
-                  <S.DialogTitle>
+            <S.DrawerOverlay />
+            <S.DrawerContent>
+               <S.DrawerHeader>
+                  <S.DrawerTitle>
                      {title}
-                  </S.DialogTitle>
-                  <S.DialogClose>
+                  </S.DrawerTitle>
+                  <S.DrawerClose>
                      <X/>
-                  </S.DialogClose>
-               </S.DialogHeader>
-               <S.DialogDescription>
+                  </S.DrawerClose>
+               </S.DrawerHeader>
+               <S.DrawerDescription>
                   {children}
-               </S.DialogDescription>
-            </S.DialogContent>
+               </S.DrawerDescription>
+            </S.DrawerContent>
          </D.Portal>
       </D.Root>
    )

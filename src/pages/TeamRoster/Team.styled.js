@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import Colors from "@utils/Colors";
 import { MagnifyingGlass } from "@phosphor-icons/react";
+import * as ScrollArea from "@radix-ui/react-scroll-area";
 
 export const PageContainer = styled.div`
    display: flex;
@@ -93,11 +94,11 @@ export const CardsContainer = styled.div`
    padding-right: 1rem;
 
    &::-webkit-scrollbar {
-      width: 10px;
+      width: 8px;
    }
 
    &::-webkit-scrollbar-track {
-      border-radius: 10px;
+      border-radius: 8px;
       background-color: ${Colors.gray700};
    }
 
@@ -107,7 +108,7 @@ export const CardsContainer = styled.div`
    }
 
    &::-webkit-scrollbar-thumb:hover {
-      background: #b30000; 
+      background: ${Colors.orange300}; 
    }
 `
 
@@ -118,11 +119,11 @@ export const TableWrapper = styled.div`
    padding-right: 1rem;
 
    &::-webkit-scrollbar {
-      width: 10px;
+      width: 8px;
    }
 
    &::-webkit-scrollbar-track {
-      border-radius: 10px;
+      border-radius: 8px;
       background-color: ${Colors.gray700};
    }
 
@@ -132,7 +133,7 @@ export const TableWrapper = styled.div`
    }
 
    &::-webkit-scrollbar-thumb:hover {
-      background: #b30000; 
+      background: ${Colors.orange300}; 
    }
 `
 
@@ -236,11 +237,23 @@ export const FiltersContainer = styled.div`
 `
 
 export const FilterTitle = styled.h3`
-
+   font-size: 1.5rem;
 `
 
 export const Filter = styled.div`
    display: flex;
    flex-direction: column;
    gap: .2rem;
+`
+
+export const FilterDescription = styled.span`
+   font-weight: 700;
+   margin-bottom: 4px;
+   font-size: 1rem;
+`
+
+export const ScrollAreaViewport = styled(ScrollArea.Viewport)`
+   width: 100%;
+   height: 100%;
+
 `
