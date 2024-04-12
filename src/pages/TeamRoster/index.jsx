@@ -4,6 +4,7 @@ import Title from "@components/Title/Title";
 import Input from "@components/Input/Input";
 import ToggleGroup from "@components/ToggleGroup/ToggleGroup";
 import Background from "@components/Background/Background";
+import { Drawer } from "@components/Dialog/Dialog";
 
 import TeamGrid from "./TeamGrid";
 import TeamTable from "./TeamTable";
@@ -91,8 +92,14 @@ export default function TeamRoster() {
                   >
                      <S.SearchIcon onClick={SearchPlayer}/>
                   </Input.Default>
-
-                  <Faders size={36}/>
+                  
+                  <Drawer title={`Filtragem de jogadores`} trigger={<Faders size={36}/>}>
+                     <S.FiltersContainer>
+                        <S.Filter>
+                           <S.FilterTitle>Filtros por nome</S.FilterTitle>
+                        </S.Filter>
+                     </S.FiltersContainer>
+                  </Drawer>
 
                   <ToggleGroup.Root type="single" defaultValue={"grid"}>
                      <ToggleGroup.Item value="grid" aria-label="Alinhado por grades" dataState={gridState} onClick={handleGridStateChange}>

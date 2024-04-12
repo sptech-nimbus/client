@@ -9,6 +9,7 @@ const Colors = {
    gray800: '#191919',
    gray700: '#242424',
    gray600: '#323232',
+   gray500: '#5B5B5B',
    gray200: '#D7D7D7',
    gray100: '#FFF9F6',
    //tons variados
