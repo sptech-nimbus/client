@@ -25,7 +25,7 @@ export default function FormStepOne({onSubmit}) {
 
    const [toastPosition, setToastPosition] = useState('top-right');
 
-    const [activeTab, setActiveTab] = useState('treinador');
+    const [typeUser, setTypeUser] = useState('coach');
 
    const isBelow799 = useMediaQuery({ maxWidth: 799 });
    const isBelow1050 = useMediaQuery({maxWidth: 1050});
@@ -68,41 +68,35 @@ export default function FormStepOne({onSubmit}) {
    function handleSubmit(e) {
       e.preventDefault();
 
-      if(TextValidation(name) && TextValidation(lastName) && PastDateValidation(date)) {
-         onSubmit({name, lastName, date})
+       if (TextValidation(name) && TextValidation(lastName) && PastDateValidation(date)) {
+          onSubmit({ typeUser, name, lastName, date})
       }
       else {
          if(!TextValidation(name)) toast.error("O nome inserido não é válido.");
          if(!TextValidation(lastName)) toast.error("O sobrenome inserido não é válido.");
-         if(!PastDateValidation(date)) toast.error("A data de nascimento inserida não é válida. Datas futuras não são aceitas.");
+          if (!PastDateValidation(date)) toast.error("A data de nascimento inserida não é válida. Datas futuras não são aceitas.");
+          console.log({ typeUser, name, lastName, date })
       }
    }
 
     
     const handleTabClick = (value) => { {
-            setActiveTab(value);
-        };
-        if (value === "treinador") {
-            // Adicione a lógica específica para o botão "Treinador" aqui
-            console.log("Clicou no botão Treinador");
-        } else if (value === "jogador") {
-            // Adicione a lógica específica para o botão "Jogador" aqui
-            console.log("Clicou no botão Jogador");
+        setTypeUser(value);
         }
     }
     return (
         <S.Form onSubmit={handleSubmit}>
             <S.TabsRoot>
                 <S.TabsList>
-                    <S.TabsTrigger value="treinador" onClick={(e) => { e.preventDefault(); handleTabClick("treinador"); }} active={activeTab === "treinador"}>
+                    <S.TabsTrigger value="coach" onClick={(e) => { e.preventDefault(); handleTabClick("coach"); }} active={typeUser === "coach"}>
                         Treinador
                     </S.TabsTrigger>
-                    <S.TabsTrigger value="jogador" onClick={(e) => { e.preventDefault(); handleTabClick("jogador"); }} active={activeTab === "jogador"}>
+                    <S.TabsTrigger value="athlete" onClick={(e) => { e.preventDefault(); handleTabClick("athlete"); }} active={typeUser === "athlete"}>
                         Jogador
                     </S.TabsTrigger>
                 </S.TabsList>
             </S.TabsRoot>
-            <S.TabsContent value="{activeTab}">
+            <S.TabsContent value="treinador">
                 <ToastContainer
                     position={toastPosition}
                     autoClose={8000}

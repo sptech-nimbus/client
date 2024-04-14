@@ -19,7 +19,7 @@ async function getUserById(headers = {}) {
 async function postUser(body = {}, headers = {}) {
     try {
         const response = await axios.post(`${config.baseURL}/${path}`, body);
-        //console.log(response);
+        console.log(response);
         return response;
     }
     catch (err) {
