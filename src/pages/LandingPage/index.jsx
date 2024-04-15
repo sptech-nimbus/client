@@ -12,6 +12,7 @@ import Label from "@components/Label/Label";
 export default function LandingPage() {
    const [navOpen, setNavOpen] = useState(false);
    const [userEmail, setUserEmail] = useState('');
+   const [userMsg, setUserMsg] = useState('');
 
    function handleNavOpen() {
       setNavOpen(!navOpen);
@@ -20,6 +21,11 @@ export default function LandingPage() {
    function handleUserEmail(e) {
       const { value } = e.target;
       setUserEmail(value);
+   }
+
+   function handleUserMsg(e) {
+      const { value } = e.target;
+      setUserMsg(value);
    }
 
    function renderSlider() {
@@ -190,8 +196,8 @@ export default function LandingPage() {
                         <span>Sua mensagem</span>
                         <Textarea
                            placeholder='Sua mensagem aqui'
-                           value={userEmail}
-                           onChange={handleUserEmail}
+                           value={userMsg}
+                           onChange={handleUserMsg}
                            rows='10'
                         />
                      </Label>

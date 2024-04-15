@@ -18,4 +18,9 @@ export function FilterByAttr(array, attr, param) {
      const parameter = param.toLowerCase();
      return itemValue.includes(parameter);
    });
- }
+}
+
+export function ConvertDate() {
+
+}
+

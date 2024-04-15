@@ -206,6 +206,9 @@ export const ScrollDown = styled.img`
    left: ${linePadding};
    bottom: 5%;
    animation: ${rotate} 8s linear infinite;
+   -webkit-user-select: none; 
+   -ms-user-select: none; 
+   -user-select: none; 
 `
 
 // ------------- main ---------------
@@ -229,6 +232,9 @@ export const About = styled.section`
 export const Outline = styled.img`
    width: 28vw;
    animation: ${rotate} 12s linear infinite;
+   -webkit-user-select: none; 
+   -ms-user-select: none; 
+   -user-select: none; 
 `
 
 export const AboutTextContainer = styled.div`
@@ -248,6 +254,10 @@ export const WaveSvg = styled.img`
    position: absolute;
    width: 100vw;
    bottom: -.5%;
+
+   -webkit-user-select: none; 
+   -ms-user-select: none; 
+   -user-select: none; 
 `
 
 export const Comunication = styled.section`  
@@ -265,6 +275,9 @@ export const TransitionText = styled.img`
    position: absolute;
    bottom: -5%;
    z-index: 1;
+   -webkit-user-select: none; 
+   -ms-user-select: none; 
+   -user-select: none; 
 `
 
 export const ComunicationTextContainer = styled.div`
@@ -295,6 +308,9 @@ export const Mockup = styled.img`
    position: absolute;
    width: 65vw;
    bottom: -20%;
+   -webkit-user-select: none; 
+   -ms-user-select: none; 
+   -user-select: none; 
 `
 
 export const ComunicationWrapper = styled(Wrapper)`   
@@ -321,6 +337,9 @@ export const InvertedWaveSvg = styled.img`
    left: 0;
    width: 100vw;
    transform: scaleY(-1);
+   -webkit-user-select: none; 
+   -ms-user-select: none; 
+   -user-select: none; 
 `
 
 export const FeaturesWrapper = styled(Wrapper)`
@@ -352,6 +371,9 @@ export const BasketballTitle = styled.img`
    position: relative;
    top: -4%;
    height: 10rem;
+   -webkit-user-select: none; 
+   -ms-user-select: none; 
+   -user-select: none; 
 `
 
 export const FeaturesSlider = styled.div`
@@ -437,8 +459,8 @@ export const ContactForm = styled.form`
 `
 
 export const ContactText = styled.span`
-   width: 90%;
-   font-size: 1.1rem;
+   width: 85%;
+   font-size: 1.4rem;
    font-size: 'Catamaran';
    color: ${Colors.orange100};
 `
