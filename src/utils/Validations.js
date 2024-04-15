@@ -149,3 +149,4 @@ export function ImageValidation(file) {
       return true;
    }
 }
+

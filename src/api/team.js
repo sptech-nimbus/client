@@ -25,13 +25,13 @@ async function registerTeam(body = {}, headers = {}) {
     try {
         const response = await axios.post(`${config.baseURL}/${path}`, body)
             .then(response => {
-                console.log(response.data);
+            console.log(response.data);
             })
             .catch(error => {
                 console.log(error);
             });
         return response;
-    }
+}
     catch (err) {
         throw err;
     }
