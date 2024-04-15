@@ -99,3 +99,23 @@ export const InputAndIcon = styled.span`
    justify-content: center;
    gap: 8px;
 `
+
+export const Textarea = styled.textarea`
+   width: 100%;
+   background-color: transparent;
+   border: none;
+   font-family: 'Poppins', sans-serif;
+   color: ${Colors.gray100};
+   font-size: ${props => props.fontSize};
+   color-scheme: dark;
+   resize: none;
+
+   &:focus {
+      outline: none;
+      border: none;
+   }
+
+   &::placeholder {
+      color: #7D7D7D;
+   }
+`

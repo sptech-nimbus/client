@@ -9,7 +9,7 @@ export const PrimaryButton = styled.input`
       props.size == `sm` ? `.7rem` : `1rem`
    };
    padding: ${props => 
-      props.size == `md` ? `.2rem 3.3rem` : 
+      props.size == `md` ? `.5rem 3.3rem` : 
       props.size == `sm` ? `.1rem 1.5rem` : `.1rem 1.5rem`
    };
    border-radius: ${props => 

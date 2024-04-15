@@ -71,7 +71,7 @@ export const NavLogo = styled.img`
    width: 8.5vw;
    max-width: 180px;
    cursor: pointer;
-   z-index: 1;
+   z-index: 2;
 `
 
 export const Menu = styled.div`
@@ -84,7 +84,7 @@ export const Menu = styled.div`
    height: 30px;
    max-height: 50px;
    cursor: pointer;
-   z-index: 1;
+   z-index: 2;
 `
 
 export const MenuContainer = styled.div`
@@ -95,13 +95,27 @@ export const MenuContainer = styled.div`
    left: 0;
    transition: all .5s ease-in-out;
    overflow: hidden;
-   z-index: 1;
+   z-index: 2;
+`
+
+export const MenuContent = styled.div`
+   position: relative;
+`
+
+export const MenuAnimation = styled.div`
+   position: absolute;
+   top: 0;
+   left: 0;
+   width: 100%;
+   height: 100%;
 `
 
 export const AnimationContainer = styled.div`
+   position: relative;
    width: 100vw;
    height: 33.5vh;
    background-color: ${Colors.orange100};
+   z-index: 2;
 `
 
 export const Animation1st = styled(AnimationContainer)`
@@ -175,6 +189,7 @@ export const SocialMediaContainer = styled.div`
 
 export const SocialMedia = styled.img`
   width: 5%;
+  cursor: pointer;
 `
 
 export const  Wrapper = styled.div`
@@ -386,4 +401,72 @@ export const FeaturesCardText = styled.span`
 export const Highlight = styled.span`
    font-weight: 700;
    color: ${Colors.orange500};
+`
+
+export const Contact = styled.div`
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   padding-block: 3rem;
+   padding-inline: ${linePadding};
+   position: relative;
+   width: 100vw;
+   height: 90vh;
+   box-sizing: border-box;
+`
+
+export const ContactWrapper = styled.div`
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   gap: 5rem;
+`
+
+export const ContactContent = styled.div`
+   display: flex;
+   flex-direction: column;
+   gap: 3rem;
+   width: 50vw;
+`
+
+export const ContactForm = styled.form`
+   display: flex;
+   flex-direction: column;
+   gap: 1rem;
+   width: 35vw;
+`
+
+export const ContactText = styled.span`
+   width: 100%;
+   font-size: 1.1rem;
+   font-size: 'Catamaran';
+`
+
+export const Footer = styled.footer`
+   display: flex;
+   align-items: center;
+   flex-direction: column;
+   justify-content: center;
+   gap: 8px;
+   width: 100vw;
+   height: 10vh;
+`
+
+export const FooterFlex = styled.div`
+   width: fit-content;
+   height: fit-content;
+   display: flex;
+   gap: 0.5rem;
+`
+
+export const FooterLink = styled.span`
+   color: ${Colors.orange100};
+   font-weight: 600;
+   padding-inline: ${linePadding};
+   cursor: pointer;
+`
+
+export const FooterSocialMedia = styled.img`
+   width: 1.5vw;
+   cursor: pointer;
 `

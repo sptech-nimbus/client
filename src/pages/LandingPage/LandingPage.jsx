@@ -5,12 +5,21 @@ import Colors from "@utils/Colors";
 
 import Background from '@components/Background/Background';
 import Title from "@components/Title/Title";
+import { InputDefault as Input, InputTextarea as Textarea } from "@components/Input/Input";
+import { PrimaryButton as Button} from "@components/Button/Button";
+import Label from "@components/Label/Label";
 
 export default function LandingPage() {
    const [navOpen, setNavOpen] = useState(false);
+   const [userEmail, setUserEmail] = useState('');
 
    function handleNavOpen() {
       setNavOpen(!navOpen);
+   }
+
+   function handleUserEmail(e) {
+      const { value } = e.target;
+      setUserEmail(value);
    }
 
    function renderSlider() {
@@ -39,9 +48,15 @@ export default function LandingPage() {
             <Background.Default />
             {navOpen &&
                <S.MenuContainer state={navOpen}>
-                  <S.Animation1st />    
-                  <S.Animation2nd />    
-                  <S.Animation3rd />
+                  <S.MenuAnimation>
+                     <S.Animation1st />
+                     <S.Animation2nd />
+                     <S.Animation3rd />
+                  </S.MenuAnimation>
+
+                  <S.MenuContent>
+                     asd
+                  </S.MenuContent>
                </S.MenuContainer>
             }
             <S.Navbar>
@@ -145,17 +160,62 @@ export default function LandingPage() {
                         O treinador pode <S.Highlight>registrar anotações</S.Highlight> sobre o desempenho individual e coletivo da equipe, <S.Highlight>durante treinos e partidas</S.Highlight> e compartilhar essas anotações com o time.
                      </S.FeaturesCardText>
                   </S.FeaturesCard>
-
-                  <S.FeaturesCard>
-                     <Title text='Anotações' uppercase/>
-                     <S.FeaturesCardText>
-                        O treinador pode <S.Highlight>registrar anotações</S.Highlight> sobre o desempenho individual e coletivo da equipe, <S.Highlight>durante treinos e partidas</S.Highlight> e compartilhar essas anotações com o time.
-                     </S.FeaturesCardText>
-                  </S.FeaturesCard>
                </S.FeaturesCardContainer>
                </S.FeaturesWrapper>
             </S.Features>
+
+            <S.Contact>
+               <Background.Default />
+               <S.ContactWrapper>
+                  <S.ContactContent>
+                     <Title
+                     text='Dúvidas, sugestões ou reclamações?'
+                     color={Colors.orange100}
+                     uppercase
+                     size='4rem'/>
+                     <S.ContactText>
+                        Estamos prontos para ouvir você. Valorizamos suas opiniões e feedback para melhorar nossos serviços. Não enviamos spam, apenas queremos oferecer a melhor experiência possível. Se surgir alguma dúvida ou precisar de suporte, estamos aqui para ajudar. Por favor, compartilhe suas ideias ou preocupações conosco abaixo. Aguardamos sua mensagem!
+                     </S.ContactText>
+                  </S.ContactContent>
+                  <S.ContactForm>
+                     <Label>
+                        <span>E-mail</span>
+                        <Input
+                           placeholder='seu@email.com'
+                           value={userEmail}
+                           onChange={handleUserEmail}
+                        />
+                     </Label>
+                     <Label>
+                        <span>Sua mensagem</span>
+                        <Textarea
+                           placeholder='Sua mensagem aqui'
+                           value={userEmail}
+                           onChange={handleUserEmail}
+                           rows='10'
+                        />
+                     </Label>
+                     <Button
+                     value='Enviar e-mail'
+                     size='md'
+                     fontSize='1.5rem'
+                     />
+                  </S.ContactForm>
+               </S.ContactWrapper>
+            </S.Contact>
          </S.Main>
+
+         <S.Footer>
+            <S.FooterFlex>
+               <S.FooterSocialMedia src='/public/assets/github-logo.svg'/>
+               <S.FooterSocialMedia src='/public/assets/instagram-logo.svg'/>
+            </S.FooterFlex>
+            <S.Flex>
+               <S.FooterLink>Voltar para o início.</S.FooterLink>
+               <S.FooterLink>Projeto © 2024. All Rights reserved</S.FooterLink>
+               <S.FooterLink>Privacidade & Termos</S.FooterLink>
+            </S.Flex>
+         </S.Footer>
       </>
    )
 }
