@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 import Colors from "@utils/Colors";
 import { MagnifyingGlass } from "@phosphor-icons/react";
-import * as ScrollArea from "@radix-ui/react-scroll-area";
 
 export const PageContainer = styled.div`
    display: flex;
@@ -250,10 +249,4 @@ export const FilterDescription = styled.span`
    font-weight: 700;
    margin-bottom: 4px;
    font-size: 1rem;
-`
-
-export const ScrollAreaViewport = styled(ScrollArea.Viewport)`
-   width: 100%;
-   height: 100%;
-
 `

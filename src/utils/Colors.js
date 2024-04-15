@@ -1,9 +1,9 @@
 const Colors = {
    //tons de laranja
-   orange100: '#FFEAE0',
-   orange300: '#FFA877',
-   orange500: '#FF7425',
    orange600: '#CE5F20',
+   orange500: '#FF7425',
+   orange300: '#FFA877',
+   orange100: '#FFEAE0',
    //tons de cinza/preto
    gray900: '#131313',
    gray800: '#191919',

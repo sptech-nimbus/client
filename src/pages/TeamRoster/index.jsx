@@ -14,7 +14,6 @@ import TeamTable from "./TeamTable";
 import { FilterByAttr } from "@utils/Helpers";
 
 import { MagnifyingGlass, SquaresFour, Rows, Faders } from "@phosphor-icons/react";
-import * as ScrollArea from "@radix-ui/react-scroll-area";
 
 import * as S from "./Team.styled"
 

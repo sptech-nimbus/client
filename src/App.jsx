@@ -1,9 +1,9 @@
-import TeamRoster from "@pages/TeamRoster";
+import LandingPage from "@pages/LandingPage/LandingPage";
 
 function App() {
   return (
     <>
-      <TeamRoster />
+      <LandingPage />
     </>
   )
 }
