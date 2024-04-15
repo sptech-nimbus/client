@@ -15,7 +15,7 @@ import { useMediaQuery } from 'react-responsive';
 import { ToastContainer, toast } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 
-export default function FormStepThree({onSubmit}) {
+export default function FormStepThree({ onSubmit }) {
     const [teamName, setTeamName] = useState('');
     const [teamCode, setTeamCode] = useState('');
     const [category, setCategory] = useState('');
@@ -84,15 +84,14 @@ export default function FormStepThree({onSubmit}) {
         e.preventDefault();
 
         if (TeamCodeValidation(teamCode)) {
-            console.log("Enviando solicita√ß√£o com o c√≥digo do time existente:", teamCode);
+            console.log("Enviando solicitaÁ„o com o cÛdigo do time existente:", teamCode);
             onSubmit(teamCode);
         }
         else if (
-            TextValidation(teamName) && 
-            TextValidation(category) && 
-            ImageValidation(teamLogo)) 
-        {
-            console.log("Enviando solicita√ß√£o com os seguintes dados:");
+            TextValidation(teamName) &&
+            TextValidation(category) &&
+            ImageValidation(teamLogo)) {
+            console.log("Enviando solicitaÁ„o com os seguintes dados:");
             console.log("Nome do time:", teamName);
             console.log("Categoria:", category);
             console.log("Logo do time:", teamLogo);
@@ -102,10 +101,10 @@ export default function FormStepThree({onSubmit}) {
         }
         else {
             if (teamCode) {
-                if (!TeamCodeValidation(teamCode)) toast.error('C√≥digo inserido √© inv√°lido');
+                if (!TeamCodeValidation(teamCode)) toast.error('CÛdigo inserido È inv·lido');
             } else {
-                if (!TextValidation(teamName)) toast.error('Nome do time √© inv√°lido');
-                if (!ImageValidation(teamPicture)) toast.error('A extens√£o de arquivo inserida √© inv√°lida');
+                if (!TextValidation(teamName)) toast.error('Nome do time È inv·lido');
+                if (!ImageValidation(teamPicture)) toast.error('A extens„o de arquivo inserida È inv·lida');
             }
         }
     }
@@ -123,10 +122,10 @@ export default function FormStepThree({onSubmit}) {
                 draggable
                 theme="dark"
                 limit={3}
-            /> 
+            />
             <LS.InputsContainer>
                 <Label>
-            C√≥digo do time existente
+                    CÛdigo do time existente
                     <S.InputLine>
                         <Input.Default
                             placeholder={'1A2B3C'}
@@ -140,11 +139,11 @@ export default function FormStepThree({onSubmit}) {
                         {
                             !isBelow799 &&
                             <Tooltip side='right' open={teamCodeTtpOpen} onHover={handleTeamCodeTtpChange}>
-                                    <span>
-                                        O c√≥digo do time √© disponibilizado pelo treinador atual do time que deseja se cadastrar. Caso haja
-                                        uma passagem de responsabilidade, contate o treinador do time em quest√£o e pe√ßa para ele gerar o c√≥digo.
-                                    </span>
-                                </Tooltip>
+                                <span>
+                                    O cÛdigo do time È disponibilizado pelo treinador atual do time que deseja se cadastrar. Caso haja
+                                    uma passagem de responsabilidade, contate o treinador do time em quest„o e peÁa para ele gerar o cÛdigo.
+                                </span>
+                            </Tooltip>
                         }
 
                     </S.InputLine>
@@ -163,8 +162,8 @@ export default function FormStepThree({onSubmit}) {
                         {
                             !isBelow799 &&
                             <Tooltip side='right' open={teamNameTtpOpen} onHover={handleTeamNameTtpChange}>
-                                    <span>O nome do time deve possuir pelo menos 2 caracteres e n√£o deve possuir n√∫meros ou caracteres especiais.</span>
-                                </Tooltip>
+                                <span>O nome do time deve possuir pelo menos 2 caracteres e n„o deve possuir n˙meros ou caracteres especiais.</span>
+                            </Tooltip>
                         }
                     </S.InputLine>
                 </Label>
@@ -181,7 +180,7 @@ export default function FormStepThree({onSubmit}) {
                         />
                     </Label>
                     <Label>
-                        Endere√ßo do time
+                        EndereÁo do time
                         <S.InputLine>
                             <Input.Default
                                 value={local}
@@ -205,19 +204,19 @@ export default function FormStepThree({onSubmit}) {
                         {
                             !isBelow799 &&
                             <Tooltip side='right' open={teamPictureTtpOpen} onHover={handleTeamPictureTtpChange}>
-                                    <span>As extens√µes de arquivo aceitas s√£o .jpg, .jpeg e .png.</span>
-                                </Tooltip>
+                                <span>As extensıes de arquivo aceitas s„o .jpg, .jpeg e .png.</span>
+                            </Tooltip>
                         }
                     </S.InputLine>
                 </Label>
-                <Checkbox 
-                    id={'isAmateur'} 
-                    label={'Sou um time amador.'} 
+                <Checkbox
+                    id={'isAmateur'}
+                    label={'Sou um time amador.'}
                     checked={chkAmateur}
                     onClick={handleChkAmateur}
                 />
             </LS.InputsContainer>
-            <Button.Primary 
+            <Button.Primary
                 value={'Continuar'}
                 size={'md'}
                 width={'100%'}

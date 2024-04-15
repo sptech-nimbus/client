@@ -12,7 +12,17 @@ async function getUserById(headers = {}) {
         return response;
     }
     catch (err) {
-        throw err
+        throw err;
+    }
+}
+
+async function getUserSpecific(headers = {}) {
+    try {
+        const response = await axios.get(`${config.baseURL}/${payh}/specific`, headers);
+        return response;
+    }
+    catch (err) {
+        throw err;
     }
 }
 
@@ -69,6 +79,7 @@ async function login(body, headers = {}) {
 
 const user = {
     get: getUserById,
+    getSpecific: getUserSpecific,
     post: postUser,
     put: putUser,
     delete: deleteUser,
