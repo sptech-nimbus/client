@@ -437,9 +437,10 @@ export const ContactForm = styled.form`
 `
 
 export const ContactText = styled.span`
-   width: 100%;
+   width: 90%;
    font-size: 1.1rem;
    font-size: 'Catamaran';
+   color: ${Colors.orange100};
 `
 
 export const Footer = styled.footer`
