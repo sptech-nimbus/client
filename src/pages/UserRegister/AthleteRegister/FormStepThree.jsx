@@ -126,16 +126,16 @@ export default function FormStepThree({onSubmit}) {
             /> 
             <LS.InputsContainer>
                 <Label>
-            Código do time existente
+                    Altura
                     <S.InputLine>
                         <Input.Default
-                            placeholder={'1A2B3C'}
+                            placeholder={'80.00 kg'}
                             value={teamCode}
                             onChange={handleTeamCodeChange}
                             onFocus={handleTeamCodeTtpChange}
                             onBlur={handleTeamCodeTtpChange}
                             disabled={teamName || category || teamPicture ? true : false}
-                            maxLength={6}
+                            maxLength={8}
                         />
                         {
                             !isBelow799 &&
