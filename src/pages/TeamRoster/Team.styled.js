@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import Colors from "@utils/Colors";
+import { MagnifyingGlass } from "@phosphor-icons/react";
 
 export const PageContainer = styled.div`
    display: flex;
@@ -68,7 +69,7 @@ export const ShowInfoButton = styled.button`
    align-items: center;
    justify-content: center;
    border: none;
-   border-radius: 0.4rem;
+   border-radius: .4rem;
    color: ${Colors.orange100};
    background-color: ${Colors.orange500};
    cursor: pointer;
@@ -92,11 +93,11 @@ export const CardsContainer = styled.div`
    padding-right: 1rem;
 
    &::-webkit-scrollbar {
-      width: 10px;
+      width: 8px;
    }
 
    &::-webkit-scrollbar-track {
-      border-radius: 10px;
+      border-radius: 8px;
       background-color: ${Colors.gray700};
    }
 
@@ -106,7 +107,7 @@ export const CardsContainer = styled.div`
    }
 
    &::-webkit-scrollbar-thumb:hover {
-      background: #b30000; 
+      background: ${Colors.orange300}; 
    }
 `
 
@@ -117,11 +118,11 @@ export const TableWrapper = styled.div`
    padding-right: 1rem;
 
    &::-webkit-scrollbar {
-      width: 10px;
+      width: 8px;
    }
 
    &::-webkit-scrollbar-track {
-      border-radius: 10px;
+      border-radius: 8px;
       background-color: ${Colors.gray700};
    }
 
@@ -131,7 +132,7 @@ export const TableWrapper = styled.div`
    }
 
    &::-webkit-scrollbar-thumb:hover {
-      background: #b30000; 
+      background: ${Colors.orange300}; 
    }
 `
 
@@ -144,7 +145,7 @@ export const Table = styled.table`
 
 export const PlayerTableImage = styled.img`
    width: 3.5rem;
-   border-radius: 0.5rem;
+   border-radius: .5rem;
 `
 
 export const Thead = styled.thead`
@@ -161,7 +162,7 @@ export const Tbody = styled.tbody`
 export const Th = styled.th`
    text-align: start;
    background-color: ${Colors.orange500};
-   padding: 1rem 1.8rem;
+   padding: .5rem 1.8rem;
    font-family: "Catamaran";
    font-weight: 800;
    font-size: 1.2rem;
@@ -218,4 +219,34 @@ export const NotFoundMessage = styled.span`
    font-family: 'Catamaran';
    font-weight: 800;
    font-size: 2rem;
+`
+
+export const SearchIcon = styled(MagnifyingGlass)`
+   cursor: pointer;
+   transition: all .2s ease-in;
+    
+   &:hover {
+      color: ${Colors.orange500};
+   }
+`
+
+export const FiltersContainer = styled.div`
+   width: 100%;
+   height: 100%;
+`
+
+export const FilterTitle = styled.h3`
+   font-size: 1.5rem;
+`
+
+export const Filter = styled.div`
+   display: flex;
+   flex-direction: column;
+   gap: .2rem;
+`
+
+export const FilterDescription = styled.span`
+   font-weight: 700;
+   margin-bottom: 4px;
+   font-size: 1rem;
 `

@@ -2,7 +2,7 @@ import { useState } from 'react';
 import * as S from './Input.styled';
 import { Eye, EyeClosed, LockSimple } from '@phosphor-icons/react';
 
-function InputDefault({type, placeholder, children, width, fontSize, onChange, value='', disabled,...props}) {
+export function InputDefault({type, placeholder, children, width, fontSize, onChange, value='', disabled,...props}) {
    return (
          <S.Wrapper disabled={disabled} width={width}>
             <S.InputAndIcon>
@@ -21,7 +21,7 @@ function InputDefault({type, placeholder, children, width, fontSize, onChange, v
    )
 }
 
-function InputImage({type, placeholder, children, width, fontSize, onChange, disabled}) {
+export function InputImage({type, placeholder, children, width, fontSize, onChange, disabled}) {
    return (
          <S.Wrapper disabled={disabled}>
             <S.InputAndIcon>
@@ -39,7 +39,7 @@ function InputImage({type, placeholder, children, width, fontSize, onChange, dis
    )
 }
 
-function InputMasked({type, placeholder, children, width, fontSize, onChange, value='', mask, disabled,...props}) {
+export function InputMasked({type, placeholder, children, width, fontSize, onChange, value='', mask, disabled,...props}) {
    return (
          <S.Wrapper disabled={disabled}>
             <S.InputAndIcon>
@@ -60,7 +60,7 @@ function InputMasked({type, placeholder, children, width, fontSize, onChange, va
    )
 }
 
-function InputPassword({placeholder, width, fontSize, onChange, value='', hasIcon, disabled, ...props}) {
+export function InputPassword({placeholder, width, fontSize, onChange, value='', hasIcon, disabled, ...props}) {
    const [isVisible, setIsVisible] = useState(false); 
 
    const toggleVisibility = () => {
@@ -97,12 +97,28 @@ export function ContinueWithGoogle() {
    )
 }
 
+export function InputTextarea({placeholder, width, fontSize, onChange, value='', disabled, ...props}) {
+   return (
+         <S.Wrapper disabled={disabled} width={width}>
+            <S.Textarea
+            placeholder={placeholder}
+            fontSize={fontSize}
+            value={value}
+            onChange={onChange}
+            disabled={disabled}
+            {...props}
+            />
+         </S.Wrapper>
+   )
+}
+
 const Input = {
    Default: InputDefault,
    Google: ContinueWithGoogle,
    Password: InputPassword,
    Masked: InputMasked,
-   Image: InputImage
+   Image: InputImage,
+   Textarea: InputTextarea
 }
 
 export default Input;

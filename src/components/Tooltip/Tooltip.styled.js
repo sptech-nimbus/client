@@ -29,7 +29,7 @@ export const Content = styled(T.Content)`
    background-color: ${Colors.gray700};
    padding: 10px;
    border-radius: 8px;
-   font-size: 0.8rem;
+   font-size: .8rem;
    animation-name: ${props =>
    props.side == 'right'? slideRightAndFade : 
    props.side == 'top' ? slideUpAndFade :
@@ -38,12 +38,12 @@ export const Content = styled(T.Content)`
    };
    animation-duration: 400ms;
    will-change: transform, opacity;
-   animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
-   box-shadow: 0px 11px 4px rgba(0, 0, 0, 0.01), 
-               0px 6px 4px rgba(0, 0, 0, 0.05), 
-               0px 3px 3px rgba(0, 0, 0, 0.09), 
-               0px 1px 1px rgba(0, 0, 0, 0.1), 
-               0px 0px 0px rgba(0, 0, 0, 0.1);
+   animation-timing-function: cubic-bezier(.16, 1, .3, 1);
+   box-shadow: 0px 11px 4px rgba(0, 0, 0, .01), 
+               0px 6px 4px rgba(0, 0, 0, .05), 
+               0px 3px 3px rgba(0, 0, 0, .09), 
+               0px 1px 1px rgba(0, 0, 0, .1), 
+               0px 0px 0px rgba(0, 0, 0, .1);
    gap: 4px;
 
    @media (max-width: 1150px) {

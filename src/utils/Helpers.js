@@ -11,3 +11,11 @@ export function CalcAge(birthDate) {
   
   return age;
 }
+
+export function FilterByAttr(array, attr, param) {
+   return array.filter(item => {
+     const itemValue = item[attr] ? item[attr].toLowerCase() : '';
+     const parameter = param.toLowerCase();
+     return itemValue.includes(parameter);
+   });
+ }
