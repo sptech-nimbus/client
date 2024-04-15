@@ -1,9 +1,9 @@
-import TrainerRegister from "@pages/Register/index";
+import AppRoutes from "./routes.jsx";
 
 function App() {
   return (
     <>
-          <TrainerRegister />
+      <AppRoutes />
     </>
   )
 }

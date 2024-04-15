@@ -9,7 +9,7 @@ export const CheckboxContainer = styled.span`
    text-transform: capitalize;
    font-weight: 400;
    font-size: smaller;
-   padding: 0.5rem;
+   padding: .5rem;
 `
 
 export const CheckboxRoot = styled(CheckboxPrimitive.Root)`

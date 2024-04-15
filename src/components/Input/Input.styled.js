@@ -19,8 +19,8 @@ export const Wrapper = styled.div`
    gap: 8px;
    background-color: ${inputColor};
    border: 1px solid ${Colors.gray600};
-   padding: 0.5rem 0.8rem;
-   border-radius: 0.6rem;
+   padding: .5rem .8rem;
+   border-radius: .6rem;
    transition: all .1s;
    color: #7D7D7D;
    font-weight: bold;
@@ -31,6 +31,7 @@ export const Wrapper = styled.div`
 `
 
 export const Input = styled.input`
+   width: 100%;
    background-color: transparent;
    border: none;
    font-family: 'Poppins', sans-serif;
@@ -77,7 +78,7 @@ export const GoogleIcon = styled.img`
 `
 
 export const Text = styled.span`
-   font-size: 0.8rem;
+   font-size: .8rem;
    font-weight: 500;
    font-family: 'Poppins';
    color: ${Colors.gray100};
@@ -97,4 +98,24 @@ export const InputAndIcon = styled.span`
    align-items: center;
    justify-content: center;
    gap: 8px;
+`
+
+export const Textarea = styled.textarea`
+   width: 100%;
+   background-color: transparent;
+   border: none;
+   font-family: 'Poppins', sans-serif;
+   color: ${Colors.gray100};
+   font-size: ${props => props.fontSize};
+   color-scheme: dark;
+   resize: none;
+
+   &:focus {
+      outline: none;
+      border: none;
+   }
+
+   &::placeholder {
+      color: #7D7D7D;
+   }
 `

@@ -4,7 +4,7 @@ import Colors from "@utils/Colors";
 export const Step = styled.div`
    width: 1rem;
    height: 1rem;
-   background-color: ${props => props.state == 'pending' ? Colors.orange100 : Colors.orange500 };
+   background-color: ${props => props.state == 'pending' ? Colors.orange100 : Colors.orange500};
    box-sizing: border-box;
    border: 0.2rem solid ${props => props.state == 'complete' ? Colors.orange500 : Colors.orange100};
    border-radius: 50%;
@@ -33,5 +33,5 @@ export const Circle = styled.div`
    width: 0.4rem;
    height: 0.4rem;
    border-radius: 50%;
-   background-color: ${props => props.state == 'pending' ? Colors.orange100 : Colors.orange500 };
+   background-color: ${props => props.state == 'pending' ? Colors.orange100 : Colors.orange500};
 `

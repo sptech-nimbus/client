@@ -6,15 +6,15 @@ export const PrimaryButton = styled.input`
    font-size: ${props => 
       props.fontSize ? props.fontSize :
       props.size == `md` ? `1.1rem` : 
-      props.size == `sm` ? `0.7rem` : `1rem`
+      props.size == `sm` ? `.7rem` : `1rem`
    };
    padding: ${props => 
-      props.size == `md` ? `0.2rem 3.3rem` : 
-      props.size == `sm` ? `0.1rem 1.5rem` : `0.1rem 1.5rem`
+      props.size == `md` ? `.5rem 3.3rem` : 
+      props.size == `sm` ? `.1rem 1.5rem` : `.1rem 1.5rem`
    };
    border-radius: ${props => 
-      props.size == `md` ? `0.8rem` : 
-      props.size == `sm` ? `0.5rem` : '0.5rem'
+      props.size == `md` ? `.8rem` : 
+      props.size == `sm` ? `.5rem` : '.5rem'
    };
    border: ${props => 
       props.size == `md` ? `3px` : 
