@@ -1,9 +1,9 @@
-import LandingPage from "@pages/LandingPage/LandingPage";
+import AppRoutes from "./routes.jsx";
 
 function App() {
   return (
     <>
-      <LandingPage />
+      <AppRoutes />
     </>
   )
 }
