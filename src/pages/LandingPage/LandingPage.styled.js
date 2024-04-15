@@ -208,7 +208,7 @@ export const ScrollDown = styled.img`
    animation: ${rotate} 8s linear infinite;
    -webkit-user-select: none; 
    -ms-user-select: none; 
-   -user-select: none; 
+   user-select: none; 
 `
 
 // ------------- main ---------------
@@ -234,7 +234,7 @@ export const Outline = styled.img`
    animation: ${rotate} 12s linear infinite;
    -webkit-user-select: none; 
    -ms-user-select: none; 
-   -user-select: none; 
+   user-select: none; 
 `
 
 export const AboutTextContainer = styled.div`
@@ -257,7 +257,7 @@ export const WaveSvg = styled.img`
 
    -webkit-user-select: none; 
    -ms-user-select: none; 
-   -user-select: none; 
+   user-select: none; 
 `
 
 export const Comunication = styled.section`  
@@ -277,7 +277,7 @@ export const TransitionText = styled.img`
    z-index: 1;
    -webkit-user-select: none; 
    -ms-user-select: none; 
-   -user-select: none; 
+   user-select: none; 
 `
 
 export const ComunicationTextContainer = styled.div`
@@ -310,7 +310,7 @@ export const Mockup = styled.img`
    bottom: -20%;
    -webkit-user-select: none; 
    -ms-user-select: none; 
-   -user-select: none; 
+   user-select: none; 
 `
 
 export const ComunicationWrapper = styled(Wrapper)`   
@@ -339,7 +339,7 @@ export const InvertedWaveSvg = styled.img`
    transform: scaleY(-1);
    -webkit-user-select: none; 
    -ms-user-select: none; 
-   -user-select: none; 
+   user-select: none; 
 `
 
 export const FeaturesWrapper = styled(Wrapper)`
@@ -373,7 +373,7 @@ export const BasketballTitle = styled.img`
    height: 10rem;
    -webkit-user-select: none; 
    -ms-user-select: none; 
-   -user-select: none; 
+   user-select: none; 
 `
 
 export const FeaturesSlider = styled.div`
@@ -460,7 +460,7 @@ export const ContactForm = styled.form`
 
 export const ContactText = styled.span`
    width: 85%;
-   font-size: 1.4rem;
+   font-size: 1.2rem;
    font-size: 'Catamaran';
    color: ${Colors.orange100};
 `
