@@ -381,7 +381,7 @@ export const ComunicationWrapper = styled(Wrapper)`
 export const Features = styled.section`
    position: relative;
    width: 100vw;
-   height: 130vh;
+   height: 135vh;
    align-items: flex-end;
    justify-content: flex-end;
    background-color: ${Colors.orange100};
@@ -467,14 +467,24 @@ export const FeaturesCard = styled.div`
    display: flex;
    gap: 1rem;
    flex-direction: column;
+   padding: 1.2rem;
+   border-radius: .8rem;
+   transition: all .2s ease-in;
+   border: 1px solid transparent;
+   cursor: pointer;
+
+   &:hover {
+      background: rgba(255, 247, 243, 1);
+      backdrop-filter: blur(12.5px);
+      -webkit-backdrop-filter: blur(12.5px);
+      border: 1px solid rgba(255, 234, 224, 0.54);
+   }
 `
 
 export const FeaturesCardText = styled.span`
    color: ${Colors.gray900};
    font-size: 1.2rem;
    font-weight: 500;
-   height: 300px;
-   max-height: 300px;
 `
 
 export const Highlight = styled.span`
@@ -517,7 +527,7 @@ export const ContactForm = styled.form`
 
 export const ContactText = styled.span`
    width: 85%;
-   font-size: 1.2rem;
+   font-size: 1rem;
    font-size: 'Catamaran';
    color: ${Colors.orange100};
 `

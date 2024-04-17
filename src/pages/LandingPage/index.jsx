@@ -172,7 +172,7 @@ export default function LandingPage() {
                      uppercase
                      size='4rem'/>
                      <S.ContactText>
-                        Estamos prontos para ouvir você. Valorizamos suas opiniões e feedback para melhorar nossos serviços. Não enviamos spam, apenas queremos oferecer a melhor experiência possível. Se surgir alguma dúvida ou precisar de suporte, estamos aqui para ajudar. Por favor, compartilhe suas ideias ou preocupações conosco abaixo. Aguardamos sua mensagem!
+                        Estamos prontos para ouvir você. Valorizamos suas opiniões e feedback para melhorar nossos serviços. Não enviamos spam, apenas queremos oferecer a melhor experiência possível. Se surgir alguma dúvida ou precisar de suporte, estamos aqui para ajudar. Por favor, compartilhe suas ideias ou preocupações conosco ao lado. Aguardamos sua mensagem!
                      </S.ContactText>
                   </S.ContactContent>
                   <S.ContactForm>
