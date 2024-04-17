@@ -18,7 +18,7 @@ async function getUserById(headers = {}) {
 
 async function getUserSpecific(headers = {}) {
     try {
-        const response = await axios.get(`${config.baseURL}/${payh}/specific`, headers);
+        const response = await axios.get(`${config.baseURL}/${path}/specific`, headers);
         return response;
     }
     catch (err) {
@@ -49,7 +49,7 @@ async function putUser(body = {}, headers = {}) {
 
 async function deleteUser(params = {}) {
     try {
-        const response = await axios.delete(`${config.baseURL}/${path}`, body);
+        const response = await axios.delete(`${config.baseURL}/${path}`);
         return response;
     }
     catch (err) {
