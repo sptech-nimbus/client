@@ -5,7 +5,6 @@ import config from "./config";
 
 const path = "users";
 
-//ajustar o endpoint para o endpoint correto da api
 async function getUserById(headers = {}) {
     try {
         const response = await axios.get(`${config.baseURL}/${path}`, headers);
