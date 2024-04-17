@@ -9,4 +9,5 @@ export const CardContainer = styled.div`
    align-items: ${props => props.alignItems ? props.alignItems : "center"};
    background-color: ${props => props.background ? props.background : "transparent"};
    border-radius: 1.2rem;
+   cursor: pointer;
 `
