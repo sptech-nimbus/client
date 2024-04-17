@@ -6,9 +6,10 @@ import { Trash, Pencil, FilePdf } from "@phosphor-icons/react";
 
 export default function AthleteDesk() {
    return (
+      <S.InfoWrapper>
       <S.InfoGrid>
             <S.Container>
-               
+               <S.PlayerImg src="https://placehold.co/400x400"/>
             </S.Container>
 
             <S.Container>
@@ -98,20 +99,12 @@ export default function AthleteDesk() {
                   </S.Information>
                </S.InfomationContainer>
             </S.Container>
-
-            <S.Buttons>
-               <Button 
-               value={`Editar`}
-               />
-
-               <Button 
-               value={`Deletar`}
-               />
-
-               <Button 
-               value={`Baixar PDF`}
-               />
-            </S.Buttons>
       </S.InfoGrid>
+      <S.Buttons>
+         <Button value='Editar'/>
+         <Button value='Deletar'/>
+         <Button value='Baixar PDF'/>
+      </S.Buttons>
+      </S.InfoWrapper>
    )
 }

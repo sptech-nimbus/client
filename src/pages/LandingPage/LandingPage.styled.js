@@ -156,7 +156,6 @@ export const MenuFooter = styled.div`
 
 export const MenuFooterText = styled.span`
    font-weight: 600;
-   cursor: pointer;
 `
 
 export const MenuAnimation = styled.div`
