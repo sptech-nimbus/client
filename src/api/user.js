@@ -1,12 +1,9 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable no-useless-catch */
 import axios from "axios";
 import config from "./config";
 
 const path = "users";
 
-//ajustar o endpoint para o endpoint correto da api
-async function getUserById(headers = {}) {
+async function getUserById() {
     try {
         const response = await axios.get(`${config.baseURL}/${path}`, headers);
         return response;
@@ -16,7 +13,7 @@ async function getUserById(headers = {}) {
     }
 }
 
-async function getUserSpecific(headers = {}) {
+async function getUserSpecific() {
     try {
         const response = await axios.get(`${config.baseURL}/${payh}/specific`, headers);
         return response;
@@ -26,7 +23,7 @@ async function getUserSpecific(headers = {}) {
     }
 }
 
-async function postUser(body = {}, headers = {}) {
+async function postUser(body = {}) {
     try {
         const response = await axios.post(`${config.baseURL}/${path}`, body);
         console.log(response);
@@ -37,7 +34,7 @@ async function postUser(body = {}, headers = {}) {
     }
 }
 
-async function putUser(body = {}, headers = {}) {
+async function putUser(body = {}) {
     try {
         const response = await axios.put(`${config.baseURL}/${path}`, body);
         return response;
@@ -47,7 +44,7 @@ async function putUser(body = {}, headers = {}) {
     }
 }
 
-async function deleteUser(params = {}) {
+async function deleteUser() {
     try {
         const response = await axios.delete(`${config.baseURL}/${path}`, body);
         return response;
@@ -57,7 +54,7 @@ async function deleteUser(params = {}) {
     }
 }
 
-async function changePassword(id, body = {}) {
+async function changePassword(id, body) {
     try {
         const response = await axios.patch(`${config.baseURL}/${path}/change-password/${id}`, body);
         return response
@@ -67,7 +64,7 @@ async function changePassword(id, body = {}) {
     }
 }
 
-async function login(body, headers = {}) {
+async function login(body) {
     try {
         const response = await axios.post(`${config.baseURL}/${path}/login`);
         return response;
