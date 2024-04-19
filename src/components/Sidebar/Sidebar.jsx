@@ -45,7 +45,7 @@ export default function Sidebar({page, logo, children}) {
          </S.IconGroup>
          {children}
          <S.IconGroupFooter>
-            <S.Icon onClick={() => navigate('/home')}>
+            <S.Icon onClick={() => navigate('/config')}>
                <Gear
                weight={page == 'settings' ? 'fill' : 'regular'}
                />

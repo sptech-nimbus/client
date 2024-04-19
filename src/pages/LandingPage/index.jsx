@@ -9,6 +9,8 @@ import { InputDefault as Input, InputTextarea as Textarea } from "@components/In
 import { PrimaryButton as Button} from "@components/Button/Button";
 import Label from "@components/Label/Label";
 
+import Menu from './Menu.jsx';
+
 export default function LandingPage() {
    const [navOpen, setNavOpen] = useState(false);
    const [userEmail, setUserEmail] = useState('');
@@ -31,15 +33,15 @@ export default function LandingPage() {
    function renderSlider() {
       const items = [];
 
-      for (let i = 0; i < 15; i++) {
+      for (let i = 0; i < 12; i++) {
          items.push(
-            <S.FeaturesSliderItem key={i}>
+            <S.FeaturesSliderItem key={`feature${i}`}>
                Funcionalidades
             </S.FeaturesSliderItem>
          );
 
          items.push(
-            <S.FeaturesSliderItem key={i}>
+            <S.FeaturesSliderItem key={`dot${i}`}>
                •
             </S.FeaturesSliderItem>
          );
@@ -49,21 +51,11 @@ export default function LandingPage() {
    }
 
    return ( 
-      <>
-         <S.Header>
+      <S.PageWrapper navOpen={navOpen}>
+         <S.Header id="header">
             <Background.Default />
             {navOpen &&
-               <S.MenuContainer state={navOpen}>
-                  <S.MenuAnimation>
-                     <S.Animation1st />
-                     <S.Animation2nd />
-                     <S.Animation3rd />
-                  </S.MenuAnimation>
-
-                  <S.MenuContent>
-                     asd
-                  </S.MenuContent>
-               </S.MenuContainer>
+            <Menu navOpen={navOpen} handleNavOpen={handleNavOpen}/>
             }
             <S.Navbar>
                {navOpen ?
@@ -71,11 +63,11 @@ export default function LandingPage() {
                <S.NavLogo src='/public/assets/nimbus-logo.svg' alt={`nimbus - logo do projeto.`}/>
                }
 
-               <S.Menu onClick={handleNavOpen} state={navOpen}>
+               <S.MenuTrigger onClick={handleNavOpen} state={navOpen}>
                   <S.MenuLineUpper state={navOpen} />
                   <S.MenuLineMid state={navOpen} width='70%'/>
                   <S.MenuLineLower state={navOpen} />
-               </S.Menu>
+               </S.MenuTrigger>
             </S.Navbar>
             <S.HeaderContent>
                <S.Wrapper>
@@ -93,8 +85,8 @@ export default function LandingPage() {
             </S.HeaderContent>
          </S.Header>
 
-         <S.Main>
-            <S.About>
+         <S.Main id="main">
+            <S.About id="about">
                <Background.Default />
                <S.AboutTextContainer>
                   <Title text='Para o jogador' uppercase size='2.5rem'/>
@@ -113,7 +105,7 @@ export default function LandingPage() {
                <S.WaveSvg src='/public/assets/vector-wave.svg'/>
             </S.About>
             
-            <S.Comunication>
+            <S.Comunication id="comunication">
                <S.ComunicationWrapper>
                   <S.ComunicationTextContainer>
                      <S.ComunicationText>
@@ -128,7 +120,7 @@ export default function LandingPage() {
                </S.ComunicationWrapper>
             </S.Comunication>
 
-            <S.Features>
+            <S.Features id="features">
                <S.InvertedWaveSvg src='/public/assets/vector-wave.svg'/>
                <S.FeaturesWrapper>
                <S.FeaturesTitle>
@@ -170,7 +162,7 @@ export default function LandingPage() {
                </S.FeaturesWrapper>
             </S.Features>
 
-            <S.Contact>
+            <S.Contact id="contact">
                <Background.Default />
                <S.ContactWrapper>
                   <S.ContactContent>
@@ -180,7 +172,7 @@ export default function LandingPage() {
                      uppercase
                      size='4rem'/>
                      <S.ContactText>
-                        Estamos prontos para ouvir você. Valorizamos suas opiniões e feedback para melhorar nossos serviços. Não enviamos spam, apenas queremos oferecer a melhor experiência possível. Se surgir alguma dúvida ou precisar de suporte, estamos aqui para ajudar. Por favor, compartilhe suas ideias ou preocupações conosco abaixo. Aguardamos sua mensagem!
+                        Estamos prontos para ouvir você. Valorizamos suas opiniões e feedback para melhorar nossos serviços. Não enviamos spam, apenas queremos oferecer a melhor experiência possível. Se surgir alguma dúvida ou precisar de suporte, estamos aqui para ajudar. Por favor, compartilhe suas ideias ou preocupações conosco ao lado. Aguardamos sua mensagem!
                      </S.ContactText>
                   </S.ContactContent>
                   <S.ContactForm>
@@ -211,17 +203,17 @@ export default function LandingPage() {
             </S.Contact>
          </S.Main>
 
-         <S.Footer>
+         <S.Footer id="footer">
             <S.FooterFlex>
                <S.FooterSocialMedia src='/public/assets/github-logo.svg'/>
                <S.FooterSocialMedia src='/public/assets/instagram-logo.svg'/>
             </S.FooterFlex>
             <S.Flex>
                <S.FooterLink>Voltar para o início.</S.FooterLink>
-               <S.FooterLink>Projeto © 2024. All Rights reserved</S.FooterLink>
+               <S.FooterLink>nimbus © 2024. All Rights reserved</S.FooterLink>
                <S.FooterLink>Privacidade & Termos</S.FooterLink>
             </S.Flex>
          </S.Footer>
-      </>
+      </S.PageWrapper>
    )
 }

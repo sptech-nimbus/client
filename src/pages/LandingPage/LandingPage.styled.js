@@ -4,6 +4,17 @@ import { useMediaQuery } from "react-responsive";
 
 const linePadding = "8rem";
 
+const textFadeIn = keyframes`
+  from {
+    opacity: 0;
+    transform: translateX(-100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+`;
+
 const fadeIn = keyframes`
   from {
     transform: translateX(-100%);
@@ -14,21 +25,21 @@ const fadeIn = keyframes`
 `;
 
 const rotate = keyframes`
-   0%{
+   from{
       transform: rotate(0deg);
    }
-   100%{
+   to{
       transform: rotate(360deg);
    }
 
 `
-const slider = keyframes`
-    from {
-      transform: translateX(0, 0, 0);
-    }
-    to {
-      transform: translate(-100%, 0, 0);
-    }
+const textSlider = keyframes`
+  from   { 
+      transform: translateX(0%); 
+  }
+  to { 
+      transform: translateX(-50%); 
+  }
 `
 
 export const Flex = styled.div`
@@ -40,6 +51,12 @@ export const Flex = styled.div`
    align-items: ${props => props.alignItems ? props.alignItems : 'center'};
 `
 
+export const PageWrapper = styled.div`
+   width: 100%;
+   height: ${props => props.navOpen ? '100vh' : 'fit-content'};
+   overflow-x: hidden;
+   overflow-y: ${props => props.navOpen ?  'hidden' : 'auto'};
+`
 
 // --------- header -----------
 export const Header = styled.header`
@@ -63,10 +80,6 @@ export const Navbar = styled.nav`
    padding-inline: ${linePadding};
 `
 
-export const NavLink = styled.a`
-
-`
-
 export const NavLogo = styled.img`
    width: 8.5vw;
    max-width: 180px;
@@ -74,7 +87,7 @@ export const NavLogo = styled.img`
    z-index: 2;
 `
 
-export const Menu = styled.div`
+export const MenuTrigger = styled.div`
    display: flex;
    flex-direction: column;
    justify-content: space-between;
@@ -99,7 +112,50 @@ export const MenuContainer = styled.div`
 `
 
 export const MenuContent = styled.div`
+   width: 100%;
+   height: 100%;
    position: relative;
+   padding-top: 5%;
+   padding-inline: ${linePadding};
+   color: ${Colors.gray900};
+   z-index: 3;
+`
+
+export const MenuLinks = styled.div`
+   display: flex;
+   flex-direction: column;
+   position: relative;
+   width: 100%;
+   height: 100%;
+`
+
+export const MenuLink = styled.a`
+   font-family: 'Catamaran', sans-serif;
+   font-size: 5rem;
+   font-weight: 900;
+   text-transform: uppercase;
+   color: ${Colors.gray900};
+   transition: all .1s ease-in;
+   cursor: pointer;
+   opacity: 0;
+   animation: ${textFadeIn} 0.5s cubic-bezier(0.25, 0.1, 0.25, 1) ${props => props.delay} forwards;
+
+   &:hover {
+      color: ${Colors.orange500};
+   }
+`
+
+export const MenuFooter = styled.div`
+   display: flex;
+   justify-content: space-between;
+   position: absolute;
+   bottom: 0;
+   width: 100%;
+   height: 10%;
+`
+
+export const MenuFooterText = styled.span`
+   font-weight: 600;
 `
 
 export const MenuAnimation = styled.div`
@@ -324,7 +380,7 @@ export const ComunicationWrapper = styled(Wrapper)`
 export const Features = styled.section`
    position: relative;
    width: 100vw;
-   height: 130vh;
+   height: 135vh;
    align-items: flex-end;
    justify-content: flex-end;
    background-color: ${Colors.orange100};
@@ -388,7 +444,7 @@ export const FeaturesSliderWrapper = styled.div`
    width: fit-content;
    height: fit-content;
    white-space: nowrap;
-   animation: ${slider} 30s linear infinite;
+   animation: ${textSlider} 25s linear infinite;
 `
 
 export const FeaturesSliderItem = styled.span`
@@ -410,14 +466,24 @@ export const FeaturesCard = styled.div`
    display: flex;
    gap: 1rem;
    flex-direction: column;
+   padding: 1.2rem;
+   border-radius: .8rem;
+   transition: all .2s ease-in;
+   border: 1px solid transparent;
+   cursor: pointer;
+
+   &:hover {
+      background: rgba(255, 247, 243, 1);
+      backdrop-filter: blur(12.5px);
+      -webkit-backdrop-filter: blur(12.5px);
+      border: 1px solid rgba(255, 234, 224, 0.54);
+   }
 `
 
 export const FeaturesCardText = styled.span`
    color: ${Colors.gray900};
    font-size: 1.2rem;
    font-weight: 500;
-   height: 300px;
-   max-height: 300px;
 `
 
 export const Highlight = styled.span`
@@ -460,7 +526,7 @@ export const ContactForm = styled.form`
 
 export const ContactText = styled.span`
    width: 85%;
-   font-size: 1.2rem;
+   font-size: 1rem;
    font-size: 'Catamaran';
    color: ${Colors.orange100};
 `

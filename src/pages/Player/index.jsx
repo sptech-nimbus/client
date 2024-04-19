@@ -13,6 +13,7 @@ export default function PlayerInfo() {
          <Background.Default />
          <Sidebar page='team'/>
          <S.ContentContainer>
+            Ficha do jogador / Estatísticas
             <AthleteDesk />
          </S.ContentContainer>
       </S.PageContainer>
