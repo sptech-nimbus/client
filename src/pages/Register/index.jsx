@@ -13,6 +13,7 @@ import FormStepFour from '../UserRegister/AthleteRegister/FormStepFour';
 
 import user from '@api/user';
 import team from '@api/team';
+import athlete from '@api/athlete';
 
 export default function Register() {
     const [step, setStep] = useState(1);
@@ -28,7 +29,7 @@ export default function Register() {
         lastName: null,
         birthDate: null,
         phone: null
-    })
+    });
 
     const [teamData, setTeamData] = useState({
         code: null,
@@ -36,6 +37,10 @@ export default function Register() {
         category: null,
         logo: null,
         isAmateur: null
+    });
+
+    const [athleteDesc, setAthleteDesc] = useState({
+
     })
 
     function handleFormSubmit(formData) {
@@ -53,18 +58,23 @@ export default function Register() {
 
             setStep(step + 1)
         }
-        else if (step == 2 && userData.typeUser === "athlete") {    
+        else if (step == 2 && userData.typeUser === "athlete") {
             userData.email = formData.email;
             userData.password = formData.password;
             personData.phone = formData.formattedPhone
-                
+
             const updatePersonData = {
                 ...personData,
                 category: null,
                 isStarting: null
             }
 
+            personData.category = '';
+            personData.isStarting = '';
+
             setPersonData(updatePersonData)
+
+            console.log(personData);
 
             setStep(step + 1);
         }
@@ -80,7 +90,7 @@ export default function Register() {
             user.post({
                 email: userData.email,
                 password: userData.password,
-                athlete: personData
+                coach: personData
             }).then(response => {
                 console.log(response);
             }).catch(error => {
@@ -88,9 +98,29 @@ export default function Register() {
                 setStep(step - 1);
             });
             team.post(teamData);
-        } 
+        }
         else if (step == 3 && userData.typeUser === "athlete") {
             console.log(formData);
+
+            personData.category = formData.category;
+            personData.isStarting = false;
+
+            console.log(personData);
+
+            user.post({
+                email: userData.email,
+                password: userData.password,
+                coach: personData
+            }).then(response => {
+                console.log(response);
+            }).catch(error => {
+                console.log((error.response.data));
+                setStep(step - 1);
+            });
+            
+        }
+        else if (step == 4 && userData.typeUser === "athlete") {
+            console.log("passo 4 athlete")
         }
     }
 

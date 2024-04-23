@@ -23,10 +23,6 @@ export default function FormStepFour({ onSubmit }) {
     const [local, setLocal] = useState('');
     const [chkAmateur, setChkAmateur] = useState(false);
 
-    const [teamNameErr, setTeamNameErr] = useState(false);
-    const [teamCodeErr, setTeamCodeErr] = useState(false);
-    const [categoryErr, setCategoryErr] = useState(false);
-
     const [teamNameTtpOpen, setTeamNameTtpOpen] = useState(false);
     const [teamCodeTtpOpen, setTeamCodeTtpOpen] = useState(false);
     const [teamPictureTtpOpen, setTeamPictureTtpOpen] = useState(false);
