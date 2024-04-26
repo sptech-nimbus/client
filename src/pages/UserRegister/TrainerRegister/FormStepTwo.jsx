@@ -9,6 +9,7 @@ import Button from '@components/Button/Button';
 
 import { TooltipInput as Tooltip } from '@components/Tooltip/Tooltip';
 import { EmailValidation, PasswordValidation, ConfirmPasswordValidation, BrPhoneValidation } from '@utils/Validations';
+
 import { useMediaQuery } from 'react-responsive'
 import { ToastContainer, toast } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
@@ -18,11 +19,6 @@ export default function FormStepTwo({onSubmit}) {
    const [phone, setPhone] = useState('');
    const [password, setPassword] = useState('');
    const [confirmPassword, setConfirmPassword] = useState('');
-
-   const [emailErr, setEmailErr] = useState(false);
-   const [phoneErr, setPhoneErr] = useState(false);
-   const [passwordErr, setPasswordErr] = useState(false);
-   const [confirmPasswordErr, setConfirmPasswordErr] = useState(false);
 
    const [passwordTtpOpen, setPasswordTtpOpen] = useState(false);
    const [confirmPasswordTtpOpen, setConfirmPasswordTtpOpen] = useState(false);

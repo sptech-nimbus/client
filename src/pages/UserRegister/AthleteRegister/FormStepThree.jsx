@@ -6,30 +6,20 @@ import * as LS from '../../Login/Login.styles';
 import Label from '@components/Label/Label';
 import Input from '@components/Input/Input';
 import Button from '@components/Button/Button';
-import Checkbox from '@components/Checkbox/Checkbox';
 
 import { TooltipInput as Tooltip } from '@components/Tooltip/Tooltip';
-import { TextValidation, TeamCodeValidation, ImageValidation } from '@utils/Validations';
+import { HeightValidation, WeightValidation, PositionValidation, CategoryValidation } from '@utils/Validations';
 
 import { useMediaQuery } from 'react-responsive';
 import { ToastContainer, toast } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 
-export default function FormStepThree({onSubmit}) {
-    const [teamName, setTeamName] = useState('');
-    const [teamCode, setTeamCode] = useState('');
+export default function FormStepThreeAthlete({onSubmit}) {
+    const [weight, setWeight] = useState('');
+    const [maskedWeight, setMaskedWeight] = useState('');
+    const [height, setHeight] = useState('');
+    const [position, setPosition] = useState('');
     const [category, setCategory] = useState('');
-    const [teamPicture, setTeamPicture] = useState('');
-    const [local, setLocal] = useState('');
-    const [chkAmateur, setChkAmateur] = useState(false);
-
-    const [teamNameErr, setTeamNameErr] = useState(false);
-    const [teamCodeErr, setTeamCodeErr] = useState(false);
-    const [categoryErr, setCategoryErr] = useState(false);
-
-    const [teamNameTtpOpen, setTeamNameTtpOpen] = useState(false);
-    const [teamCodeTtpOpen, setTeamCodeTtpOpen] = useState(false);
-    const [teamPictureTtpOpen, setTeamPictureTtpOpen] = useState(false);
 
     const [toastPosition, setToastPosition] = useState('top-right');
 
@@ -44,69 +34,52 @@ export default function FormStepThree({onSubmit}) {
         }
     }, [isBelow1050]);
 
-    function handleLocalChange(e) {
+    function handleWeightChange(e) {
         const { value } = e.target;
-        setLocal(value);
+        setWeight(value);
     }
 
-    function handleTeamNameChange(e) {
+    function handleHeightChange(e) {
         const { value } = e.target;
-        setTeamName(value);
+        let heightFormmated = value.replace(" ", "").replace("cm", "");
+        setHeight(heightFormmated);
     }
 
-    function handleTeamCodeChange(e) {
+    function handlePositionChange(e) {
         const { value } = e.target;
-        setTeamCode(value);
+        setPosition(value);
     }
+
     function handleCategoryChange(e) {
         const { value } = e.target;
         setCategory(value);
     }
-    function handleTeamPictureChange(e) {
-        setTeamPicture(e.target.files[0]);
-    }
-    function handleChkAmateur() {
-        setChkAmateur(!chkAmateur);
+
+    function handleWeightOpenChange() {
+        const weightRegex = /^\d{1,3}\.\d{2}$/;
+        if (weightRegex.test(weight)) {
+            const formattedWeight = parseFloat(weight).toFixed(2);
+            setMaskedWeight(formattedWeight + 'kg');
+        }
     }
 
-    function handleTeamNameTtpChange() {
-        setTeamNameTtpOpen(!teamNameTtpOpen);
-    }
-
-    function handleTeamCodeTtpChange() {
-        setTeamCodeTtpOpen(!teamCodeTtpOpen);
-    }
-
-    function handleTeamPictureTtpChange() {
-        setTeamPictureTtpOpen(!teamPictureTtpOpen);
-    }
     function handleSubmit(e) {
         e.preventDefault();
 
-        if (TeamCodeValidation(teamCode)) {
-            console.log("Enviando solicitação com o código do time existente:", teamCode);
-            onSubmit(teamCode);
-        }
-        else if (
-            TextValidation(teamName) && 
-            TextValidation(category) && 
-            ImageValidation(teamLogo)) 
+        if (
+            WeightValidation(weight) &&
+            HeightValidation(height) &&
+            PositionValidation(position) &&
+            CategoryValidation(category))
         {
-            console.log("Enviando solicitação com os seguintes dados:");
-            console.log("Nome do time:", teamName);
-            console.log("Categoria:", category);
-            console.log("Logo do time:", teamLogo);
-            console.log("Amador:", chkAmateur);
-
-            onSubmit({ teamName, category, teamLogo, chkAmateur });
+            onSubmit({ weight, height, position, category });
         }
         else {
-            if (teamCode) {
-                if (!TeamCodeValidation(teamCode)) toast.error('Código inserido é inválido');
-            } else {
-                if (!TextValidation(teamName)) toast.error('Nome do time é inválido');
-                if (!ImageValidation(teamPicture)) toast.error('A extensão de arquivo inserida é inválida');
-            }
+            if (!WeightValidation(weight)) toast.error('Peso inválido');
+            if (!HeightValidation(height)) toast.error('Altura inválido');
+            if (!PositionValidation(position)) toast.error('Posição inválida');
+            if (!CategoryValidation(category)) toast.error('Categoria inválida');
+            console.log(weight, height, position, category)
         }
     }
 
@@ -126,96 +99,51 @@ export default function FormStepThree({onSubmit}) {
             /> 
             <LS.InputsContainer>
                 <Label>
-                    Altura
+                    Peso
                     <S.InputLine>
-                        <Input.Default
-                            placeholder={'80.00 kg'}
-                            value={teamCode}
-                            onChange={handleTeamCodeChange}
-                            onFocus={handleTeamCodeTtpChange}
-                            onBlur={handleTeamCodeTtpChange}
-                            disabled={teamName || category || teamPicture ? true : false}
-                            maxLength={8}
+                        <Input.Masked
+                            mask={maskedWeight}
+                            placeholder={'80.00kg'}
+                            value={weight}
+                            onBlur={ handleWeightOpenChange }
+                            onChange={handleWeightChange}
                         />
-                        {
-                            !isBelow799 &&
-                            <Tooltip side='right' open={teamCodeTtpOpen} onHover={handleTeamCodeTtpChange}>
-                                    <span>
-                                        O código do time é disponibilizado pelo treinador atual do time que deseja se cadastrar. Caso haja
-                                        uma passagem de responsabilidade, contate o treinador do time em questão e peça para ele gerar o código.
-                                    </span>
-                                </Tooltip>
-                        }
-
                     </S.InputLine>
                 </Label>
                 <Label>
-                    Nome do time
+                    Altura
                     <S.InputLine>
-                        <Input.Default
-                            placeholder={'Nome do Time SC'}
-                            value={teamName}
-                            onChange={handleTeamNameChange}
-                            onFocus={handleTeamNameTtpChange}
-                            onBlur={handleTeamNameTtpChange}
-                            disabled={teamCode ? true : false}
+                        <Input.Masked
+                            mask={ '0.00cm' }
+                            placeholder={'1.90cm'}
+                            value={height}
+                            onChange={handleHeightChange}
+                            width='45%'
                         />
-                        {
-                            !isBelow799 &&
-                            <Tooltip side='right' open={teamNameTtpOpen} onHover={handleTeamNameTtpChange}>
-                                    <span>O nome do time deve possuir pelo menos 2 caracteres e não deve possuir números ou caracteres especiais.</span>
-                                </Tooltip>
-                        }
                     </S.InputLine>
                 </Label>
 
                 <LS.InputsContainer>
                     <Label>
-                        Categoria
+                        Posição
                         <Input.Default
-                            placeholder={'Sub-20'}
-                            value={category}
-                            onChange={handleCategoryChange}
-                            disabled={teamCode ? true : false}
+                            placeholder={'Pivo'}
+                            value={position}
+                            onChange={handlePositionChange}
                             width='40%'
                         />
                     </Label>
                     <Label>
-                        Endereço do time
-                        <S.InputLine>
-                            <Input.Default
-                                value={local}
-                                placeholder={'Rua XV'}
-                                onChange={handleLocalChange}
-                            />
-                        </S.InputLine>
+                        Categoria
+                        <Input.Masked
+                            mask={'Sub-00'}
+                            placeholder={'Sub-20'}
+                            value={category}
+                            onChange={handleCategoryChange}
+                            width='40%'
+                        />
                     </Label>
                 </LS.InputsContainer>
-
-                <Label>
-                    Escudo do time
-                    <S.InputLine>
-                        <Input.Image
-                            type={'file'}
-                            onChange={handleTeamPictureChange}
-                            onFocus={handleTeamPictureTtpChange}
-                            onBlur={handleTeamPictureTtpChange}
-                            disabled={teamCode ? true : false}
-                        />
-                        {
-                            !isBelow799 &&
-                            <Tooltip side='right' open={teamPictureTtpOpen} onHover={handleTeamPictureTtpChange}>
-                                    <span>As extensões de arquivo aceitas são .jpg, .jpeg e .png.</span>
-                                </Tooltip>
-                        }
-                    </S.InputLine>
-                </Label>
-                <Checkbox 
-                    id={'isAmateur'} 
-                    label={'Sou um time amador.'} 
-                    checked={chkAmateur}
-                    onClick={handleChkAmateur}
-                />
             </LS.InputsContainer>
             <Button.Primary 
                 value={'Continuar'}
