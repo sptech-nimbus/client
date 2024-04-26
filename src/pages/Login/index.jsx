@@ -4,8 +4,11 @@ import Input from "@components/Input/Input";
 import Label from "@components/Label/Label";
 import { Envelope } from "@phosphor-icons/react";
 import Button from "@components/Button/Button";
+import { useNavigate } from "react-router-dom";
 
 export default function Login() {
+   const navigate = useNavigate();
+
    return (
       <S.Header>
          <Background.Login />
@@ -36,6 +39,7 @@ export default function Login() {
                size={'md'}
                width={'100%'}
                fontSize={'1.5rem'}
+               onClick={() => navigate('/home')}
             />
             <S.FormFooter>
                <underlined>

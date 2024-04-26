@@ -25,6 +25,7 @@
     "@react-pdf/renderer": "^3.4.2",
     "axios": "^1.6.8",
     "chart.js": "^4.4.2",
+    "framer-motion": "^11.1.7",
     "react": "^18.2.0",
     "react-calendar": "^4.8.0",
     "react-copy-to-clipboard": "^5.1.0",

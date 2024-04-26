@@ -42,6 +42,16 @@ const textSlider = keyframes`
   }
 `
 
+export const LogoBackground = styled.img`
+   width: 45vw;
+   position: absolute;
+   bottom: 20%;
+   z-index: 3;
+   right: ${linePadding};
+   user-select: none;
+   transform: translateX(-250%);
+`
+
 export const Flex = styled.div`
    width: 100%;
    height: fit-content;
@@ -137,8 +147,6 @@ export const MenuLink = styled.a`
    color: ${Colors.gray900};
    transition: all .1s ease-in;
    cursor: pointer;
-   opacity: 0;
-   animation: ${textFadeIn} 0.5s cubic-bezier(0.25, 0.1, 0.25, 1) ${props => props.delay} forwards;
 
    &:hover {
       color: ${Colors.orange500};
@@ -287,7 +295,6 @@ export const About = styled.section`
 
 export const Outline = styled.img`
    width: 28vw;
-   animation: ${rotate} 12s linear infinite;
    -webkit-user-select: none; 
    -ms-user-select: none; 
    user-select: none; 
@@ -348,7 +355,7 @@ export const ComunicationTextContainerRight = styled(ComunicationTextContainer)`
 export const ComunicationText = styled.div`
    width: 40vw;
    color: ${Colors.orange100};
-   font-size: 1.5rem;
+   font-size: 1.2rem;
 `
 
 export const ComunicationTextRight = styled(ComunicationText)`
@@ -362,7 +369,7 @@ export const Bold = styled.span`
 
 export const Mockup = styled.img`
    position: absolute;
-   width: 65vw;
+   width: 60vw;
    bottom: -20%;
    -webkit-user-select: none; 
    -ms-user-select: none; 
@@ -482,7 +489,7 @@ export const FeaturesCard = styled.div`
 
 export const FeaturesCardText = styled.span`
    color: ${Colors.gray900};
-   font-size: 1.2rem;
+   font-size: 1rem;
    font-weight: 500;
 `
 

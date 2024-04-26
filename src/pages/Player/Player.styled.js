@@ -6,6 +6,27 @@ export const Flex = styled.span`
    gap: 2rem;
 `
 
+export const TopLinkContainer = styled.div`
+   display: flex;
+   gap: 3rem;
+`
+
+export const TopLink = styled.span`
+   cursor: pointer;
+   position: relative;
+   
+   &::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      bottom: -.5rem;
+      width: ${props => props.active ? '100%' : '0'};
+      height: 4px;
+      border-radius: 4px;
+      background-color: ${Colors.orange500};
+   }
+`
+
 export const PageContainer = styled.div`
    display: flex;
    width: 100vw;
@@ -25,7 +46,7 @@ export const ContentContainer = styled.div`
    flex-direction: column;
    width: 95vw;
    height: 100vh;
-   padding: 1rem 8rem;
+   padding: 1rem 18rem;
    gap: 2rem;
 `
 
@@ -39,8 +60,11 @@ export const InfoGrid = styled.div`
    box-sizing: border-box;
    align-items: stretch;
    gap: 1.2rem;
-   padding-inline: 10rem;
    overflow: hidden;
+`
+
+export const StatsGrid = styled(InfoGrid)`
+   
 `
 
 export const Container = styled.div`
@@ -89,5 +113,4 @@ export const Buttons = styled.div`
    gap: 1rem;
    width: 100%;
    grid-column: 1 / 2;
-   padding-inline: 10rem;
 `
