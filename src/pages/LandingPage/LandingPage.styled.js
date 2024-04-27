@@ -298,6 +298,7 @@ export const Outline = styled.img`
    -webkit-user-select: none; 
    -ms-user-select: none; 
    user-select: none; 
+   animation: ${rotate} 12s linear infinite;
 `
 
 export const AboutTextContainer = styled.div`

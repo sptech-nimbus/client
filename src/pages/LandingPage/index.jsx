@@ -1,5 +1,5 @@
 import * as S from './LandingPage.styled.js';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useMediaQuery } from 'react-responsive';
 import Colors from "@utils/Colors";
 
@@ -10,16 +10,15 @@ import { PrimaryButton as Button} from "@components/Button/Button";
 import Label from "@components/Label/Label";
 import ScrollProgress from "@components/ScrollProgress/ScrollProgress";
 
-import { motion, useScroll, useTime, useTransform } from "framer-motion";
+import { motion, useScroll, useTime, useTransform, useSpring, useMotionValue, useVelocity, useAnimationFrame } from "framer-motion";
 
 import Menu from './Menu.jsx';
+import BallOutline from './BallOutline.jsx';
 
 export default function LandingPage() {
    const [navOpen, setNavOpen] = useState(false);
    const [userEmail, setUserEmail] = useState('');
    const [userMsg, setUserMsg] = useState('');
-
-   const { scrollYProgress } = useScroll();
 
    const handleNavOpen = () => {
       setNavOpen(!navOpen);
@@ -106,9 +105,7 @@ export default function LandingPage() {
                   </motion.span>
 
                </S.AboutTextContainer>
-               <motion.div animate={{ rotate: 360 }} transition={{ repeat: Infinity, duration: 12, ease: "linear" }}>
-                  <S.Outline src='/public/assets/basketball-outline.svg'/>
-               </motion.div>
+               <BallOutline />
                <S.AboutTextContainer textAlign='right'>
                   <motion.span initial={{ opacity: 0, y: '50%' }} whileInView={{ opacity: 1, y: 0 }} transition={{ delay: .2}}>
                      <S.AboutText textAlign='right'>
@@ -128,10 +125,12 @@ export default function LandingPage() {
                   <S.ComunicationTextContainer>
                      <S.ComunicationText>
                         A comunicação é a espinha dorsal, uma <S.Bold>interação instantânea e eficaz</S.Bold> entre treinadores e jogadores impulsiona o progresso e a coesão da equipe.
-                        </S.ComunicationText>
+                     </S.ComunicationText>
                   </S.ComunicationTextContainer>
-
-                  <Title text='Comunicação direta' color={Colors.orange100} size='7rem' uppercase/>
+                  
+                  <motion.span initial={{ opacity: 0, y: '50%' }} whileInView={{ opacity: 1, y: 0 }} transition={{ delay: .2}}>
+                     <Title text='Comunicação direta' color={Colors.orange100} size='7rem' uppercase/>
+                  </motion.span>
 
                   <S.ComunicationTextContainerRight>
                      <S.ComunicationTextRight>Troca de passes, troca de ideias: sucesso garantido.</S.ComunicationTextRight>
@@ -198,14 +197,19 @@ export default function LandingPage() {
                <Background.Default />
                <S.ContactWrapper>
                   <S.ContactContent>
-                     <Title
-                     text='Dúvidas, sugestões ou reclamações?'
-                     color={Colors.orange100}
-                     uppercase
-                     size='4rem'/>
+                     <motion.span initial={{ opacity: 0, y: '50%' }} whileInView={{ opacity: 1, y: 0 }} transition={{ delay: .2}}>
+                        <Title
+                        text='Dúvidas, sugestões ou reclamações?'
+                        color={Colors.orange100}
+                        uppercase
+                        size='4rem'/>
+                     </motion.span>
+
+                     <motion.span initial={{ opacity: 0, y: '50%' }} whileInView={{ opacity: 1, y: 0 }} transition={{ delay: .2}}>
                      <S.ContactText>
                         Estamos prontos para ouvir você. Valorizamos suas opiniões e feedback para melhorar nossos serviços. Não enviamos spam, apenas queremos oferecer a melhor experiência possível. Se surgir alguma dúvida ou precisar de suporte, estamos aqui para ajudar. Por favor, compartilhe suas ideias ou preocupações conosco ao lado. Aguardamos sua mensagem!
                      </S.ContactText>
+                     </motion.span>
                   </S.ContactContent>
                   <S.ContactForm>
                      <Label>
