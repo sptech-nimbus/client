@@ -235,7 +235,7 @@ export const TitleContainer = styled.div`
    text-align: center;
 `
 
-export const Line = styled.hr`   
+export const Line = styled(motion.hr)`   
    width: 50%;
    background-color: ${Colors.orange100};
    height: 4px; 

@@ -76,19 +76,23 @@ export default function LandingPage() {
             </S.Navbar>
             <S.HeaderContent>
                <S.Wrapper>
-                  <motion.span initial={{ opacity: 0, scale: 0 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: .2}}>
+                  <motion.span>
                   <S.TitleContainer>
                      <Title text={'Basquete para todos!'} uppercase size='6.2rem' color={Colors.orange100}/>
                   </S.TitleContainer>
                   </motion.span>
 
-                  <motion.span initial={{ opacity: 0, scale: 0 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: .4}}>
+                  <motion.span>
                   <S.TitleContainer>
                      <Title text={'E perto de você!'} uppercase size='6.2rem' color={Colors.orange100}/>
                   </S.TitleContainer>
                   </motion.span>
+                  
+                  <S.Line initial={{ scaleX: 0 }} whileInView={{ scaleX: 1 }} transition={{ 
+                     type: "spring", 
+                     duration: 1.5,
+                     }}/>
 
-                  <S.Line />
                   <S.SocialMediaContainer>
                      <S.SocialMedia src='/public/assets/github-logo.svg'/>
                      <S.SocialMedia src='/public/assets/instagram-logo.svg'/>
