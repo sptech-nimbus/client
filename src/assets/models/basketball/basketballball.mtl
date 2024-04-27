@@ -1,0 +1,19 @@
+# 3ds Max Wavefront OBJ Exporter v0.97b - (c)2007 guruware
+# File Created: 27.07.2023 14:28:30
+
+newmtl bball_Mat
+	Ns 10.000000
+	Ni 1.500000
+	d 1.000000
+	Tr 0.000000
+	Tf 1.000000 1.000000 1.000000 
+	illum 2
+	Ka 1.000000 1.000000 1.000000
+	Kd 1.000000 1.000000 1.000000
+	Ks 0.000000 0.000000 0.000000
+	Ke 0.000000 0.000000 0.000000
+	map_Ka basketballball_bball_Mat_Diffuse.jpg
+	map_Kd basketballball_bball_Mat_Diffuse.jpg
+	map_Ks basketballball_bball_Mat_Specular.jpg
+	map_bump basketballball_bball_Mat_Normal.jpg
+	bump basketballball_bball_Mat_Normal.jpg

@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Colors } from "@utils/Colors";
+import Colors from "@utils/Colors";
 import { House, ChartDonut, NewspaperClipping, UsersFour, ChatCircleDots, CalendarBlank, Gear } from "@phosphor-icons/react";
 
 export const Icon = styled.div`
@@ -33,11 +33,11 @@ export const IconGroup = styled.div`
 `
 
 export const IconGroupFooter = styled(IconGroup)`
-   gap: 0.1rem;
+   gap: .1rem;
 `
 
 export const IconGroupTitle = styled.span`
-   font-size: 0.7rem;
+   font-size: .7rem;
    font-weight: 600;
    text-transform: uppercase;
 `

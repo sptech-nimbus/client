@@ -149,3 +149,41 @@ export function ImageValidation(file) {
       return true;
    }
 }
+
+export function WeightValidation(weight) {
+    const weightRegex = /^(?:\d{1,3}\.\d{2}|\d{2}\.\d{2})$/;
+
+    if (!weight || !weight.match(weightRegex)) {
+        return false;
+    } else {
+        const integerPart = parseFloat(weight.split(' ')[0]);
+
+        if (integerPart < 100) {
+            return weight.split('.')[0].length === 2;
+        } else {
+            return true;
+        }
+    }
+}
+
+export function HeightValidation(heigth) {
+    const heigthRegex = /^(?:[01]\.\d{2}|2\.(?:[0-5]\d|60))$/
+
+    if (!heigth || !heigth.match(heigth)) {
+        return false;
+    } else {
+        return heigthRegex.test(heigth);
+    }
+}
+
+export function PositionValidation(position) {
+    const validPositions = ['PIVO', 'ARMADOR', 'ALA-ARMADOR', 'ALA', 'ALA-PIVO'];
+
+    return validPositions.includes(position.toUpperCase());
+}
+
+export function CategoryValidation(category) {
+    const categoryRegex = /^(Sub-[1-9][0-9]?)$/;
+
+    return categoryRegex.test(category);
+}

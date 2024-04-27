@@ -1,0 +1,85 @@
+:root {
+  font-family: 'Poppins', sans-serif;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #131313;
+
+    /* Tons de laranja */
+    --orange100: #FFEAE0;
+    --orange300: #FFA877;
+    --orange500: #FF7425;
+    --orange600: #CE5F20;
+  
+    /* Tons de cinza/preto */
+    --gray900: #131313;
+    --gray800: #191919;
+    --gray700: #242424;
+    --gray600: #323232;
+    --gray200: #D7D7D7;
+    --gray100: #FFF9F6;
+  
+    /* Tons variados */
+    --green: #3FB03D;
+    --red: #FF3838;
+
+    /* personalização do toast */
+    --toastify-font-family: 'Poppins', sans-serif;
+    --toastify-color-error: var(--orange500);
+    --toastify-color-dark: var(--gray600);
+    --toastify-toast-width: 420px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  display: flex;
+  place-items: center;
+  min-width: 320px;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+body::-webkit-scrollbar {
+  width: 8px;
+}
+
+body::-webkit-scrollbar-track {
+  border-radius: 8px;
+  background-color: var(--gray700);
+}
+
+body::-webkit-scrollbar-thumb {
+  background: var(--orange500); 
+  border-radius: 10px;
+}
+
+body::-webkit-scrollbar-thumb:hover {
+  background: var(--orange300); 
+}
+
+::-moz-selection {
+  background: #fcac7ee2;
+}
+
+::selection {
+  background: #fcac7ee2;
+}
+
+underlined {
+  text-decoration: underline;
+}
+
+.Toastify__toast-body {
+  font-size: 0.9rem;
+  text-align: left;
+}
+
+main {
+  overflow: hidden;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: "Catamaran";
+}

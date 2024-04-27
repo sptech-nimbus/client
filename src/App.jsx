@@ -1,10 +1,8 @@
-import TrainerRegister from "@pages/Register/TrainerRegister";
+import AppRoutes from "./routes.jsx";
 
 function App() {
   return (
-    <>
-      <TrainerRegister />
-    </>
+      <AppRoutes />
   )
 }
 
