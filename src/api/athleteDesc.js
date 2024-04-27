@@ -1,5 +1,4 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable no-useless-catch */
+
 import axios from "axios";
 import config from "./config";
 

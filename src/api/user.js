@@ -3,7 +3,8 @@ import config from "./config";
 
 const path = "users";
 
-async function getUserById() {
+
+async function getUserById(headers = {}) {
     try {
         const response = await axios.get(`${config.baseURL}/${path}`, headers);
         return response;

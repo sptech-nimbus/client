@@ -2,8 +2,11 @@ import * as S from './Player.styled';
 
 export default function Stats() {
    return(
-      <S.InfoGrid>
-         
-      </S.InfoGrid>
+      <S.StatsGrid>
+         <S.Container></S.Container>
+         <S.Container></S.Container>
+         <S.Container></S.Container>
+         <S.Container></S.Container>
+      </S.StatsGrid>
    )
 }
