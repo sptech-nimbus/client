@@ -9,7 +9,9 @@ export default function Menu({navOpen, handleNavOpen}) {
    return (
       <S.MenuContainer state={navOpen}>
          <S.MenuContent>
-            <S.LogoBackground src='/public/assets/logo-background.svg'/>
+            <motion.div initial={{ opacity: 0 }} animate={{opacity: 1}} transition={{delay: .5}}>
+               <S.LogoBackground src='/public/assets/logo-background.svg'/>
+            </motion.div>
             <S.MenuLinks>
                <motion.div initial={{ opacity: 0, x: '-50%' }} animate={{opacity: 1, x: 0}} transition={{delay: .2}}>
                   <S.MenuLink onClick={handleNavOpen}>Home</S.MenuLink>

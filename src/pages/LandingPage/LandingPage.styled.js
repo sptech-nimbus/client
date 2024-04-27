@@ -1,6 +1,7 @@
 import styled, { keyframes } from "styled-components";
 import Colors from "@utils/Colors";
 import { useMediaQuery } from "react-responsive";
+import { motion } from "framer-motion";
 
 const linePadding = "8rem";
 
@@ -49,7 +50,6 @@ export const LogoBackground = styled.img`
    z-index: 3;
    right: ${linePadding};
    user-select: none;
-   transform: translateX(-250%);
 `
 
 export const Flex = styled.div`
@@ -334,7 +334,7 @@ export const Comunication = styled.section`
    padding-inline: ${linePadding};
 `
 
-export const TransitionText = styled.img`
+export const TransitionText = styled(motion.img)`
    width: 80vw;
    position: absolute;
    bottom: -5%;
@@ -353,7 +353,7 @@ export const ComunicationTextContainerRight = styled(ComunicationTextContainer)`
    justify-content: flex-end;
 `
 
-export const ComunicationText = styled.div`
+export const ComunicationText = styled(motion.div)`
    width: 40vw;
    color: ${Colors.orange100};
    font-size: 1.2rem;
@@ -368,13 +368,14 @@ export const Bold = styled.span`
    font-weight: 700;
 `
 
-export const Mockup = styled.img`
+export const Mockup = styled(motion.img)`
    position: absolute;
    width: 60vw;
    bottom: -20%;
    -webkit-user-select: none; 
    -ms-user-select: none; 
    user-select: none; 
+   z-index: 1;
 `
 
 export const ComunicationWrapper = styled(Wrapper)`   
@@ -525,7 +526,7 @@ export const ContactContent = styled.div`
    width: 50vw;
 `
 
-export const ContactForm = styled.form`
+export const ContactForm = styled(motion.form)`
    display: flex;
    flex-direction: column;
    gap: 1rem;

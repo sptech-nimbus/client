@@ -8,7 +8,7 @@ export default function BallOutline() {
     stiffness: 100,
     damping: 30,
   }); 
-  const rotate = useTransform(rotateSpring, [0, 100], [0, 30], { clamp: false, })
+  const rotate = useTransform(rotateSpring, [0, 100], [0, 25], { clamp: false, })
 
   return (
     <motion.div
