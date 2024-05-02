@@ -4,6 +4,6 @@ import { Bar } from 'react-chartjs-2';
 
 ChartJS.register( CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
-export default function HorizontalBarChart({ data, options = {} }) {
-  return <Bar data={data} options={options} />;
+export default function BarChart({ data, options = {}, ...props }) {
+  return <Bar data={data} options={options} {...props} />;
 }

@@ -20,7 +20,7 @@ export const ContentContainer = styled.div`
 export const HomeGrid = styled.div`
    display: grid;
    grid-template-columns: 1fr 1fr;
-   grid-template-rows: repeat(8, 1fr);
+   grid-template-rows: repeat(10, 1fr);
    width: 100%;
    height: 100%;
    max-height: 100%;
@@ -48,9 +48,24 @@ export const Container = styled.div`
       grid-row: 1 / 5;
    }
    &:nth-child(3) {
-      grid-row: 5 / 9;
+      grid-row: 5 / 11;
    }
    &:nth-child(4) {
-      grid-row: 6 / 9;
+      grid-row: 6 / 11;
    }
+`
+
+export const ChartContainer = styled.div`
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   width: 100%;
+   height: 90%;
+   box-sizing: border-box;
+`
+
+export const ChartTitle = styled.div`
+   width: 100%;
+   height: 5%;
+   display: flex;
 `

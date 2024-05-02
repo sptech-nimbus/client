@@ -19,14 +19,15 @@ export const ContentContainer = styled.div`
 
 export const DashGrid = styled.div`
    display: grid;
-   grid-template-columns: 1fr 1fr;
+   grid-template-columns: 1fr 1fr 1fr;
    grid-template-rows: 1fr 1fr;
    width: 100%;
-   height: 100%;
+   height: 90%;
    max-height: 100%;
    box-sizing: border-box;
    align-items: stretch;
    gap: 1.2rem;
+   flex-wrap: nowrap;
 `
 
 export const Container = styled.div`
@@ -40,20 +41,24 @@ export const Container = styled.div`
    border-radius: 1rem;
    padding: 1rem 1.2rem;
    box-sizing: border-box;
+   gap: .5rem;
 
-   &:nth-child(1) {
-      grid-row: 1 / 2;
-   }
    &:nth-child(2) {
-      grid-row: 2 / 5;
+      grid-column: 2 / 4;
    }
-   &:nth-child(3) {
-      grid-row: 5 / 9;
-   }
-   &:nth-child(4) {
-      grid-row: 6 / 9;
-   }
-   &:nth-child(5) {
-      grid-row: 6 / 9;
-   }
+`
+
+export const ChartContainer = styled.div`
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   width: 100%;
+   height: 90%;
+   box-sizing: border-box;
+`
+
+export const ChartTitle = styled.div`
+   width: 100%;
+   height: 5%;
+   display: flex;
 `

@@ -10,6 +10,6 @@ ChartJS.register(
    Legend
  );
 
-export default function RadarChart({ data, options = {} }) {
-   return <Radar data={data} options={options}/>
+export default function RadarChart({ data, options = {}, ...props }) {
+   return <Radar data={data} options={options} {...props}/>
 }

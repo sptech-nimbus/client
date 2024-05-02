@@ -1,7 +1,6 @@
 import * as S from './Player.styled';
 import { useState } from 'react';
-import RadarChart from '@components/Charts/RadarChart';
-import HorizontalBarChart from '../../components/Charts/HorizontalBarChart';
+import { RadarChart, BarChart } from '../../components/Charts';
 import Colors from "@utils/Colors";
 import { months } from '@utils/Helpers';
 import Title from "@components/Title/Title";
@@ -9,7 +8,8 @@ import { Note } from '../../components/Notes/Note';
 
 export default function Stats() {
 
-   const radarData =  {
+  const radarConfig = {
+    data: {
       labels: ['Thing 1', 'Thing 2', 'Thing 3', 'Thing 4', 'Thing 5', 'Thing 6'],
       datasets: [
         {
@@ -20,9 +20,8 @@ export default function Stats() {
           borderWidth: 1,
         },
       ],
-    };
-
-    const radarOptions = {
+    },
+    options: {
       scales: {
          r: {
            grid: {
@@ -39,7 +38,8 @@ export default function Stats() {
           position: 'bottom'
         }
       } 
-   };
+   }
+  }
 
    const options = {
       indexAxis: 'y',
@@ -128,7 +128,7 @@ export default function Stats() {
             <Title text='Desempenho do jogador' size='1.2rem'/>
           </S.ChartTitle>
           <S.ChartContainer>
-            <RadarChart data={radarData} options={radarOptions}/>
+            <RadarChart data={radarConfig.data} options={radarConfig.data}/>
           </S.ChartContainer>
          </S.ContainerStats>
 
@@ -142,7 +142,7 @@ export default function Stats() {
          <S.ContainerStats>
           <Title text='Acertividade do jogador em pontos' size='1.2rem'/>
             <S.ChartContainer>
-              <HorizontalBarChart data={data} options={options}/>
+              <BarChart data={data} options={options}/>
             </S.ChartContainer>
          </S.ContainerStats>
       </S.StatsGrid>

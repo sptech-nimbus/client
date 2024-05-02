@@ -49,3 +49,11 @@ export const months = (config) => {
      values.push(value.substring(0, section));
    }
 }
+
+const Utils = {
+   calcAge,
+   months,
+   filterByAttr
+}
+
+export default Utils;
