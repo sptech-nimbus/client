@@ -1,4 +1,4 @@
-import { CalcAge } from "@utils/Helpers";
+import { calcAge } from "@utils/Helpers";
 import { Pencil, Trash, Eye } from "@phosphor-icons/react";
 import * as S from "./Team.styled.js";
 
@@ -13,7 +13,7 @@ export default function TeamTable({players}) {
                <S.Td><S.PlayerTableImage src={player.picture} alt={`Imagem do jogador ${player.firstName} ${player.lastName}`} /></S.Td>
                <S.Td>{player.fullName}</S.Td>
                <S.Td>{player.position}</S.Td>
-               <S.Td>{`${CalcAge(player.birthDate)} anos`}</S.Td>
+               <S.Td>{`${calcAge(player.birthDate)} anos`}</S.Td>
                <S.Td>{player.number}</S.Td>
                <S.TdActions>
                   <S.InfoButton>

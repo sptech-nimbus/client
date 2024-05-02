@@ -27,3 +27,29 @@ export function Drawer({title, children, trigger}) {
       </D.Root>
    )
 }
+
+export function Dialog({title, children, trigger}) {
+   return (
+      <D.Root>
+         <S.DialogTrigger>
+            {trigger}
+         </S.DialogTrigger>
+         <D.Portal>
+            <S.DrawerOverlay />
+            <S.DialogContent>
+               <S.DrawerHeader>
+                  <S.DialogTitle>
+                     {title}
+                  </S.DialogTitle>
+                  <S.DrawerClose>
+                     <X/>
+                  </S.DrawerClose>
+               </S.DrawerHeader>
+               <S.DrawerDescription>
+                  {children}
+               </S.DrawerDescription>
+            </S.DialogContent>
+         </D.Portal>
+      </D.Root>
+   )
+}
