@@ -45,10 +45,12 @@ export default function Dashboard() {
        }
       ],
       options: {
+         responsive: true,
+          maintainAspectRatio: false,
          plugins: {
             legend: {
               position: 'right',
-              display: false
+              display: false,
             },
           },
       }
@@ -141,7 +143,7 @@ export default function Dashboard() {
          datasets: [
            {
              fill: true,
-             label: 'Jogador 1',
+             label: 'Pontos feitos',
              backgroundColor: `${Colors.orange500}65`,
              borderColor: `${Colors.orange500}`,
              borderWidth: 3,
@@ -150,7 +152,7 @@ export default function Dashboard() {
            },
            {
              fill: true,
-             label: 'Jogador 2',
+             label: 'Pontos sofridos',
              backgroundColor: `${Colors.orange300}65`,
              borderColor: `${Colors.orange300}`,
              borderWidth: 3,
@@ -187,7 +189,7 @@ export default function Dashboard() {
          <Background.Default />
          <Sidebar page='dashboard'/>
          <S.ContentContainer>
-            {/* <Title text='Dashboard' uppercase/> */}
+            <Title text='Dashboard' uppercase/> 
             <S.DashGrid>
                <S.Container>
 

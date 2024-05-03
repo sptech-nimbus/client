@@ -2,7 +2,11 @@ import * as S from './Home.styled';
 import Sidebar from "@components/Sidebar/Sidebar";
 import Background from "@components/Background/Background";
 
-import { RadarChart } from '../../components/Charts';
+import { RadarChart, DoughnutChart } from '../../components/Charts';
+import Results from './Result';
+import Title from '@components/Title/Title';
+
+import Colors from "@utils/Colors";
 
 export default function Home() {
    const radarConfig = {
@@ -38,6 +42,39 @@ export default function Home() {
      }
     }
 
+   const doughnutConfig = {
+      data: {
+         labels: ['Vitórias', 'Derrotas'],
+         datasets: [
+           {
+             label: '# of Votes',
+             data: [12, 12],
+             backgroundColor: [
+               `${Colors.orange500}`,
+               `${Colors.orange300}`,
+             ],
+             borderColor: [
+               Colors.orange500,
+               Colors.orange300,
+   
+             ],
+             borderWidth: 1,
+           },
+         ],
+      },
+      options: {
+         circumference: 180,
+         rotation: -90,
+         responsive: true,
+         maintainAspectRatio: false,
+         plugins: {
+            legend: {
+               position: 'right',
+            },
+         },
+      }
+   }
+
    return (
       <S.PageContainer>
          <Background.Default />
@@ -50,16 +87,54 @@ export default function Home() {
                   </S.ChartContainer>
                </S.Container>
 
+               <S.MatchContainer>
+                  <S.MatchCard>
+                     <S.MatchHeader>
+                        <span>Partida anterior</span>
+                     </S.MatchHeader>
+                     <S.MatchTeams>
+                        <S.MatchTeamLogo />
+                        <span>VS</span>
+                        <S.MatchTeamLogo />
+                     </S.MatchTeams>
+                     <S.MatchInfo>
+                        <span>Meu time</span>
+                        <span>Time adversário</span>
+                     </S.MatchInfo>
+                     <S.MatchResults>
+                        <span>65</span>
+                        <Results result='lose'/>
+                        <span>85</span>
+                     </S.MatchResults>
+                  </S.MatchCard>
+                  <S.MatchCard>
+                     <S.MatchHeader>
+                        <span>Próxima partida</span>
+                     </S.MatchHeader>
+                     <S.MatchTeams>
+                        <S.MatchTeamLogo />
+                        <span>VS</span>
+                        <S.MatchTeamLogo />
+                     </S.MatchTeams>
+                     <S.MatchInfo>
+                        <span>Meu time</span>
+                        <span>Time adversário</span>
+                     </S.MatchInfo>
+                     <S.MatchResults>
+                        <span>25.04.2024</span>
+                        <span>16:30</span>
+                     </S.MatchResults>
+                  </S.MatchCard>
+               </S.MatchContainer>
+
                <S.Container>
-
-               </S.Container>
-
-               <S.Container>
-
+                  
                </S.Container>
                
                <S.Container>
-
+                  <S.ChartContainer>
+                     <DoughnutChart data={doughnutConfig.data} options={doughnutConfig.options} />
+                  </S.ChartContainer>
                </S.Container>
             </S.HomeGrid>
          </S.ContentContainer>
