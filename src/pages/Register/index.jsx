@@ -14,33 +14,41 @@ import FormStepFour from '../UserRegister/AthleteRegister/FormStepFour';
 import user from '@api/user';
 import team from '@api/team';
 import athlete from '@api/athlete';
+import athleteDesc from '@api/athleteDesc';
 
 export default function Register() {
-    const [step, setStep] = useState(1);
+    const [step, setStep] = useState(3);
+
+    const [token, setToken] = useState('')
+
+    const [personaId, setPersonaId] = useState('')
 
     const [userData, setUserData] = useState({
-        email: null,
-        password: null,
-        typeUser: null
+        email: 'michaelhenrique0022@gmail.com',
+        password: 'Wn+V8>v;s2vmpQ4',
+        typeUser: 'athlete'
     });
 
     const [personData, setPersonData] = useState({
-        firstName: null,
-        lastName: null,
-        birthDate: null,
-        phone: null
+        firstName: 'Michael',
+        lastName: 'Henrique',
+        birthDate: '2002-03-01',
+        phone: '11955777482'
     });
 
     const [teamData, setTeamData] = useState({
         code: null,
         name: null,
         category: null,
-        logo: null,
-        isAmateur: null
+        picture: null,
+        local: null,
+
     });
 
-    const [athleteDesc, setAthleteDesc] = useState({
-
+    const [athleteDescData, setAthleteDescData] = useState({
+        weight: null,
+        height: null,
+        position: null,
     })
 
     function handleFormSubmit(formData) {
@@ -51,12 +59,15 @@ export default function Register() {
             userData.typeUser = formData.typeUser;
 
             setStep(step + 1);
-        } else if (step == 2 && userData.typeUser === "coach") {
+        }
+        else if (step == 2 && userData.typeUser === "coach") {
             userData.email = formData.email;
             userData.password = formData.password;
             personData.phone = formData.formattedPhone
 
             setStep(step + 1)
+
+
         }
         else if (step == 2 && userData.typeUser === "athlete") {
             userData.email = formData.email;
@@ -85,8 +96,6 @@ export default function Register() {
             teamData.logo = formData.teamLogo;
             teamData.isAmateur = formData.chkAmateur;
 
-            console.log(personData);
-
             user.post({
                 email: userData.email,
                 password: userData.password,
@@ -100,27 +109,55 @@ export default function Register() {
             team.post(teamData);
         }
         else if (step == 3 && userData.typeUser === "athlete") {
-            console.log(formData);
 
             personData.category = formData.category;
             personData.isStarting = false;
 
-            console.log(personData);
+            athleteDescData.height = formData.height.replace('cm', '');
+            athleteDescData.weight = formData.weight.replace('kg', '');
+            athleteDescData.position = formData.position;
 
             user.post({
                 email: userData.email,
                 password: userData.password,
-                coach: personData
+                athlete: personData
             }).then(response => {
-                console.log(response);
+                console.log(response.data.data)
+                let personID = response.data.data.personaId;
+                setPersonaId(personID)
+
+                if (response.status == 200) {
+                    user.login({
+                        email: userData.email,
+                        password: userData.password,
+                    }).then(response => {
+                        console.log(response.data.data.token)
+                        setToken(response.data.data.token)
+                    })
+                }
             }).catch(error => {
                 console.log((error.response.data));
                 setStep(step - 1);
             });
-            
+
+            setStep(step + 1);
         }
         else if (step == 4 && userData.typeUser === "athlete") {
-            console.log("passo 4 athlete")
+            
+            console.log(athleteDescData);
+            athleteDesc.post({
+                athleteDescData, token
+            }).then(response => {
+                console.log(response)
+            }).catch(error => {
+                console.log(error.response)
+            })
+
+            console.log(formData)
+            teamData.name = formData.teamName;
+            teamData.category = formData.category;
+            teamData.picture = formData.teamPicture;
+            teamData.local = formData.local;   
         }
     }
 
@@ -137,6 +174,7 @@ export default function Register() {
                     {step === 1 && <FormStepOne onSubmit={handleFormSubmit} />}
                     {step === 2 && <FormStepTwo onSubmit={handleFormSubmit} />}
                     {step === 3 && <FormStepThreeAthlete onSubmit={handleFormSubmit} />}
+                    {step === 4 && <FormStepFour onSubmit={handleFormSubmit} />}
                 </>
             ) : (
                 <>
@@ -146,7 +184,6 @@ export default function Register() {
                     {step === 1 && <FormStepOne onSubmit={handleFormSubmit} />}
                     {step === 2 && <FormStepTwo onSubmit={handleFormSubmit} />}
                     {step === 3 && <FormStepThree onSubmit={handleFormSubmit} />}
-                    {step === 4 && <FormStepFour onSubmit={handleFormSubmit} />}
                 </>
             )}
         </LS.Header>

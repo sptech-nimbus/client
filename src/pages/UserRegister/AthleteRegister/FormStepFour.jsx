@@ -9,19 +9,23 @@ import Button from '@components/Button/Button';
 import Checkbox from '@components/Checkbox/Checkbox';
 
 import { TooltipInput as Tooltip } from '@components/Tooltip/Tooltip';
-import { TextValidation, TeamCodeValidation, ImageValidation } from '@utils/Validations';
+import { TextValidation, TeamCodeValidation, ImageValidation, CategoryValidation } from '@utils/Validations';
 
 import { useMediaQuery } from 'react-responsive';
 import { ToastContainer, toast } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 
-export default function FormStepFour({ onSubmit }) {
+export default function FormStepFour({onSubmit}) {
     const [teamName, setTeamName] = useState('');
     const [teamCode, setTeamCode] = useState('');
     const [category, setCategory] = useState('');
     const [teamPicture, setTeamPicture] = useState('');
     const [local, setLocal] = useState('');
     const [chkAmateur, setChkAmateur] = useState(false);
+
+    const [teamNameErr, setTeamNameErr] = useState(false);
+    const [teamCodeErr, setTeamCodeErr] = useState(false);
+    const [categoryErr, setCategoryErr] = useState(false);
 
     const [teamNameTtpOpen, setTeamNameTtpOpen] = useState(false);
     const [teamCodeTtpOpen, setTeamCodeTtpOpen] = useState(false);
@@ -79,21 +83,18 @@ export default function FormStepFour({ onSubmit }) {
     function handleSubmit(e) {
         e.preventDefault();
 
+        console.log("entremo")
+
         if (TeamCodeValidation(teamCode)) {
             console.log("Enviando solicitação com o código do time existente:", teamCode);
             onSubmit(teamCode);
         }
         else if (
             TextValidation(teamName) &&
-            TextValidation(category) &&
-            ImageValidation(teamLogo)) {
-            console.log("Enviando solicitação com os seguintes dados:");
-            console.log("Nome do time:", teamName);
-            console.log("Categoria:", category);
-            console.log("Logo do time:", teamLogo);
-            console.log("Amador:", chkAmateur);
-
-            onSubmit({ teamName, category, teamLogo, chkAmateur });
+            CategoryValidation(category) &&
+            ImageValidation(teamPicture)) {
+            
+            onSubmit({ teamName, category, teamPicture, chkAmateur, local });
         }
         else {
             if (teamCode) {
@@ -167,7 +168,8 @@ export default function FormStepFour({ onSubmit }) {
                 <LS.InputsContainer>
                     <Label>
                         Categoria
-                        <Input.Default
+                        <Input.Masked
+                            mask={'Sub-00'}
                             placeholder={'Sub-20'}
                             value={category}
                             onChange={handleCategoryChange}

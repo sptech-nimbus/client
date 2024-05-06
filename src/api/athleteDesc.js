@@ -5,10 +5,13 @@ import config from "./config";
 
 const path = "athlete-descs";
 
-async function registerAthleteDesc({ body }) {
+async function registerAthleteDesc({ body, token }) {
     try {
-        const response = await axios.post(`${config.baseURL}/${path}`, body)
-
+        const response = await axios.post(`${config.baseURL}/${path}`, body, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        })
         return response;
     } catch (err) {
         throw err;

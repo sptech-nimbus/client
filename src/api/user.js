@@ -29,6 +29,7 @@ async function postUser(body = {}) {
     try {
         const response = await axios.post(`${config.baseURL}/${path}`, body);
         console.log(response);
+        
         return response;
     }
     catch (err) {
