@@ -3,6 +3,7 @@ import * as S from "./Player.styled";
 import Title from "@components/Title/Title";
 import { PrimaryButton as Button } from "@components/Button/Button";
 import { Trash, Pencil, FilePdf } from "@phosphor-icons/react";
+import user from "@api/user";
 
 export default function AthleteDesk() {
    return (
@@ -11,7 +12,7 @@ export default function AthleteDesk() {
             <S.Container>
                <S.PlayerImg src="https://placehold.co/400x400"/>
             </S.Container>
-
+            
             <S.Container>
                <Title text='Informações do jogador' size='1.3rem'/>
                <S.InfomationContainer>
