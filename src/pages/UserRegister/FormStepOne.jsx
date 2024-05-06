@@ -14,8 +14,8 @@ import { ToastContainer, toast } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 
 export default function FormStepOne({onSubmit}) {
-    const [name, setName] = useState('');
-    const [lastName, setLastName] = useState('');
+    const [name, setName] = useState('Michael');
+    const [lastName, setLastName] = useState('Teixeira');
     const [date, setDate] = useState('');
 
     const [nameErr, setNameErr] = useState(false);
@@ -116,7 +116,7 @@ export default function FormStepOne({onSubmit}) {
                         <S.InputLine>
                             <Input.Default
                                 placeholder={'John'}
-                                value={name}
+                                value={'Michael'}
                                 onChange={handleNameChange}
                                 onFocus={handleNameTtpChange}
                                 onBlur={handleNameTtpChange}
@@ -133,7 +133,7 @@ export default function FormStepOne({onSubmit}) {
                         <S.InputLine>
                             <Input.Default
                                 placeholder={'Doe'}
-                                value={lastName}
+                                value={'Teixeira'}
                                 onChange={handleLastNameChange}
                                 onFocus={handleLastNameTtpChange}
                                 onBlur={handleLastNameTtpChange}
