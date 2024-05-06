@@ -20,11 +20,15 @@ async function getAllTeams(headers = {}) {
     }
 }
 
-async function registerTeam(body = {}, headers = {}) {
+async function registerTeam(body = {}, token) {
     try {
-        const response = await axios.post(`${config.baseURL}/${path}`, body)
+        const response = await axios.post(`${config.baseURL}/${path}`, body, {
+            headers: {
+                'jwt-secret': `eyJhbGciOiJIUzUxMiJ9.eyJSb2xlIjoiQWRtaW4iLCJJc3N1ZXIiOiJJc3N1ZXIiLCJVc2VybmFtZSI6IkphdmFJblVzZSIsImV4cCI6MTcxMjE2ODI2NCwiaWF0IjoxNzEyMTY4MjY0fQ.gEhuSqhXdir4bQnGoM0V3FdjtVuuayZDeHxXCHyMwxQ5V66yGD8Al7wtxn6rDf-GY9tkjOoysTitedOGyvQMww`
+            }
+        })
             .then(response => {
-                console.log(response.data);
+                console.log(response);
             })
             .catch(error => {
                 console.log(error);

@@ -20,7 +20,7 @@ export default function PlayerInfo() {
    const handleDeskActive = (e) => {
       if(statsActive) setStatsActive(!statsActive);
       if(!deskActive) setDeskActive(!deskActive);
-   }
+    }
 
    return (
       <S.PageContainer>

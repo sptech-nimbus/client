@@ -10,6 +10,7 @@ import FormStepTwo from '../UserRegister/TrainerRegister/FormStepTwo';
 import FormStepThree from '../UserRegister/TrainerRegister/FormStepThree';
 import FormStepThreeAthlete from '../UserRegister/AthleteRegister/FormStepThree';
 import FormStepFour from '../UserRegister/AthleteRegister/FormStepFour';
+import Login from '../Login/index'
 
 import user from '@api/user';
 import team from '@api/team';
@@ -17,14 +18,14 @@ import athlete from '@api/athlete';
 import athleteDesc from '@api/athleteDesc';
 
 export default function Register() {
-    const [step, setStep] = useState(3);
+    const [step, setStep] = useState(1);
 
     const [token, setToken] = useState('')
 
     const [personaId, setPersonaId] = useState('')
 
     const [userData, setUserData] = useState({
-        email: 'michaelhenrique0022@gmail.com',
+        email: 'michaelhenrique022@gmail.com',
         password: 'Wn+V8>v;s2vmpQ4',
         typeUser: 'athlete'
     });
@@ -49,6 +50,9 @@ export default function Register() {
         weight: null,
         height: null,
         position: null,
+        athlete: {
+            id: null
+        } 
     })
 
     function handleFormSubmit(formData) {
@@ -113,9 +117,7 @@ export default function Register() {
             personData.category = formData.category;
             personData.isStarting = false;
 
-            athleteDescData.height = formData.height.replace('cm', '');
-            athleteDescData.weight = formData.weight.replace('kg', '');
-            athleteDescData.position = formData.position;
+
 
             user.post({
                 email: userData.email,
@@ -131,8 +133,15 @@ export default function Register() {
                         email: userData.email,
                         password: userData.password,
                     }).then(response => {
-                        console.log(response.data.data.token)
                         setToken(response.data.data.token)
+                        setAthleteDescData({
+                            height: formData.height.replace('cm', ''),
+                            weight: formData.weight.replace('kg', ''),
+                            position: formData.position,
+                            athlete: {
+                                id: personID
+                            }
+                        })
                     })
                 }
             }).catch(error => {
@@ -143,21 +152,24 @@ export default function Register() {
             setStep(step + 1);
         }
         else if (step == 4 && userData.typeUser === "athlete") {
-            
-            console.log(athleteDescData);
-            athleteDesc.post({
-                athleteDescData, token
-            }).then(response => {
-                console.log(response)
-            }).catch(error => {
-                console.log(error.response)
-            })
+            athleteDesc.post({ athleteDescData }, token )
+                .then(response => {
+                    console.log(response)
+                }).catch(error => {
+                    console.log(error.response)
+                })
 
-            console.log(formData)
             teamData.name = formData.teamName;
             teamData.category = formData.category;
             teamData.picture = formData.teamPicture;
             teamData.local = formData.local;   
+
+            team.post({
+                name: teamData.name,
+                category: teamData.category,
+                local: teamData.local,
+            }, token)
+
         }
     }
 
@@ -175,6 +187,7 @@ export default function Register() {
                     {step === 2 && <FormStepTwo onSubmit={handleFormSubmit} />}
                     {step === 3 && <FormStepThreeAthlete onSubmit={handleFormSubmit} />}
                     {step === 4 && <FormStepFour onSubmit={handleFormSubmit} />}
+                    {step === 5 && <Login onSubmit={handleFormSubmit} />}
                 </>
             ) : (
                 <>
@@ -184,6 +197,7 @@ export default function Register() {
                     {step === 1 && <FormStepOne onSubmit={handleFormSubmit} />}
                     {step === 2 && <FormStepTwo onSubmit={handleFormSubmit} />}
                     {step === 3 && <FormStepThree onSubmit={handleFormSubmit} />}
+                    {step === 4 && <Login onSubmit={handleFormSubmit} />}
                 </>
             )}
         </LS.Header>
