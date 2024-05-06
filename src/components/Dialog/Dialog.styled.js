@@ -43,11 +43,28 @@ export const DrawerContent = styled(D.Content)`
    }
 `
 
+export const DialogContent = styled(DrawerContent)`
+   min-width: 30vw;
+   max-width: 50vw;
+   height: fit-content;
+   top: 50%;
+   left: 50%;
+   transform: translate(-50%, -50%);
+   border-radius: 1rem;
+`
+
 export const DrawerTitle = styled(D.Title)`
    width: 100%;
    text-align: left;
    font-family: "Catamaran", sans-serif;
    color: ${Colors.orange500};
+`
+
+export const DialogTitle = styled(D.Title)`
+   width: 100%;
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
 `
 
 export const DrawerHeader = styled.div`
@@ -96,4 +113,9 @@ export const DrawerTrigger = styled(D.Trigger)`
    &:active {
       color: ${Colors.orange300};
    }
+`
+
+export const DialogTrigger = styled(D.Trigger)`
+   background: none;
+   border: none;
 `
