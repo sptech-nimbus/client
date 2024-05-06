@@ -25,13 +25,18 @@ export default function Login() {
             <S.InputsContainer>
                <Label >
                   Insira seu email
-                  <Input.Default placeholder={'seu@email.com'}>
+                       <Input.Default
+                           placeholder={'seu@email.com'}
+                           value={ 'michaelhenrique0022@gmail.com' }>                    
                      <Envelope />
                   </Input.Default>
                </Label>
                <Label >
                   Insira sua senha
-                  <Input.Password placeholder={'**********'} hasIcon/>
+                       <Input.Password
+                           placeholder={'**********'}
+                           value={'Wn+V8>v;s2vmpQ4'}
+                           hasIcon />
                </Label>
             </S.InputsContainer>
             <Button.Primary 
