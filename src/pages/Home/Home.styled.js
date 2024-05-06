@@ -40,6 +40,7 @@ export const Container = styled.div`
    border-radius: 1rem;
    padding: 1rem 1.2rem;
    box-sizing: border-box;
+   gap: 1rem;
 
    &:nth-child(1) {
       grid-row: 1 / 6;
@@ -49,6 +50,13 @@ export const Container = styled.div`
    }
    &:nth-child(3) {
       grid-row: 5 / 11;
+      align-items: center;
+      justify-content: center;
+
+      span {
+         font-weight: 600;
+         font-size: 1.5rem;
+      }
    }
    &:nth-child(4) {
       grid-row: 6 / 11;
@@ -136,6 +144,7 @@ export const ChartContainer = styled.div`
    width: 100%;
    height: 90%;
    box-sizing: border-box;
+   padding-inline: 2rem;
 `
 
 export const ChartTitle = styled.div`

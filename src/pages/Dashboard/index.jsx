@@ -52,6 +52,10 @@ export default function Dashboard() {
               position: 'right',
               display: false,
             },
+            labels: {
+               color: Colors.orange100,
+               boxWidth: 20,
+            },
           },
       }
    }
@@ -98,6 +102,10 @@ export default function Dashboard() {
            legend: {
              display: false
            },
+           labels: {
+            color: Colors.orange100,
+            boxWidth: 20,
+         },
          },
        }
    }
@@ -165,7 +173,11 @@ export default function Dashboard() {
          plugins: {
             legend: {
                display: false
-            }
+            },
+            labels: {
+               color: Colors.orange100,
+               boxWidth: 20,
+            },
          },
          responsive: true,
          maintainAspectRatio: false,
@@ -200,7 +212,7 @@ export default function Dashboard() {
                </S.Container>
                   
                <S.Container>
-               <Title text='Pontos por jogo nos últimos jogos' size='1rem' color={Colors.orange100}/>
+                  <Title text='Pontos por jogo nos últimos jogos' size='1rem' color={Colors.orange100}/>
                   <S.ChartContainer>
                      <LineChart data={areaConfig.data} options={areaConfig.options}/>
                   </S.ChartContainer>

@@ -14,7 +14,7 @@ export default function Home() {
         labels: ['Thing 1', 'Thing 2', 'Thing 3', 'Thing 4', 'Thing 5', 'Thing 6'],
         datasets: [
           {
-            label: '# of Votes',
+            label: 'Desempenho',
             data: [2, 9, 3, 5, 2, 3],
             backgroundColor: `${Colors.orange500}65`,
             borderColor: Colors.orange500,
@@ -34,9 +34,18 @@ export default function Home() {
            }
         },
         responsive: true,
+        maintainAspectRatio: false,
         plugins: {
           legend: {
-            position: 'bottom'
+            labels: {
+               color: Colors.orange100,
+               boxWidth: 20,
+               font: {
+                  size: 18,
+                  family: 'Poppins'
+               }
+            },
+            position: 'right'
           }
         } 
      }
@@ -69,6 +78,14 @@ export default function Home() {
          maintainAspectRatio: false,
          plugins: {
             legend: {
+               labels: {
+                  color: Colors.orange100,
+                  boxWidth: 20,
+                  font: {
+                     size: 18,
+                     family: 'Poppins'
+                  }
+               },
                position: 'right',
             },
          },
@@ -82,6 +99,7 @@ export default function Home() {
          <S.ContentContainer>
             <S.HomeGrid>
                <S.Container>
+                  <Title text='Desempenho do time nos últimos jogos' size='1rem' color={Colors.orange100}/>
                   <S.ChartContainer>
                      <RadarChart data={radarConfig.data} options={radarConfig.options}/>
                   </S.ChartContainer>
@@ -128,10 +146,11 @@ export default function Home() {
                </S.MatchContainer>
 
                <S.Container>
-                  
+                  <span>Não há mensagens novas no momento.</span>
                </S.Container>
                
                <S.Container>
+                  <Title text='Resultado do time nos últimos jogos' size='1rem' color={Colors.orange100}/>
                   <S.ChartContainer>
                      <DoughnutChart data={doughnutConfig.data} options={doughnutConfig.options} />
                   </S.ChartContainer>
