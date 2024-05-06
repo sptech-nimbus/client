@@ -78,6 +78,14 @@ export const ShowInfoButton = styled.button`
    &:hover {
       background-color: ${Colors.orange300};
    }
+
+   &:nth-child(2) {
+      background-color: ${Colors.green};
+   }
+
+   &:nth-child(3) {
+      background-color: ${Colors.red};
+   }
 `
 
 export const CardsContainer = styled.div`
@@ -249,4 +257,9 @@ export const FilterDescription = styled.span`
    font-weight: 700;
    margin-bottom: 4px;
    font-size: 1rem;
+`
+
+export const Buttons = styled.div`
+   display: flex;
+   gap: .5rem;
 `

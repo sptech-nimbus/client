@@ -5,16 +5,17 @@ import Colors from "@utils/Colors";
 import { months } from '@utils/Helpers';
 import Title from "@components/Title/Title";
 import { Note } from '../../components/Notes/Note';
+import { Image } from '@phosphor-icons/react';
 
 export default function Stats() {
 
   const radarConfig = {
     data: {
-      labels: ['Thing 1', 'Thing 2', 'Thing 3', 'Thing 4', 'Thing 5', 'Thing 6'],
+      labels: ['Rebotes', 'Pontos', 'Assistências', 'Tocos', 'Roubos de bola', 'Lances livres'],
       datasets: [
         {
           label: '# of Votes',
-          data: [2, 9, 3, 5, 2, 3],
+          data: [10, 12, 12, 8, 12, 9],
           backgroundColor: `${Colors.orange500}65`,
           borderColor: Colors.orange500,
           borderWidth: 1,
@@ -23,14 +24,14 @@ export default function Stats() {
     },
     options: {
       scales: {
-         r: {
-           grid: {
-               color: `${Colors.gray100}65`,
-           },
-           angleLines: {
-               color: `${Colors.gray100}65`,
-           }
-         }
+        r: {
+          grid: {
+              color: `${Colors.gray100}65`,
+          },
+          angleLines: {
+              color: `${Colors.gray100}65`,
+          }
+        }
       },
       responsive: true,
       plugins: {
@@ -120,7 +121,7 @@ export default function Stats() {
    return(
       <S.StatsGrid>
          <S.ContainerStats>
-          
+         <S.PlayerImg src="https://placehold.co/400x400"/>
          </S.ContainerStats>
 
          <S.ContainerStats>
