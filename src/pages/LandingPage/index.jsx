@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
 import * as S from './LandingPage.styled.js';
+import React, { useState, useEffect, useRef } from 'react';
 import { useMediaQuery } from 'react-responsive';
 import Colors from "@utils/Colors";
 
@@ -8,29 +8,33 @@ import Title from "@components/Title/Title";
 import { InputDefault as Input, InputTextarea as Textarea } from "@components/Input/Input";
 import { PrimaryButton as Button} from "@components/Button/Button";
 import Label from "@components/Label/Label";
+import ScrollProgress from "@components/ScrollProgress/ScrollProgress";
+
+import { motion } from "framer-motion";
 
 import Menu from './Menu.jsx';
+import BallOutline from './BallOutline.jsx';
 
 export default function LandingPage() {
    const [navOpen, setNavOpen] = useState(false);
    const [userEmail, setUserEmail] = useState('');
    const [userMsg, setUserMsg] = useState('');
 
-   function handleNavOpen() {
+   const handleNavOpen = () => {
       setNavOpen(!navOpen);
    }
 
-   function handleUserEmail(e) {
+   const handleUserEmail = (e) => {
       const { value } = e.target;
       setUserEmail(value);
    }
 
-   function handleUserMsg(e) {
+   const handleUserMsg = (e) => {
       const { value } = e.target;
       setUserMsg(value);
    }
 
-   function renderSlider() {
+   const renderSlider = () => {
       const items = [];
 
       for (let i = 0; i < 12; i++) {
@@ -52,6 +56,7 @@ export default function LandingPage() {
 
    return ( 
       <S.PageWrapper navOpen={navOpen}>
+         <ScrollProgress color={Colors.orange300}/>
          <S.Header id="header">
             <Background.Default />
             {navOpen &&
@@ -71,11 +76,23 @@ export default function LandingPage() {
             </S.Navbar>
             <S.HeaderContent>
                <S.Wrapper>
+                  <motion.span>
                   <S.TitleContainer>
-                        <Title text={'Basquete para todos!'} uppercase size='6.2rem' color={Colors.orange100}/>
-                        <Title text={'E perto de você!'} uppercase size='6.2rem' color={Colors.orange100}/>
+                     <Title text={'Basquete para todos!'} uppercase size='6.2rem' color={Colors.orange100}/>
                   </S.TitleContainer>
-                  <S.Line />
+                  </motion.span>
+
+                  <motion.span>
+                  <S.TitleContainer>
+                     <Title text={'E perto de você!'} uppercase size='6.2rem' color={Colors.orange100}/>
+                  </S.TitleContainer>
+                  </motion.span>
+                  
+                  <S.Line initial={{ scaleX: 0 }} whileInView={{ scaleX: 1 }} transition={{ 
+                     type: "spring", 
+                     duration: 1.5,
+                     }}/>
+
                   <S.SocialMediaContainer>
                      <S.SocialMedia src='/public/assets/github-logo.svg'/>
                      <S.SocialMedia src='/public/assets/instagram-logo.svg'/>
@@ -89,34 +106,51 @@ export default function LandingPage() {
             <S.About id="about">
                <Background.Default />
                <S.AboutTextContainer>
-                  <Title text='Para o jogador' uppercase size='2.5rem'/>
-                  <S.AboutText>
-                     Acompanhe seu desempenho de perto com estatísticas detalhadas e análises feitas pelo seu treinador.
-                  </S.AboutText>
+                  <motion.span initial={{ opacity: 0, y: '50%' }} whileInView={{ opacity: 1, y: 0 }} transition={{ delay: .2}}>
+                     <Title text='Para o jogador' uppercase size='2.5rem'/>
+                  </motion.span>
+
+                  <motion.span initial={{ opacity: 0, y: '50%' }} whileInView={{ opacity: 1, y: 0 }} transition={{ delay: .2}}>
+                     <S.AboutText>
+                        Acompanhe seu desempenho de perto com estatísticas detalhadas e análises feitas pelo seu treinador.
+                     </S.AboutText>
+                  </motion.span>
+
                </S.AboutTextContainer>
-               <S.Outline src='/public/assets/basketball-outline.svg'/>
+               <BallOutline />
                <S.AboutTextContainer textAlign='right'>
-                  <S.AboutText textAlign='right'>
-                     Gerencie várias de suas equipes e jogadores de forma intuitiva e eficiente dentro de uma única plataforma.
-                  </S.AboutText>
-                  <Title text='Para o treinador' uppercase size='2.5rem'/>
+                  <motion.span initial={{ opacity: 0, y: '50%' }} whileInView={{ opacity: 1, y: 0 }} transition={{ delay: .2}}>
+                     <S.AboutText textAlign='right'>
+                        Gerencie várias de suas equipes e jogadores de forma intuitiva e eficiente dentro de uma única plataforma.
+                     </S.AboutText>
+                  </motion.span>
+                  <motion.span initial={{ opacity: 0, y: '50%' }} whileInView={{ opacity: 1, y: 0 }} transition={{ delay: .2}}>
+                     <Title text='Para o treinador' uppercase size='2.5rem'/>
+                  </motion.span>
                </S.AboutTextContainer>
-               <S.TransitionText src='/public/assets/transition-text.svg'/>
+               <S.TransitionText
+               initial={{ opacity: 0 }}
+               animate={{ opacity: 1 }} 
+               src='/public/assets/transition-text.svg'/>
                <S.WaveSvg src='/public/assets/vector-wave.svg'/>
             </S.About>
             
             <S.Comunication id="comunication">
                <S.ComunicationWrapper>
                   <S.ComunicationTextContainer>
-                     <S.ComunicationText>
+                     <S.ComunicationText initial={{ opacity: 0, y: '50%' }} whileInView={{ opacity: 1, y: 0 }}>
                         A comunicação é a espinha dorsal, uma <S.Bold>interação instantânea e eficaz</S.Bold> entre treinadores e jogadores impulsiona o progresso e a coesão da equipe.
-                        </S.ComunicationText>
+                     </S.ComunicationText>
                   </S.ComunicationTextContainer>
-                  <Title text='Comunicação direta' color={Colors.orange100} size='7rem' uppercase/>
+                  
+                  <motion.span initial={{ opacity: 0, y: '50%' }} whileInView={{ opacity: 1, y: 0 }} transition={{ delay: .2}}>
+                     <Title text='Comunicação direta' color={Colors.orange100} size='7rem' uppercase/>
+                  </motion.span>
+
                   <S.ComunicationTextContainerRight>
-                     <S.ComunicationTextRight>Troca de passes, troca de ideias: sucesso garantido.</S.ComunicationTextRight>
+                     <S.ComunicationTextRight initial={{ opacity: 0, y: '50%' }} whileInView={{ opacity: 1, y: 0 }}>Troca de passes, troca de ideias: sucesso garantido.</S.ComunicationTextRight>
                   </S.ComunicationTextContainerRight>
-                  <S.Mockup src='/public/assets/mockup.png'/>
+                  <S.Mockup initial={{ opacity: 0, y: '30%' }} whileInView={{ opacity: 1, y: 0 }} src='/public/assets/mockup.png'/>
                </S.ComunicationWrapper>
             </S.Comunication>
 
@@ -124,11 +158,17 @@ export default function LandingPage() {
                <S.InvertedWaveSvg src='/public/assets/vector-wave.svg'/>
                <S.FeaturesWrapper>
                <S.FeaturesTitle>
-                  <Title text='Acompanhe o seu' uppercase color={Colors.gray900} size='4.5rem'/>
-                  <S.SecondTitle>
-                     <Title text='Desempenh' uppercase color={Colors.gray900} size='11.7rem'/>
-                     <S.BasketballTitle src='/public/assets/basketball-image.png'/>
-                  </S.SecondTitle>
+                  <motion.span initial={{ opacity: 0, y: '50%' }} whileInView={{ opacity: 1, y: 0 }} transition={{ delay: .2}}>
+                     <Title text='Acompanhe o seu' uppercase color={Colors.gray900} size='4.5rem'/>
+                  </motion.span>
+                  <motion.span initial={{ opacity: 0, y: '50%' }} whileInView={{ opacity: 1, y: 0 }} transition={{ delay: .2}}>
+                     <S.SecondTitle>
+                        <Title text='Desempenh' uppercase color={Colors.gray900} size='11.7rem'/>
+                        <motion.span initial={{ rotate: 90 }} whileInView={{ rotate: 0 }} transition={{ delay: .2 }}>
+                           <S.BasketballTitle src='/public/assets/basketball-image.png'/>
+                        </motion.span>
+                     </S.SecondTitle>
+                  </motion.span>
                </S.FeaturesTitle>
 
                <S.FeaturesSlider>
@@ -139,24 +179,36 @@ export default function LandingPage() {
 
                <S.FeaturesCardContainer>
                   <S.FeaturesCard>
-                     <Title text='Gráficos' uppercase/>
+                     <motion.span initial={{ opacity: 0, y: '50%' }} whileInView={{ opacity: 1, y: 0 }} transition={{ delay: .2}}>
+                        <Title text='Gráficos' uppercase/>
+                     </motion.span>
+                     <motion.span initial={{ opacity: 0, y: '50%' }} whileInView={{ opacity: 1, y: 0 }} transition={{ delay: .2}}>
                      <S.FeaturesCardText>
                         Analise seu jogo como um profissional e visualize <S.Highlight>estatísticas detalhadas</S.Highlight> e <S.Highlight>gráficos interativos</S.Highlight> sobre seus treinos e partidas!
                      </S.FeaturesCardText>
+                     </motion.span>
                   </S.FeaturesCard>
 
                   <S.FeaturesCard>
-                     <Title text='Eventos' uppercase/>
-                     <S.FeaturesCardText>
-                        <S.Highlight>Gerencie sua agenda criando</S.Highlight>, editando e excluindo treinos e partidas com um calendário intuitivo e fácil de usar. Seus jogadores receberão notificações de tudo!
-                     </S.FeaturesCardText>
+                     <motion.span initial={{ opacity: 0, y: '50%' }} whileInView={{ opacity: 1, y: 0 }} transition={{ delay: .2}}>
+                        <Title text='Eventos' uppercase/>
+                     </motion.span>
+                     <motion.span initial={{ opacity: 0, y: '50%' }} whileInView={{ opacity: 1, y: 0 }} transition={{ delay: .2}}>
+                        <S.FeaturesCardText>
+                           <S.Highlight>Gerencie sua agenda criando</S.Highlight>, editando e excluindo treinos e partidas com um calendário intuitivo e fácil de usar. Seus jogadores receberão notificações de tudo!
+                        </S.FeaturesCardText>
+                     </motion.span>
                   </S.FeaturesCard>
 
                   <S.FeaturesCard>
-                     <Title text='Anotações' uppercase/>
-                     <S.FeaturesCardText>
-                        O treinador pode <S.Highlight>registrar anotações</S.Highlight> sobre o desempenho individual e coletivo da equipe, <S.Highlight>durante treinos e partidas</S.Highlight> e compartilhar essas anotações com o time.
-                     </S.FeaturesCardText>
+                     <motion.span initial={{ opacity: 0, y: '50%' }} whileInView={{ opacity: 1, y: 0 }} transition={{ delay: .2}}>
+                        <Title text='Anotações' uppercase/>
+                     </motion.span>
+                     <motion.span initial={{ opacity: 0, y: '50%' }} whileInView={{ opacity: 1, y: 0 }} transition={{ delay: .2}}>
+                        <S.FeaturesCardText>
+                           O treinador pode <S.Highlight>registrar anotações</S.Highlight> sobre o desempenho individual e coletivo da equipe, <S.Highlight>durante treinos e partidas</S.Highlight> e compartilhar essas anotações com o time.
+                        </S.FeaturesCardText>
+                     </motion.span>
                   </S.FeaturesCard>
                </S.FeaturesCardContainer>
                </S.FeaturesWrapper>
@@ -166,16 +218,21 @@ export default function LandingPage() {
                <Background.Default />
                <S.ContactWrapper>
                   <S.ContactContent>
-                     <Title
-                     text='Dúvidas, sugestões ou reclamações?'
-                     color={Colors.orange100}
-                     uppercase
-                     size='4rem'/>
+                     <motion.span initial={{ opacity: 0, y: '50%' }} whileInView={{ opacity: 1, y: 0 }} transition={{ delay: .2}}>
+                        <Title
+                        text='Dúvidas, sugestões ou reclamações?'
+                        color={Colors.orange100}
+                        uppercase
+                        size='4rem'/>
+                     </motion.span>
+
+                     <motion.span initial={{ opacity: 0, y: '50%' }} whileInView={{ opacity: 1, y: 0 }} transition={{ delay: .2}}>
                      <S.ContactText>
                         Estamos prontos para ouvir você. Valorizamos suas opiniões e feedback para melhorar nossos serviços. Não enviamos spam, apenas queremos oferecer a melhor experiência possível. Se surgir alguma dúvida ou precisar de suporte, estamos aqui para ajudar. Por favor, compartilhe suas ideias ou preocupações conosco ao lado. Aguardamos sua mensagem!
                      </S.ContactText>
+                     </motion.span>
                   </S.ContactContent>
-                  <S.ContactForm>
+                  <S.ContactForm initial={{ opacity: 0, y: '50%' }} whileInView={{ opacity: 1, y: 0 }}>
                      <Label>
                         <span>E-mail</span>
                         <Input

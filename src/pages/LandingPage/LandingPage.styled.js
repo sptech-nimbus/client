@@ -1,6 +1,7 @@
 import styled, { keyframes } from "styled-components";
 import Colors from "@utils/Colors";
 import { useMediaQuery } from "react-responsive";
+import { motion } from "framer-motion";
 
 const linePadding = "8rem";
 
@@ -40,6 +41,15 @@ const textSlider = keyframes`
   to { 
       transform: translateX(-50%); 
   }
+`
+
+export const LogoBackground = styled.img`
+   width: 45vw;
+   position: absolute;
+   bottom: 20%;
+   z-index: 3;
+   right: ${linePadding};
+   user-select: none;
 `
 
 export const Flex = styled.div`
@@ -137,8 +147,6 @@ export const MenuLink = styled.a`
    color: ${Colors.gray900};
    transition: all .1s ease-in;
    cursor: pointer;
-   opacity: 0;
-   animation: ${textFadeIn} 0.5s cubic-bezier(0.25, 0.1, 0.25, 1) ${props => props.delay} forwards;
 
    &:hover {
       color: ${Colors.orange500};
@@ -227,7 +235,7 @@ export const TitleContainer = styled.div`
    text-align: center;
 `
 
-export const Line = styled.hr`   
+export const Line = styled(motion.hr)`   
    width: 50%;
    background-color: ${Colors.orange100};
    height: 4px; 
@@ -287,10 +295,10 @@ export const About = styled.section`
 
 export const Outline = styled.img`
    width: 28vw;
-   animation: ${rotate} 12s linear infinite;
    -webkit-user-select: none; 
    -ms-user-select: none; 
    user-select: none; 
+   animation: ${rotate} 12s linear infinite;
 `
 
 export const AboutTextContainer = styled.div`
@@ -326,7 +334,7 @@ export const Comunication = styled.section`
    padding-inline: ${linePadding};
 `
 
-export const TransitionText = styled.img`
+export const TransitionText = styled(motion.img)`
    width: 80vw;
    position: absolute;
    bottom: -5%;
@@ -345,10 +353,10 @@ export const ComunicationTextContainerRight = styled(ComunicationTextContainer)`
    justify-content: flex-end;
 `
 
-export const ComunicationText = styled.div`
+export const ComunicationText = styled(motion.div)`
    width: 40vw;
    color: ${Colors.orange100};
-   font-size: 1.5rem;
+   font-size: 1.2rem;
 `
 
 export const ComunicationTextRight = styled(ComunicationText)`
@@ -360,13 +368,14 @@ export const Bold = styled.span`
    font-weight: 700;
 `
 
-export const Mockup = styled.img`
+export const Mockup = styled(motion.img)`
    position: absolute;
-   width: 65vw;
+   width: 60vw;
    bottom: -20%;
    -webkit-user-select: none; 
    -ms-user-select: none; 
    user-select: none; 
+   z-index: 1;
 `
 
 export const ComunicationWrapper = styled(Wrapper)`   
@@ -482,7 +491,7 @@ export const FeaturesCard = styled.div`
 
 export const FeaturesCardText = styled.span`
    color: ${Colors.gray900};
-   font-size: 1.2rem;
+   font-size: 1rem;
    font-weight: 500;
 `
 
@@ -517,7 +526,7 @@ export const ContactContent = styled.div`
    width: 50vw;
 `
 
-export const ContactForm = styled.form`
+export const ContactForm = styled(motion.form)`
    display: flex;
    flex-direction: column;
    gap: 1rem;
