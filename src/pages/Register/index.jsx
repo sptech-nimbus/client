@@ -82,15 +82,11 @@ export default function Register() {
 
             const updatePersonData = {
                 ...personData,
-                category: null,
-                isStarting: null
+                category: '',
+                isStarting: ''
             }
 
-            personData.category = '';
-            personData.isStarting = '';
-
             setPersonData(updatePersonData)
-
             console.log(personData);
 
             setStep(step + 1);
@@ -114,13 +110,14 @@ export default function Register() {
                 console.log((error.response.data));
                 setStep(step - 1);
             });
-            
+
             team.post(teamData);
         }
         else if (step == 3 && userData.typeUser === "athlete") {
-
-            personData.category = formData.category;
-            personData.isStarting = false;
+            setPersonData({
+                category: formData.category,
+                isStarting: false
+            })
 
             setAthleteDescData({ 
                 ...athleteDescData,
@@ -128,11 +125,6 @@ export default function Register() {
                 weight: formData.weight.replace('kg', ''),
                 position: formData.position
             })
-
-            console.log(formData);
-            console.log(athleteDescData);
-
-            let personId;
             
             user.post({
                 email: userData.email,
@@ -143,7 +135,14 @@ export default function Register() {
 
                 if (response.status == 200) {
                     console.log(athleteDescData);
-                    athleteDescData.athlete.id = response.data.data.personaId;
+
+                    setAthleteDescData({
+                        ...athleteDescData,
+                        athlete: {
+                            id: response.data.data.personaId
+                        }
+                    })
+                    
                     athleteDesc.post({
                         body: athleteDescData, token
                     }).then(response => {
