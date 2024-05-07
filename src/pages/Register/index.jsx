@@ -25,16 +25,16 @@ export default function Register() {
     const [personaId, setPersonaId] = useState('')
 
     const [userData, setUserData] = useState({
-        email: 'michaelhenrique022@gmail.com',
-        password: 'Wn+V8>v;s2vmpQ4',
+        email: null,
+        password: null,
         typeUser: 'athlete'
     });
 
     const [personData, setPersonData] = useState({
-        firstName: 'Michael',
-        lastName: 'Henrique',
-        birthDate: '2002-03-01',
-        phone: '11955777482'
+        firstName: null,
+        lastName: null,
+        birthDate: null,
+        phone: null
     });
 
     const [teamData, setTeamData] = useState({
