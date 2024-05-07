@@ -15,6 +15,12 @@ import { ToastContainer, toast } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 
 export default function FormStepTwo({onSubmit}) {
+   const [userData, setUserData] = useState({
+      email: '',
+      phone: '',
+      password: ''
+   });
+
    const [email, setEmail] = useState('');
    const [phone, setPhone] = useState('');
    const [password, setPassword] = useState('');
@@ -38,17 +44,26 @@ export default function FormStepTwo({onSubmit}) {
 
    function handleEmailChange(e) {
       const { value } = e.target;
-      setEmail(value);
+      setUserData({
+         ...userData,
+         email: value
+      });
   }
 
   function handlePhoneChange(e) {
       const { value } = e.target;
-      setPhone(value);
+      setUserData({
+         ...userData,
+         phone: value
+      });
   }
 
   function handlePasswordChange(e) {
       const { value } = e.target;
-      setPassword(value);
+      setUserData({
+         ...userData,
+         password: value
+      });
   }
 
   function handleConfirmPasswordChange(e) {
@@ -68,19 +83,25 @@ export default function FormStepTwo({onSubmit}) {
       e.preventDefault();
 
       if(
-         EmailValidation(email) && 
-         PasswordValidation(password) && 
-         ConfirmPasswordValidation(password, confirmPassword) &&
-         BrPhoneValidation(phone)) 
+         EmailValidation(userData.email) && 
+         PasswordValidation(userData.password) && 
+         ConfirmPasswordValidation(userData.password, confirmPassword) &&
+         BrPhoneValidation(userData.phone)) 
       {
-          let formattedPhone = phone.replace(" ", "").replace("(", "").replace(")", "").replace("-", "");
-          onSubmit({ email, formattedPhone, password });
+          let formattedPhone = userData.phone.replace(" ", "").replace("(", "").replace(")", "").replace("-", "");
+
+          setUserData({
+            ...userData,
+            phone: formattedPhone
+          })
+
+          onSubmit(userData);
       }
       else {
-         if(!EmailValidation(email)) toast.error('Email inválido.');
-         if(!BrPhoneValidation(phone)) toast.error('Telefone inválido.')
-         if(!PasswordValidation(password)) toast.error('Senha inválida.');
-         if(!ConfirmPasswordValidation(password, confirmPassword)) toast.error('As senhas não correspondem.');
+         if(!EmailValidation(userData.email)) toast.error('Email inválido.');
+         if(!BrPhoneValidation(userData.phone)) toast.error('Telefone inválido.')
+         if(!PasswordValidation(userData.password)) toast.error('Senha inválida.');
+         if(!ConfirmPasswordValidation(userData.password, confirmPassword)) toast.error('As senhas não correspondem.');
       }
    }
 
@@ -104,7 +125,7 @@ export default function FormStepTwo({onSubmit}) {
             <S.InputLine>
                <Input.Default
                   placeholder={'seu@email.com'}
-                  value={email}
+                  value={userData.email}
                   onChange={handleEmailChange}
                />
             </S.InputLine>
@@ -116,7 +137,7 @@ export default function FormStepTwo({onSubmit}) {
                <Input.Masked
                   mask={'(00) 00000-0000'}
                   placeholder={'(99) 99999-9999'}
-                  value={phone}
+                  value={userData.phone}
                   onChange={handlePhoneChange}
                />
             </S.InputLine>
@@ -126,7 +147,7 @@ export default function FormStepTwo({onSubmit}) {
             <span>Senha <S.Mandatory>*</S.Mandatory></span>
             <S.InputLine>
                <Input.Password
-                  value={password}
+                  value={userData.password}
                   placeholder={'**********'}
                   onChange={handlePasswordChange}
                   onFocus={handlePasswordTtpChange}

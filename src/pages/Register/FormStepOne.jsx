@@ -16,14 +16,15 @@ import { useNavigate } from 'react-router-dom';
 
 export default function FormStepOne({onSubmit}) {
     const navigate = useNavigate();
+    const [userData, setUserData] = useState({
+        name: '',
+        lastName: '',
+        date: ''
+    })
 
     const [name, setName] = useState('');
     const [lastName, setLastName] = useState('');
     const [date, setDate] = useState('');
-
-    const [nameErr, setNameErr] = useState(false);
-    const [lastNameErr, setLastNameErr] = useState(false);
-    const [dateErr, setDateErr] = useState(false);
 
     const [nameTtpOpen, setNameTtpOpen] = useState(false);
     const [lastNameTtpOpen, setLastNameTtpOpen] = useState(false);
@@ -46,17 +47,26 @@ export default function FormStepOne({onSubmit}) {
 
     function handleNameChange(e) {
         const { value } = e.target;
-        setName(value);
+        setUserData({
+            ...userData,
+            name: value
+        });
     }
 
     function handleLastNameChange(e) {
         const { value } = e.target;
-        setLastName(value);
+        setUserData({
+            ...userData,
+            lastName: value
+        });
     }
 
     function handleDateChange(e) {
         const { value } = e.target;
-        setDate(value);
+        setUserData({
+            ...userData,
+            date: value
+        });
     }
 
     function handleNameTtpChange() {
@@ -65,10 +75,6 @@ export default function FormStepOne({onSubmit}) {
 
     function handleLastNameTtpChange() {
         setLastNameTtpOpen(!lastNameTtpOpen);
-    }
-
-    function handleDateTtpChange() {
-        setDateTtpOpen(!dateTtpOpen);
     }
 
     function handleSubmit(e) {
@@ -119,7 +125,7 @@ export default function FormStepOne({onSubmit}) {
                         <S.InputLine>
                             <Input.Default
                                 placeholder={'John'}
-                                value={name}
+                                value={userData.name}
                                 onChange={handleNameChange}
                                 onFocus={handleNameTtpChange}
                                 onBlur={handleNameTtpChange}
@@ -136,7 +142,7 @@ export default function FormStepOne({onSubmit}) {
                         <S.InputLine>
                             <Input.Default
                                 placeholder={'Doe'}
-                                value={lastName}
+                                value={userData.lastName}
                                 onChange={handleLastNameChange}
                                 onFocus={handleLastNameTtpChange}
                                 onBlur={handleLastNameTtpChange}
@@ -154,7 +160,7 @@ export default function FormStepOne({onSubmit}) {
                         <S.InputLine>
                             <Input.Default
                                 type={'date'}
-                                value={date}
+                                value={userData.date}
                                 onChange={handleDateChange}
                             />
                         </S.InputLine>

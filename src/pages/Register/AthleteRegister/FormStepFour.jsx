@@ -83,8 +83,7 @@ export default function FormStepFour({onSubmit}) {
                             !isBelow799 &&
                             <Tooltip side='right' open={teamCodeTtpOpen} onHover={handleTeamCodeTtpChange}>
                                 <span>
-                                    O código do time é disponibilizado pelo treinador atual do time que deseja se cadastrar. Caso haja
-                                    uma passagem de responsabilidade, contate o treinador do time em questão e peça para ele gerar o código.
+                                    O código do time é disponibilizado pelo treinador atual do time que deseja se cadastrar. Contate o treinador do time em questão e peça para ele gerar o código.
                                 </span>
                             </Tooltip>
                         }

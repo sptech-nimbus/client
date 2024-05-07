@@ -26,7 +26,7 @@ export default function Register() {
     const [userData, setUserData] = useState({
         email: '',
         password: '',
-        typeUser: ''
+        typeUser: 'athlete'
     });
 
     const [personData, setPersonData] = useState({
