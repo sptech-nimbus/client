@@ -15,6 +15,7 @@ import user from "@api/user";
 
 export default function Login() {
    const navigate = useNavigate();
+
    const [userData, setUserData] = useState({
       email: '',
       password: ''
@@ -117,7 +118,7 @@ export default function Login() {
                <span>
                   Não possui uma conta ainda? <br />
                   <S.Link>
-                     <S.Highlight>Faça seu cadastro!</S.Highlight>
+                     <S.Highlight onClick={() => navigate('/cadastro')}>Faça seu cadastro!</S.Highlight>
                   </S.Link>
                   </span>
             </S.FormFooter>

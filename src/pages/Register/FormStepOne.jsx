@@ -12,10 +12,13 @@ import { TextValidation, PastDateValidation } from '@utils/Validations';
 import { useMediaQuery } from 'react-responsive';
 import { ToastContainer, toast } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
+import { useNavigate } from 'react-router-dom';
 
 export default function FormStepOne({onSubmit}) {
-    const [name, setName] = useState('Michael');
-    const [lastName, setLastName] = useState('Teixeira');
+    const navigate = useNavigate();
+
+    const [name, setName] = useState('');
+    const [lastName, setLastName] = useState('');
     const [date, setDate] = useState('');
 
     const [nameErr, setNameErr] = useState(false);
@@ -116,7 +119,7 @@ export default function FormStepOne({onSubmit}) {
                         <S.InputLine>
                             <Input.Default
                                 placeholder={'John'}
-                                value={'Michael'}
+                                value={name}
                                 onChange={handleNameChange}
                                 onFocus={handleNameTtpChange}
                                 onBlur={handleNameTtpChange}
@@ -133,7 +136,7 @@ export default function FormStepOne({onSubmit}) {
                         <S.InputLine>
                             <Input.Default
                                 placeholder={'Doe'}
-                                value={'Teixeira'}
+                                value={lastName}
                                 onChange={handleLastNameChange}
                                 onFocus={handleLastNameTtpChange}
                                 onBlur={handleLastNameTtpChange}
@@ -168,7 +171,7 @@ export default function FormStepOne({onSubmit}) {
                     <span>
                         Já possui uma conta? <br />
                         <LS.Link>
-                            <LS.Highlight>Faça login</LS.Highlight>
+                            <LS.Highlight onClick={() => navigate('/login')}>Faça login</LS.Highlight>
                         </LS.Link>
                     </span>
                 </LS.FormFooter>

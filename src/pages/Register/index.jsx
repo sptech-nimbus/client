@@ -118,7 +118,6 @@ export default function Register() {
             athleteDescData.weight = formData.weight.replace('kg', '');
             athleteDescData.position = formData.position;
 
-            console.log("form data do caralho");
             console.log(formData);
             console.log(athleteDescData);
 
@@ -175,9 +174,11 @@ export default function Register() {
 
             {userData.typeUser === "athlete" ? (
                 <>
+                    {step > 1 && 
                     <S.StepperWrapper>
                         <Stepper steps={4} currentStep={step} />
                     </S.StepperWrapper>
+                    }
                     {step === 1 && <FormStepOne onSubmit={handleFormSubmit} />}
                     {step === 2 && <FormStepTwo onSubmit={handleFormSubmit} />}
                     {step === 3 && <FormStepThreeAthlete onSubmit={handleFormSubmit} />}
@@ -185,9 +186,11 @@ export default function Register() {
                 </>
             ) : (
                 <>
+                    {step > 1 && 
                     <S.StepperWrapper>
                         <Stepper steps={3} currentStep={step} />
                     </S.StepperWrapper>
+                    }
                     {step === 1 && <FormStepOne onSubmit={handleFormSubmit} />}
                     {step === 2 && <FormStepTwo onSubmit={handleFormSubmit} />}
                     {step === 3 && <FormStepThree onSubmit={handleFormSubmit} />}
