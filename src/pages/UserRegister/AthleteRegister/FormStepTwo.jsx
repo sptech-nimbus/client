@@ -11,10 +11,10 @@ import { ToastContainer, toast } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 
 export default function FormStepTwo({onSubmit}) {
-   const [email, setEmail] = useState('');
-   const [phone, setPhone] = useState('');
-   const [password, setPassword] = useState('');
-   const [confirmPassword, setConfirmPassword] = useState('');
+    const [email, setEmail] = useState('michaelhenrique@gmail.com');
+    const [phone, setPhone] = useState('11955777482');
+    const [password, setPassword] = useState('Wn+V8>v;s2vmpQ4');
+    const [confirmPassword, setConfirmPassword] = useState('Wn+V8>v;s2vmpQ4');
 
    const [emailErr, setEmailErr] = useState(false);
    const [phoneErr, setPhoneErr] = useState(false);
@@ -104,7 +104,7 @@ export default function FormStepTwo({onSubmit}) {
             <S.InputLine>
                <Input.Default
                   placeholder={'seu@email.com'}
-                  value={email}
+                  value={'michaelhenrique@gmail.com'}
                   onChange={handleEmailChange}
                />
             </S.InputLine>
@@ -116,7 +116,7 @@ export default function FormStepTwo({onSubmit}) {
                <Input.Masked
                   mask={'(00) 00000-0000'}
                   placeholder={'(99) 99999-9999'}
-                  value={phone}
+                  value={'(11) 95577-7482'}
                   onChange={handlePhoneChange}
                />
             </S.InputLine>
@@ -126,7 +126,7 @@ export default function FormStepTwo({onSubmit}) {
             <span>Senha <S.Mandatory>*</S.Mandatory></span>
             <S.InputLine>
                <Input.Password
-                  value={password}
+                  value={'Wn+V8>v;s2vmpQ4'}
                   placeholder={'**********'}
                   onChange={handlePasswordChange}
                   onFocus={handlePasswordTtpChange}

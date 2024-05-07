@@ -1,13 +1,13 @@
+/* eslint-disable no-useless-catch */
 
 import axios from "axios";
 import config from "./config";
 
 const path = "athlete-descs";
 
-async function registerAthleteDesc({ body }) {
+async function registerAthleteDesc(body, token ) {
     try {
         const response = await axios.post(`${config.baseURL}/${path}`, body)
-
         return response;
     } catch (err) {
         throw err;

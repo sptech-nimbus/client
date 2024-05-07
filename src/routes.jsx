@@ -6,6 +6,7 @@ import Login from "@pages/Login";
 import Register from "@pages/Register";
 import NotFound from "@pages/NotFound";
 import PlayerInfo from "@pages/Player";
+import Modal from "@pages/Player";
 import AboutUs from '@pages/AboutUs';
 import News from '@pages/News';
 import Home from '@pages/Home';
@@ -26,7 +27,7 @@ export default function AppRoutes() {
             <Route path="/home" element={<Home />}/>
             <Route path="/dashboard" element={<Dashboard />}/>
             <Route path="/elenco" element={<TeamRoster />}/>
-            <Route path="/jogador" element={<PlayerInfo />}/>
+            <Route path="/jogador" element={<PlayerInfo />} />
             <Route path="/config" element={<Settings />}/>
             <Route path="/news" element={<News />}/>
             <Route path="/eventos" element={<Events />}/>

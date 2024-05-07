@@ -1,3 +1,4 @@
+/* eslint-disable no-useless-catch */
 import axios from "axios";
 import config from "./config";
 
@@ -28,6 +29,7 @@ async function postUser(body = {}) {
     try {
         const response = await axios.post(`${config.baseURL}/${path}`, body);
         console.log(response);
+        
         return response;
     }
     catch (err) {
@@ -67,7 +69,7 @@ async function changePassword(id, body) {
 
 async function login(body) {
     try {
-        const response = await axios.post(`${config.baseURL}/${path}/login`);
+        const response = await axios.post(`${config.baseURL}/${path}/login`, body);
         return response;
     }
     catch (err) {
