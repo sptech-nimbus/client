@@ -1,4 +1,5 @@
 import * as S from "./Login.styles";
+import { useState } from "react";
 import Background from "@components/Background/Background";
 import Input from "@components/Input/Input";
 import Label from "@components/Label/Label";
@@ -8,6 +9,18 @@ import { useNavigate } from "react-router-dom";
 
 export default function Login() {
    const navigate = useNavigate();
+   const [email, setEmail] = useState('');
+   const [password, setPassword] = useState('');
+
+   const handleEmailChange = (e) => {
+      const { value } = e.target;
+      setEmail(value);
+   }
+
+   const handlePasswordChange = (e) => {
+      const { value } = e.target;
+      setPassword(value);
+   }
 
    return (
       <S.Header>
@@ -27,7 +40,9 @@ export default function Login() {
                   Insira seu email
                        <Input.Default
                            placeholder={'seu@email.com'}
-                           value={ 'michaelhenrique0022@gmail.com' }>                    
+                           value={email}
+                           onChange={handleEmailChange}
+                           >                    
                      <Envelope />
                   </Input.Default>
                </Label>
@@ -35,8 +50,10 @@ export default function Login() {
                   Insira sua senha
                        <Input.Password
                            placeholder={'**********'}
-                           value={'Wn+V8>v;s2vmpQ4'}
-                           hasIcon />
+                           value={password}
+                           hasIcon 
+                           onChange={handlePasswordChange}
+                           />
                </Label>
             </S.InputsContainer>
             <Button.Primary 
