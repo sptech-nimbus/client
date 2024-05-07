@@ -58,8 +58,7 @@ export default function Login() {
 
    return (
       <S.Header>
-         <ToastContainer
-                position={toastPosition}
+         <ToastContainer   
                 autoClose={8000}
                 hideProgressBar={false}
                 newestOnTop={false}
