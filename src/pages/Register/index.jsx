@@ -56,17 +56,22 @@ export default function Register() {
 
     function handleFormSubmit(formData) {
         if (step === 1) {
-            personData.firstName = formData.name;
-            personData.lastName = formData.lastName;
-            personData.birthDate = formData.date;
-            userData.typeUser = formData.typeUser;
+            setPersonData({
+                ...personData,
+                firstName: formData.name,
+                lastName: formData.lastName,
+                birthDate: formData.date,
+                typeUser: formData.typeUser,
+            })
 
             setStep(step + 1);
         }
         else if (step == 2 && userData.typeUser === "coach") {
-            userData.email = formData.email;
-            userData.password = formData.password;
-            personData.phone = formData.formattedPhone
+            setUserData({
+                email: formData.email,
+                password: formData.password,
+                phone: formData.formattedPhone,
+            })
 
             setStep(step + 1)
         }
@@ -91,11 +96,13 @@ export default function Register() {
             setStep(step + 1);
         }
         else if (step == 3 && userData.typeUser === "coach") {
-            teamData.code = formData.teamCode;
-            teamData.name = formData.teamName;
-            teamData.category = formData.category;
-            teamData.logo = formData.teamLogo;
-            teamData.isAmateur = formData.chkAmateur;
+            setTeamData({
+                code: formData.code,
+                name: formData.name,
+                category: formData.category,
+                picture: formData.picture,
+                // isAmateur: formData.chkAmateur;
+            })
 
             user.post({
                 email: userData.email,
@@ -107,6 +114,7 @@ export default function Register() {
                 console.log((error.response.data));
                 setStep(step - 1);
             });
+            
             team.post(teamData);
         }
         else if (step == 3 && userData.typeUser === "athlete") {
@@ -114,9 +122,12 @@ export default function Register() {
             personData.category = formData.category;
             personData.isStarting = false;
 
-            athleteDescData.height = formData.height.replace('cm', '');
-            athleteDescData.weight = formData.weight.replace('kg', '');
-            athleteDescData.position = formData.position;
+            setAthleteDescData({ 
+                ...athleteDescData,
+                height: formData.height.replace('cm', ''),
+                weight: formData.weight.replace('kg', ''),
+                position: formData.position
+            })
 
             console.log(formData);
             console.log(athleteDescData);
