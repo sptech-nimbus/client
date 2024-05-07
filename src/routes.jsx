@@ -6,7 +6,6 @@ import Login from "@pages/Login";
 import Register from "@pages/Register";
 import NotFound from "@pages/NotFound";
 import PlayerInfo from "@pages/Player";
-import Modal from "@pages/Player";
 import AboutUs from '@pages/AboutUs';
 import News from '@pages/News';
 import Home from '@pages/Home';

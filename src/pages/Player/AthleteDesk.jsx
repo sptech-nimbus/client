@@ -4,13 +4,24 @@ import Title from "@components/Title/Title";
 import { PrimaryButton as Button } from "@components/Button/Button";
 import { Trash, Pencil, FilePdf } from "@phosphor-icons/react";
 import user from "@api/user";
+import { useState } from "react";
 
 export default function AthleteDesk() {
-    function handleSubmit(e) {
-        
+    const [show, setShow] = useState(false);
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
+    const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+
+    function handleDelete() {
+        console.log('log')
+        setIsDeleteModalOpen(false);
     }
 
-   return (
+    function handleEdit() {
+
+    }
+
+    return (
       <S.InfoWrapper>
       <S.InfoGrid>
             <S.Container>
@@ -107,24 +118,29 @@ export default function AthleteDesk() {
       </S.InfoGrid>
       <S.Buttons>
                <Button
-                   value='Editar'
-                   onClick={handleSubmit}
+                    value='Editar'
+                    onClick={handleEdit}
                />
-         <Button value='Deletar'/>
-         <Button value='Baixar PDF'/>
-           </S.Buttons>
-           {isDeleteModalOpen && (
-               <div className="modal-overlay">
-                   <div className="modal-content">
-                       <h2>Confirmar exclusão</h2>
-                       <p>Tem certeza de que deseja excluir este jogador?</p>
-                       <div className="modal-buttons">
-                           <Button value="Cancelar" onClick={handleCloseDeleteModal} />
-                           <Button value="Confirmar" onClick={handleSubmit} />
-                       </div>
-                   </div>
-               </div>
-           )}
+                <Button
+                    value='Deletar'
+                    onClick={handleDelete}
+                />
+      <Button value='Baixar PDF'/>
+            </S.Buttons>
+
+            {isDeleteModalOpen && (
+                <div className="modal">
+                <div className="modal-content">
+                    <h2>Confirmar Exclusão</h2>
+                    <p>Tem certeza de que deseja excluir este jogador?</p>
+                    <div className="modal-buttons">
+                        <Button value="Cancelar" onClick={() => setIsDeleteModalOpen(false)} />
+                        <Button value="Confirmar" onClick={handleDelete} />
+                    </div>
+                </div>
+            </div>
+            )}
        </S.InfoWrapper>
+
    )
 }
