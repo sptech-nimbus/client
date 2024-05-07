@@ -85,6 +85,9 @@ export const ContainerStats = styled(Container)`
    overflow: hidden;
 
    &:nth-child(1) {
+      display: flex;
+      justify-content: center;
+      align-items: center;
       grid-row: 1 / 6;
       grid-column: 1 / 2;
    }

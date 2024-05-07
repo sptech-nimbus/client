@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-import * as S from '../../Register/assets/Register.styled';
+import * as S from '../Register.styled';
 import * as LS from '../../Login/Login.styles';
 
 import Label from '@components/Label/Label';
@@ -9,23 +9,21 @@ import Button from '@components/Button/Button';
 import Checkbox from '@components/Checkbox/Checkbox';
 
 import { TooltipInput as Tooltip } from '@components/Tooltip/Tooltip';
-import { TextValidation, TeamCodeValidation, ImageValidation, CategoryValidation } from '@utils/Validations';
+import { TextValidation, TeamCodeValidation, ImageValidation } from '@utils/Validations';
 
 import { useMediaQuery } from 'react-responsive';
 import { ToastContainer, toast } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 
-export default function FormStepFour({onSubmit}) {
-    const [teamName, setTeamName] = useState('');
-    const [teamCode, setTeamCode] = useState('');
-    const [category, setCategory] = useState('');
-    const [teamPicture, setTeamPicture] = useState('');
-    const [local, setLocal] = useState('');
-    const [chkAmateur, setChkAmateur] = useState(false);
-
-    const [teamNameErr, setTeamNameErr] = useState(false);
-    const [teamCodeErr, setTeamCodeErr] = useState(false);
-    const [categoryErr, setCategoryErr] = useState(false);
+export default function FormStepThree({onSubmit}) {
+    const [teamData, setTeamData] = useState({
+        name: '',
+        code: '',
+        category: '',
+        picture: '',
+        local: '',
+        chkAmateur: false
+    });
 
     const [teamNameTtpOpen, setTeamNameTtpOpen] = useState(false);
     const [teamCodeTtpOpen, setTeamCodeTtpOpen] = useState(false);
@@ -46,27 +44,45 @@ export default function FormStepFour({onSubmit}) {
 
     function handleLocalChange(e) {
         const { value } = e.target;
-        setLocal(value);
+        setTeamData({
+            ...teamData,
+            local: value
+        });
     }
 
     function handleTeamNameChange(e) {
         const { value } = e.target;
-        setTeamName(value);
+        setTeamData({
+            ...teamData,
+            name: value
+        });
     }
 
     function handleTeamCodeChange(e) {
         const { value } = e.target;
-        setTeamCode(value);
+        setTeamData({
+            ...teamData,
+            code: value
+        });
     }
     function handleCategoryChange(e) {
         const { value } = e.target;
-        setCategory(value);
+        setTeamData({
+            ...teamData,
+            category: value
+        });
     }
     function handleTeamPictureChange(e) {
-        setTeamPicture(e.target.files[0]);
+        setTeamData({
+            ...teamData,
+            picture: e.target.files[0]
+        });
     }
+
     function handleChkAmateur() {
-        setChkAmateur(!chkAmateur);
+        setTeamData({
+            chkAmateur: !teamData.chkAmateur
+    });
     }
 
     function handleTeamNameTtpChange() {
@@ -83,25 +99,23 @@ export default function FormStepFour({onSubmit}) {
     function handleSubmit(e) {
         e.preventDefault();
 
-        console.log("entremo")
-
-        if (TeamCodeValidation(teamCode)) {
-            console.log("Enviando solicitaÁ„o com o cÛdigo do time existente:", teamCode);
-            onSubmit(teamCode);
+        if (TeamCodeValidation(teamData.code)) {
+            console.log("Enviando solicita√ß√£o com o c√≥digo do time existente: ", teamData.code);
+            onSubmit(teamData.code);
         }
         else if (
-            TextValidation(teamName) &&
-            CategoryValidation(category) &&
-            ImageValidation(teamPicture)) {
-            
-            onSubmit({ teamName, category, teamPicture, chkAmateur, local });
+            TextValidation(teamData.name) && 
+            TextValidation(teamData.category) && 
+            ImageValidation(teamData.picture)) 
+        {
+            onSubmit(teamData);
         }
         else {
-            if (teamCode) {
-                if (!TeamCodeValidation(teamCode)) toast.error('CÛdigo inserido È inv·lido');
+            if (teamData.code) {
+                if (!TeamCodeValidation(teamData.code)) toast.error('C√≥digo inserido √© inv√°lido');
             } else {
-                if (!TextValidation(teamName)) toast.error('Nome do time È inv·lido');
-                if (!ImageValidation(teamPicture)) toast.error('A extens„o de arquivo inserida È inv·lida');
+                if (!TextValidation(teamData.name)) toast.error('Nome do time √© inv√°lido');
+                if (!ImageValidation(teamData.picture)) toast.error('A extens√£o de arquivo inserida √© inv√°lida');
             }
         }
     }
@@ -119,28 +133,28 @@ export default function FormStepFour({onSubmit}) {
                 draggable
                 theme="dark"
                 limit={3}
-            />
+            /> 
             <LS.InputsContainer>
                 <Label>
-                    CÛdigo do time existente
+            C√≥digo do time existente
                     <S.InputLine>
                         <Input.Default
                             placeholder={'1A2B3C'}
-                            value={teamCode}
+                            value={teamData.code}
                             onChange={handleTeamCodeChange}
                             onFocus={handleTeamCodeTtpChange}
                             onBlur={handleTeamCodeTtpChange}
-                            disabled={teamName || category || teamPicture ? true : false}
+                            disabled={teamData.name || teamData.category || teamData.picture || teamData.local ? true : false}
                             maxLength={6}
                         />
                         {
                             !isBelow799 &&
                             <Tooltip side='right' open={teamCodeTtpOpen} onHover={handleTeamCodeTtpChange}>
-                                <span>
-                                    O cÛdigo do time È disponibilizado pelo treinador atual do time que deseja se cadastrar. Caso haja
-                                    uma passagem de responsabilidade, contate o treinador do time em quest„o e peÁa para ele gerar o cÛdigo.
-                                </span>
-                            </Tooltip>
+                                    <span>
+                                        O c√≥digo do time √© disponibilizado pelo treinador atual do time que deseja se cadastrar. Caso haja
+                                        uma passagem de responsabilidade, contate o treinador do time em quest√£o e pe√ßa para ele gerar o c√≥digo.
+                                    </span>
+                                </Tooltip>
                         }
 
                     </S.InputLine>
@@ -150,17 +164,17 @@ export default function FormStepFour({onSubmit}) {
                     <S.InputLine>
                         <Input.Default
                             placeholder={'Nome do Time SC'}
-                            value={teamName}
+                            value={teamData.name}
                             onChange={handleTeamNameChange}
                             onFocus={handleTeamNameTtpChange}
                             onBlur={handleTeamNameTtpChange}
-                            disabled={teamCode ? true : false}
+                            disabled={teamData.code ? true : false}
                         />
                         {
                             !isBelow799 &&
                             <Tooltip side='right' open={teamNameTtpOpen} onHover={handleTeamNameTtpChange}>
-                                <span>O nome do time deve possuir pelo menos 2 caracteres e n„o deve possuir n˙meros ou caracteres especiais.</span>
-                            </Tooltip>
+                                    <span>O nome do time deve possuir pelo menos 2 caracteres e n√£o deve possuir n√∫meros ou caracteres especiais.</span>
+                                </Tooltip>
                         }
                     </S.InputLine>
                 </Label>
@@ -168,22 +182,22 @@ export default function FormStepFour({onSubmit}) {
                 <LS.InputsContainer>
                     <Label>
                         Categoria
-                        <Input.Masked
-                            mask={'Sub-00'}
+                        <Input.Default
                             placeholder={'Sub-20'}
-                            value={category}
+                            value={teamData.category}
                             onChange={handleCategoryChange}
-                            disabled={teamCode ? true : false}
+                            disabled={teamData.code ? true : false}
                             width='40%'
                         />
                     </Label>
                     <Label>
-                        EndereÁo do time
+                        Endere√ßo do time
                         <S.InputLine>
                             <Input.Default
-                                value={local}
+                                value={teamData.local}
                                 placeholder={'Rua XV'}
                                 onChange={handleLocalChange}
+                                disabled={teamData.code ? true : false}
                             />
                         </S.InputLine>
                     </Label>
@@ -197,24 +211,24 @@ export default function FormStepFour({onSubmit}) {
                             onChange={handleTeamPictureChange}
                             onFocus={handleTeamPictureTtpChange}
                             onBlur={handleTeamPictureTtpChange}
-                            disabled={teamCode ? true : false}
+                            disabled={teamData.code ? true : false}
                         />
                         {
                             !isBelow799 &&
                             <Tooltip side='right' open={teamPictureTtpOpen} onHover={handleTeamPictureTtpChange}>
-                                <span>As extensıes de arquivo aceitas s„o .jpg, .jpeg e .png.</span>
-                            </Tooltip>
+                                    <span>As extens√µes de arquivo aceitas s√£o .jpg, .jpeg e .png.</span>
+                                </Tooltip>
                         }
                     </S.InputLine>
                 </Label>
-                <Checkbox
-                    id={'isAmateur'}
-                    label={'Sou um time amador.'}
+                {/* <Checkbox 
+                    id={'isAmateur'} 
+                    label={'Sou um time amador.'} 
                     checked={chkAmateur}
                     onClick={handleChkAmateur}
-                />
+                /> */}
             </LS.InputsContainer>
-            <Button.Primary
+            <Button.Primary 
                 value={'Continuar'}
                 size={'md'}
                 width={'100%'}

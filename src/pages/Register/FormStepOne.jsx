@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-import * as S from '../Register/assets/Register.styled';
+import * as S from './Register.styled';
 import * as LS from '../Login/Login.styles';
 
 import Label from '@components/Label/Label';
@@ -12,15 +12,19 @@ import { TextValidation, PastDateValidation } from '@utils/Validations';
 import { useMediaQuery } from 'react-responsive';
 import { ToastContainer, toast } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
+import { useNavigate } from 'react-router-dom';
 
 export default function FormStepOne({onSubmit}) {
-    const [name, setName] = useState('Michael');
-    const [lastName, setLastName] = useState('Teixeira');
-    const [date, setDate] = useState('');
+    const navigate = useNavigate();
+    const [userData, setUserData] = useState({
+        name: '',
+        lastName: '',
+        date: ''
+    })
 
-    const [nameErr, setNameErr] = useState(false);
-    const [lastNameErr, setLastNameErr] = useState(false);
-    const [dateErr, setDateErr] = useState(false);
+    const [name, setName] = useState('');
+    const [lastName, setLastName] = useState('');
+    const [date, setDate] = useState('');
 
     const [nameTtpOpen, setNameTtpOpen] = useState(false);
     const [lastNameTtpOpen, setLastNameTtpOpen] = useState(false);
@@ -43,17 +47,26 @@ export default function FormStepOne({onSubmit}) {
 
     function handleNameChange(e) {
         const { value } = e.target;
-        setName(value);
+        setUserData({
+            ...userData,
+            name: value
+        });
     }
 
     function handleLastNameChange(e) {
         const { value } = e.target;
-        setLastName(value);
+        setUserData({
+            ...userData,
+            lastName: value
+        });
     }
 
     function handleDateChange(e) {
         const { value } = e.target;
-        setDate(value);
+        setUserData({
+            ...userData,
+            date: value
+        });
     }
 
     function handleNameTtpChange() {
@@ -62,10 +75,6 @@ export default function FormStepOne({onSubmit}) {
 
     function handleLastNameTtpChange() {
         setLastNameTtpOpen(!lastNameTtpOpen);
-    }
-
-    function handleDateTtpChange() {
-        setDateTtpOpen(!dateTtpOpen);
     }
 
     function handleSubmit(e) {
@@ -116,7 +125,7 @@ export default function FormStepOne({onSubmit}) {
                         <S.InputLine>
                             <Input.Default
                                 placeholder={'John'}
-                                value={'Michael'}
+                                value={userData.name}
                                 onChange={handleNameChange}
                                 onFocus={handleNameTtpChange}
                                 onBlur={handleNameTtpChange}
@@ -133,7 +142,7 @@ export default function FormStepOne({onSubmit}) {
                         <S.InputLine>
                             <Input.Default
                                 placeholder={'Doe'}
-                                value={'Teixeira'}
+                                value={userData.lastName}
                                 onChange={handleLastNameChange}
                                 onFocus={handleLastNameTtpChange}
                                 onBlur={handleLastNameTtpChange}
@@ -151,7 +160,7 @@ export default function FormStepOne({onSubmit}) {
                         <S.InputLine>
                             <Input.Default
                                 type={'date'}
-                                value={date}
+                                value={userData.date}
                                 onChange={handleDateChange}
                             />
                         </S.InputLine>
@@ -168,7 +177,7 @@ export default function FormStepOne({onSubmit}) {
                     <span>
                         Já possui uma conta? <br />
                         <LS.Link>
-                            <LS.Highlight>Faça login</LS.Highlight>
+                            <LS.Highlight onClick={() => navigate('/login')}>Faça login</LS.Highlight>
                         </LS.Link>
                     </span>
                 </LS.FormFooter>
