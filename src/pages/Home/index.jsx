@@ -11,11 +11,11 @@ import Colors from "@utils/Colors";
 export default function Home() {
    const radarConfig = {
       data: {
-        labels: ['Thing 1', 'Thing 2', 'Thing 3', 'Thing 4', 'Thing 5', 'Thing 6'],
+        labels: ['Rebotes', 'Pontos', 'Assistências', 'Tocos', 'Roubos de bola', 'Lances livres'],
         datasets: [
           {
             label: 'Desempenho',
-            data: [2, 9, 3, 5, 2, 3],
+            data: [10, 12, 12, 8, 12, 9],
             backgroundColor: `${Colors.orange500}65`,
             borderColor: Colors.orange500,
             borderWidth: 1,
