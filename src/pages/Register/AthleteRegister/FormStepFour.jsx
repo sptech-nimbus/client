@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-import * as S from '../../Register/assets/Register.styled';
+import * as S from '../Register.styled';
 import * as LS from '../../Login/Login.styles';
 
 import Label from '@components/Label/Label';
@@ -86,7 +86,7 @@ export default function FormStepFour({onSubmit}) {
         console.log("entremo")
 
         if (TeamCodeValidation(teamCode)) {
-            console.log("Enviando solicitação com o código do time existente:", teamCode);
+            console.log("Enviando solicitaï¿½ï¿½o com o cï¿½digo do time existente:", teamCode);
             onSubmit(teamCode);
         }
         else if (
@@ -98,10 +98,10 @@ export default function FormStepFour({onSubmit}) {
         }
         else {
             if (teamCode) {
-                if (!TeamCodeValidation(teamCode)) toast.error('Código inserido é inválido');
+                if (!TeamCodeValidation(teamCode)) toast.error('Cï¿½digo inserido ï¿½ invï¿½lido');
             } else {
-                if (!TextValidation(teamName)) toast.error('Nome do time é inválido');
-                if (!ImageValidation(teamPicture)) toast.error('A extensão de arquivo inserida é inválida');
+                if (!TextValidation(teamName)) toast.error('Nome do time ï¿½ invï¿½lido');
+                if (!ImageValidation(teamPicture)) toast.error('A extensï¿½o de arquivo inserida ï¿½ invï¿½lida');
             }
         }
     }
@@ -122,7 +122,7 @@ export default function FormStepFour({onSubmit}) {
             />
             <LS.InputsContainer>
                 <Label>
-                    Código do time existente
+                    CÃ³digo do time existente
                     <S.InputLine>
                         <Input.Default
                             placeholder={'1A2B3C'}
@@ -137,82 +137,14 @@ export default function FormStepFour({onSubmit}) {
                             !isBelow799 &&
                             <Tooltip side='right' open={teamCodeTtpOpen} onHover={handleTeamCodeTtpChange}>
                                 <span>
-                                    O código do time é disponibilizado pelo treinador atual do time que deseja se cadastrar. Caso haja
-                                    uma passagem de responsabilidade, contate o treinador do time em questão e peça para ele gerar o código.
+                                    O cÃ³digo do time Ã© disponibilizado pelo treinador atual do time que deseja se cadastrar. Caso haja
+                                    uma passagem de responsabilidade, contate o treinador do time em questÃ£o e peÃ§a para ele gerar o cÃ³digo.
                                 </span>
                             </Tooltip>
                         }
 
                     </S.InputLine>
                 </Label>
-                <Label>
-                    Nome do time
-                    <S.InputLine>
-                        <Input.Default
-                            placeholder={'Nome do Time SC'}
-                            value={teamName}
-                            onChange={handleTeamNameChange}
-                            onFocus={handleTeamNameTtpChange}
-                            onBlur={handleTeamNameTtpChange}
-                            disabled={teamCode ? true : false}
-                        />
-                        {
-                            !isBelow799 &&
-                            <Tooltip side='right' open={teamNameTtpOpen} onHover={handleTeamNameTtpChange}>
-                                <span>O nome do time deve possuir pelo menos 2 caracteres e não deve possuir números ou caracteres especiais.</span>
-                            </Tooltip>
-                        }
-                    </S.InputLine>
-                </Label>
-
-                <LS.InputsContainer>
-                    <Label>
-                        Categoria
-                        <Input.Masked
-                            mask={'Sub-00'}
-                            placeholder={'Sub-20'}
-                            value={category}
-                            onChange={handleCategoryChange}
-                            disabled={teamCode ? true : false}
-                            width='40%'
-                        />
-                    </Label>
-                    <Label>
-                        Endereço do time
-                        <S.InputLine>
-                            <Input.Default
-                                value={local}
-                                placeholder={'Rua XV'}
-                                onChange={handleLocalChange}
-                            />
-                        </S.InputLine>
-                    </Label>
-                </LS.InputsContainer>
-
-                <Label>
-                    Escudo do time
-                    <S.InputLine>
-                        <Input.Image
-                            type={'file'}
-                            onChange={handleTeamPictureChange}
-                            onFocus={handleTeamPictureTtpChange}
-                            onBlur={handleTeamPictureTtpChange}
-                            disabled={teamCode ? true : false}
-                        />
-                        {
-                            !isBelow799 &&
-                            <Tooltip side='right' open={teamPictureTtpOpen} onHover={handleTeamPictureTtpChange}>
-                                <span>As extensões de arquivo aceitas são .jpg, .jpeg e .png.</span>
-                            </Tooltip>
-                        }
-                    </S.InputLine>
-                </Label>
-                <Checkbox
-                    id={'isAmateur'}
-                    label={'Sou um time amador.'}
-                    checked={chkAmateur}
-                    onClick={handleChkAmateur}
-                />
             </LS.InputsContainer>
             <Button.Primary
                 value={'Continuar'}

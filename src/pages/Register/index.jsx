@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import * as S from '../Register/assets/Register.styled';
+import * as S from './Register.styled';
 import * as LS from '@pages/Login/Login.styles';
 
 import Background from '@components/Background/Background';

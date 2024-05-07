@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-import * as S from '../../Register/assets/Register.styled';
+import * as S from '../Register.styled';
 import * as LS from '../../Login/Login.styles';
 
 import Label from '@components/Label/Label';

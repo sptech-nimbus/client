@@ -16,7 +16,7 @@ export const StepperWrapper = styled.div`
 `
 
 export const Form = styled(LS.Form)`
-   top: 25%;
+   top: 20%;
 `
 
 export const FormStepThree = styled(LS.Form)`
@@ -75,7 +75,6 @@ export const TabsTrigger = styled.button`
   `}
 `;
 
-export const TabsContent = styled.div `{
-    flex - grow: 1;
-    padding: 5%;
-}`
+export const TabsContent = styled.div`
+    flex-grow: 1;
+`
