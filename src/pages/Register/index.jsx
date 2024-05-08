@@ -26,8 +26,8 @@ export default function Register() {
     const [userData, setUserData] = useState({
         email: '',
         password: '',
-        typeUser: 'athlete'
     });
+    const [typeUser, setTypeUser] = useState('');
 
     const [personData, setPersonData] = useState({
         firstName: '',
@@ -52,33 +52,38 @@ export default function Register() {
         athlete: {
             id: ''
         }
-    })
+    });
 
     function handleFormSubmit(formData) {
-        if (step === 1) {
+        if (step == 1) {
             setPersonData({
                 ...personData,
                 firstName: formData.name,
                 lastName: formData.lastName,
                 birthDate: formData.date,
-                typeUser: formData.typeUser,
-            })
+            });
+            setTypeUser(formData.typeUser);
+
+            console.log('tipo usuario do index form '+formData.typeUser);
+            console.log('tipo usuario do index userData '+typeUser);
 
             setStep(step + 1);
         }
-        else if (step == 2 && userData.typeUser === "coach") {
+        else if (step == 2 && typeUser == "coach") {
             setUserData({
                 email: formData.email,
                 password: formData.password,
-                phone: formData.formattedPhone,
+                phone: formData.phone,
             })
 
             setStep(step + 1)
         }
-        else if (step == 2 && userData.typeUser === "athlete") {
-            userData.email = formData.email;
-            userData.password = formData.password;
-            personData.phone = formData.formattedPhone
+        else if (step == 2 && typeUser == "athlete") {
+            setUserData({
+                email: formData.email,
+                password: formData.password,
+                phone: formData.phone,
+            })
 
             const updatePersonData = {
                 ...personData,
@@ -91,7 +96,7 @@ export default function Register() {
 
             setStep(step + 1);
         }
-        else if (step == 3 && userData.typeUser === "coach") {
+        else if (step == 3 && typeUser == "coach") {
             setTeamData({
                 code: formData.code,
                 name: formData.name,
@@ -113,7 +118,7 @@ export default function Register() {
 
             team.post(teamData);
         }
-        else if (step == 3 && userData.typeUser === "athlete") {
+        else if (step == 3 && typeUser == "athlete") {
             setPersonData({
                 category: formData.category,
                 isStarting: false
@@ -166,14 +171,8 @@ export default function Register() {
 
             setStep(step + 1);
         }
-        else if (step == 4 && userData.typeUser === "athlete") {
-            console.log('bfial');
-
-            console.log(formData)
-            teamData.name = formData.teamName;
-            teamData.category = formData.category;
-            teamData.picture = formData.teamPicture;
-            teamData.local = formData.local;   
+        else if (step == 4 && typeUser == "athlete") {
+            console.log(formData.code);  
         }
     }
 
@@ -182,30 +181,32 @@ export default function Register() {
             <Background.Login />
             <LS.Title>Cadastro</LS.Title>
 
-            {userData.typeUser === "athlete" ? (
-                <>
-                    {step > 1 && 
-                    <S.StepperWrapper>
-                        <Stepper steps={4} currentStep={step} />
-                    </S.StepperWrapper>
-                    }
-                    {step === 1 && <FormStepOne onSubmit={handleFormSubmit} />}
-                    {step === 2 && <FormStepTwo onSubmit={handleFormSubmit} />}
-                    {step === 3 && <FormStepThreeAthlete onSubmit={handleFormSubmit} />}
-                    {step === 4 && <FormStepFour onSubmit={handleFormSubmit} />}
-                </>
-            ) : (
-                <>
-                    {step > 1 && 
-                    <S.StepperWrapper>
-                        <Stepper steps={3} currentStep={step} />
-                    </S.StepperWrapper>
-                    }
-                    {step === 1 && <FormStepOne onSubmit={handleFormSubmit} />}
-                    {step === 2 && <FormStepTwo onSubmit={handleFormSubmit} />}
-                    {step === 3 && <FormStepThree onSubmit={handleFormSubmit} />}
-                </>
-            )}
+            {step == 1 ? 
+                <FormStepOne onSubmit={handleFormSubmit} />
+                :
+                typeUser === "athlete" ? (
+                    <>
+                        {step > 1 && 
+                        <S.StepperWrapper>
+                            <Stepper steps={4} currentStep={step} />
+                        </S.StepperWrapper>
+                        }
+                        {step == 2 && <FormStepTwo onSubmit={handleFormSubmit} />}
+                        {step == 3 && <FormStepThreeAthlete onSubmit={handleFormSubmit} />}
+                        {step == 4 && <FormStepFour onSubmit={handleFormSubmit} />}
+                    </>
+                ) : (
+                    <>
+                        {step > 1 && 
+                        <S.StepperWrapper>
+                            <Stepper steps={3} currentStep={step} />
+                        </S.StepperWrapper>
+                        }
+                        {step == 2 && <FormStepTwo onSubmit={handleFormSubmit} />}
+                        {step == 3 && <FormStepThree onSubmit={handleFormSubmit} />}
+                    </>
+                )
+            }
         </LS.Header>
     )
 }

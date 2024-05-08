@@ -9,7 +9,7 @@ import Button from '@components/Button/Button';
 import Checkbox from '@components/Checkbox/Checkbox';
 
 import { TooltipInput as Tooltip } from '@components/Tooltip/Tooltip';
-import { TextValidation, TeamCodeValidation, ImageValidation, CategoryValidation } from '@utils/Validations';
+import { TeamCodeValidation } from '@utils/Validations';
 
 import { useMediaQuery } from 'react-responsive';
 import { ToastContainer, toast } from 'react-toastify';
@@ -46,7 +46,7 @@ export default function FormStepFour({onSubmit}) {
 
         if (TeamCodeValidation(teamCode)) {
             console.log("Enviando solicitação com o código do time existente: ", teamCode);
-            onSubmit(teamCode);
+            onSubmit({ code: teamCode });
         }
         else {
             if (!TeamCodeValidation(teamCode)) toast.error('Código inserido é inválido');
