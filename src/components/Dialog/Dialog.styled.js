@@ -6,7 +6,7 @@ export const DrawerOverlay = styled(D.Overlay)`
    background-color: ${Colors.gray900};
    position: fixed;
    inset: 0;
-   opacity: .5;
+   opacity: .8;
    z-index: 1;
    transition: all .5s ease-in-out;
 `

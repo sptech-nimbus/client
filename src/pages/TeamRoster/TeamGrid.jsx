@@ -2,6 +2,7 @@ import * as S from "./Team.styled";
 import Card from "@components/Card/Card";
 import { Pencil, Trash, Eye } from "@phosphor-icons/react";
 import { useNavigate } from "react-router-dom";
+import { Dialog } from '@components/Dialog';
 
 export default function TeamGrid({ players }) {
    const navigate = useNavigate();
