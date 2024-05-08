@@ -26,7 +26,7 @@ export default function AppRoutes() {
             <Route path="/home" element={<Home />}/>
             <Route path="/dashboard" element={<Dashboard />}/>
             <Route path="/elenco" element={<TeamRoster />}/>
-            <Route path="/jogador" element={<PlayerInfo />} />
+            <Route path="/jogador" element={<PlayerInfo />}/>
             <Route path="/config" element={<Settings />}/>
             <Route path="/news" element={<News />}/>
             <Route path="/eventos" element={<Events />}/>
