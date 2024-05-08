@@ -22,6 +22,8 @@ import nimbusLogo from '@assets/icons/nimbus-logo.svg';
 import nimbusAltLogo from '@assets/icons/nimbus-alternative-logo.svg';
 import instagramLogo from '@assets/icons/instagram-logo.svg';
 import githubLogo from '@assets/icons/github-logo.svg';
+import basketballImage from '@assets/images/basketball-image.png';
+import vectorWave from '@assets/elements/vector-wave.svg';
 
 export default function LandingPage() {
    const [navOpen, setNavOpen] = useState(false);
@@ -140,7 +142,7 @@ export default function LandingPage() {
                initial={{ opacity: 0 }}
                animate={{ opacity: 1 }} 
                src={transitionTextSvg}/>
-               <S.WaveSvg src='/public/assets/vector-wave.svg'/>
+               <S.WaveSvg src={vectorWave}/>
             </S.About>
             
             <S.Comunication id="comunication">
@@ -163,7 +165,7 @@ export default function LandingPage() {
             </S.Comunication>
 
             <S.Features id="features">
-               <S.InvertedWaveSvg src='/public/assets/vector-wave.svg'/>
+               <S.InvertedWaveSvg src={vectorWave}/>
                <S.FeaturesWrapper>
                <S.FeaturesTitle>
                   <motion.span initial={{ opacity: 0, y: '50%' }} whileInView={{ opacity: 1, y: 0 }} transition={{ delay: .2}}>
@@ -173,7 +175,7 @@ export default function LandingPage() {
                      <S.SecondTitle>
                         <Title text='Desempenh' uppercase color={Colors.gray900} size='11.7rem'/>
                         <motion.span initial={{ rotate: 90 }} whileInView={{ rotate: 0 }} transition={{ delay: .2 }}>
-                           <S.BasketballTitle src='/public/assets/basketball-image.png'/>
+                           <S.BasketballTitle src={basketballImage}/>
                         </motion.span>
                      </S.SecondTitle>
                   </motion.span>
