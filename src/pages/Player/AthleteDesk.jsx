@@ -103,10 +103,7 @@ export default function AthleteDesk() {
             </S.Container>
       </S.InfoGrid>
       <S.Buttons>
-               <Button
-                   value='Editar'
-                   onClick={handleSubmit}
-               />
+         <Button value='Editar'/>
          <Button value='Deletar'/>
          <Button value='Baixar PDF'/>
       </S.Buttons>
