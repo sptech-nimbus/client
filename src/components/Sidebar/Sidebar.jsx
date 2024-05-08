@@ -27,7 +27,7 @@ export default function Sidebar({page, logo, children}) {
                weight={page == 'news' ? 'fill' : 'regular'}
                />
             </S.Icon>
-            <S.Icon onClick={() => navigate('/elenco')}>
+            <S.Icon onClick={() => navigate('/roster')}>
                <UsersFour
                weight={page == 'team' ? 'fill' : 'regular'}
                />
@@ -37,7 +37,7 @@ export default function Sidebar({page, logo, children}) {
                weight={page == 'chat' ? 'fill' : 'regular'}
                />
             </S.Icon>
-            <S.Icon onClick={() => navigate('/eventos')}>
+            <S.Icon onClick={() => navigate('/events')}>
                <CalendarBlank
                weight={page == 'agenda' ? 'fill' : 'regular'}
                />

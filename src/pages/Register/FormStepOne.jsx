@@ -75,14 +75,11 @@ export default function FormStepOne({onSubmit}) {
         e.preventDefault();
 
         if (TextValidation(userData.name) && TextValidation(userData.lastName) && PastDateValidation(userData.date)) {
-            console.log('tipo '+userData.typeUser);
-            console.log(userData);
             onSubmit(userData);
         } else {
             if (!TextValidation(userData.name)) toast.error("O nome inserido não é válido.");
             if (!TextValidation(userData.lastName)) toast.error("O sobrenome inserido não é válido.");
             if (!PastDateValidation(userData.date)) toast.error("A data de nascimento inserida não é válida. Datas futuras não são aceitas.");
-            console.log(userData);
         }
     }
     

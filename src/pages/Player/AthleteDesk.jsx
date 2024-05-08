@@ -6,9 +6,6 @@ import { Trash, Pencil, FilePdf } from "@phosphor-icons/react";
 import user from "@api/user";
 
 export default function AthleteDesk() {
-    function handleSubmit(e) {
-        
-    }
 
    return (
       <S.InfoWrapper>
@@ -112,19 +109,7 @@ export default function AthleteDesk() {
                />
          <Button value='Deletar'/>
          <Button value='Baixar PDF'/>
-           </S.Buttons>
-           {isDeleteModalOpen && (
-               <div className="modal-overlay">
-                   <div className="modal-content">
-                       <h2>Confirmar exclusão</h2>
-                       <p>Tem certeza de que deseja excluir este jogador?</p>
-                       <div className="modal-buttons">
-                           <Button value="Cancelar" onClick={handleCloseDeleteModal} />
-                           <Button value="Confirmar" onClick={handleSubmit} />
-                       </div>
-                   </div>
-               </div>
-           )}
-       </S.InfoWrapper>
+      </S.Buttons>
+   </S.InfoWrapper>
    )
 }

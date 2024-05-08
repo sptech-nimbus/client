@@ -13,7 +13,7 @@ export default function TeamGrid({players}) {
       hasData = true;
       playerCards =  players.map(player => {
          return (
-            <Card width="250px" key={player.fullName} onClick={() => navigate('/jogador')}>
+            <Card width="250px" key={player.fullName} onClick={() => navigate('/athlete')}>
             <S.PlayerImage src={player.picture}/>
             <S.PlayerName>
                {player.fullName}

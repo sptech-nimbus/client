@@ -64,9 +64,6 @@ export default function Register() {
             });
             setTypeUser(formData.typeUser);
 
-            console.log('tipo usuario do index form '+formData.typeUser);
-            console.log('tipo usuario do index userData '+typeUser);
-
             setStep(step + 1);
         }
         else if (step == 2 && typeUser == "coach") {
