@@ -15,6 +15,14 @@ import { motion } from "framer-motion";
 import Menu from './Menu.jsx';
 import BallOutline from './BallOutline.jsx';
 
+import mockupImage from '@assets/images/mockup.png';
+import transitionTextSvg from '@assets/elements/transition-text.svg';
+import scrollDownSvg from '@assets/elements/scroll-down.svg';
+import nimbusLogo from '@assets/icons/nimbus-logo.svg';
+import nimbusAltLogo from '@assets/icons/nimbus-alternative-logo.svg';
+import instagramLogo from '@assets/icons/instagram-logo.svg';
+import githubLogo from '@assets/icons/github-logo.svg';
+
 export default function LandingPage() {
    const [navOpen, setNavOpen] = useState(false);
    const [userEmail, setUserEmail] = useState('');
@@ -64,8 +72,8 @@ export default function LandingPage() {
             }
             <S.Navbar>
                {navOpen ?
-               <S.NavLogo src='/public/assets/nimbus-alternative-logo.svg' alt={`nimbus - logo do projeto.`}/> :
-               <S.NavLogo src='/public/assets/nimbus-logo.svg' alt={`nimbus - logo do projeto.`}/>
+               <S.NavLogo src={nimbusAltLogo} alt={`nimbus - logo do projeto.`}/> :
+               <S.NavLogo src={nimbusLogo} alt={`nimbus - logo do projeto.`}/>
                }
 
                <S.MenuTrigger onClick={handleNavOpen} state={navOpen}>
@@ -94,11 +102,11 @@ export default function LandingPage() {
                      }}/>
 
                   <S.SocialMediaContainer>
-                     <S.SocialMedia src='/public/assets/github-logo.svg'/>
-                     <S.SocialMedia src='/public/assets/instagram-logo.svg'/>
+                     <S.SocialMedia src={githubLogo}/>
+                     <S.SocialMedia src={instagramLogo}/>
                   </S.SocialMediaContainer>
                </S.Wrapper>
-               <S.ScrollDown src='/public/assets/scroll-down.svg'/>
+               <S.ScrollDown src={scrollDownSvg}/>
             </S.HeaderContent>
          </S.Header>
 
@@ -131,7 +139,7 @@ export default function LandingPage() {
                <S.TransitionText
                initial={{ opacity: 0 }}
                animate={{ opacity: 1 }} 
-               src='/public/assets/transition-text.svg'/>
+               src={transitionTextSvg}/>
                <S.WaveSvg src='/public/assets/vector-wave.svg'/>
             </S.About>
             
@@ -150,7 +158,7 @@ export default function LandingPage() {
                   <S.ComunicationTextContainerRight>
                      <S.ComunicationTextRight initial={{ opacity: 0, y: '50%' }} whileInView={{ opacity: 1, y: 0 }}>Troca de passes, troca de ideias: sucesso garantido.</S.ComunicationTextRight>
                   </S.ComunicationTextContainerRight>
-                  <S.Mockup initial={{ opacity: 0, y: '30%' }} whileInView={{ opacity: 1, y: 0 }} src='/public/assets/mockup.png'/>
+                  <S.Mockup initial={{ opacity: 0, y: '30%' }} whileInView={{ opacity: 1, y: 0 }} src={mockupImage}/>
                </S.ComunicationWrapper>
             </S.Comunication>
 
@@ -262,8 +270,8 @@ export default function LandingPage() {
 
          <S.Footer id="footer">
             <S.FooterFlex>
-               <S.FooterSocialMedia src='/public/assets/github-logo.svg'/>
-               <S.FooterSocialMedia src='/public/assets/instagram-logo.svg'/>
+               <S.FooterSocialMedia src={githubLogo}/>
+               <S.FooterSocialMedia src={instagramLogo}/>
             </S.FooterFlex>
             <S.Flex>
                <S.FooterLink>Voltar para o início.</S.FooterLink>
