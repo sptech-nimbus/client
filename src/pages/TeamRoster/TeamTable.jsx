@@ -1,8 +1,10 @@
+import { useNavigate } from "react-router-dom";
 import { calcAge } from "@utils/Helpers";
 import { Pencil, Trash, Eye } from "@phosphor-icons/react";
 import * as S from "./Team.styled.js";
 
 export default function TeamTable({players}) {
+   const navigate = useNavigate();
    let playerRows;
    let hasData = false;
 
@@ -16,7 +18,7 @@ export default function TeamTable({players}) {
                <S.Td>{`${calcAge(player.birthDate)} anos`}</S.Td>
                <S.Td>{player.number}</S.Td>
                <S.TdActions>
-                  <S.InfoButton>
+                  <S.InfoButton onClick={() => navigate('/athlete')}>
                      <Eye />
                   </S.InfoButton>
                   <S.EditButton>

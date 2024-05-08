@@ -5,8 +5,7 @@ import TeamRoster from "@pages/TeamRoster";
 import Login from "@pages/Login";
 import Register from "@pages/Register";
 import NotFound from "@pages/NotFound";
-import PlayerInfo from "@pages/Player";
-import Modal from "@pages/Player";
+import PlayerInfo from "@pages/Athlete";
 import AboutUs from '@pages/AboutUs';
 import News from '@pages/News';
 import Home from '@pages/Home';
@@ -21,16 +20,16 @@ export default function AppRoutes() {
          <Routes>
             <Route path="*" element={<NotFound />}/>
             <Route path="/" element={<LandingPage />}/>
-            <Route path="/sobre-nos" element={<AboutUs />}/>
+            <Route path="/about-us" element={<AboutUs />}/>
             <Route path="/login" element={<Login />}/>
-            <Route path="/cadastro" element={<Register />}/>
+            <Route path="/register" element={<Register />}/>
             <Route path="/home" element={<Home />}/>
             <Route path="/dashboard" element={<Dashboard />}/>
-            <Route path="/elenco" element={<TeamRoster />}/>
-            <Route path="/jogador" element={<PlayerInfo />} />
+            <Route path="/roster" element={<TeamRoster />}/>
+            <Route path="/athlete" element={<PlayerInfo />} />
             <Route path="/config" element={<Settings />}/>
             <Route path="/news" element={<News />}/>
-            <Route path="/eventos" element={<Events />}/>
+            <Route path="/events" element={<Events />}/>
             <Route path="/chat" element={<Chat />}/>
          </Routes>
       </Router>
