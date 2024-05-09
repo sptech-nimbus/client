@@ -111,7 +111,7 @@ export default function Login() {
             />
             <S.FormFooter>
                <underlined>
-                  <S.Link href="">
+                  <S.Link onClick={() => navigate('/forgot-password')}>
                      Esqueceu sua senha?
                   </S.Link>
                </underlined>

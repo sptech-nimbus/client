@@ -103,7 +103,3 @@ export const Highlight = styled.span`
    color: ${Colors.orange500};
   font-weight: 600;
 `
-
-export const Description = styled.span`
-   
-`
