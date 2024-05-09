@@ -1,7 +1,7 @@
 import * as S from './Player.styled';
 import { useState } from 'react';
 import { RadarChart, BarChart } from '../../components/Charts';
-import Colors from "@utils/Colors";
+import { Colors } from "@utils/Helpers";
 import { months } from '@utils/Helpers';
 import Title from "@components/Title/Title";
 import { Note } from '../../components/Notes/Note';

@@ -6,7 +6,7 @@ import { RadarChart, DoughnutChart } from '../../components/Charts';
 import Results from './Result';
 import Title from '@components/Title/Title';
 
-import Colors from "@utils/Colors";
+import { Colors } from "@utils/Helpers";
 
 export default function Home() {
    const radarConfig = {

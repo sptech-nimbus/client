@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import Colors from "@utils/Colors";
+import { Colors } from "@utils/Helpers";
 
 export const Title = styled.h1`
    position: absolute;

@@ -1,7 +1,7 @@
 import * as S from './LandingPage.styled.js';
 import React, { useState, useEffect, useRef } from 'react';
 import { useMediaQuery } from 'react-responsive';
-import Colors from "@utils/Colors";
+import { Colors } from "@utils/Helpers";
 
 import Background from '@components/Background/Background';
 import Title from "@components/Title/Title";

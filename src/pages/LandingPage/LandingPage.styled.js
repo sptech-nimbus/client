@@ -1,5 +1,5 @@
 import styled, { keyframes } from "styled-components";
-import Colors from "@utils/Colors";
+import { Colors } from "@utils/Helpers";
 import { useMediaQuery } from "react-responsive";
 import { motion } from "framer-motion";
 
