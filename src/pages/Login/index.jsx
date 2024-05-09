@@ -118,7 +118,7 @@ export default function Login() {
                <span>
                   Não possui uma conta ainda? <br />
                   <S.Link>
-                     <S.Highlight onClick={() => navigate('/cadastro')}>Faça seu cadastro!</S.Highlight>
+                     <S.Highlight onClick={() => navigate('/register')}>Faça seu cadastro!</S.Highlight>
                   </S.Link>
                   </span>
             </S.FormFooter>

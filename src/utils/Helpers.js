@@ -39,7 +39,6 @@ export const Colors = {
    red: '#FF3838'
 }
 
-
 export const Months = [
    'Janeiro',
    'Fevereiro',
@@ -66,6 +65,8 @@ export const months = (config) => {
      value = Months[Math.ceil(i) % 12];
      values.push(value.substring(0, section));
    }
+
+   return values;
 }
 
 export function mergeSort(arr, param) {
@@ -111,7 +112,7 @@ function merge(arr, left, right, param) {
    }
 }
 
-export const size = {
+export const Size = {
    mobileS: '320px',
    mobileM: '375px',
    mobileL: '425px',
@@ -121,15 +122,14 @@ export const size = {
    desktop: '2560px'
  }
 
- export const device = {
-   mobileS: `(min-width: ${size.mobileS})`,
-   mobileM: `(min-width: ${size.mobileM})`,
-   mobileL: `(min-width: ${size.mobileL})`,
-   tablet: `(min-width: ${size.tablet})`,
-   laptop: `(min-width: ${size.laptop})`,
-   laptopL: `(min-width: ${size.laptopL})`,
-   desktop: `(min-width: ${size.desktop})`,
-   desktopL: `(min-width: ${size.desktop})`
+ export const Device = {
+   mobileS: `(min-width: ${Size.mobileS})`,
+   mobileM: `(min-width: ${Size.mobileM})`,
+   mobileL: `(min-width: ${Size.mobileL})`,
+   tablet: `(min-width: ${Size.tablet})`,
+   laptop: `(min-width: ${Size.laptop})`,
+   laptopL: `(min-width: ${Size.laptopL})`,
+   desktop: `(min-width: ${Size.desktop})`,
  };
 
 const Utils = {
@@ -138,8 +138,8 @@ const Utils = {
    colors: Colors,
    filterByAttr,
    mergeSort,
-   device,
-   size
+   device: Device,
+   size: Size
 }
 
 export default Utils;

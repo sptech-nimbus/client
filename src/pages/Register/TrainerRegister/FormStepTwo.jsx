@@ -119,6 +119,7 @@ export default function FormStepTwo({onSubmit}) {
          theme="dark"
          limit={3}
       /> 
+
       <LS.InputsContainer>
          <Label>
             <span>E-mail <S.Mandatory>*</S.Mandatory></span>
