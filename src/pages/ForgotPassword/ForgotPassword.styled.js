@@ -21,6 +21,6 @@ export const Description = styled.span`
    flex-direction: column;
    gap: 1rem;
    position: absolute;
-   top: 15%;
+   top: 18%;
    width: 40vw;
 `
