@@ -9,9 +9,9 @@ import { SecondaryButton as Button } from '@components/Button/Button';
 export default function MyTeams() {
    const navigate = useNavigate();
    const coachTeams = [
-      // {id: 1, name: 'Meu time', picture: 'https://placehold.co/250x250'}, 
-      // {id: 2, name: 'Meu time', picture: 'https://placehold.co/250x250'},
-      // {id: 3, name: 'Meu time', picture: 'https://placehold.co/250x250'},
+      {id: 1, name: 'Meu time', picture: 'https://placehold.co/250x250'}, 
+      {id: 2, name: 'Meu time', picture: 'https://placehold.co/250x250'},
+      {id: 3, name: 'Meu time', picture: 'https://placehold.co/250x250'},
    ];
    
    useEffect(() => {
