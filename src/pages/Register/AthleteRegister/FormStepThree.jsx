@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-import * as S from '../../Register/assets/Register.styled';
+import * as S from '../Register.styled';
 import * as LS from '../../Login/Login.styles';
 
 import Label from '@components/Label/Label';
@@ -16,7 +16,6 @@ import "react-toastify/dist/ReactToastify.css";
 
 export default function FormStepThreeAthlete({onSubmit}) {
     const [weight, setWeight] = useState('');
-    const [maskedWeight, setMaskedWeight] = useState('');
     const [height, setHeight] = useState('');
     const [position, setPosition] = useState('');
     const [category, setCategory] = useState('');
@@ -34,15 +33,32 @@ export default function FormStepThreeAthlete({onSubmit}) {
         }
     }, [isBelow1050]);
 
-    function handleWeightChange(e) {
+    function handleWeightMaskChange(e) {
         const { value } = e.target;
-        setWeight(value);
+        let formmatedWeight = value;
+
+        if (value.length <= 2) {
+            formmatedWeight = value.replace(/^(\d+)?$/, '$1.00kg');
+        } else if (value.length == 3) {
+            formmatedWeight = value.replace(/^(\d+)?$/, '$1.00kg');
+            console.log("3")
+        } else if (value.length == 4) {
+            formmatedWeight = value.replace(/^(\d{3})(\d+)?$/, '$1.$20kg');
+            console.log("4")
+        } else if (value.length == 5) {
+            formmatedWeight = value.replace(/^(\d{3})(\d+)?$/, '$1.$2kg');
+        }
+
+        setWeight(formmatedWeight);
     }
 
     function handleHeightChange(e) {
         const { value } = e.target;
-        let heightFormmated = value.replace(" ", "").replace("cm", "");
-        setHeight(heightFormmated);
+        let formmatedHeight = value;
+
+        formmatedHeight = value.replace(/^(\d{1})(\d{2})?$/, '$1.$2cm')
+
+        setHeight(formmatedHeight);
     }
 
     function handlePositionChange(e) {
@@ -55,23 +71,19 @@ export default function FormStepThreeAthlete({onSubmit}) {
         setCategory(value);
     }
 
-    function handleWeightOpenChange() {
-        const weightRegex = /^\d{1,3}\.\d{2}$/;
-        if (weightRegex.test(weight)) {
-            const formattedWeight = parseFloat(weight).toFixed(2);
-            setMaskedWeight(formattedWeight + 'kg');
-        }
-    }
-
     function handleSubmit(e) {
-        e.preventDefault();
+        e.preventDefault(); 
+
+        setHeight(height.replace('cm', ''));
+        setWeight(weight.replace('kg', ''));
 
         if (
-            WeightValidation(weight) &&
-            HeightValidation(height) &&
+            WeightValidation(weight.replace('kg', '')) &&
+            HeightValidation(height.replace('cm', '')) &&
             PositionValidation(position) &&
             CategoryValidation(category))
         {
+            console.log(weight)
             onSubmit({ weight, height, position, category });
         }
         else {
@@ -102,11 +114,9 @@ export default function FormStepThreeAthlete({onSubmit}) {
                     Peso
                     <S.InputLine>
                         <Input.Masked
-                            mask={maskedWeight}
                             placeholder={'80.00kg'}
                             value={weight}
-                            onBlur={ handleWeightOpenChange }
-                            onChange={handleWeightChange}
+                            onBlur={handleWeightMaskChange}
                         />
                     </S.InputLine>
                 </Label>
@@ -114,11 +124,10 @@ export default function FormStepThreeAthlete({onSubmit}) {
                     Altura
                     <S.InputLine>
                         <Input.Masked
-                            mask={ '0.00cm' }
                             placeholder={'1.90cm'}
                             value={height}
-                            onChange={handleHeightChange}
-                            width='45%'
+                            onBlur={handleHeightChange}
+                            width='50%'
                         />
                     </S.InputLine>
                 </Label>
@@ -130,7 +139,7 @@ export default function FormStepThreeAthlete({onSubmit}) {
                             placeholder={'Pivo'}
                             value={position}
                             onChange={handlePositionChange}
-                            width='40%'
+                            width='50%'
                         />
                     </Label>
                     <Label>

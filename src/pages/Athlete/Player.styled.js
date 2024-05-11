@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import Colors from "@utils/Colors";
+import { Colors } from "@utils/Helpers";
 
 export const Flex = styled.span`
    display: flex;
@@ -46,7 +46,7 @@ export const ContentContainer = styled.div`
    flex-direction: column;
    width: 95vw;
    height: 100vh;
-   padding: 1rem 18rem;
+   padding: 1rem 15rem;
    gap: 2rem;
 `
 
@@ -60,11 +60,13 @@ export const InfoGrid = styled.div`
    box-sizing: border-box;
    align-items: stretch;
    gap: 1.2rem;
-   overflow: hidden;
+   /* overflow: hidden; */
 `
 
 export const StatsGrid = styled(InfoGrid)`
-   
+   height: 90%;
+   grid-template-columns: 1fr 1fr 1fr;
+   grid-template-rows: repeat(10, 1fr);
 `
 
 export const Container = styled.div`
@@ -76,6 +78,62 @@ export const Container = styled.div`
    border-radius: 1rem;
    padding: 1rem 1.2rem;
    box-sizing: border-box;
+`
+
+export const ContainerStats = styled(Container)`
+   gap: .8rem;
+   overflow: hidden;
+
+   &:nth-child(1) {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      grid-row: 1 / 6;
+      grid-column: 1 / 2;
+   }
+
+   &:nth-child(2) {
+      grid-row: 1 / 7;
+      grid-column: 2 / 4;
+   }
+
+   &:nth-child(3) {
+      grid-row: 6 / 11;
+      grid-column: 1 / 2;
+   }
+
+   &:nth-child(4) {
+      grid-row: 7 / 11;
+      grid-column: 2 / 4;
+   }
+`
+
+export const FeedbackContainer = styled.div`
+   display: flex;
+   flex-direction: column;
+   gap: 1rem;
+   width: 100%;
+   height: 100%;
+   padding-right: .5rem;
+   overflow: auto;
+
+   &::-webkit-scrollbar {
+      width: 6px;
+   }
+
+   &::-webkit-scrollbar-track {
+      border-radius: 8px;
+      background-color: ${Colors.gray700};
+   }
+
+   &::-webkit-scrollbar-thumb {
+      background: ${Colors.orange500}; 
+      border-radius: 8px;
+   }
+
+   &::-webkit-scrollbar-thumb:hover {
+      background: ${Colors.orange300}; 
+   }
 `
 
 export const PlayerImg = styled.img`
@@ -113,4 +171,19 @@ export const Buttons = styled.div`
    gap: 1rem;
    width: 100%;
    grid-column: 1 / 2;
+`
+
+export const ChartContainer = styled.div`
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   width: 100%;
+   height: 90%;
+   box-sizing: border-box;
+`
+
+export const ChartTitle = styled.div`
+   width: 100%;
+   height: 5%;
+   display: flex;
 `

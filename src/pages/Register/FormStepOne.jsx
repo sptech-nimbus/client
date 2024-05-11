@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-import * as S from '../Register/assets/Register.styled';
+import * as S from './Register.styled';
 import * as LS from '../Login/Login.styles';
 
 import Label from '@components/Label/Label';
@@ -12,23 +12,21 @@ import { TextValidation, PastDateValidation } from '@utils/Validations';
 import { useMediaQuery } from 'react-responsive';
 import { ToastContainer, toast } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
+import { useNavigate } from 'react-router-dom';
 
 export default function FormStepOne({onSubmit}) {
-    const [name, setName] = useState('');
-    const [lastName, setLastName] = useState('');
-    const [date, setDate] = useState('');
-
-    const [nameErr, setNameErr] = useState(false);
-    const [lastNameErr, setLastNameErr] = useState(false);
-    const [dateErr, setDateErr] = useState(false);
+    const navigate = useNavigate();
+    const [userData, setUserData] = useState({
+        name: '',
+        lastName: '',
+        date: '',
+        typeUser: 'coach'
+    })
 
     const [nameTtpOpen, setNameTtpOpen] = useState(false);
     const [lastNameTtpOpen, setLastNameTtpOpen] = useState(false);
-    const [dateTtpOpen, setDateTtpOpen] = useState(false);
 
     const [toastPosition, setToastPosition] = useState('top-right');
-
-    const [typeUser, setTypeUser] = useState('coach');
 
     const isBelow799 = useMediaQuery({ maxWidth: 799 });
     const isBelow1050 = useMediaQuery({ maxWidth: 1050 });
@@ -43,17 +41,26 @@ export default function FormStepOne({onSubmit}) {
 
     function handleNameChange(e) {
         const { value } = e.target;
-        setName(value);
+        setUserData({
+            ...userData,
+            name: value
+        });
     }
 
     function handleLastNameChange(e) {
         const { value } = e.target;
-        setLastName(value);
+        setUserData({
+            ...userData,
+            lastName: value
+        });
     }
 
     function handleDateChange(e) {
         const { value } = e.target;
-        setDate(value);
+        setUserData({
+            ...userData,
+            date: value
+        });
     }
 
     function handleNameTtpChange() {
@@ -64,35 +71,32 @@ export default function FormStepOne({onSubmit}) {
         setLastNameTtpOpen(!lastNameTtpOpen);
     }
 
-    function handleDateTtpChange() {
-        setDateTtpOpen(!dateTtpOpen);
-    }
-
     function handleSubmit(e) {
         e.preventDefault();
-        if (TextValidation(name) && TextValidation(lastName) && PastDateValidation(date)) {
-            onSubmit({ typeUser, name, lastName, date })
+
+        if (TextValidation(userData.name) && TextValidation(userData.lastName) && PastDateValidation(userData.date)) {
+            onSubmit(userData);
         } else {
-            if (!TextValidation(name)) toast.error("O nome inserido não é válido.");
-            if (!TextValidation(lastName)) toast.error("O sobrenome inserido não é válido.");
-            if (!PastDateValidation(date)) toast.error("A data de nascimento inserida não é válida. Datas futuras não são aceitas.");
-            console.log({ typeUser, name, lastName, date })
+            if (!TextValidation(userData.name)) toast.error("O nome inserido não é válido.");
+            if (!TextValidation(userData.lastName)) toast.error("O sobrenome inserido não é válido.");
+            if (!PastDateValidation(userData.date)) toast.error("A data de nascimento inserida não é válida. Datas futuras não são aceitas.");
         }
     }
     
     const handleTabClick = (value) => {
-        {
-            setTypeUser(value);
-        }
+        setUserData({
+            ...userData,
+            typeUser: value
+        });
     }
     return (
         <S.Form onSubmit={handleSubmit}>
             <S.TabsRoot>
                 <S.TabsList>
-                    <S.TabsTrigger value="coach" onClick={(e) => { e.preventDefault(); handleTabClick("coach"); }} active={typeUser === "coach"}>
+                    <S.TabsTrigger value="coach" onClick={(e) => { e.preventDefault(); handleTabClick("coach"); }} active={userData.typeUser === "coach"}>
                         Treinador
                     </S.TabsTrigger>
-                    <S.TabsTrigger value="athlete" onClick={(e) => { e.preventDefault(); handleTabClick("athlete"); }} active={typeUser === "athlete"}>
+                    <S.TabsTrigger value="athlete" onClick={(e) => { e.preventDefault(); handleTabClick("athlete"); }} active={userData.typeUser === "athlete"}>
                         Jogador
                     </S.TabsTrigger>
                 </S.TabsList>
@@ -116,7 +120,7 @@ export default function FormStepOne({onSubmit}) {
                         <S.InputLine>
                             <Input.Default
                                 placeholder={'John'}
-                                value={name}
+                                value={userData.name}
                                 onChange={handleNameChange}
                                 onFocus={handleNameTtpChange}
                                 onBlur={handleNameTtpChange}
@@ -133,7 +137,7 @@ export default function FormStepOne({onSubmit}) {
                         <S.InputLine>
                             <Input.Default
                                 placeholder={'Doe'}
-                                value={lastName}
+                                value={userData.lastName}
                                 onChange={handleLastNameChange}
                                 onFocus={handleLastNameTtpChange}
                                 onBlur={handleLastNameTtpChange}
@@ -151,7 +155,7 @@ export default function FormStepOne({onSubmit}) {
                         <S.InputLine>
                             <Input.Default
                                 type={'date'}
-                                value={date}
+                                value={userData.date}
                                 onChange={handleDateChange}
                             />
                         </S.InputLine>
@@ -168,7 +172,7 @@ export default function FormStepOne({onSubmit}) {
                     <span>
                         Já possui uma conta? <br />
                         <LS.Link>
-                            <LS.Highlight>Faça login</LS.Highlight>
+                            <LS.Highlight onClick={() => navigate('/login')}>Faça login</LS.Highlight>
                         </LS.Link>
                     </span>
                 </LS.FormFooter>

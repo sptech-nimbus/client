@@ -8,10 +8,12 @@ import { Drawer } from "@components/Dialog/Dialog";
 import RadioGroup from "@components/RadioGroup/RadioGroup";
 import Button from "@components/Button/Button";
 
+import user from "@api/user";
+
 import TeamGrid from "./TeamGrid";
 import TeamTable from "./TeamTable";
 
-import { FilterByAttr } from "@utils/Helpers";
+import { filterByAttr } from "@utils/Helpers";
 
 import { MagnifyingGlass, SquaresFour, Rows, Faders } from "@phosphor-icons/react";
 
@@ -21,28 +23,31 @@ export default function TeamRoster() {
    const [search, setSearch] = useState('');
    const [gridState, setGridState] = useState(true);
    const [tableState, setTableState] = useState(false);
-   const [playersData, setPlayersData] = useState([
-      { number: 1, fullName: 'Alice Smith', position: 'Armador', birthDate: '2003-04-15', picture: 'https://via.placeholder.com/150' },
-      { number: 2, fullName: 'Bob Johnson', position: 'Ala-Armador', birthDate: '2002-09-22', picture: 'https://via.placeholder.com/150' },
-      { number: 3, fullName: 'Charlie Williams', position: 'Ala', birthDate: '2001-11-08', picture: 'https://via.placeholder.com/150' },
-      { number: 4, fullName: 'David Jones', position: 'Ala-Pivô', birthDate: '2000-08-17', picture: 'https://via.placeholder.com/150' },
-      { number: 5, fullName: 'Emma Brown', position: 'Pivô', birthDate: '2001-06-29', picture: 'https://via.placeholder.com/150' },
-      { number: 6, fullName: 'Ethan Davis', position: 'Pivô', birthDate: '2003-01-03', picture: 'https://via.placeholder.com/150' },
-      { number: 7, fullName: 'Grace Miller', position: 'Pivô', birthDate: '2000-12-11', picture: 'https://via.placeholder.com/150' },
-      { number: 8, fullName: 'Henry Wilson', position: 'Pivô', birthDate: '2001-04-25', picture: 'https://via.placeholder.com/150' },
-      { number: 9, fullName: 'Isabella Moore', position: 'Pivô', birthDate: '2002-07-19', picture: 'https://via.placeholder.com/150' },
-      { number: 10, fullName: 'Jack Taylor', position: 'Pivô', birthDate: '2003-03-07', picture: 'https://via.placeholder.com/150' },
-      { number: 11, fullName: 'Sophia Anderson', position: 'Pivô', birthDate: '2000-10-14', picture: 'https://via.placeholder.com/150' },
-      { number: 12, fullName: 'Liam Martinez', position: 'Pivô', birthDate: '2001-09-30', picture: 'https://via.placeholder.com/150' },
-      { number: 13, fullName: 'Olivia Thompson', position: 'Pivô', birthDate: '2002-02-18', picture: 'https://via.placeholder.com/150' },
-      { number: 14, fullName: 'Noah Garcia', position: 'Pivô', birthDate: '2000-05-28', picture: 'https://via.placeholder.com/150' },
-      { number: 15, fullName: 'Ava Martinez', position: 'Pivô', birthDate: '2001-08-06', picture: 'https://via.placeholder.com/150' },
-      { number: 16, fullName: 'William Robinson', position: 'Pivô', birthDate: '2002-12-09', picture: 'https://via.placeholder.com/150' },
-      { number: 17, fullName: 'Mia Clark', position: 'Pivô', birthDate: '2000-11-12', picture: 'https://via.placeholder.com/150' },
-      { number: 18, fullName: 'James Rodriguez', position: 'Pivô', birthDate: '2002-03-24', picture: 'https://via.placeholder.com/150' },
-      { number: 19, fullName: 'Charlotte Lewis', position: 'Pivô', birthDate: '2001-01-02', picture: 'https://via.placeholder.com/150' },
-      { number: 20, fullName: 'Benjamin Lee', position: 'Pivô', birthDate: '2003-07-31', picture: 'https://via.placeholder.com/150' },
-   ]);
+   const [playersData, setPlayersData] = useState(
+      [
+         { number: 1, firstName: 'Alice', lastName: 'Smith', position: 'Armador', birthDate: '2003-04-15', picture: 'https://via.placeholder.com/150' },
+         { number: 2, firstName: 'Bob', lastName: 'Johnson', position: 'Ala-Armador', birthDate: '2002-09-22', picture: 'https://via.placeholder.com/150' },
+         { number: 3, firstName: 'Charlie', lastName: 'Williams', position: 'Ala', birthDate: '2001-11-08', picture: 'https://via.placeholder.com/150' },
+         { number: 4, firstName: 'David', lastName: 'Jones', position: 'Ala-Pivô', birthDate: '2000-08-17', picture: 'https://via.placeholder.com/150' },
+         { number: 5, firstName: 'Emma', lastName: 'Brown', position: 'Pivô', birthDate: '2001-06-29', picture: 'https://via.placeholder.com/150' },
+         { number: 6, firstName: 'Ethan', lastName: 'Davis', position: 'Pivô', birthDate: '2003-01-03', picture: 'https://via.placeholder.com/150' },
+         { number: 7, firstName: 'Grace', lastName: 'Miller', position: 'Pivô', birthDate: '2000-12-11', picture: 'https://via.placeholder.com/150' },
+         { number: 8, firstName: 'Henry', lastName: 'Wilson', position: 'Pivô', birthDate: '2001-04-25', picture: 'https://via.placeholder.com/150' },
+         { number: 9, firstName: 'Isabella', lastName: 'Moore', position: 'Pivô', birthDate: '2002-07-19', picture: 'https://via.placeholder.com/150' },
+         { number: 10, firstName: 'Jack', lastName: 'Taylor', position: 'Pivô', birthDate: '2003-03-07', picture: 'https://via.placeholder.com/150' },
+         { number: 11, firstName: 'Sophia', lastName: 'Anderson', position: 'Pivô', birthDate: '2000-10-14', picture: 'https://via.placeholder.com/150' },
+         { number: 12, firstName: 'Liam', lastName: 'Martinez', position: 'Pivô', birthDate: '2001-09-30', picture: 'https://via.placeholder.com/150' },
+         { number: 13, firstName: 'Olivia', lastName: 'Thompson', position: 'Pivô', birthDate: '2002-02-18', picture: 'https://via.placeholder.com/150' },
+         { number: 14, firstName: 'Noah', lastName: 'Garcia', position: 'Pivô', birthDate: '2000-05-28', picture: 'https://via.placeholder.com/150' },
+         { number: 15, firstName: 'Ava', lastName: 'Martinez', position: 'Pivô', birthDate: '2001-08-06', picture: 'https://via.placeholder.com/150' },
+         { number: 16, firstName: 'William', lastName: 'Robinson', position: 'Pivô', birthDate: '2002-12-09', picture: 'https://via.placeholder.com/150' },
+         { number: 17, firstName: 'Mia', lastName: 'Clark', position: 'Pivô', birthDate: '2000-11-12', picture: 'https://via.placeholder.com/150' },
+         { number: 18, firstName: 'James', lastName: 'Rodriguez', position: 'Pivô', birthDate: '2002-03-24', picture: 'https://via.placeholder.com/150' },
+         { number: 19, firstName: 'Charlotte', lastName: 'Lewis', position: 'Pivô', birthDate: '2001-01-02', picture: 'https://via.placeholder.com/150' },
+         { number: 20, firstName: 'Benjamin', lastName: 'Lee', position: 'Pivô', birthDate: '2003-07-31', picture: 'https://via.placeholder.com/150' },
+         { number: 21, firstName: 'Benjamin', lastName: 'Lee', position: 'Pivô', birthDate: '2002-06-10', picture: 'https://via.placeholder.com/150' },
+         { number: 22, firstName: 'Benjamin', lastName: 'Lee', position: 'Pivô', birthDate: '2000-09-15', picture: 'https://via.placeholder.com/150' }
+     ]);
    const [playersFiltered, setPlayersFiltered] = useState(playersData);
 
    function handleSearchChange(e) {
@@ -74,7 +79,7 @@ export default function TeamRoster() {
    }
 
    function SearchPlayer() {
-      const filtered = FilterByAttr(playersData, "fullName", search);
+      const filtered = filterByAttr(playersData, "fullName", search);
       setPlayersFiltered(filtered);
    }
    

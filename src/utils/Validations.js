@@ -171,9 +171,9 @@ export function HeightValidation(heigth) {
 
     if (!heigth || !heigth.match(heigth)) {
         return false;
-    } else {
-        return heigthRegex.test(heigth);
-    }
+    } 
+
+    return heigthRegex.test(heigth);
 }
 
 export function PositionValidation(position) {

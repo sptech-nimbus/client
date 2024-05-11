@@ -6,7 +6,7 @@ export const BackgroundDiv = styled.div`
    left: 0;
    width: 100%;
    height: 100%;
-   background-image: url('/public/assets/background-noise.png');
+   background-image: url('/src/assets/elements/background-noise.png');
    background-size: cover;
    mix-blend-mode: overlay;
    z-index: -1;

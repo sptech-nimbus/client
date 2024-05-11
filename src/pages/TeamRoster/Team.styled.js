@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import Colors from "@utils/Colors";
+import { Colors } from "@utils/Helpers";
 import { MagnifyingGlass } from "@phosphor-icons/react";
 
 export const PageContainer = styled.div`
@@ -13,7 +13,7 @@ export const ContentContainer = styled.div`
    flex-direction: column;
    width: 95vw;
    height: 100vh;
-   padding: 1rem 8rem;
+   padding: 1rem 6rem;
    gap: 2rem;
 `
 
@@ -77,6 +77,14 @@ export const ShowInfoButton = styled.button`
 
    &:hover {
       background-color: ${Colors.orange300};
+   }
+
+   &:nth-child(2) {
+      background-color: ${Colors.green};
+   }
+
+   &:nth-child(3) {
+      background-color: ${Colors.red};
    }
 `
 
@@ -249,4 +257,9 @@ export const FilterDescription = styled.span`
    font-weight: 700;
    margin-bottom: 4px;
    font-size: 1rem;
+`
+
+export const Buttons = styled.div`
+   display: flex;
+   gap: .5rem;
 `

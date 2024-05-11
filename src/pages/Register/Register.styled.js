@@ -1,5 +1,5 @@
 import * as LS from '@pages/Login/Login.styles'
-import Colors from "@utils/Colors";
+import { Colors } from "@utils/Helpers";
 import styled, { css } from 'styled-components';
 
 export const Mandatory = styled.span`
@@ -16,7 +16,7 @@ export const StepperWrapper = styled.div`
 `
 
 export const Form = styled(LS.Form)`
-   top: 25%;
+   top: 20%;
 `
 
 export const FormStepThree = styled(LS.Form)`
@@ -75,7 +75,6 @@ export const TabsTrigger = styled.button`
   `}
 `;
 
-export const TabsContent = styled.div `{
-    flex - grow: 1;
-    padding: 5%;
-}`
+export const TabsContent = styled.div`
+    flex-grow: 1;
+`

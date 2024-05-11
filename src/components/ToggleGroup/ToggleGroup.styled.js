@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import * as TG from '@radix-ui/react-toggle-group';
-import Colors from "@utils/Colors";
+import { Colors } from "@utils/Helpers";
 
 export const Root = styled(TG.Root)`
   display: inline-flex;

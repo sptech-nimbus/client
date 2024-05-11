@@ -1,3 +1,4 @@
+/* eslint-disable no-useless-catch */
 import axios from "axios";
 import config from "./config";
 
@@ -19,11 +20,11 @@ async function getAllTeams(headers = {}) {
     }
 }
 
-async function registerTeam(body = {}, headers = {}) {
+async function registerTeam(body = {}, token) {
     try {
         const response = await axios.post(`${config.baseURL}/${path}`, body)
             .then(response => {
-                console.log(response.data);
+                console.log(response);
             })
             .catch(error => {
                 console.log(error);
