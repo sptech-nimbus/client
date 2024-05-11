@@ -1,7 +1,7 @@
 import * as S from './Dashboard.styled';
 import Sidebar from "@components/Sidebar/Sidebar";
 import Background from "@components/Background/Background";
-import Colors from "@utils/Colors";
+import { Colors } from "@utils/Helpers";
 
 import { LineChart, PieChart, BarChart } from "@components/Charts";
 import Utils from "@utils/Helpers";

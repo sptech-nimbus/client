@@ -111,14 +111,14 @@ export default function Login() {
             />
             <S.FormFooter>
                <underlined>
-                  <S.Link href="">
+                  <S.Link onClick={() => navigate('/forgot-password')}>
                      Esqueceu sua senha?
                   </S.Link>
                </underlined>
                <span>
                   Não possui uma conta ainda? <br />
                   <S.Link>
-                     <S.Highlight onClick={() => navigate('/cadastro')}>Faça seu cadastro!</S.Highlight>
+                     <S.Highlight onClick={() => navigate('/register')}>Faça seu cadastro!</S.Highlight>
                   </S.Link>
                   </span>
             </S.FormFooter>

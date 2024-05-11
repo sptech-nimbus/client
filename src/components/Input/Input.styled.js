@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import Colors from "@utils/Colors";
+import { Colors } from "@utils/Helpers";
 import { IMaskInput } from "react-imask";
 
 const inputColor = props => props.disabled ? '#303030' : '#212121'

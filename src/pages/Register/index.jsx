@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import * as S from './Register.styled';
 import * as LS from '@pages/Login/Login.styles';
 
@@ -15,8 +15,14 @@ import user from '@api/user';
 import team from '@api/team';
 import athlete from '@api/athlete';
 import athleteDesc from '@api/athleteDesc';
+import { useNavigate } from 'react-router-dom';
+
+import { ToastContainer, toast } from 'react-toastify';
 
 export default function Register() {
+    const navigate = useNavigate();
+    const [isRegisterFinished, setIsRegisterFinished] = useState(false);
+
     const [step, setStep] = useState(1);
 
     const [token, setToken] = useState('')
@@ -53,6 +59,15 @@ export default function Register() {
             id: ''
         }
     });
+
+    useEffect(() => {
+        if(isRegisterFinished) {
+           toast.success('Cadastro realizado! Redirecionando para tela de login...', { autoClose: 2000 });
+           setTimeout(() => {
+                navigate('/login');
+           }, 2600);
+        }
+     }, [isRegisterFinished]);
 
     function handleFormSubmit(formData) {
         if (step == 1) {
@@ -114,6 +129,7 @@ export default function Register() {
             });
 
             team.post(teamData);
+            setIsRegisterFinished(!isRegisterFinished);
         }
         else if (step == 3 && typeUser == "athlete") {
             setPersonData({
@@ -170,11 +186,24 @@ export default function Register() {
         }
         else if (step == 4 && typeUser == "athlete") {
             console.log(formData.code);  
+            setIsRegisterFinished(!isRegisterFinished);
         }
     }
 
     return (
         <LS.Header>
+            <ToastContainer
+                autoClose={3000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                theme="dark"
+                limit={3}
+            />
+
             <Background.Login />
             <LS.Title>Cadastro</LS.Title>
 

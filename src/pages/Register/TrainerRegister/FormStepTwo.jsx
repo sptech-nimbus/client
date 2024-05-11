@@ -21,9 +21,6 @@ export default function FormStepTwo({onSubmit}) {
       password: ''
    });
 
-   const [email, setEmail] = useState('');
-   const [phone, setPhone] = useState('');
-   const [password, setPassword] = useState('');
    const [confirmPassword, setConfirmPassword] = useState('');
 
    const [passwordTtpOpen, setPasswordTtpOpen] = useState(false);
@@ -119,6 +116,7 @@ export default function FormStepTwo({onSubmit}) {
          theme="dark"
          limit={3}
       /> 
+
       <LS.InputsContainer>
          <Label>
             <span>E-mail <S.Mandatory>*</S.Mandatory></span>

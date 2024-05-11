@@ -1,5 +1,5 @@
 import { Result } from './Home.styled';
-import Colors from '@utils/Colors';
+import { Colors } from '@utils/Helpers';
 
 export default function Results({ result }) {
    let color;

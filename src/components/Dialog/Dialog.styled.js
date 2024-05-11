@@ -1,5 +1,5 @@
 import styled, { keyframes } from "styled-components";
-import Colors from "@utils/Colors";
+import { Colors } from "@utils/Helpers";
 import * as D from "@radix-ui/react-dialog";
 
 export const DrawerOverlay = styled(D.Overlay)` 

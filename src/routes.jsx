@@ -13,6 +13,7 @@ import Settings from '@pages/Settings';
 import Dashboard from "@pages/Dashboard";
 import Events from '@pages/Events';
 import Chat from '@pages/Chat';
+import ForgotPassword from './pages/ForgotPassword';
 
 export default function AppRoutes() {
    return (
@@ -31,6 +32,7 @@ export default function AppRoutes() {
             <Route path="/news" element={<News />}/>
             <Route path="/events" element={<Events />}/>
             <Route path="/chat" element={<Chat />}/>
+            <Route path="/forgot-password" element={<ForgotPassword />}/>
          </Routes>
       </Router>
    )

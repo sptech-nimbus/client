@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import * as Radio from "@radix-ui/react-radio-group";
-import Colors from "@utils/Colors"
+import { Colors } from "@utils/Helpers"
 
 export const RadioGroupRoot = styled(Radio.Root)`
    display: flex;
