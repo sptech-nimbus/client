@@ -13,7 +13,8 @@ import Settings from '@pages/Settings';
 import Dashboard from "@pages/Dashboard";
 import Events from '@pages/Events';
 import Chat from '@pages/Chat';
-import ForgotPassword from './pages/ForgotPassword';
+import ForgotPassword from '@pages/ForgotPassword';
+import MyTeams from '@pages/MyTeams';
 
 export default function AppRoutes() {
    return (
@@ -24,6 +25,7 @@ export default function AppRoutes() {
             <Route path="/about-us" element={<AboutUs />}/>
             <Route path="/login" element={<Login />}/>
             <Route path="/register" element={<Register />}/>
+            <Route path="/register/team" element={<Register team/>}/>
             <Route path="/home" element={<Home />}/>
             <Route path="/dashboard" element={<Dashboard />}/>
             <Route path="/roster" element={<TeamRoster />}/>
@@ -33,6 +35,7 @@ export default function AppRoutes() {
             <Route path="/events" element={<Events />}/>
             <Route path="/chat" element={<Chat />}/>
             <Route path="/forgot-password" element={<ForgotPassword />}/>
+            <Route path="/my-teams" element={<MyTeams />}/>
          </Routes>
       </Router>
    )

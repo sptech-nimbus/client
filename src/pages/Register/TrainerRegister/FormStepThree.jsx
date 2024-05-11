@@ -121,7 +121,7 @@ export default function FormStepThree({onSubmit}) {
     }
 
     return (
-        <S.Form onSubmit={handleSubmit}>
+        <S.FormStepThree onSubmit={handleSubmit}>
             <ToastContainer
                 position={toastPosition}
                 autoClose={8000}
@@ -235,6 +235,6 @@ export default function FormStepThree({onSubmit}) {
                 fontSize={'1.5rem'}
                 onClick={handleSubmit}
             />
-        </S.Form>
+        </S.FormStepThree>
     )
 }
