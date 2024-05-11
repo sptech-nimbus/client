@@ -31,3 +31,12 @@ export const Container = styled.div`
    display: flex;
    align-items: center;
 `
+
+export const Form = styled.form`
+   display: flex;
+   width: 100%;
+   height: 100%;
+   flex-direction: column;
+   gap: 1.2rem;
+   height: 100%;
+`

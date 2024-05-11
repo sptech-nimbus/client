@@ -95,7 +95,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .rmdp-prime.rmdp-wrapper {
-  border: none;
+  border: 1px solid #4D4D4D;
   box-shadow: none;
   padding: 1rem;
   border-radius: 1rem;

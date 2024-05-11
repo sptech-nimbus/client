@@ -80,10 +80,10 @@ export function InputPassword({placeholder, width, fontSize, onChange, value='',
                onChange={onChange}
                {...props}
                />
+               <S.EyeWrapper onClick={toggleVisibility}>
+                  {isVisible ? <EyeClosed size={25}/> : <Eye size={25}/>}
+               </S.EyeWrapper>
             </S.InputAndIcon>
-         <S.EyeWrapper onClick={toggleVisibility}>
-            {isVisible ? <EyeClosed size={25}/> : <Eye size={25}/>}
-         </S.EyeWrapper>
       </S.Wrapper>
    )
 }
