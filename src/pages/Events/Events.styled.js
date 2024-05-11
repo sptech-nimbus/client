@@ -40,3 +40,10 @@ export const Form = styled.form`
    gap: 1.2rem;
    height: 100%;
 `
+
+export const Flex = styled.div`
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+   gap: 1rem;
+`

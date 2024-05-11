@@ -2,6 +2,7 @@ import { useState } from 'react';
 import * as S from './Events.styled';
 
 import { Calendar } from "react-multi-date-picker";
+
 import "react-multi-date-picker/styles/layouts/prime.css"
 import "react-multi-date-picker/styles/backgrounds/bg-dark.css"
 
@@ -10,11 +11,11 @@ import Title from "@components/Title/Title";
 import Input from "@components/Input/Input";
 import Label from "@components/Label/Label";
 import Checkbox from "@components/Checkbox/Checkbox";
+import { PrimaryButton as Button } from "@components/Button/Button";
 
 import Utils from '@utils/Helpers';
 
 export default function Eventss() {
-   const [isMultiple, setIsMultiple] = useState(false);
    const [dates, setDates] = useState([]);
    const [eventData, setEventData] = useState({
       name: '',
@@ -41,7 +42,7 @@ export default function Eventss() {
             <S.AgendaGrid>
                <S.Container>
                   <Calendar
-                     multiple={isMultiple}
+                     multiple
                      value={dates}
                      onChange={setDates}
                      format="DD/MM/YYYY"
@@ -53,7 +54,6 @@ export default function Eventss() {
                      showOtherDays
                      disableYearPicker
                      minDate={new Date()}
-                     
                   />
                </S.Container>
                <S.Container>
@@ -74,22 +74,24 @@ export default function Eventss() {
                            onChange={handleInputChange} 
                         />
                      </Label>
-                     <Label>
-                        Data(s)
-                        <Input.Default 
-                           name='date'
-                           value={dates}
-                           onChange={handleInputChange} 
-                        />
-                     </Label>
-                     <Label>
-                        Horário
-                        <Input.Default 
-                           name='time'
-                           value={eventData.time}
-                           onChange={handleInputChange} 
-                        />
-                     </Label>
+                     <S.Flex>
+                        <Label>
+                           Data(s)
+                           <Input.Default
+                              name='date'
+                              value={dates}
+                              disabled
+                           />
+                        </Label>
+                        <Label>
+                           Horário
+                           <Input.Default
+                              name='time'
+                              value={eventData.time}
+                              onChange={handleInputChange}
+                           />
+                        </Label>
+                     </S.Flex>
                      <Label>
                         Local
                         <Input.Default 
@@ -100,12 +102,18 @@ export default function Eventss() {
                      </Label>
                      <Label>
                         Descricação
-                        <Input.Default 
+                        <Input.Textarea 
                            name='description'
                            value={eventData.description}
                            onChange={handleInputChange} 
+                           rows={5}
                         />
                      </Label>
+                     <Button
+                        value={'Cadastrar evento'}
+                        marginTop='0rem'
+                        fontSize='1.5rem'
+                     />
                   </S.Form>
                </S.Container>
             </S.AgendaGrid>
