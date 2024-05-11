@@ -3,7 +3,6 @@ import * as S from './MyTeams.styled';
 import { useNavigate } from 'react-router-dom';
 
 import Background from "@components/Background/Background";
-import { Carousel } from "nuka-carousel";
 import { SecondaryButton as Button } from '@components/Button/Button';
 
 export default function MyTeams() {

@@ -83,3 +83,70 @@ main {
 h1, h2, h3, h4, h5, h6 {
   font-family: "Catamaran";
 }
+
+/* calendar styles */
+.bg-dark {
+  background-color: var(--gray700) !important;
+}
+
+.bg-dark .rmdp-wrapper,
+.bg-dark .rmdp-panel-body {
+  box-shadow: none !important;
+}
+
+.rmdp-prime.rmdp-wrapper {
+  border: none;
+  box-shadow: none;
+  padding: 1rem;
+  border-radius: 1rem;
+}
+
+.bg-dark .rmdp-day.rmdp-today span {
+  background-color: var(--orange300);
+}
+
+.bg-dark .rmdp-week-day {
+  color: var(--orange100);
+  font-size: 1rem;
+  width: 4vw;
+}
+
+.rmdp-header {
+  border: none !important;
+}
+
+.rmdp-header span {
+  color: var(--orange100) !important;
+  font-weight: bold;
+  font-size: 2em !important;
+}
+
+.bg-dark .rmdp-arrow {
+  border: solid var(--orange500);
+  border-width: 0 2px 2px 0;
+}
+
+.bg-dark .rmdp-day {
+  width: 5vw;
+  height: 4.5vw;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.bg-dark .rmdp-day span{
+  border-radius: .5rem;
+}
+
+.bg-dark .rmdp-day-picker {
+  padding: 12px;
+}
+
+.bg-dark .rmdp-day:not(.rmdp-day-hidden) span:hover {
+  background-color: var(--orange500) !important;
+  transition: .5s all;
+}
+
+.bg-dark .rmdp-day.rmdp-selected span:not(.highlight) {
+  background-color: var(--orange500);
+  box-shadow: 0 0 3px var(--orange500);
+}
