@@ -68,6 +68,7 @@ export const MaskedInput = styled(IMaskInput)`
 `
 
 export const WrapperGoogle = styled(Wrapper)`
+   display: flex;
    justify-content: center;
    cursor: pointer;
 `
