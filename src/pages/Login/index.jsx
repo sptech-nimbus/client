@@ -47,7 +47,7 @@ export default function Login() {
             navigate('/home');
          })
          .catch(err => {
-            toast.error('Credenciais inválidas');
+            toast.error('Credenciais inválidas.');
             console.log(err);
          })
       }
@@ -76,12 +76,12 @@ export default function Login() {
             Login
          </S.Title>
          <S.Form onSubmit={handleFormSubmit}>
-            <Input.Google />
+            {/* <Input.Google />
             <S.LineContainer>
                <S.Line />
                Ou
                <S.Line />
-            </S.LineContainer>
+            </S.LineContainer> */}
             <S.InputsContainer>
                <Label >
                   Insira seu email

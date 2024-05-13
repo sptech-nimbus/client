@@ -23,7 +23,7 @@ export const AgendaGrid = styled.div`
    width: 100%;
    height: 90%;
    box-sizing: border-box;
-   gap: 1.2rem;
+   gap: 2rem;
    flex-wrap: nowrap;
 `
 
