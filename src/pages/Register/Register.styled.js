@@ -69,6 +69,8 @@ export const TabsTrigger = styled.button`
   color: ${Colors.orange100};
   border: none;
   font-weight: 600;
+  border-bottom: 4px solid transparent;
+  cursor: pointer;
  
   ${props => props.active && `
     border-bottom: 4px solid #FF7425;

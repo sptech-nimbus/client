@@ -8,7 +8,7 @@ export const Title = styled.h1`
    font-family: 'Catamaran', sans-serif;
    font-weight: 900;
    text-transform: uppercase;
-   font-size: 4rem;
+   font-size: 3rem;
    margin: 0;
 
    @media (min-width: 1700px) {
@@ -102,4 +102,10 @@ export const Link = styled.a`
 export const Highlight = styled.span`
    color: ${Colors.orange500};
   font-weight: 600;
+`
+
+export const LoadingButton = styled.img`
+   display: flex;
+   align-items: center;
+   justify-content: center;
 `

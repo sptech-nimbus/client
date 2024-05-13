@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import * as S from "./Login.styles";
 
 import { Envelope } from "@phosphor-icons/react";
@@ -15,11 +15,16 @@ import user from "@api/user";
 
 export default function Login() {
    const navigate = useNavigate();
+   const [isPending, setIsPending] = useState(false);
 
    const [userData, setUserData] = useState({
       email: '',
       password: ''
    });
+
+   useEffect(() => {
+      
+   }, [isPending]);
 
    const handleEmailChange = (e) => {
       const { value } = e.target;
@@ -37,19 +42,28 @@ export default function Login() {
       });
    }
 
+   const handleLoading = () => {
+      setIsPending(!isPending);
+   }
+
    const handleFormSubmit = (e) =>{
       e.preventDefault();
 
       if(userData.email && userData.password) {
+         setIsPending(!isPending);
          user.login(userData)
          .then(response => {
             sessionStorage.setItem('token', response.data.data.token);
+            handleLoading();
             navigate('/home');
          })
          .catch(err => {
             toast.error('Credenciais inválidas.');
             console.log(err);
-         })
+            handleLoading();
+         });
+
+   
       }
       else {
          toast.error('Preencha todos os campos')

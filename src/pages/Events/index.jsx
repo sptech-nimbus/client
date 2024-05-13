@@ -62,7 +62,6 @@ export default function Eventss() {
    }
 
    const handleDescSize = (e) => {
-      console.log(eventData.description.length);
       if(eventData.description.length < 300 || e.nativeEvent.inputType === 'deleteContentBackward') {
          setEventData({
             ...eventData,
@@ -71,18 +70,30 @@ export default function Eventss() {
       }
    }
 
+   const EventValidation = () => {
+      if(
+         TextValidation(eventData.description, SizeValidation) && TextValidation(eventData.local) &&
+         TextValidation(eventData.name) && TextValidation(eventData.type) &&
+         TimeValidation(eventData.time) && DatesValidation(dates)
+      ) {
+         return true;
+      }
+      else {
+         return false;
+      }
+   }
+
    const handleSubmit = (e) => {
       e.preventDefault();
-      console.clear();
 
-      if(
-         TextValidation(eventData.description, SizeValidation) &&
-         TextValidation(eventData.local) &&
-         TextValidation(eventData.name) &&
-         TextValidation(eventData.type) &&
-         TimeValidation(eventData.time) &&
-         DatesValidation(dates)
-      ) {
+      if(EventValidation()) {
+         const events = dates.map(dateArr => {
+            return {
+               ...eventData, 
+               date: dateArr
+            }
+         });
+         console.log(events);
          //lógica de cadastro de evento 
          toast.success('Evento cadastrado!');
          setEventData({
