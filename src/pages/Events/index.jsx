@@ -19,6 +19,7 @@ import { TimeValidation, TextValidation, FutureDateValidation } from '@utils/Val
 export default function Eventss() {
    const dateRef = useRef();
    const [dates, setDates] = useState();
+   const [datesInput, setDatesInput] = useState();
    const [eventData, setEventData] = useState({
       name: '',
       type: '',
@@ -38,7 +39,8 @@ export default function Eventss() {
 
    const handleDateChange = (selectedDates) => {
       const formattedDates = selectedDates.map(date => date.format("DD/MM/YYYY"));
-      setDates(formattedDates)
+      setDates(formattedDates);
+      setDatesInput(selectedDates.toString().replaceAll(',', ', '))
    }
 
    const SizeValidation = (text) => {
@@ -57,6 +59,16 @@ export default function Eventss() {
       });
 
       return true;
+   }
+
+   const handleDescSize = (e) => {
+      console.log(eventData.description.length);
+      if(eventData.description.length < 300 || e.nativeEvent.inputType === 'deleteContentBackward') {
+         setEventData({
+            ...eventData,
+            description: e.target.value.substring(0, 300)
+         });
+      }
    }
 
    const handleSubmit = (e) => {
@@ -149,7 +161,7 @@ export default function Eventss() {
                            Data(s)
                            <Input.Default
                               name='date'
-                              value={dates}
+                              value={datesInput}
                               disabled
                               ref={dateRef}
                            />
@@ -177,9 +189,10 @@ export default function Eventss() {
                         <Input.Textarea 
                            name='description'
                            value={eventData.description}
-                           onChange={handleInputChange} 
+                           onChange={handleDescSize} 
                            rows={5}
                         />
+                        <S.DescSize>{eventData.description.length}/300</S.DescSize>
                      </Label>
                      <Button
                         value={'Cadastrar evento'}

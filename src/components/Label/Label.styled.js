@@ -1,6 +1,7 @@
 import styled from "styled-components"
 
 export const Label = styled.label`
+   position: relative;
    width: 100%;
    display: flex;
    flex-direction: column;

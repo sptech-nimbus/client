@@ -47,3 +47,12 @@ export const Flex = styled.div`
    align-items: center;
    gap: 1rem;
 `
+
+export const DescSize = styled.span`
+   position: absolute;
+   right: 8px;
+   bottom: 4px;
+   font-family: 'Inter';
+   font-size: .8rem;
+   color: #808080;
+`
