@@ -17,8 +17,8 @@ import { useNavigate } from 'react-router-dom';
 export default function FormStepOne({onSubmit}) {
     const navigate = useNavigate();
     const [userData, setUserData] = useState({
-        name: 'Yuri',
-        lastName: 'Oliveira',
+        name: '',
+        lastName: '',
         date: '',
         typeUser: 'coach'
     })
@@ -92,6 +92,7 @@ export default function FormStepOne({onSubmit}) {
     return (
         <S.Form onSubmit={handleSubmit}>
             <S.TabsRoot>
+                <span>Selecione como deseja se cadastrar</span>
                 <S.TabsList>
                     <S.TabsTrigger value="coach" onClick={(e) => { e.preventDefault(); handleTabClick("coach"); }} active={userData.typeUser === "coach"}>
                         Treinador

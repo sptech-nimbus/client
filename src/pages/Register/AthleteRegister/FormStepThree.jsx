@@ -15,10 +15,10 @@ import { ToastContainer, toast } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 
 export default function FormStepThreeAthlete({onSubmit}) {
-    const [weight, setWeight] = useState('80.00kg');
-    const [height, setHeight] = useState('1.90cm');
-    const [position, setPosition] = useState('Pivo');
-    const [category, setCategory] = useState('Sub-20');
+    const [weight, setWeight] = useState('8');
+    const [height, setHeight] = useState('');
+    const [position, setPosition] = useState('');
+    const [category, setCategory] = useState('');
 
     const [toastPosition, setToastPosition] = useState('top-right');
 

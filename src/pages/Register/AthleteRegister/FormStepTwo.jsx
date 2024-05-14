@@ -16,9 +16,9 @@ import "react-toastify/dist/ReactToastify.css";
 
 export default function FormStepTwo({onSubmit}) {
    const [userData, setUserData] = useState({
-      email: 'yuri.os.2004@outlook.com',
-      phone: '11967151224',
-      password: 'Senha@123'
+      email: '',
+      phone: '',
+      password: ''
    });
 
    const [confirmPassword, setConfirmPassword] = useState('Senha@123');
