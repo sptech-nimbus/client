@@ -28,7 +28,8 @@ export default function TeamGrid({players}) {
                   </S.ShowInfoButton>
                   <S.ShowInfoButton>
                      <Pencil size={24} weight="bold"/>
-                  </S.ShowInfoButton>
+                         </S.ShowInfoButton>
+                         <DeleteDialog trigger />
                   <S.ShowInfoButton>
                      <Trash size={24} weight="bold"/>
                   </S.ShowInfoButton>

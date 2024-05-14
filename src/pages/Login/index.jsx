@@ -21,6 +21,8 @@ export default function Login() {
       password: ''
    });
 
+
+
    const handleEmailChange = (e) => {
       const { value } = e.target;
       setUserData({
@@ -42,9 +44,10 @@ export default function Login() {
 
       if(userData.email && userData.password) {
          user.login(userData)
-         .then(response => {
-            sessionStorage.setItem('token', response.data.data.token);
-            navigate('/home');
+             .then(response => {
+                 sessionStorage.setItem('token', response.data.data.token);
+                 sessionStorage.setItem('id', response.data.data.personaId);
+                 navigate('/home');
          })
          .catch(err => {
             toast.error('Credenciais inválidas');
