@@ -25,6 +25,7 @@ export default function Eventss() {
 
    const dateRef = useRef();
    const teamList = useRef();
+
    const [dates, setDates] = useState();
    const [datesInput, setDatesInput] = useState();
    const [eventData, setEventData] = useState({
@@ -82,9 +83,7 @@ export default function Eventss() {
 
    const EventValidation = () => {
       if (
-         TextValidation(eventData.description, SizeValidation) && TextValidation(eventData.local) &&
-         TextValidation(eventData.name) && TextValidation(eventData.type) &&
-         TimeValidation(eventData.time) && DatesValidation(dates)
+         TextValidation(eventData.local) && TextValidation(eventData.type) && TimeValidation(eventData.time) && DatesValidation(dates)
       ) {
          return true;
       }
@@ -120,26 +119,46 @@ export default function Eventss() {
       teamList.current.style.display = 'flex';
    }
 
-   const handleSubmit = (e) => {
+   const handleSubmit = async e => {
       e.preventDefault();
 
       if (EventValidation()) {
          const events = dates.map(dateArr => {
+            const dateSplit = dateArr.split('/');
+
+            const d = parseInt(dateSplit[0]);
+            const m = parseInt(dateSplit[1]) - 1;
+            const y = parseInt(dateSplit[2]);
+
+            const formatedDate = new Date(y, m, d);
+            const finalDate = new Date(new Date(formatedDate).setHours(new Date(formatedDate).getHours() + 2));
+
             return {
                ...eventData,
-               date: dateArr
+               challenged: eventData.challenged.id,
+               inicialDateTime: new Date(formatedDate).toISOString(),
+               finalDateTime: finalDate.toISOString(),
+               challenger: sessionStorage.getItem('teamId')
             }
          });
 
-         events.forEach(event => {
-            if (event.type === "game") {
-               // game.post({ body: event });
+         if (eventData.type === "game") {
+            try {
+               await game.post({
+                  body: events
+               });
+            } catch (e) {
+               toast.error(`Erro ao cadastrar jogo: ${e}`);
             }
-         })
+         }
 
          toast.success('Evento cadastrado!');
+
          setEventData({
-            teamId: '',
+            challenged: {
+               name: '',
+               id: ''
+            },
             type: '',
             date: '',
             time: '',
@@ -151,7 +170,6 @@ export default function Eventss() {
       else {
          if (!SizeValidation(eventData.description)) toast.error('A descrição do evento deve possuir no máximo 300 caracteres.');
          if (!TextValidation(eventData.local)) toast.error('O local do evento deve possuir pelo menos 2 caracteres.');
-         if (!TextValidation(eventData.teamId)) toast.error('O nome do evento deve possuir pelo menos 2 caracteres.');
          if (!TextValidation(eventData.type)) toast.error('O tipo do evento deve possuir pelo menos 2 caracteres.');
          if (!TimeValidation(eventData.time)) toast.error('O horário inserido não é válido.');
          if (!DatesValidation(dates)) toast.error('As datas inseridas não são válidas.');
@@ -201,6 +219,7 @@ export default function Eventss() {
                            value={eventData.challenged.name}
                            onFocus={handleOpenSeachTeams}
                            onBlur={handleCloseSeachTeams}
+                           autocomplete="off"
                         />
                         <div ref={teamList} style={{ display: 'none', backgroundColor: '#323232', height: '6rem', overflowY: 'auto', position: 'absolute', width: '100%', bottom: '-6rem', zIndex: '1' }}>
                            {
