@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import TeamRegister from "./TeamRegister";
 import UserRegister from "./UserRegister";
 

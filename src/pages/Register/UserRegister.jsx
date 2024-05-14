@@ -7,6 +7,7 @@ import Stepper from '@components/Stepper/Stepper';
 
 import FormStepOne from './FormStepOne';
 import FormStepTwo from './TrainerRegister/FormStepTwo';
+import FormStepTwoAthlete from './AthleteRegister/FormStepTwo';
 import FormStepThree from './TrainerRegister/FormStepThree';
 import FormStepThreeAthlete from './AthleteRegister/FormStepThree';
 import FormStepFour from './AthleteRegister/FormStepFour';
@@ -21,18 +22,13 @@ import { ToastContainer, toast } from 'react-toastify';
 
 export default function UserRegister({ teamRegister = false }) {
     const navigate = useNavigate();
-    
     const [isRegisterFinished, setIsRegisterFinished] = useState(false);
-
     const [step, setStep] = useState(1);
-
     const [token, setToken] = useState('')
-
-    const [personaId, setPersonaId] = useState('')
 
     const [userData, setUserData] = useState({
         email: '',
-        password: '',
+        password: ''
     });
     const [typeUser, setTypeUser] = useState('');
 
@@ -89,19 +85,20 @@ export default function UserRegister({ teamRegister = false }) {
         else if (step == 2 && typeUser == "coach") {
             setUserData({
                 email: formData.email,
-                password: formData.password,
-                phone: formData.phone,
+                password: formData.password
             })
-
+            personData.phone = formData.phone
             setStep(step + 1)
         }
         else if (step == 2 && typeUser == "athlete") {
+            console.log(formData)
             setUserData({
                 email: formData.email,
-                password: formData.password,
-                phone: formData.phone,
+                password: formData.password
             })
 
+
+            personData.phone = formData.phone;
             const updatePersonData = {
                 ...personData,
                 category: '',
@@ -120,17 +117,6 @@ export default function UserRegister({ teamRegister = false }) {
                 category: formData.category,
                 picture: formData.picture,
                 // isAmateur: formData.chkAmateur;
-            })
-
-            user.post({
-                email: userData.email,
-                password: userData.password,
-                coach: personData
-            }).then(response => {
-                console.log(response);
-            }).catch(error => {
-                console.log((error.response.data));
-                setStep(step - 1);
             });
 
             team.post(teamData);
@@ -138,16 +124,19 @@ export default function UserRegister({ teamRegister = false }) {
         }
         else if (step == 3 && typeUser == "athlete") {
             setPersonData({
-                category: formData.category,
-                isStarting: false
+                ...personData,
+                category: null,
+                isStarting: null
             })
 
-            setAthleteDescData({ 
-                ...athleteDescData,
+            setAthleteDescData({
                 height: formData.height.replace('cm', ''),
                 weight: formData.weight.replace('kg', ''),
                 position: formData.position
             })
+
+            personData.category = formData.category;
+            personData.isStarting = false;
             
             user.post({
                 email: userData.email,
@@ -157,22 +146,7 @@ export default function UserRegister({ teamRegister = false }) {
                 console.log(response.data.data)
 
                 if (response.status == 200) {
-                    console.log(athleteDescData);
-
-                    setAthleteDescData({
-                        ...athleteDescData,
-                        athlete: {
-                            id: response.data.data.personaId
-                        }
-                    })
-                    
-                    athleteDesc.post({
-                        body: athleteDescData, token
-                    }).then(response => {
-                        console.log(response)
-                    }).catch(error => {
-                        console.log(error.response)
-                    })        
+                    athleteDescData.athlete.id = response.data.data.personaId
 
                     user.login({
                         email: userData.email,
@@ -180,7 +154,15 @@ export default function UserRegister({ teamRegister = false }) {
                     }).then(response => {
                         console.log(response.data.data.token)
                         setToken(response.data.data.token)
-                    })
+                    });
+                    
+                    athleteDesc.post({
+                        body: athleteDescData, token
+                    }).then(response => {
+                        console.log(response)
+                    }).catch(error => {
+                        console.log(error.response)
+                    });      
                 }
             }).catch(error => {
                 console.log((error));
@@ -221,7 +203,7 @@ export default function UserRegister({ teamRegister = false }) {
                             <Stepper steps={4} currentStep={step} />
                         </S.StepperWrapper>
                         }
-                        {step == 2 && <FormStepTwo onSubmit={handleFormSubmit} />}
+                        {step == 2 && <FormStepTwoAthlete onSubmit={handleFormSubmit} />}
                         {step == 3 && <FormStepThreeAthlete onSubmit={handleFormSubmit} />}
                         {step == 4 && <FormStepFour onSubmit={handleFormSubmit} />}
                     </>

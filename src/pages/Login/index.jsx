@@ -24,7 +24,7 @@ export default function Login() {
 
    useEffect(() => {
       
-   }, [isPending]);
+   }, []);
 
    const handleEmailChange = (e) => {
       const { value } = e.target;
@@ -54,6 +54,8 @@ export default function Login() {
          user.login(userData)
          .then(response => {
             sessionStorage.setItem('token', response.data.data.token);
+            sessionStorage.setItem('id', response.data.data.id);
+            
             handleLoading();
             navigate('/home');
          })

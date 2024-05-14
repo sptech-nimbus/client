@@ -16,7 +16,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 
 export default function FormStepFour({onSubmit}) {
-    const [teamCode, setTeamCode] = useState('');
+    const [teamCode, setTeamCode] = useState('1A2B3C');
     const [teamCodeTtpOpen, setTeamCodeTtpOpen] = useState(false);
 
     const [toastPosition, setToastPosition] = useState('top-right');
