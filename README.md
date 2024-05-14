@@ -1,5 +1,5 @@
 
-# Nimbus - Client
+# nimbus - Client
 
 Este repositório contém o código do front-end para o projeto Nimbus. Aqui, você terá acesso a todos os arquivos e materiais necessários para a interface do usuário.
 
