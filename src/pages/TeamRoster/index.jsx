@@ -9,6 +9,7 @@ import RadioGroup from "@components/RadioGroup/RadioGroup";
 import Button from "@components/Button/Button";
 
 import user from "@api/user";
+import axios from "axios";
 
 import TeamGrid from "./TeamGrid";
 import TeamTable from "./TeamTable";
@@ -47,7 +48,8 @@ export default function TeamRoster() {
          { number: 20, firstName: 'Benjamin', lastName: 'Lee', position: 'Pivô', birthDate: '2003-07-31', picture: 'https://via.placeholder.com/150' },
          { number: 21, firstName: 'Benjamin', lastName: 'Lee', position: 'Pivô', birthDate: '2002-06-10', picture: 'https://via.placeholder.com/150' },
          { number: 22, firstName: 'Benjamin', lastName: 'Lee', position: 'Pivô', birthDate: '2000-09-15', picture: 'https://via.placeholder.com/150' }
-     ]);
+     ]
+   );
    const [playersFiltered, setPlayersFiltered] = useState(playersData);
 
    function handleSearchChange(e) {

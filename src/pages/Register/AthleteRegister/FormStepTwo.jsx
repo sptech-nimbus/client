@@ -16,15 +16,12 @@ import "react-toastify/dist/ReactToastify.css";
 
 export default function FormStepTwo({onSubmit}) {
    const [userData, setUserData] = useState({
-      email: '',
-      phone: '',
-      password: ''
+      email: 'yuri.os.2004@outlook.com',
+      phone: '11967151224',
+      password: 'Senha@123'
    });
 
-   const [email, setEmail] = useState('');
-   const [phone, setPhone] = useState('');
-   const [password, setPassword] = useState('');
-   const [confirmPassword, setConfirmPassword] = useState('');
+   const [confirmPassword, setConfirmPassword] = useState('Senha@123');
 
    const [passwordTtpOpen, setPasswordTtpOpen] = useState(false);
    const [confirmPasswordTtpOpen, setConfirmPasswordTtpOpen] = useState(false);
@@ -85,13 +82,13 @@ export default function FormStepTwo({onSubmit}) {
       if(
          EmailValidation(userData.email) && 
          PasswordValidation(userData.password) && 
-         ConfirmPasswordValidation(userData.password, confirmPassword) &&
-         BrPhoneValidation(userData.phone)) 
+         ConfirmPasswordValidation(userData.password, confirmPassword) 
+         // && BrPhoneValidation(userData.phone)
+      ) 
       {
-          let formattedPhone = userData.phone.replace(" ", "").replace("(", "").replace(")", "").replace("-", "");
-
+          let formattedPhone = userData.phone.replace("(", "").replace(")", "").replace("-", "").replace(" ", "");
+          console.log(formattedPhone)
           setUserData({
-            ...userData,
             phone: formattedPhone
           })
 
@@ -99,7 +96,7 @@ export default function FormStepTwo({onSubmit}) {
       }
       else {
          if(!EmailValidation(userData.email)) toast.error('Email inválido.');
-         if(!BrPhoneValidation(userData.phone)) toast.error('Telefone inválido.')
+         // if(!BrPhoneValidation(userData.phone)) toast.error('Telefone inválido.')
          if(!PasswordValidation(userData.password)) toast.error('Senha inválida.');
          if(!ConfirmPasswordValidation(userData.password, confirmPassword)) toast.error('As senhas não correspondem.');
       }

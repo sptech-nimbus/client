@@ -17,8 +17,8 @@ import { useNavigate } from 'react-router-dom';
 export default function FormStepOne({onSubmit}) {
     const navigate = useNavigate();
     const [userData, setUserData] = useState({
-        name: '',
-        lastName: '',
+        name: 'Yuri',
+        lastName: 'Oliveira',
         date: '',
         typeUser: 'coach'
     })

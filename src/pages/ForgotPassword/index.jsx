@@ -6,9 +6,11 @@ import Background from "@components/Background/Background";
 import FormStepOne from "./FormStepOne";
 import FormStepTwo from "./FormStepTwo";
 import FormStepThree from "./FormStepThree";
+import { useNavigate } from "react-router-dom";
 
 export default function ForgotPassword() {
    const [step, setStep] = useState(1);
+   const navigate = useNavigate();
 
    const handleSubmit = () => {
       if(step == 1) {
@@ -21,7 +23,7 @@ export default function ForgotPassword() {
       }
       if(step == 3) {
          //fazer lógica de troca de senha
-         setStep(step + 1);
+         navigate('/login');
       }
    }
 

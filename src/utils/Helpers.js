@@ -53,6 +53,16 @@ export const Months = [
    'Novembro',
    'Dezembro'
  ];
+
+ const weekDays = [
+   "Dom",
+   "Seg",
+   "Ter",
+   "Qua",
+   "Qui",
+   "Sex",
+   "Sáb",
+]
  
 export const months = (config) => {
    let cfg = config || {};
@@ -135,11 +145,12 @@ export const Size = {
 const Utils = {
    calcAge,
    months,
-   colors: Colors,
    filterByAttr,
    mergeSort,
+   weekDays,
+   colors: Colors,
    device: Device,
-   size: Size
+   size: Size,
 }
 
 export default Utils;
