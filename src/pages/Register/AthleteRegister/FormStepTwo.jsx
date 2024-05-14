@@ -20,8 +20,7 @@ export default function FormStepTwo({onSubmit}) {
       phone: '',
       password: ''
    });
-
-   const [confirmPassword, setConfirmPassword] = useState('Senha@123');
+   const [confirmPassword, setConfirmPassword] = useState('');
 
    const [passwordTtpOpen, setPasswordTtpOpen] = useState(false);
    const [confirmPasswordTtpOpen, setConfirmPasswordTtpOpen] = useState(false);
