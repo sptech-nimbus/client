@@ -11,7 +11,7 @@ import Title from "@components/Title/Title";
 import Input from "@components/Input/Input";
 import Label from "@components/Label/Label";
 import Checkbox from "@components/Checkbox/Checkbox";
-import { PrimaryButton as Button } from "@components/Button/Button";
+import Button from "@components/Button/Button";
 
 import Utils from '@utils/Helpers';
 import { TimeValidation, TextValidation, FutureDateValidation } from '@utils/Validations';
@@ -98,8 +98,9 @@ export default function Eventss() {
 
          setEventData({ ...eventData, challenged: { name: e.target.getAttribute('teamName') } });
          setTeamsToChallenge(res.data.data || []);
-      } catch (e) {
-         toast.error(`Erro ao buscar times: ${e}`);
+      } catch (err) {
+         toast.error(`Erro ao buscar times.`);
+         console.log(err);
       }
    }
 
@@ -117,6 +118,15 @@ export default function Eventss() {
       await handleSearchTeams(e);
 
       teamList.current.style.display = 'flex';
+   }
+
+   const handleEventTypeChange = (e) => {
+      e.preventDefault();
+
+      setEventData({
+         ...eventData,
+         type: e.target.name
+      })
    }
 
    const handleSubmit = async e => {
@@ -222,8 +232,7 @@ export default function Eventss() {
                            autocomplete="off"
                         />
                         <div ref={teamList} style={{ display: 'none', backgroundColor: '#323232', height: '6rem', overflowY: 'auto', position: 'absolute', width: '100%', bottom: '-6rem', zIndex: '1' }}>
-                           {
-                              teamsToChallenge[0]
+                           {teamsToChallenge[0]
                                  ? teamsToChallenge.map(team => {
                                     return team.id !== sessionStorage.getItem('teamId')
                                        // eslint-disable-next-line react/no-unknown-property
@@ -243,11 +252,43 @@ export default function Eventss() {
                      </Label>
                      <Label>
                         Tipo de evento
-                        <Input.Default
-                           name='type'
-                           value={eventData.type}
-                           onChange={handleInputChange}
-                        />
+                        <S.Flex>
+                           {eventData.type == 'Partida' ? 
+                              <Button.Primary 
+                                 width='100%' 
+                                 value='Partida'
+                                 name='Partida'
+                                 marginTop='0'
+                                 onClick={handleEventTypeChange}
+                              />
+                              :
+                              <Button.Secondary
+                                 width='100%' 
+                                 value='Partida'
+                                 name='Partida'
+                                 marginTop='0'
+                                 onClick={handleEventTypeChange}
+                              />
+                           }
+
+                              {eventData.type == 'Treino' ? 
+                              <Button.Primary 
+                                 width='100%' 
+                                 value='Treino'
+                                 name='Treino'
+                                 marginTop='0'
+                                 onClick={handleEventTypeChange}
+                              />
+                              :
+                              <Button.Secondary
+                                 width='100%' 
+                                 value='Treino'
+                                 name='Treino'
+                                 marginTop='0'
+                                 onClick={handleEventTypeChange}
+                              />
+                           }
+                        </S.Flex>
                      </Label>
                      <S.Flex>
                         <Label>
@@ -287,7 +328,7 @@ export default function Eventss() {
                         />
                         <S.DescSize>{eventData.description.length}/300</S.DescSize>
                      </Label>
-                     <Button
+                     <Button.Primary
                         value={'Cadastrar evento'}
                         marginTop='0rem'
                         fontSize='1.5rem'
