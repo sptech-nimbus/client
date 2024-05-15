@@ -2,7 +2,7 @@ import { useState } from 'react';
 import * as S from './Input.styled';
 import { Eye, EyeClosed, LockSimple } from '@phosphor-icons/react';
 
-export function InputDefault({type, placeholder, children, width, fontSize, onChange, value='', disabled,...props}) {
+export function InputDefault({type, placeholder, children, width, fontSize, onChange, value='', disabled, ...props}) {
    return (
          <S.Wrapper disabled={disabled} width={width}>
             <S.InputAndIcon>
