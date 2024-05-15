@@ -3,96 +3,69 @@ import config from "./config";
 
 const path = "teams";
 
-async function getAllTeams(headers = {}) {
-    try {
-        const response = await axios.get(`${config.baseURL}/${path}`, headers)
-            .then(response => {
-                console.log(response.data);
-            })
-            .catch(error => {
-                console.log(error);
-            });
-        return response;
-    }
-    catch (err) {
-        throw err
-    }
+async function getAllTeams(token) {
+    const response = await axios.get(`${config.baseURL}/${path}`, {
+        headers: { Authorization: `Bearer ${token}` }
+    });
+
+    return response;
 }
 
-async function registerTeam(body = {}, token) {
-    try {
-        const response = await axios.post(`${config.baseURL}/${path}`, body)
-            .then(response => {
-                console.log(response);
-            })
-            .catch(error => {
-                console.log(error);
-            });
-        return response;
-    }
-    catch (err) {
-        throw err;
-    }
+async function getTeamsByName(name, token) {
+    const response = await axios.get(`${config.baseURL}/${path}/by-name?name=${name}`, {
+        headers: { Authorization: `Bearer ${token}` }
+    });
+
+    return response;
+}
+
+async function registerTeam(body = {}) {
+    const response = await axios.post(`${config.baseURL}/${path}`, body)
+        .then(response => {
+            console.log(response);
+        })
+        .catch(error => {
+            console.log(error);
+        });
+
+    return response;
 }
 
 async function getActiveInjuries({ param }) {
-    try {
-        const response = await axios.get(`${config.baseURL}/${path}/active-injuries/${param}`)
+    const response = await axios.get(`${config.baseURL}/${path}/active-injuries/${param}`)
 
-        return response;
-    } catch (err) {
-        throw err;
-    }
+    return response;
 }
 
 async function getTeamEspecific({ param }) {
-    try {
-        const response = await axios.get(`${config.baseURL}/${path}/${param}`)
+    const response = await axios.get(`${config.baseURL}/${path}/${param}`)
 
-        return response;
-    } catch (err) {
-        throw err;
-    }
+    return response;
 }
 
 async function putTeam({ param, body }) {
-    try {
-        const response = await axios.put(`${config.baseURL}/${path}/${param}`, body)
+    const response = await axios.put(`${config.baseURL}/${path}/${param}`, body)
 
-        return response;
-    } catch (err) {
-        throw err;
-    }
+    return response;
 }
 
 async function requestChangeOwner({ param, body }) {
-    try {
-        const response = await axios.patch(`${config.baseURL}/${path}/change-owner-request/${param}`, body)
+    const response = await axios.patch(`${config.baseURL}/${path}/change-owner-request/${param}`, body)
 
-        return response;
-    } catch (err) {
-        throw err;
-    }
+    return response;
 }
 
 async function acceptChangeOwner({ param, body }) {
-    try {
-        const response = await axios.patch(`${config.baseURL}/${path}/change-team-owner-by-code/${param}`, body)
 
-        return response;
-    } catch (err) {
-        throw err;
-    }
+    const response = await axios.patch(`${config.baseURL}/${path}/change-team-owner-by-code/${param}`, body)
+
+    return response;
 }
 
 async function deleteTeam({ param, body }) {
-    try {
-        const response = await axios.delete(`${config.baseURL}/${path}/${param}`, body)
+    const response = await axios.delete(`${config.baseURL}/${path}/${param}`, body)
 
-        return response;
-    } catch (err) {
-        throw err;
-    }
+    return response;
 }
 
 const team = {
@@ -103,7 +76,8 @@ const team = {
     getActiveInjuries,
     getAllTeams,
     requestChangeOwner,
-    acceptChangeOwner
+    acceptChangeOwner,
+    byName: getTeamsByName
 }
 
 export default team;
