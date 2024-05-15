@@ -66,10 +66,6 @@ export default function UserRegister({ teamRegister = false }) {
         }
      }, [isRegisterFinished]);
 
-     useEffect(() => {
-
-     }, [])
-
     function handleFormSubmit(formData) {
         if (step == 1) {
             setPersonData({
