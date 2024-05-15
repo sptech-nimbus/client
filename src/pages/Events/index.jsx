@@ -11,15 +11,16 @@ import Title from "@components/Title/Title";
 import Input from "@components/Input/Input";
 import Label from "@components/Label/Label";
 import Checkbox from "@components/Checkbox/Checkbox";
-import Button from "@components/Button/Button";
+import Button, { PillButtons } from "@components/Button/Button";
 
 import Utils from '@utils/Helpers';
 import { TimeValidation, TextValidation, FutureDateValidation } from '@utils/Validations';
 
 import game from '../../api/game';
 import team from '../../api/team';
+import { Colors } from 'chart.js';
 
-export default function Eventss() {
+export default function Events() {
    sessionStorage.setItem('jwt', 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJrYXVhYW5tYXRoZXVzQGdtYWlsLmNvbSIsImlhdCI6MTcxNTY5ODg3OX0.pH2mqkYUr5yPbrReOOSgVxVBd7KEMnTP0Dp1faNO-CWIvj6He7af7W6DP_YsDdS1b7uPmduCTSFhndRm-QgT2Q');
    sessionStorage.setItem('teamId', 'eaeb6176-5354-41db-a303-388780fbd9c0');
 
@@ -33,7 +34,7 @@ export default function Eventss() {
          name: '',
          id: ''
       },
-      type: '',
+      type: 'Partida',
       date: '',
       time: '',
       local: '',
@@ -126,7 +127,7 @@ export default function Eventss() {
       setEventData({
          ...eventData,
          type: e.target.name
-      })
+      });
    }
 
    const handleSubmit = async e => {
@@ -222,6 +223,20 @@ export default function Eventss() {
                <S.Container>
                   <S.Form onSubmit={handleSubmit}>
                      <Label>
+                        Tipo de evento
+                        <S.Flex>
+                           <PillButtons 
+                           left="Partida" 
+                           right="Treino" 
+                           color={Utils.colors.gray700} 
+                           active={eventData.type == 'Treino' ? 'right' : 'left'} 
+                           onClick={handleEventTypeChange}
+                        />
+                        </S.Flex>
+                     </Label>
+                     {eventData.type == 'Partida' ? 
+                     <>
+                     <Label>
                         Desafiar time
                         <Input.Default
                            name='challenged'
@@ -249,46 +264,6 @@ export default function Eventss() {
                                  : "Time não encontrado"
                            }
                         </div>
-                     </Label>
-                     <Label>
-                        Tipo de evento
-                        <S.Flex>
-                           {eventData.type == 'Partida' ? 
-                              <Button.Primary 
-                                 width='100%' 
-                                 value='Partida'
-                                 name='Partida'
-                                 marginTop='0'
-                                 onClick={handleEventTypeChange}
-                              />
-                              :
-                              <Button.Secondary
-                                 width='100%' 
-                                 value='Partida'
-                                 name='Partida'
-                                 marginTop='0'
-                                 onClick={handleEventTypeChange}
-                              />
-                           }
-
-                              {eventData.type == 'Treino' ? 
-                              <Button.Primary 
-                                 width='100%' 
-                                 value='Treino'
-                                 name='Treino'
-                                 marginTop='0'
-                                 onClick={handleEventTypeChange}
-                              />
-                              :
-                              <Button.Secondary
-                                 width='100%' 
-                                 value='Treino'
-                                 name='Treino'
-                                 marginTop='0'
-                                 onClick={handleEventTypeChange}
-                              />
-                           }
-                        </S.Flex>
                      </Label>
                      <S.Flex>
                         <Label>
@@ -328,6 +303,10 @@ export default function Eventss() {
                         />
                         <S.DescSize>{eventData.description.length}/300</S.DescSize>
                      </Label>
+                     </>
+                     : 
+                     ''
+                     }
                      <Button.Primary
                         value={'Cadastrar evento'}
                         marginTop='0rem'
