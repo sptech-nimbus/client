@@ -22,10 +22,6 @@ export default function Login() {
       password: ''
    });
 
-   useEffect(() => {
-      
-   }, []);
-
    const handleEmailChange = (e) => {
       const { value } = e.target;
       setUserData({
@@ -76,15 +72,15 @@ export default function Login() {
    return (
       <S.Header>
          <ToastContainer   
-                autoClose={8000}
-                hideProgressBar={false}
-                newestOnTop={false}
-                closeOnClick
-                rtl={false}
-                pauseOnFocusLoss
-                draggable
-                theme="dark"
-                limit={3}
+            autoClose={8000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            theme="dark"
+            limit={3}
          /> 
 
          <Background.Login />

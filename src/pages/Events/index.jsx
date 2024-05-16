@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import * as S from './Events.styled';
 
 import { ToastContainer, toast } from 'react-toastify';
@@ -10,8 +10,8 @@ import Sidebar from "@components/Sidebar/Sidebar";
 import Title from "@components/Title/Title";
 import Input from "@components/Input/Input";
 import Label from "@components/Label/Label";
-import Checkbox from "@components/Checkbox/Checkbox";
-import { PrimaryButton as Button } from "@components/Button/Button";
+import Button, { PillButtons } from "@components/Button/Button";
+import { CustomAsyncSelect as Select } from "@components/Select/Select";
 
 import Utils from '@utils/Helpers';
 import { TimeValidation, TextValidation, FutureDateValidation } from '@utils/Validations';
@@ -19,28 +19,47 @@ import { TimeValidation, TextValidation, FutureDateValidation } from '@utils/Val
 import game from '../../api/game';
 import team from '../../api/team';
 
-export default function Eventss() {
+export default function Events() {
    sessionStorage.setItem('jwt', 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJrYXVhYW5tYXRoZXVzQGdtYWlsLmNvbSIsImlhdCI6MTcxNTY5ODg3OX0.pH2mqkYUr5yPbrReOOSgVxVBd7KEMnTP0Dp1faNO-CWIvj6He7af7W6DP_YsDdS1b7uPmduCTSFhndRm-QgT2Q');
    sessionStorage.setItem('teamId', 'eaeb6176-5354-41db-a303-388780fbd9c0');
 
-   const dateRef = useRef();
-   const teamList = useRef();
+   const dateRef = useRef()
 
    const [dates, setDates] = useState();
+   const [options, setOptions] = useState([]);
    const [datesInput, setDatesInput] = useState();
+   const [inputValue, setInputValue] = useState('');
    const [eventData, setEventData] = useState({
       challenged: {
          name: '',
          id: ''
       },
-      type: '',
+      type: 'Partida',
+      title: '',
       date: '',
       time: '',
       local: '',
       description: ''
    });
 
-   const [teamsToChallenge, setTeamsToChallenge] = useState([]);
+   useEffect(() => {
+      loadOptions('', options => setOptions(options));
+   }, []);
+
+   const loadOptions = async (inputValue, callback) => {
+      try {
+        const response = await team.byName(inputValue, sessionStorage.getItem('jwt'));
+        const data = response.data.data;
+        const options = data.map((team) => ({
+          value: team.id,
+          label: `${team.name} - ${team.category}`,
+        }));
+        callback(options);
+      } catch (error) {
+        toast.error('Houve um erro ao buscar os times. Aguarde um momento antes de tentar novamente.')
+        console.error('Failed to load options:', error);
+      }
+    };
 
    const handleInputChange = (e) => {
       setEventData({
@@ -92,34 +111,16 @@ export default function Eventss() {
       }
    }
 
-   const handleSearchTeams = async e => {
-      try {
-         let res = await team.byName(e.target.value, sessionStorage.getItem('jwt'));
+   const handleEventTypeChange = (e) => {
+      e.preventDefault();
 
-         setEventData({ ...eventData, challenged: { name: e.target.getAttribute('teamName') } });
-         setTeamsToChallenge(res.data.data || []);
-      } catch (e) {
-         toast.error(`Erro ao buscar times: ${e}`);
-      }
+      setEventData({
+         ...eventData,
+         type: e.target.name
+      });
    }
 
-   const handleChallenged = async e => {
-      setEventData({ ...eventData, challenged: { id: e.target.getAttribute('teamId'), name: e.target.getAttribute('teamName') } });
-      setTeamsToChallenge([]);
-      await handleCloseSeachTeams();
-   }
-
-   const handleCloseSeachTeams = async () => {
-      teamList.current.style.display = 'none';
-   }
-
-   const handleOpenSeachTeams = async e => {
-      await handleSearchTeams(e);
-
-      teamList.current.style.display = 'flex';
-   }
-
-   const handleSubmit = async e => {
+   const handleSubmit = async (e) => {
       e.preventDefault();
 
       if (EventValidation()) {
@@ -212,41 +213,30 @@ export default function Eventss() {
                <S.Container>
                   <S.Form onSubmit={handleSubmit}>
                      <Label>
-                        Desafiar time
-                        <Input.Default
-                           name='challenged'
-                           onInput={handleSearchTeams}
-                           value={eventData.challenged.name}
-                           onFocus={handleOpenSeachTeams}
-                           onBlur={handleCloseSeachTeams}
-                           autocomplete="off"
-                        />
-                        <div ref={teamList} style={{ display: 'none', backgroundColor: '#323232', height: '6rem', overflowY: 'auto', position: 'absolute', width: '100%', bottom: '-6rem', zIndex: '1' }}>
-                           {
-                              teamsToChallenge[0]
-                                 ? teamsToChallenge.map(team => {
-                                    return team.id !== sessionStorage.getItem('teamId')
-                                       // eslint-disable-next-line react/no-unknown-property
-                                       ? <div onMouseDown={handleChallenged} teamName={team.name} teamId={team.id} key={team} style={{ height: '2rem', cursor: 'pointer', display: 'flex', flexDirection: 'column', width: '100%' }}>
-                                          <span style={{ pointerEvents: "none" }}>
-                                             {team.name}
-                                          </span>
-                                          <span style={{ pointerEvents: "none" }}>
-                                             {team.category}
-                                          </span>
-                                       </div>
-                                       : ''
-                                 })
-                                 : "Time não encontrado"
-                           }
-                        </div>
-                     </Label>
-                     <Label>
                         Tipo de evento
-                        <Input.Default
-                           name='type'
-                           value={eventData.type}
-                           onChange={handleInputChange}
+                        <S.Flex>
+                           <PillButtons 
+                           left="Partida" 
+                           right="Treino" 
+                           color={Utils.colors.gray700} 
+                           active={eventData.type == 'Treino' ? 'right' : 'left'} 
+                           onClick={handleEventTypeChange}
+                        />
+                        </S.Flex>
+                     </Label>
+                     {eventData.type == 'Partida' ? 
+                     //form de partida
+                     <>
+                     <Label>
+                        Desafiar time
+                        <Select 
+                           isSearchable
+                           cacheOptions
+                           defaultOptions={options}
+                           onInputChange={(newValue) => setInputValue(newValue)} 
+                           placeholder='Selecione um time para desafiar...'
+                           noOptionsMessage={() => "Não há times disponíveis no momento."}
+                           loadOptions={loadOptions}
                         />
                      </Label>
                      <S.Flex>
@@ -278,7 +268,7 @@ export default function Eventss() {
                         />
                      </Label>
                      <Label>
-                        Descricação
+                        Descrição
                         <Input.Textarea
                            name='description'
                            value={eventData.description}
@@ -287,7 +277,61 @@ export default function Eventss() {
                         />
                         <S.DescSize>{eventData.description.length}/300</S.DescSize>
                      </Label>
-                     <Button
+                     </>
+
+                     : 
+                     //form de treino
+                     <> 
+                     <Label>
+                        Nome do evento de treino
+                        <Input.Default
+                           name='title'
+                           value={eventData.title}
+                           onChange={handleInputChange}
+                           autocomplete="off"
+                        />
+                     </Label>
+                     <S.Flex>
+                        <Label>
+                           Data(s)
+                           <Input.Default
+                              name='date'
+                              value={datesInput}
+                              disabled
+                              ref={dateRef}
+                           />
+                        </Label>
+                        <Label>
+                           Horário
+                           <Input.Masked
+                              name='time'
+                              value={eventData.time}
+                              onChange={handleInputChange}
+                              mask='00:00'
+                           />
+                        </Label>
+                     </S.Flex>
+                     <Label>
+                        Local
+                        <Input.Default
+                           name='local'
+                           value={eventData.local}
+                           onChange={handleInputChange}
+                        />
+                     </Label>
+                     <Label>
+                        Descrição
+                        <Input.Textarea
+                           name='description'
+                           value={eventData.description}
+                           onChange={handleDescSize}
+                           rows={5}
+                        />
+                        <S.DescSize>{eventData.description.length}/300</S.DescSize>
+                     </Label>
+                     </>
+                     }
+                     <Button.Primary
                         value={'Cadastrar evento'}
                         marginTop='0rem'
                         fontSize='1.5rem'

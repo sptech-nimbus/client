@@ -7,11 +7,26 @@ import * as S from './ForgotPassword.styled';
 
 import { Envelope } from "@phosphor-icons/react";
 
-export default function FormStepOne({ handleSubmit }) {
+import { EmailValidation } from "@utils/Validations";
+import { toast } from 'react-toastify';
+
+export default function FormStepOne({ onSubmit }) {
    const [email, setEmail] = useState('');
 
    const handleEmailChange = (e) => {
       setEmail(e.target.value);
+   }
+
+   const handleSubmit = (e) => {
+      e.preventDefault();
+
+      if(EmailValidation(email)) {
+         onSubmit({ email });
+      }
+      else {
+         if(!email) toast.error('Preencha o campo de e-mail');
+         else toast.error('E-mail inserido é inválido.');
+      }
    }
 
    return (
