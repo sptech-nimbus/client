@@ -11,7 +11,7 @@ import Title from "@components/Title/Title";
 import Input from "@components/Input/Input";
 import Label from "@components/Label/Label";
 import Checkbox from "@components/Checkbox/Checkbox";
-import Button, { PillButtons } from "@components/Button/Button";z
+import Button, { PillButtons } from "@components/Button/Button";
 
 import Utils from '@utils/Helpers';
 import { TimeValidation, TextValidation, FutureDateValidation } from '@utils/Validations';
