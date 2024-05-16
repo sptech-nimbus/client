@@ -23,6 +23,8 @@ export default function Events() {
    sessionStorage.setItem('jwt', 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJrYXVhYW5tYXRoZXVzQGdtYWlsLmNvbSIsImlhdCI6MTcxNTY5ODg3OX0.pH2mqkYUr5yPbrReOOSgVxVBd7KEMnTP0Dp1faNO-CWIvj6He7af7W6DP_YsDdS1b7uPmduCTSFhndRm-QgT2Q');
    sessionStorage.setItem('teamId', 'eaeb6176-5354-41db-a303-388780fbd9c0');
 
+   const dateRef = useRef()
+
    const [inputValue, setInputValue] = useState('');
    const [dates, setDates] = useState();
    const [datesInput, setDatesInput] = useState();
