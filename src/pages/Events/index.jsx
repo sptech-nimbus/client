@@ -27,6 +27,7 @@ export default function Events() {
    const dateRef = useRef();
    const teamList = useRef();
 
+   const [isSearchOpen, setIsSearchOpen] = useState(false);
    const [dates, setDates] = useState();
    const [datesInput, setDatesInput] = useState();
    const [eventData, setEventData] = useState({
@@ -35,6 +36,7 @@ export default function Events() {
          id: ''
       },
       type: 'Partida',
+      title: '',
       date: '',
       time: '',
       local: '',
@@ -112,13 +114,12 @@ export default function Events() {
    }
 
    const handleCloseSeachTeams = async () => {
-      teamList.current.style.display = 'none';
+      setIsSearchOpen(!isSearchOpen);
    }
 
-   const handleOpenSeachTeams = async e => {
+   const handleOpenSeachTeams = async (e) => {
       await handleSearchTeams(e);
-
-      teamList.current.style.display = 'flex';
+      setIsSearchOpen(!isSearchOpen);
    }
 
    const handleEventTypeChange = (e) => {
@@ -130,7 +131,7 @@ export default function Events() {
       });
    }
 
-   const handleSubmit = async e => {
+   const handleSubmit = async (e) => {
       e.preventDefault();
 
       if (EventValidation()) {
@@ -235,6 +236,7 @@ export default function Events() {
                         </S.Flex>
                      </Label>
                      {eventData.type == 'Partida' ? 
+                     //form de partida
                      <>
                      <Label>
                         Desafiar time
@@ -246,24 +248,24 @@ export default function Events() {
                            onBlur={handleCloseSeachTeams}
                            autocomplete="off"
                         />
-                        <div ref={teamList} style={{ display: 'none', backgroundColor: '#323232', height: '6rem', overflowY: 'auto', position: 'absolute', width: '100%', bottom: '-6rem', zIndex: '1' }}>
+                        <S.DropdownMenu isOpen={isSearchOpen}>
                            {teamsToChallenge[0]
-                                 ? teamsToChallenge.map(team => {
-                                    return team.id !== sessionStorage.getItem('teamId')
-                                       // eslint-disable-next-line react/no-unknown-property
-                                       ? <div onMouseDown={handleChallenged} teamName={team.name} teamId={team.id} key={team} style={{ height: '2rem', cursor: 'pointer', display: 'flex', flexDirection: 'column', width: '100%' }}>
-                                          <span style={{ pointerEvents: "none" }}>
-                                             {team.name}
-                                          </span>
-                                          <span style={{ pointerEvents: "none" }}>
-                                             {team.category}
-                                          </span>
-                                       </div>
-                                       : ''
-                                 })
-                                 : "Time não encontrado"
+                              ? teamsToChallenge.map(team => {
+                                 return team.id !== sessionStorage.getItem('teamId')
+                                    // eslint-disable-next-line react/no-unknown-property
+                                    ? <div onMouseDown={handleChallenged} teamName={team.name} teamId={team.id} key={team} style={{ height: '2rem', cursor: 'pointer', display: 'flex', flexDirection: 'column', width: '100%' }}>
+                                       <span style={{ pointerEvents: "none" }}>
+                                          {team.name}
+                                       </span>
+                                       <span style={{ pointerEvents: "none" }}>
+                                          {team.category}
+                                       </span>
+                                    </div>
+                                    : ''
+                              })
+                              : "Time não encontrado"
                            }
-                        </div>
+                        </S.DropdownMenu>
                      </Label>
                      <S.Flex>
                         <Label>
@@ -294,7 +296,7 @@ export default function Events() {
                         />
                      </Label>
                      <Label>
-                        Descricação
+                        Descrição
                         <Input.Textarea
                            name='description'
                            value={eventData.description}
@@ -304,8 +306,58 @@ export default function Events() {
                         <S.DescSize>{eventData.description.length}/300</S.DescSize>
                      </Label>
                      </>
+
                      : 
-                     ''
+                     //form de treino
+                     <> 
+                     <Label>
+                        Nome do evento de treino
+                        <Input.Default
+                           name='title'
+                           value={eventData.title}
+                           onChange={handleInputChange}
+                           autocomplete="off"
+                        />
+                     </Label>
+                     <S.Flex>
+                        <Label>
+                           Data(s)
+                           <Input.Default
+                              name='date'
+                              value={datesInput}
+                              disabled
+                              ref={dateRef}
+                           />
+                        </Label>
+                        <Label>
+                           Horário
+                           <Input.Masked
+                              name='time'
+                              value={eventData.time}
+                              onChange={handleInputChange}
+                              mask='00:00'
+                           />
+                        </Label>
+                     </S.Flex>
+                     <Label>
+                        Local
+                        <Input.Default
+                           name='local'
+                           value={eventData.local}
+                           onChange={handleInputChange}
+                        />
+                     </Label>
+                     <Label>
+                        Descrição
+                        <Input.Textarea
+                           name='description'
+                           value={eventData.description}
+                           onChange={handleDescSize}
+                           rows={5}
+                        />
+                        <S.DescSize>{eventData.description.length}/300</S.DescSize>
+                     </Label>
+                     </>
                      }
                      <Button.Primary
                         value={'Cadastrar evento'}

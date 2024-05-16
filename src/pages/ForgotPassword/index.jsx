@@ -35,11 +35,10 @@ export default function ForgotPassword() {
          try {
             const response = await code.validateCode(formData.code);
             setUserId(response);
-            setUserId(1)
             setStep(step + 1);
          }
          catch(err) {
-            toast.error('Código inserido inválido.')
+            toast.error('Código inserido inválido.');
          }
       }
       if(step == 3) {

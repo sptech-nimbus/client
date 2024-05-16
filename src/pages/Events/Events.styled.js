@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { Colors } from "@utils/Helpers";
 
 export const PageContainer = styled.div`
@@ -56,4 +56,22 @@ export const DescSize = styled.span`
    font-family: 'Inter';
    font-size: .8rem;
    color: #808080;
+`
+
+export const DropdownMenu = styled.div`
+   display: none;
+   background-color: ${Colors.gray700};
+   border: 1px solid ${Colors.gray600};
+   border-radius: 1rem;
+   height: 6rem;
+   overflow-y: auto;
+   position: absolute;  
+   width: 100%;
+   bottom: -6rem;
+   z-index: 1;
+   ${props => props.isOpen && css`
+      display: flex;
+      align-items: center;
+      justify-content: center;
+   `}
 `

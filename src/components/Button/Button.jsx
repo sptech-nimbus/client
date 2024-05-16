@@ -33,7 +33,17 @@ export function SecondaryButton({value, size, width, fontSize, onClick, ...props
    )
 }
 
-export function PillButtons({ left='left', right='right', onClick, onClickLeft, onClickRight, color = Colors.orange500, fontColor, active, ...props }) {
+export function PillButtons({ 
+   left='left', 
+   right='right',
+   onClick, 
+   onClickLeft, 
+   onClickRight, 
+   color = Colors.orange500, 
+   fontColor, 
+   active, 
+   ...props 
+   }) {
    return (
       <S.PillButtons>
          <S.LeftButton 

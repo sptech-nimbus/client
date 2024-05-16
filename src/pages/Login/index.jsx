@@ -22,10 +22,6 @@ export default function Login() {
       password: ''
    });
 
-   useEffect(() => {
-      
-   }, []);
-
    const handleEmailChange = (e) => {
       const { value } = e.target;
       setUserData({
