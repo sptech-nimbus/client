@@ -38,7 +38,7 @@ const defaultStyles = {
     borderRadius: '.5rem',
     backgroundColor: state.isFocused 
     ? Colors.orange500
-    : Colors.gray600,
+    : '#212121',
     '&:hover': {
       backgroundColor: Colors.orange300
     }

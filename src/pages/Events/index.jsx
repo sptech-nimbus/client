@@ -10,24 +10,20 @@ import Sidebar from "@components/Sidebar/Sidebar";
 import Title from "@components/Title/Title";
 import Input from "@components/Input/Input";
 import Label from "@components/Label/Label";
-import Checkbox from "@components/Checkbox/Checkbox";
 import Button, { PillButtons } from "@components/Button/Button";
+import { CustomAsyncSelect as Select } from "@components/Select/Select";
 
 import Utils from '@utils/Helpers';
 import { TimeValidation, TextValidation, FutureDateValidation } from '@utils/Validations';
 
 import game from '../../api/game';
 import team from '../../api/team';
-import { Colors } from 'chart.js';
 
 export default function Events() {
    sessionStorage.setItem('jwt', 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJrYXVhYW5tYXRoZXVzQGdtYWlsLmNvbSIsImlhdCI6MTcxNTY5ODg3OX0.pH2mqkYUr5yPbrReOOSgVxVBd7KEMnTP0Dp1faNO-CWIvj6He7af7W6DP_YsDdS1b7uPmduCTSFhndRm-QgT2Q');
    sessionStorage.setItem('teamId', 'eaeb6176-5354-41db-a303-388780fbd9c0');
 
-   const dateRef = useRef();
-   const teamList = useRef();
-
-   const [isSearchOpen, setIsSearchOpen] = useState(false);
+   const [inputValue, setInputValue] = useState('');
    const [dates, setDates] = useState();
    const [datesInput, setDatesInput] = useState();
    const [eventData, setEventData] = useState({
@@ -42,8 +38,6 @@ export default function Events() {
       local: '',
       description: ''
    });
-
-   const [teamsToChallenge, setTeamsToChallenge] = useState([]);
 
    const handleInputChange = (e) => {
       setEventData({
@@ -95,33 +89,6 @@ export default function Events() {
       }
    }
 
-   const handleSearchTeams = async e => {
-      try {
-         let res = await team.byName(e.target.value, sessionStorage.getItem('jwt'));
-
-         setEventData({ ...eventData, challenged: { name: e.target.getAttribute('teamName') } });
-         setTeamsToChallenge(res.data.data || []);
-      } catch (err) {
-         toast.error(`Erro ao buscar times.`);
-         console.log(err);
-      }
-   }
-
-   const handleChallenged = async e => {
-      setEventData({ ...eventData, challenged: { id: e.target.getAttribute('teamId'), name: e.target.getAttribute('teamName') } });
-      setTeamsToChallenge([]);
-      await handleCloseSeachTeams();
-   }
-
-   const handleCloseSeachTeams = async () => {
-      setIsSearchOpen(!isSearchOpen);
-   }
-
-   const handleOpenSeachTeams = async (e) => {
-      await handleSearchTeams(e);
-      setIsSearchOpen(!isSearchOpen);
-   }
-
    const handleEventTypeChange = (e) => {
       e.preventDefault();
 
@@ -130,6 +97,21 @@ export default function Events() {
          type: e.target.name
       });
    }
+
+   const loadOptions = async (inputValue, callback) => {
+      try {
+        const response = await team.byName(inputValue, sessionStorage.getItem('jwt'));
+        const data = response.data.data;
+        const options = data.map((team) => ({
+          value: team.id,
+          label: `${team.name} - ${team.category}`,
+        }));
+        callback(options);
+      } catch (error) {
+        toast.error('Houve um erro ao buscar os times. Aguarde um momento antes de tentar novamente.')
+        console.error('Failed to load options:', error);
+      }
+    };
 
    const handleSubmit = async (e) => {
       e.preventDefault();
@@ -240,32 +222,14 @@ export default function Events() {
                      <>
                      <Label>
                         Desafiar time
-                        <Input.Default
-                           name='challenged'
-                           onInput={handleSearchTeams}
-                           value={eventData.challenged.name}
-                           onFocus={handleOpenSeachTeams}
-                           onBlur={handleCloseSeachTeams}
-                           autocomplete="off"
+                        <Select 
+                           isSearchable
+                           cacheOptions
+                           defaultOptions
+                           onInputChange={(newValue) => setInputValue(newValue)} 
+                           placeholder='Selecione um time para desafiar...' 
+                           loadOptions={loadOptions}
                         />
-                        <S.DropdownMenu isOpen={isSearchOpen}>
-                           {teamsToChallenge[0]
-                              ? teamsToChallenge.map(team => {
-                                 return team.id !== sessionStorage.getItem('teamId')
-                                    // eslint-disable-next-line react/no-unknown-property
-                                    ? <div onMouseDown={handleChallenged} teamName={team.name} teamId={team.id} key={team} style={{ height: '2rem', cursor: 'pointer', display: 'flex', flexDirection: 'column', width: '100%' }}>
-                                       <span style={{ pointerEvents: "none" }}>
-                                          {team.name}
-                                       </span>
-                                       <span style={{ pointerEvents: "none" }}>
-                                          {team.category}
-                                       </span>
-                                    </div>
-                                    : ''
-                              })
-                              : "Time não encontrado"
-                           }
-                        </S.DropdownMenu>
                      </Label>
                      <S.Flex>
                         <Label>
