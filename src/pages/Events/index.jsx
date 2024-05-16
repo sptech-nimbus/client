@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import * as S from './Events.styled';
 
 import { ToastContainer, toast } from 'react-toastify';
@@ -25,9 +25,10 @@ export default function Events() {
 
    const dateRef = useRef()
 
-   const [inputValue, setInputValue] = useState('');
    const [dates, setDates] = useState();
+   const [options, setOptions] = useState([]);
    const [datesInput, setDatesInput] = useState();
+   const [inputValue, setInputValue] = useState('');
    const [eventData, setEventData] = useState({
       challenged: {
          name: '',
@@ -40,6 +41,25 @@ export default function Events() {
       local: '',
       description: ''
    });
+
+   useEffect(() => {
+      loadOptions('', options => setOptions(options));
+   }, []);
+
+   const loadOptions = async (inputValue, callback) => {
+      try {
+        const response = await team.byName(inputValue, sessionStorage.getItem('jwt'));
+        const data = response.data.data;
+        const options = data.map((team) => ({
+          value: team.id,
+          label: `${team.name} - ${team.category}`,
+        }));
+        callback(options);
+      } catch (error) {
+        toast.error('Houve um erro ao buscar os times. Aguarde um momento antes de tentar novamente.')
+        console.error('Failed to load options:', error);
+      }
+    };
 
    const handleInputChange = (e) => {
       setEventData({
@@ -99,21 +119,6 @@ export default function Events() {
          type: e.target.name
       });
    }
-
-   const loadOptions = async (inputValue, callback) => {
-      try {
-        const response = await team.byName(inputValue, sessionStorage.getItem('jwt'));
-        const data = response.data.data;
-        const options = data.map((team) => ({
-          value: team.id,
-          label: `${team.name} - ${team.category}`,
-        }));
-        callback(options);
-      } catch (error) {
-        toast.error('Houve um erro ao buscar os times. Aguarde um momento antes de tentar novamente.')
-        console.error('Failed to load options:', error);
-      }
-    };
 
    const handleSubmit = async (e) => {
       e.preventDefault();
@@ -227,9 +232,10 @@ export default function Events() {
                         <Select 
                            isSearchable
                            cacheOptions
-                           defaultOptions
+                           defaultOptions={options}
                            onInputChange={(newValue) => setInputValue(newValue)} 
-                           placeholder='Selecione um time para desafiar...' 
+                           placeholder='Selecione um time para desafiar...'
+                           noOptionsMessage={() => "Não há times disponíveis no momento."}
                            loadOptions={loadOptions}
                         />
                      </Label>
