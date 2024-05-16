@@ -15,7 +15,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 
 export default function FormStepThreeAthlete({onSubmit}) {
-    const [weight, setWeight] = useState('8');
+    const [weight, setWeight] = useState('');
     const [height, setHeight] = useState('');
     const [position, setPosition] = useState('');
     const [category, setCategory] = useState('');
