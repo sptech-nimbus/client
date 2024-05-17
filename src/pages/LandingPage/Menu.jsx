@@ -22,11 +22,11 @@ export default function Menu({navOpen, handleNavOpen}) {
                </motion.div>
 
                <motion.div initial={{ opacity: 0, x: '-50%' }} animate={{opacity: 1, x: 0}} transition={{delay: .4}}>
-                  <S.MenuLink onClick={() => navigate('/cadastro')}>Cadastro</S.MenuLink>
+                  <S.MenuLink onClick={() => navigate('/register')}>Cadastro</S.MenuLink>
                </motion.div>
 
                <motion.div initial={{ opacity: 0, x: '-50%' }} animate={{opacity: 1, x: 0}} transition={{delay: .5}}>
-                  <S.MenuLink onClick={() => navigate('/sobre-nos')}>Sobre nós</S.MenuLink>
+                  <S.MenuLink onClick={() => navigate('/about-us')}>Sobre nós</S.MenuLink>
                </motion.div>
 
                <S.MenuFooter>

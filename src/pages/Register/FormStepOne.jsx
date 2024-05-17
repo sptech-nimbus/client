@@ -19,20 +19,14 @@ export default function FormStepOne({onSubmit}) {
     const [userData, setUserData] = useState({
         name: '',
         lastName: '',
-        date: ''
+        date: '',
+        typeUser: 'coach'
     })
-
-    const [name, setName] = useState('');
-    const [lastName, setLastName] = useState('');
-    const [date, setDate] = useState('');
 
     const [nameTtpOpen, setNameTtpOpen] = useState(false);
     const [lastNameTtpOpen, setLastNameTtpOpen] = useState(false);
-    const [dateTtpOpen, setDateTtpOpen] = useState(false);
 
     const [toastPosition, setToastPosition] = useState('top-right');
-
-    const [typeUser, setTypeUser] = useState('coach');
 
     const isBelow799 = useMediaQuery({ maxWidth: 799 });
     const isBelow1050 = useMediaQuery({ maxWidth: 1050 });
@@ -79,29 +73,30 @@ export default function FormStepOne({onSubmit}) {
 
     function handleSubmit(e) {
         e.preventDefault();
-        if (TextValidation(name) && TextValidation(lastName) && PastDateValidation(date)) {
-            onSubmit({ typeUser, name, lastName, date })
+
+        if (TextValidation(userData.name) && TextValidation(userData.lastName) && PastDateValidation(userData.date)) {
+            onSubmit(userData);
         } else {
-            if (!TextValidation(name)) toast.error("O nome inserido não é válido.");
-            if (!TextValidation(lastName)) toast.error("O sobrenome inserido não é válido.");
-            if (!PastDateValidation(date)) toast.error("A data de nascimento inserida não é válida. Datas futuras não são aceitas.");
-            console.log({ typeUser, name, lastName, date })
+            if (!TextValidation(userData.name)) toast.error("O nome inserido não é válido.");
+            if (!TextValidation(userData.lastName)) toast.error("O sobrenome inserido não é válido.");
+            if (!PastDateValidation(userData.date)) toast.error("A data de nascimento inserida não é válida. Datas futuras não são aceitas.");
         }
     }
     
     const handleTabClick = (value) => {
-        {
-            setTypeUser(value);
-        }
+        setUserData({
+            ...userData,
+            typeUser: value
+        });
     }
     return (
         <S.Form onSubmit={handleSubmit}>
             <S.TabsRoot>
                 <S.TabsList>
-                    <S.TabsTrigger value="coach" onClick={(e) => { e.preventDefault(); handleTabClick("coach"); }} active={typeUser === "coach"}>
+                    <S.TabsTrigger value="coach" onClick={(e) => { e.preventDefault(); handleTabClick("coach"); }} active={userData.typeUser === "coach"}>
                         Treinador
                     </S.TabsTrigger>
-                    <S.TabsTrigger value="athlete" onClick={(e) => { e.preventDefault(); handleTabClick("athlete"); }} active={typeUser === "athlete"}>
+                    <S.TabsTrigger value="athlete" onClick={(e) => { e.preventDefault(); handleTabClick("athlete"); }} active={userData.typeUser === "athlete"}>
                         Jogador
                     </S.TabsTrigger>
                 </S.TabsList>
