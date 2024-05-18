@@ -11,7 +11,10 @@ export const AuthProvider = ({ children }) => {
    const [isAuthenticated, setIsAuthenticated] = useState(false);
 
    useEffect(() => {
-      if(token) localStorage.setItem('token', token);
+      if(token) { 
+         localStorage.setItem('token', token);
+         setIsAuthenticated(true);
+      }
       else localStorage.removeItem('token');
    }, [token]);
 
@@ -19,6 +22,8 @@ export const AuthProvider = ({ children }) => {
       try {
          const response = await user.login(credentials);
          const { token, id } = response.data.data;
+         // const response = await axios.get('https://6642243c3d66a67b34366411.mockapi.io/nimbus/login/1');
+         // const { token, id } = response.data;
          console.log('token: '+token)
          console.log('id: '+id)
          setToken(token);
