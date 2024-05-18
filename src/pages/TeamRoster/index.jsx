@@ -37,7 +37,8 @@ export default function TeamRoster() {
    useEffect(() => {
       async function fetchData() {
          //requisição de mock api - substituir pela requisição correta ao backend
-         const { data } = await axios.get('https://3yyr7.wiremockapi.cloud/athletes');
+         let { data } = await axios.get('https://6642243c3d66a67b34366411.mockapi.io/nimbus/athlete');
+         data = data.map(item => ({ ...item, position: randomPosition() }))
          setPlayersData(data)
          setPlayersFiltered(playersData);
       }
@@ -130,6 +131,13 @@ export default function TeamRoster() {
       if (gridState) setGridState(!gridState);
    }
    
+   //funçõo feita apenas para adaptar dados da mock api, remover futuramente quando conectar ao backend
+   const randomPosition = () => {
+      const positions = ['Armador', 'Ala-Armador', 'Ala', 'Ala-Pivô', 'Pivô', 'Pivô'];
+      const random = Math.floor(Math.random() * positions.length);
+      return positions[random];
+  }
+
    return(
       <S.PageContainer>
          <Background.Default />

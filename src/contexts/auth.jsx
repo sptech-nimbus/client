@@ -29,7 +29,7 @@ export const AuthProvider = ({ children }) => {
       try {
          // const response = await user.login(credentials);
          // const { token, id } = response.data.data;
-         const response = await axios.get('https://6642243c3d66a67b34366411.mockapi.io/nimbus/login/1');
+         const response = await axios.get('https://3yyr7.wiremockapi.cloud/login');
          const { token, id } = response.data;
          localStorage.setItem('token', token);
          localStorage.setItem('id', id);
