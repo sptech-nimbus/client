@@ -7,6 +7,7 @@ import Background from "@components/Background/Background";
 import { Drawer } from "@components/Dialog/Dialog";
 import RadioGroup from "@components/RadioGroup/RadioGroup";
 import Button from "@components/Button/Button";
+import Loader from "@components/Loader/Loader";
 
 import user from "@api/user";
 import axios from 'axios';
@@ -21,6 +22,7 @@ import { SquaresFour, Rows, Faders } from "@phosphor-icons/react";
 import * as S from "./Team.styled";
 
 export default function TeamRoster() {
+   const [isLoading, setIsLoading] = useState(false);
    const [filters, setFilters] = useState({
       search: '',
       alphabetical: 'default',
@@ -36,11 +38,20 @@ export default function TeamRoster() {
 
    useEffect(() => {
       async function fetchData() {
-         //requisição de mock api - substituir pela requisição correta ao backend
-         let { data } = await axios.get('https://6642243c3d66a67b34366411.mockapi.io/nimbus/athlete');
-         data = data.map(item => ({ ...item, position: randomPosition() }))
-         setPlayersData(data)
-         setPlayersFiltered(playersData);
+         try {
+            setIsLoading(true);
+            //requisição de mock api - substituir pela requisição correta ao backend
+            let { data } = await axios.get('https://6642243c3d66a67b34366411.mockapi.io/nimbus/athlete');
+            data = data.map(item => ({ ...item, position: randomPosition() }))
+            setPlayersData(data)
+            setPlayersFiltered(playersData);
+         }
+         catch(err) {
+            console.log('Houve um erro durante a requisição');
+         }
+         finally {
+            setIsLoading(false);
+         }
       }
       fetchData();
    }, []);
@@ -211,9 +222,11 @@ export default function TeamRoster() {
                   </ToggleGroup.Root>
                </S.FilterLine>
             <S.MainContainer>
-               {gridState ?
-               <TeamGrid players={playersFiltered}/> :
-               <TeamTable players={playersFiltered}/>
+               {isLoading 
+                  ? <Loader />
+                  : gridState ?
+                  <TeamGrid players={playersFiltered}/> :
+                  <TeamTable players={playersFiltered}/>
                }
             </S.MainContainer>
          </S.ContentContainer>
