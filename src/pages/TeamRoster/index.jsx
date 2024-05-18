@@ -84,11 +84,8 @@ export default function TeamRoster() {
          filteredPlayers = Utils.filterByAttr(filteredPlayers, 'fullName', filters.search);
       }
 
-      filteredPlayers = filteredPlayers.sort((a, b) => {
-         if (filters.alphabetical === 'a-z') return a.fullName.localeCompare(b.fullName);
-         if (filters.alphabetical === 'z-a') return b.fullName.localeCompare(a.fullName);
-         return 0;
-      });
+      filteredPlayers = Utils.sort(filteredPlayers, 'firstName');
+      if(filters.alphabetical == 'z-a') filteredPlayers.reverse();
 
       if (filters.position !== 'default') {
          filteredPlayers = Utils.filterByAttr(filteredPlayers, 'position', filters.position);
