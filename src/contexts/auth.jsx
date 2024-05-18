@@ -7,15 +7,18 @@ const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
    const [token, setToken] = useState(localStorage.getItem('token') || null);
    const [userId, setUserId] = useState(localStorage.getItem('id') || null);
+   const [teamId, setTeamId] = useState(localStorage.getItem('teamId') || null);
    const [isAuthenticated, setIsAuthenticated] = useState(false);
 
    useEffect(() => {
       const storedToken = localStorage.getItem('token');
       const storedUserId = localStorage.getItem('id');
+      const storedTeamId = localStorage.getItem('teamId');
       
       if (storedToken && storedUserId) {
          setToken(storedToken);
          setUserId(storedUserId);
+         setTeamId(storedTeamId);
          setIsAuthenticated(true);
       } else {
          setIsAuthenticated(false);
@@ -45,11 +48,23 @@ export const AuthProvider = ({ children }) => {
    const logout = () => {
       setToken(null);
       setUserId(null);
+      setTeamId(null);
+      localStorage.clear();
       setIsAuthenticated(false);
    }
 
+   const chooseTeam = (teamId) => {
+      setTeamId(teamId);
+      localStorage.setItem('teamId', teamId);
+   }
+
+   const logoutTeam = () => {
+      setTeamId(null);
+      localStorage.remove('teamId');
+   }
+
    return (
-      <AuthContext.Provider value={{token, userId, isAuthenticated, login, logout}}>
+      <AuthContext.Provider value={{token, userId, teamId, chooseTeam, logoutTeam, isAuthenticated, login, logout}}>
          {children}
       </AuthContext.Provider>
    )

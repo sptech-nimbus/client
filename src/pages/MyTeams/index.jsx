@@ -1,12 +1,14 @@
 import { useEffect } from 'react';
 import * as S from './MyTeams.styled';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '@contexts/auth';
 
 import Background from "@components/Background/Background";
 import { SecondaryButton as Button } from '@components/Button/Button';
 
 export default function MyTeams() {
    const navigate = useNavigate();
+   const { chooseTeam, teamId } = useAuth();
 
    const coachTeams = [
       {id: 1, name: 'Meu time', picture: 'https://placehold.co/250x250'}, 
@@ -21,7 +23,14 @@ export default function MyTeams() {
    }, []);
 
    let teamsElements = coachTeams.map(team => (
-      <S.Team key={team.id} onClick={() => navigate('/home')}>
+      <S.Team key={team.id} onClick={() => 
+         { 
+            chooseTeam(team.id);
+            if(teamId) {
+               navigate('/home'); 
+            }
+         } 
+      }>
          <S.TeamImage src={team.picture}/>
          <S.TeamName>{team.name}</S.TeamName>
       </S.Team>

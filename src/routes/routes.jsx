@@ -31,7 +31,7 @@ export default function AppRoutes() {
             <Route 
                path="/home" 
                element={
-                  <ProtectedRoute>
+                  <ProtectedRoute requireTeam>
                      <Home />
                   </ProtectedRoute>
                } 
@@ -39,7 +39,7 @@ export default function AppRoutes() {
             <Route 
                path="/dashboard" 
                element={
-                  <ProtectedRoute>
+                  <ProtectedRoute requireTeam>
                      <Dashboard />
                   </ProtectedRoute>
                } 
@@ -47,7 +47,7 @@ export default function AppRoutes() {
             <Route 
                path="/roster" 
                element={
-                  <ProtectedRoute>
+                  <ProtectedRoute requireTeam>
                      <TeamRoster />
                   </ProtectedRoute>
                } 
@@ -55,7 +55,7 @@ export default function AppRoutes() {
             <Route 
                path="/athlete" 
                element={
-                  <ProtectedRoute>
+                  <ProtectedRoute requireTeam>
                      <PlayerInfo />
                   </ProtectedRoute>
                } 
@@ -63,7 +63,7 @@ export default function AppRoutes() {
             <Route 
                path="/config" 
                element={
-                  <ProtectedRoute>
+                  <ProtectedRoute requireTeam>
                      <Settings />
                   </ProtectedRoute>
                } 
@@ -71,7 +71,7 @@ export default function AppRoutes() {
             <Route 
                path="/news" 
                element={
-                  <ProtectedRoute>
+                  <ProtectedRoute requireTeam>
                      <News />
                   </ProtectedRoute>
                } 
@@ -79,7 +79,7 @@ export default function AppRoutes() {
             <Route 
                path="/events" 
                element={
-                  <ProtectedRoute>
+                  <ProtectedRoute requireTeam>
                      <Events />
                   </ProtectedRoute>
                } 
@@ -87,18 +87,14 @@ export default function AppRoutes() {
             <Route 
                path="/chat" 
                element={
-                  <ProtectedRoute>
+                  <ProtectedRoute requireTeam>
                      <Chat />
                   </ProtectedRoute>
                } 
             />
             <Route 
                path="/forgot-password" 
-               element={
-                  <ProtectedRoute>
-                     <ForgotPassword />
-                  </ProtectedRoute>
-               } 
+               element={<ForgotPassword />} 
             />
             <Route 
                path="/my-teams" 
