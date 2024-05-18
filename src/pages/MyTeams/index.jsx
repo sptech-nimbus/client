@@ -7,6 +7,7 @@ import { SecondaryButton as Button } from '@components/Button/Button';
 
 export default function MyTeams() {
    const navigate = useNavigate();
+
    const coachTeams = [
       {id: 1, name: 'Meu time', picture: 'https://placehold.co/250x250'}, 
       {id: 2, name: 'Meu time', picture: 'https://placehold.co/250x250'},
@@ -20,7 +21,7 @@ export default function MyTeams() {
    }, []);
 
    let teamsElements = coachTeams.map(team => (
-      <S.Team key={team.id}>
+      <S.Team key={team.id} onClick={() => navigate('/home')}>
          <S.TeamImage src={team.picture}/>
          <S.TeamName>{team.name}</S.TeamName>
       </S.Team>
