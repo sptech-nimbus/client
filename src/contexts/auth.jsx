@@ -45,7 +45,7 @@ export const AuthProvider = ({ children }) => {
    const logout = () => {
       setToken(null);
       setUserId(null);
-      setIsAuthenticaded(false);
+      setIsAuthenticated(false);
    }
 
    return (
