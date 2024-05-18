@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import * as S from "./Login.styles";
+import { useAuth } from "@contexts/auth";
 
 import { Envelope } from "@phosphor-icons/react";
 import { useNavigate } from "react-router-dom";
@@ -14,61 +15,68 @@ import Button from "@components/Button/Button";
 import user from "@api/user";
 
 export default function Login() {
+   const { login, isAuthenticated } = useAuth();
    const navigate = useNavigate();
 
-   const [userData, setUserData] = useState({
+   const [credentials, setCredentials] = useState({
       email: '',
       password: ''
    });
 
    const handleEmailChange = (e) => {
       const { value } = e.target;
-      setUserData({
-         ...userData,
+      setCredentials({
+         ...credentials,
          email: value
       });
    }
 
    const handlePasswordChange = (e) => {
       const { value } = e.target;
-      setUserData({
-         ...userData,
+      setCredentials({
+         ...credentials,
          password: value
       });
    }
 
-   const handleFormSubmit = (e) =>{
+   const handleFormSubmit = async (e) =>{
       e.preventDefault();
 
-      if(userData.email && userData.password) {
-         user.login(userData)
-         .then(response => {
-            sessionStorage.setItem('token', response.data.data.token);
-            navigate('/home');
-         })
-         .catch(err => {
-            toast.error('Credenciais inválidas');
-            console.log(err);
-         })
+      if(credentials.email && credentials.password) {
+         try {
+            await login(credentials);
+         }
+         catch(err) {
+            if(err.response) {
+               toast.error('Credenciais inválidas.');
+            }
+            else if(err.request) {
+               toast.error('Houve um erro ao realizar o login. Por favor tente novamente mais tarde.');
+            }  
+            else {
+               toast.error('Houve um erro inesperado.');
+            }
+         }
       }
       else {
          toast.error('Preencha todos os campos')
       }
    }
 
+   useEffect(() => { if(isAuthenticated) navigate('/my-teams') }, [isAuthenticated, navigate]);
 
    return (
       <S.Header>
          <ToastContainer   
-                autoClose={8000}
-                hideProgressBar={false}
-                newestOnTop={false}
-                closeOnClick
-                rtl={false}
-                pauseOnFocusLoss
-                draggable
-                theme="dark"
-                limit={3}
+            autoClose={8000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            theme="dark"
+            limit={3}
          /> 
 
          <Background.Login />
@@ -87,7 +95,7 @@ export default function Login() {
                   Insira seu email
                   <Input.Default
                      placeholder={'seu@email.com'}
-                     value={userData.email}
+                     value={credentials.email}
                      onChange={handleEmailChange}
                   >                    
                      <Envelope />
@@ -97,7 +105,7 @@ export default function Login() {
                   Insira sua senha
                   <Input.Password
                      placeholder={'**********'}
-                     value={userData.password}
+                     value={credentials.password}
                      hasIcon 
                      onChange={handlePasswordChange}
                   />

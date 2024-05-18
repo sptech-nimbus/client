@@ -1,4 +1,3 @@
-/* eslint-disable no-useless-catch */
 import axios from "axios";
 import config from "./config";
 
@@ -60,7 +59,17 @@ async function deleteUser() {
 async function changePassword(id, body) {
     try {
         const response = await axios.patch(`${config.baseURL}/${path}/change-password/${id}`, body);
-        return response
+        return response;
+    }
+    catch (err) {
+        throw err;
+    }
+}
+
+async function changePasswordRequest(id, body) {
+    try {
+        const response = await axios.post(`${config.baseURL}/${path}/change-password-request`, body);
+        return response;
     }
     catch (err) {
         throw err;
@@ -83,8 +92,9 @@ const user = {
     post: postUser,
     put: putUser,
     delete: deleteUser,
-    changePassword: changePassword,
-    login: login,
+    changePassword,
+    login,
+    changePasswordRequest
 }
 
 export default user;

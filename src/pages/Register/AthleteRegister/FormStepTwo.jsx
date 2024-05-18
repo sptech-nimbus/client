@@ -20,10 +20,6 @@ export default function FormStepTwo({onSubmit}) {
       phone: '',
       password: ''
    });
-
-   const [email, setEmail] = useState('');
-   const [phone, setPhone] = useState('');
-   const [password, setPassword] = useState('');
    const [confirmPassword, setConfirmPassword] = useState('');
 
    const [passwordTtpOpen, setPasswordTtpOpen] = useState(false);
@@ -85,13 +81,13 @@ export default function FormStepTwo({onSubmit}) {
       if(
          EmailValidation(userData.email) && 
          PasswordValidation(userData.password) && 
-         ConfirmPasswordValidation(userData.password, confirmPassword) &&
-         BrPhoneValidation(userData.phone)) 
+         ConfirmPasswordValidation(userData.password, confirmPassword) 
+         // && BrPhoneValidation(userData.phone)
+      ) 
       {
-          let formattedPhone = userData.phone.replace(" ", "").replace("(", "").replace(")", "").replace("-", "");
-
+          let formattedPhone = userData.phone.replace("(", "").replace(")", "").replace("-", "").replace(" ", "");
+          console.log(formattedPhone)
           setUserData({
-            ...userData,
             phone: formattedPhone
           })
 
@@ -99,7 +95,7 @@ export default function FormStepTwo({onSubmit}) {
       }
       else {
          if(!EmailValidation(userData.email)) toast.error('Email inválido.');
-         if(!BrPhoneValidation(userData.phone)) toast.error('Telefone inválido.')
+         // if(!BrPhoneValidation(userData.phone)) toast.error('Telefone inválido.')
          if(!PasswordValidation(userData.password)) toast.error('Senha inválida.');
          if(!ConfirmPasswordValidation(userData.password, confirmPassword)) toast.error('As senhas não correspondem.');
       }

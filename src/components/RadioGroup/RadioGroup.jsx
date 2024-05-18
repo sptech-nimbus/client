@@ -2,7 +2,7 @@ import React from 'react';
 import * as Radio from "@radix-ui/react-radio-group";
 import * as S from './RadioGroup.styled';
 
-export default function RadioGroup({items}) {
+export default function RadioGroup({items, name, ...props}) {
    const radioItems = items.map(item => {
       return (
          <S.Flex>
@@ -15,7 +15,7 @@ export default function RadioGroup({items}) {
    })
    
    return (
-      <S.RadioGroupRoot defaultValue='default'>
+      <S.RadioGroupRoot defaultValue='default' name={name} {...props}>
          {radioItems}
       </S.RadioGroupRoot>
    )

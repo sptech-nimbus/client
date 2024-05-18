@@ -14,9 +14,8 @@ export const calcAge = (birthDate) => {
 
 export const filterByAttr = (array, attr, param) => {
    return array.filter(item => {
-     const itemValue = item[attr] ? item[attr].toLowerCase() : '';
-     const parameter = param.toLowerCase();
-     return itemValue.includes(parameter);
+     const itemValue = item[attr]
+     return itemValue.toLowerCase().includes(param.toLowerCase());
    });
 }
 
@@ -53,6 +52,16 @@ export const Months = [
    'Novembro',
    'Dezembro'
  ];
+
+ const weekDays = [
+   "Dom",
+   "Seg",
+   "Ter",
+   "Qua",
+   "Qui",
+   "Sex",
+   "Sáb",
+]
  
 export const months = (config) => {
    let cfg = config || {};
@@ -69,48 +78,36 @@ export const months = (config) => {
    return values;
 }
 
-export function mergeSort(arr, param) {
+export function sort(arr, param) {
    if (arr.length <= 1) {
-      return;
+      return arr;
    }
 
    const mid = Math.floor(arr.length / 2);
    const left = arr.slice(0, mid);
    const right = arr.slice(mid);
 
-   mergeSort(left, param);
-   mergeSort(right, param);
-   merge(arr, left, right, param);
+   return merge(sort(left, param), sort(right, param), param);
 }
 
-function merge(arr, left, right, param) {
+function merge(left, right, param) {
+   let sortedArray = [];
    let leftIndex = 0;
    let rightIndex = 0;
-   let arrIndex = 0;
 
    while (leftIndex < left.length && rightIndex < right.length) {
       if (left[leftIndex][param] < right[rightIndex][param]) {
-         arr[arrIndex] = left[leftIndex];
+         sortedArray.push(left[leftIndex]);
          leftIndex++;
       } else {
-         arr[arrIndex] = right[rightIndex];
+         sortedArray.push(right[rightIndex]);
          rightIndex++;
       }
-      arrIndex++;
    }
 
-   while (leftIndex < left.length) {
-      arr[arrIndex] = left[leftIndex];
-      leftIndex++;
-      arrIndex++;
-   }
-
-   while (rightIndex < right.length) {
-      arr[arrIndex] = right[rightIndex];
-      rightIndex++;
-      arrIndex++;
-   }
+   return sortedArray.concat(left.slice(leftIndex)).concat(right.slice(rightIndex));
 }
+
 
 export const Size = {
    mobileS: '320px',
@@ -135,11 +132,12 @@ export const Size = {
 const Utils = {
    calcAge,
    months,
-   colors: Colors,
    filterByAttr,
-   mergeSort,
+   sort,
+   weekDays,
+   colors: Colors,
    device: Device,
-   size: Size
+   size: Size,
 }
 
 export default Utils;

@@ -6,14 +6,21 @@ import Button from "@components/Button/Button";
 import * as S from './ForgotPassword.styled';
 
 import { Password } from "@phosphor-icons/react";
+import { toast } from 'react-toastify';
 
-export default function FormStepThree({ handleSubmit }) {
+export default function FormStepThree({ onSubmit }) {
    const [code, setCode] = useState('');
 
    const handleCodeChange = (e) => {
       setCode(e.target.value);
    }
 
+   const handleSubmit = async (e) => {
+      e.preventDefault();
+
+      if(code) onSubmit({ code });
+      else if(!code) toast.error('Preencha o campo com o código enviado para seu email.');
+   }
 
    return (
       <>

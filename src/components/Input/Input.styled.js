@@ -13,7 +13,6 @@ export const IconWrapper = styled.span`
 
 export const Wrapper = styled.div`
    width: ${props => props.width ? props.width : '100%'};
-   display: flex;
    align-items: center;
    justify-content: space-between;
    gap: 8px;
@@ -69,6 +68,7 @@ export const MaskedInput = styled(IMaskInput)`
 `
 
 export const WrapperGoogle = styled(Wrapper)`
+   display: flex;
    justify-content: center;
    cursor: pointer;
 `
