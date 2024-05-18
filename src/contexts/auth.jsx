@@ -1,5 +1,4 @@
 import { createContext, useContext, useState, useEffect } from "react";
-import { toast } from "react-toastify";
 import user from '@api/user'
 import axios from 'axios';
 
@@ -11,23 +10,30 @@ export const AuthProvider = ({ children }) => {
    const [isAuthenticated, setIsAuthenticated] = useState(false);
 
    useEffect(() => {
-      if(token) { 
-         localStorage.setItem('token', token);
+      const storedToken = localStorage.getItem('token');
+      const storedUserId = localStorage.getItem('id');
+      
+      if (storedToken && storedUserId) {
+         setToken(storedToken);
+         setUserId(storedUserId);
          setIsAuthenticated(true);
+      } else {
+         setIsAuthenticated(false);
       }
-      else localStorage.removeItem('token');
-   }, [token]);
+   }, []);
 
    const login = async (credentials) => {
       try {
-         const response = await user.login(credentials);
-         const { token, id } = response.data.data;
-         // const response = await axios.get('https://6642243c3d66a67b34366411.mockapi.io/nimbus/login/1');
-         // const { token, id } = response.data;
-         console.log('token: '+token)
-         console.log('id: '+id)
+         // const response = await user.login(credentials);
+         // const { token, id } = response.data.data;
+         const response = await axios.get('https://6642243c3d66a67b34366411.mockapi.io/nimbus/login/1');
+         const { token, id } = response.data;
+         localStorage.setItem('token', token);
+         localStorage.setItem('id', id);
+
          setToken(token);
          setUserId(id);
+
          setIsAuthenticated(true);
       }
       catch(err) {
@@ -39,6 +45,7 @@ export const AuthProvider = ({ children }) => {
    const logout = () => {
       setToken(null);
       setUserId(null);
+      setIsAuthenticaded(false);
    }
 
    return (
