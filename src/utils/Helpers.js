@@ -14,9 +14,8 @@ export const calcAge = (birthDate) => {
 
 export const filterByAttr = (array, attr, param) => {
    return array.filter(item => {
-     const itemValue = item[attr] ? item[attr].toLowerCase() : '';
-     const parameter = param.toLowerCase();
-     return itemValue.includes(parameter);
+     const itemValue = item[attr]
+     return itemValue.toLowerCase().includes(param.toLowerCase());
    });
 }
 
