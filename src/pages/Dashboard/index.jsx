@@ -1,3 +1,5 @@
+import { useNotification } from '../../contexts/notification';
+
 import * as S from './Dashboard.styled';
 import Sidebar from "@components/Sidebar/Sidebar";
 import Background from "@components/Background/Background";
@@ -7,8 +9,11 @@ import { LineChart, PieChart, BarChart } from "@components/Charts";
 import Utils from "@utils/Helpers";
 import Title from "@components/Title/Title";
 import { Line } from 'react-chartjs-2';
+import { useEffect } from 'react';
 
 export default function Dashboard() {
+   const { getNotificationHist } = useNotification();
+
    const pieConfig = {
       data: [
          {
@@ -195,6 +200,8 @@ export default function Dashboard() {
          }
       },
    }
+
+   useEffect(() => console.log(getNotificationHist()), []);
 
    return (
       <S.PageContainer>

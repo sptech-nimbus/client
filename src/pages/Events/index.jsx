@@ -36,7 +36,6 @@ export default function Events() {
             pauseOnFocusLoss
             draggable
             theme="dark"
-            limit={1}
          />
 
          <Sidebar page='agenda' />

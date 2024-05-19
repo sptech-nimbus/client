@@ -13,7 +13,7 @@ export default function AthleteDesk({ playerData }) {
       <S.InfoWrapper>
       <S.InfoGrid>
             <S.Container>
-               <S.PlayerImg src="https://placehold.co/400x400"/>
+               <S.PlayerImg src={playerData.picture}/>
             </S.Container>
             
             <S.Container>

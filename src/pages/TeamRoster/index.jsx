@@ -18,6 +18,7 @@ import TeamTable from "./TeamTable";
 import Utils from "@utils/Helpers";
 
 import { SquaresFour, Rows, Faders } from "@phosphor-icons/react";
+import { useNotification } from "@contexts/notification";
 
 import * as S from "./Team.styled";
 
@@ -149,6 +150,9 @@ export default function TeamRoster() {
       return positions[random];
   }
 
+//   área de testes
+   
+   
    return(
       <S.PageContainer>
          <Background.Default />

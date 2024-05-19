@@ -55,7 +55,7 @@ export default function PlayerInfo() {
             </S.TopLinkContainer>
             {deskActive ? 
             <AthleteDesk playerData={playerData}/> :
-            <AthleteStats />}
+            <AthleteStats playerData={playerData}/>}
          </S.ContentContainer>
       </S.PageContainer>
    )
