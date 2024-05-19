@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import * as S from "./Login.styles";
+
 import { useAuth } from "@contexts/auth";
+import { useNotification } from '@contexts/notification';
 
 import { Envelope } from "@phosphor-icons/react";
 import { useNavigate } from "react-router-dom";
@@ -16,6 +18,7 @@ import user from "@api/user";
 
 export default function Login() {
    const { login, isAuthenticated } = useAuth();
+   const { addNotification } = useNotification();
    const navigate = useNavigate();
 
    const [credentials, setCredentials] = useState({
@@ -48,18 +51,18 @@ export default function Login() {
          }
          catch(err) {
             if(err.response) {
-               toast.error('Credenciais inválidas.');
+               addNotification('error','Credenciais inválidas.');
             }
             else if(err.request) {
-               toast.error('Houve um erro ao realizar o login. Por favor tente novamente mais tarde.');
+               addNotification('error','Houve um erro ao realizar o login. Por favor tente novamente mais tarde.');
             }  
             else {
-               toast.error('Houve um erro inesperado.');
+               addNotification('error','Houve um erro inesperado.');
             }
          }
       }
       else {
-         toast.error('Preencha todos os campos')
+         addNotification('error','Preencha todos os campos')
       }
    }
 

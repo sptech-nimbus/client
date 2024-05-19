@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 
+import { useNotification } from '@contexts/notification';
+
 import * as S from './ForgotPassword.styled';
 import Background from "@components/Background/Background";
 
@@ -14,6 +16,7 @@ import code from "@api/code";
 import { ToastContainer, toast } from 'react-toastify';
 
 export default function ForgotPassword() {
+   const { addNotification } = useNotification();
    const navigate = useNavigate();
    const [step, setStep] = useState(1);
    const [userId, setUserId] = useState('');
@@ -26,7 +29,7 @@ export default function ForgotPassword() {
             setStep(step + 1);
          }
          catch(err) {
-            toast.error('Erro ao enviar e-mail. Por favor aguarde alguns minutos antes de tentar novamente.');
+            addNotification('error','Erro ao enviar e-mail. Por favor aguarde alguns minutos antes de tentar novamente.');
             console.log(err);
          }
       }
@@ -38,7 +41,7 @@ export default function ForgotPassword() {
             setStep(step + 1);
          }
          catch(err) {
-            toast.error('Código inserido inválido.');
+            addNotification('error','Código inserido inválido.');
          }
       }
       if(step == 3) {
@@ -50,7 +53,7 @@ export default function ForgotPassword() {
             }, 2600);
          }
          catch(err) {
-            toast.error('Houve um erro ao atualizar a senha. Por favor aguarde alguns minutos antes de tentar novamente.');
+            addNotification('error','Houve um erro ao atualizar a senha. Por favor aguarde alguns minutos antes de tentar novamente.');
             console.log(err);
          }
       }

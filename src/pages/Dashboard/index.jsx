@@ -1,5 +1,3 @@
-import { useNotification } from '../../contexts/notification';
-
 import * as S from './Dashboard.styled';
 import Sidebar from "@components/Sidebar/Sidebar";
 import Background from "@components/Background/Background";
@@ -12,8 +10,6 @@ import { Line } from 'react-chartjs-2';
 import { useEffect } from 'react';
 
 export default function Dashboard() {
-   const { getNotificationHist } = useNotification();
-
    const pieConfig = {
       data: [
          {
@@ -200,9 +196,6 @@ export default function Dashboard() {
          }
       },
    }
-
-   useEffect(() => console.log(getNotificationHist()), []);
-
    return (
       <S.PageContainer>
          <Background.Default />

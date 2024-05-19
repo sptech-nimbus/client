@@ -1,7 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
 import * as S from './Events.styled';
 
-import { toast } from 'react-toastify';
+import { useNotification } from '@contexts/notification';
+
 import { Calendar } from "react-multi-date-picker";
 import "react-multi-date-picker/styles/layouts/prime.css"
 import "react-multi-date-picker/styles/backgrounds/bg-dark.css"
@@ -18,7 +19,6 @@ import game from '../../api/game';
 import team from '../../api/team';
 import axios from 'axios';
 
-import { useNotification } from '@contexts/notification';
 export default function EventsRegistration() {
    const { addNotification, getNotificationHist } = useNotification();
    sessionStorage.setItem('jwt', 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJrYXVhYW5tYXRoZXVzQGdtYWlsLmNvbSIsImlhdCI6MTcxNTY5ODg3OX0.pH2mqkYUr5yPbrReOOSgVxVBd7KEMnTP0Dp1faNO-CWIvj6He7af7W6DP_YsDdS1b7uPmduCTSFhndRm-QgT2Q');

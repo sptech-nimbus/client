@@ -28,11 +28,28 @@ export const NotificationProvider = ({ children }) => {
       toast[notification.type](notification.message);
    }
 
+   const useAltNKeyListener = (callback) => {
+      useEffect(() => {
+        const handleKeyDown = (event) => {
+          if (event.altKey && event.key === "n") {
+            callback();
+          }
+        };
+
+        document.addEventListener("keydown", handleKeyDown);
+
+        return () => {
+          document.removeEventListener("keydown", handleKeyDown);
+        };
+      }, [callback]);
+    };
+
+   const commandShow = () => useAltNKeyListener(showLastNotification);
    const getNotificationHist = () => notificationHist.getItems();
    const getLastNotification = () => notificationHist.pop();
 
    return (
-      <NotificationContext.Provider value={{ addNotification, getNotificationHist, getLastNotification, showLastNotification }}>
+      <NotificationContext.Provider value={{ addNotification, getNotificationHist, getLastNotification, showLastNotification, commandShow }}>
          {children}
       </NotificationContext.Provider>
    )

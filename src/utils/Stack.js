@@ -6,7 +6,7 @@ class Stack{
       if(this.isEmpty()) return null;
       return this.items.pop();
    }
-   peek() { return items[this.items.length - 1]; }
+   peek() { return this.items[this.items.length - 1]; }
    isEmpty() { return this.items.length == 0; }
    getItems() { return this.items;}
 }
