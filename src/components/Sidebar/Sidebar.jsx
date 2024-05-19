@@ -1,7 +1,20 @@
 import * as S from "./Sidebar.styled";
-import Tooltip from "@components/Tooltip/Tooltip";
-import { House, ChartDonut, NewspaperClipping, UsersFour, ChatCircleDots, CalendarBlank, Gear, Placeholder } from "@phosphor-icons/react";
+import { 
+   House, 
+   ChartDonut, 
+   NewspaperClipping, 
+   UsersFour, 
+   ChatCircleDots, 
+   CalendarBlank, 
+   Gear, 
+   Placeholder, 
+   CaretDown, 
+   Swap,
+   IdentificationCard
+} from "@phosphor-icons/react";
 import { useNavigate } from "react-router-dom";
+
+import Popover from "@components/Popover/Popover";
 
 export default function Sidebar({page, logo, children}) {
    const navigate = useNavigate();
@@ -42,6 +55,25 @@ export default function Sidebar({page, logo, children}) {
                weight={page == 'agenda' ? 'fill' : 'regular'}
                />
             </S.Icon>
+            <S.MoreIcon title="Mostrar mais...">
+               <Popover trigger={<CaretDown weight="fill"/>} side='right' sideOffset={20}>
+                  <S.PopoverContent>
+                     <S.IconGroup>
+                        <S.Icon onClick={() => navigate('/comparison')} title='Comparações'>
+                           <Swap
+                              weight={page == 'comparison' ? 'fill' : 'regular'} size={32}
+                           />
+                        </S.Icon>
+                        <S.Icon onClick={() => navigate('/register-stats')} title='Cadastrar estatísticas'>
+                           <IdentificationCard
+                              weight={page == 'register-stats' ? 'fill' : 'regular'} size={32}
+                           />
+                        </S.Icon>
+                     </S.IconGroup>
+                     <S.EditIcons>Editar</S.EditIcons>
+                  </S.PopoverContent>
+               </Popover>
+            </S.MoreIcon>
          </S.IconGroup>
          {children}
          <S.IconGroupFooter>

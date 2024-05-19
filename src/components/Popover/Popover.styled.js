@@ -25,7 +25,7 @@ const slideUpAndFade = keyframes({
 export const PContent = styled(P.Content)`
    border-radius: 4px;
    padding: .5rem;
-   background-color: ${Colors.gray700};
+   background-color: ${Colors.gray600};
    border: 1px solid ${Colors.gray600};
    box-shadow: hsl(206, 22%, 7% / 35%) 0px 10px 38px -10px, hsl(206, 22%, 7% / 20%) 0px 10px 20px -15px;
    animation-duration: 400ms;
@@ -33,8 +33,9 @@ export const PContent = styled(P.Content)`
    will-change: transform, opacity;
 
    &:focus {
-       box-shadow: hsl(206, 22%, 7% / 35%) 0px 10px 38px -10px, hsl(206, 22%, 7% / 20%) 0px 10px 20px -15px,
-         0 0 0 2px var(--violet-7);
+      outline: none;
+
+      box-shadow: none;
    }
 
    &[data-state='open'][data-side='top'] {
@@ -52,5 +53,5 @@ export const PContent = styled(P.Content)`
 `
 
 export const PArrow = styled(P.Arrow)`
-   fill: ${Colors.gray700}
+   fill: ${Colors.gray600}
 `
