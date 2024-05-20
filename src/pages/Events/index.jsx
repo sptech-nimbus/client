@@ -16,14 +16,14 @@ export default function Events() {
    const [isVisualization, setIsVisualization] = useState(true);
 
    const handleRegistration = () => {
-      if(isVisualization) setIsVisualization(!isVisualization);
-      if(!isRegistration) setIsRegistration(!isRegistration);
+      if (isVisualization) setIsVisualization(!isVisualization);
+      if (!isRegistration) setIsRegistration(!isRegistration);
    }
 
    const handleVisualization = () => {
-      if(isRegistration) setIsRegistration(!isRegistration);
-      if(!isVisualization) setIsVisualization(!isVisualization);
-    }
+      if (isRegistration) setIsRegistration(!isRegistration);
+      if (!isVisualization) setIsVisualization(!isVisualization);
+   }
 
    return (
       <S.PageContainer>
@@ -36,7 +36,6 @@ export default function Events() {
             pauseOnFocusLoss
             draggable
             theme="dark"
-            limit={1}
          />
 
          <Sidebar page='agenda' />

@@ -1,28 +1,49 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import * as S from './MyTeams.styled';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '@contexts/auth';
 
 import Background from "@components/Background/Background";
 import { SecondaryButton as Button } from '@components/Button/Button';
 
+import team from '../../api/team';
+
+import axios from 'axios';
+
 export default function MyTeams() {
    const navigate = useNavigate();
+   const { chooseTeam, teamId } = useAuth();
+   const [coachTeams, setCoachTeams] = useState([]);
 
-   const coachTeams = [
-      {id: 1, name: 'Meu time', picture: 'https://placehold.co/250x250'}, 
-      {id: 2, name: 'Meu time', picture: 'https://placehold.co/250x250'},
-      {id: 3, name: 'Meu time', picture: 'https://placehold.co/250x250'},
-   ];
-   
    useEffect(() => {
-      if(coachTeams.length == 1) {
-         navigate('/home');
+      async function fetchData() {
+         //requisição de mock api - substituir pela requisição correta ao backend
+         // const { data } = await axios.get('https://6642243c3d66a67b34366411.mockapi.io/nimbus/teams');
+
+         const { data } = await team.byUser(localStorage.getItem('id'), localStorage.getItem('token'));
+
+         setCoachTeams(data.data);
       }
+      fetchData();
    }, []);
 
+   useEffect(() => {
+      if (coachTeams.length == 1) {
+         chooseTeam(coachTeams[0].id);
+         navigate('/home');
+      }
+   }, [coachTeams]);
+
+   const handleTeamSelection = (teamId) => {
+      chooseTeam(teamId);
+      if (teamId) {
+         navigate('/home');
+      }
+   }
+
    let teamsElements = coachTeams.map(team => (
-      <S.Team key={team.id} onClick={() => navigate('/home')}>
-         <S.TeamImage src={team.picture}/>
+      <S.Team key={team.id} onClick={() => handleTeamSelection(team.id)}>
+         <S.TeamImage src={team.picture} />
          <S.TeamName>{team.name}</S.TeamName>
       </S.Team>
    ));
@@ -32,7 +53,7 @@ export default function MyTeams() {
          <Background.Default />
          <S.ContentContainer>
             <S.TeamsContainer hasTeams={teamsElements.length == 0 ? false : true}>
-               {teamsElements.length != 0 
+               {teamsElements.length != 0
                   ? teamsElements
                   : (
                      <>

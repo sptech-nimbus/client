@@ -3,6 +3,16 @@ import config from "./config";
 
 const path = "teams";
 
+async function getAllTeamsByCoach(id, token) {
+    const res = await axios.get(`${config.baseURL}/${path}/by-coach/${id}`, {
+        headers: { Authorization: `Bearer ${token}` }
+    });
+
+    console.log(res);
+
+    return res;
+}
+
 async function getAllTeams(token) {
     const response = await axios.get(`${config.baseURL}/${path}`, {
         headers: { Authorization: `Bearer ${token}` }
@@ -77,7 +87,8 @@ const team = {
     getAllTeams,
     requestChangeOwner,
     acceptChangeOwner,
-    byName: getTeamsByName
+    byName: getTeamsByName,
+    byUser: getAllTeamsByCoach
 }
 
 export default team;

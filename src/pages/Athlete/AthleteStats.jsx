@@ -7,7 +7,7 @@ import Title from "@components/Title/Title";
 import { Note } from '../../components/Notes/Note';
 import { Image } from '@phosphor-icons/react';
 
-export default function Stats() {
+export default function Stats({ playerData }) {
 
   const radarConfig = {
     data: {
@@ -121,7 +121,7 @@ export default function Stats() {
    return(
       <S.StatsGrid>
          <S.ContainerStats>
-         <S.PlayerImg src="https://placehold.co/400x400"/>
+         <S.PlayerImg src={playerData.picture}/>
          </S.ContainerStats>
 
          <S.ContainerStats>

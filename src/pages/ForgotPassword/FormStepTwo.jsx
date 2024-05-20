@@ -1,14 +1,16 @@
 import { useState } from "react";
 
+import { useNotification } from '@contexts/notification';
+
 import Input from "@components/Input/Input";
 import Label from "@components/Label/Label";
 import Button from "@components/Button/Button";
 import * as S from './ForgotPassword.styled';
 
 import { Password } from "@phosphor-icons/react";
-import { toast } from 'react-toastify';
 
 export default function FormStepThree({ onSubmit }) {
+   const { addNotification } = useNotification();
    const [code, setCode] = useState('');
 
    const handleCodeChange = (e) => {
@@ -19,7 +21,7 @@ export default function FormStepThree({ onSubmit }) {
       e.preventDefault();
 
       if(code) onSubmit({ code });
-      else if(!code) toast.error('Preencha o campo com o código enviado para seu email.');
+      else if(!code) addNotification('error','Preencha o campo com o código enviado para seu email.');
    }
 
    return (
