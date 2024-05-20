@@ -9,6 +9,13 @@ async function postGame({ body }) {
     return response;
 }
 
+async function getByTeam(id) {
+    const response = await axios.get(`${config.baseURL}/${path}/${id}`);
+
+    return response;
+}
+
 export default {
-    post: postGame
+    post: postGame,
+    getByTeam
 }

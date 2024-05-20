@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import * as S from './Events.styled';
 
 import { ToastContainer, toast } from 'react-toastify';
@@ -22,6 +22,22 @@ import team from '../../api/team';
 export default function Eventss() {
    sessionStorage.setItem('jwt', 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJrYXVhYW5tYXRoZXVzQGdtYWlsLmNvbSIsImlhdCI6MTcxNTY5ODg3OX0.pH2mqkYUr5yPbrReOOSgVxVBd7KEMnTP0Dp1faNO-CWIvj6He7af7W6DP_YsDdS1b7uPmduCTSFhndRm-QgT2Q');
    sessionStorage.setItem('teamId', 'eaeb6176-5354-41db-a303-388780fbd9c0');
+
+   const [gamesRegistered, setGamesRegistered] = useState([]);
+
+   useEffect(() => {
+      const getGames = async () => {
+         const gamesRes = await game.getByTeam(sessionStorage.getItem('teamId'));
+
+         if (gamesRes.status !== 200) {
+            toast.warning('Nenhum jogo encontrado');
+         }
+
+         setGamesRegistered(gamesRes.data.data);
+      };
+
+      getGames();
+   }, []);
 
    const dateRef = useRef();
    const teamList = useRef();
@@ -106,6 +122,7 @@ export default function Eventss() {
    const handleChallenged = async e => {
       setEventData({ ...eventData, challenged: { id: e.target.getAttribute('teamId'), name: e.target.getAttribute('teamName') } });
       setTeamsToChallenge([]);
+
       await handleCloseSeachTeams();
    }
 
@@ -130,7 +147,7 @@ export default function Eventss() {
             const m = parseInt(dateSplit[1]) - 1;
             const y = parseInt(dateSplit[2]);
 
-            const formatedDate = new Date(y, m, d);
+            const formatedDate = new Date(new Date(y, m, d).setHours(eventData.time));
             const finalDate = new Date(new Date(formatedDate).setHours(new Date(formatedDate).getHours() + 2));
 
             return {
@@ -149,6 +166,8 @@ export default function Eventss() {
                });
             } catch (e) {
                toast.error(`Erro ao cadastrar jogo: ${e}`);
+            } finally {
+               setGamesRegistered({ ...gamesRegistered, events });
             }
          }
 
