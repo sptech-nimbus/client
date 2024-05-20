@@ -1,23 +1,20 @@
 import { useRef, useState, useEffect } from 'react';
+import { useState } from 'react';
 import * as S from './Events.styled';
 
-import { ToastContainer, toast } from 'react-toastify';
-import { Calendar } from "react-multi-date-picker";
+import { ToastContainer } from 'react-toastify';
 import "react-multi-date-picker/styles/layouts/prime.css"
 import "react-multi-date-picker/styles/backgrounds/bg-dark.css"
 
 import Sidebar from "@components/Sidebar/Sidebar";
 import Title from "@components/Title/Title";
-import Input from "@components/Input/Input";
-import Label from "@components/Label/Label";
-import Checkbox from "@components/Checkbox/Checkbox";
-import { PrimaryButton as Button } from "@components/Button/Button";
 
-import Utils from '@utils/Helpers';
-import { TimeValidation, TextValidation, FutureDateValidation } from '@utils/Validations';
+import EventsVisualization from './EventsVisualization';
+import EventsRegistration from './EventsRegistration';
 
-import game from '../../api/game';
-import team from '../../api/team';
+export default function Events() {
+   const [isRegistration, setIsRegistration] = useState(false);
+   const [isVisualization, setIsVisualization] = useState(true);
 
 export default function Eventss() {
    sessionStorage.setItem('jwt', 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJrYXVhYW5tYXRoZXVzQGdtYWlsLmNvbSIsImlhdCI6MTcxNTY5ODg3OX0.pH2mqkYUr5yPbrReOOSgVxVBd7KEMnTP0Dp1faNO-CWIvj6He7af7W6DP_YsDdS1b7uPmduCTSFhndRm-QgT2Q');
@@ -194,6 +191,15 @@ export default function Eventss() {
          if (!DatesValidation(dates)) toast.error('As datas inseridas não são válidas.');
       }
    }
+   const handleRegistration = () => {
+      if(isVisualization) setIsVisualization(!isVisualization);
+      if(!isRegistration) setIsRegistration(!isRegistration);
+   }
+
+   const handleVisualization = () => {
+      if(isRegistration) setIsRegistration(!isRegistration);
+      if(!isVisualization) setIsVisualization(!isVisualization);
+    }
 
    return (
       <S.PageContainer>
@@ -210,110 +216,15 @@ export default function Eventss() {
 
          <Sidebar page='agenda' />
          <S.ContentContainer>
-            <Title text='Eventos' uppercase />
-            <S.AgendaGrid>
-               <S.Container>
-                  <Calendar
-                     multiple
-                     value={dates}
-                     onChange={handleDateChange}
-                     format="DD/MM/YYYY"
-                     months={Utils.months(12)}
-                     weekDays={Utils.weekDays}
-                     className="rmdp-prime bg-dark custom-calendar"
-                     headerOrder={["MONTH_YEAR", "LEFT_BUTTON", "RIGHT_BUTTON"]}
-                     monthYearSeparator=" "
-                     showOtherDays
-                     disableYearPicker
-                     minDate={new Date()}
-                  />
-               </S.Container>
-               <S.Container>
-                  <S.Form onSubmit={handleSubmit}>
-                     <Label>
-                        Desafiar time
-                        <Input.Default
-                           name='challenged'
-                           onInput={handleSearchTeams}
-                           value={eventData.challenged.name}
-                           onFocus={handleOpenSeachTeams}
-                           onBlur={handleCloseSeachTeams}
-                           autocomplete="off"
-                        />
-                        <div ref={teamList} style={{ display: 'none', backgroundColor: '#323232', height: '6rem', overflowY: 'auto', position: 'absolute', width: '100%', bottom: '-6rem', zIndex: '1' }}>
-                           {
-                              teamsToChallenge[0]
-                                 ? teamsToChallenge.map(team => {
-                                    return team.id !== sessionStorage.getItem('teamId')
-                                       // eslint-disable-next-line react/no-unknown-property
-                                       ? <div onMouseDown={handleChallenged} teamName={team.name} teamId={team.id} key={team} style={{ height: '2rem', cursor: 'pointer', display: 'flex', flexDirection: 'column', width: '100%' }}>
-                                          <span style={{ pointerEvents: "none" }}>
-                                             {team.name}
-                                          </span>
-                                          <span style={{ pointerEvents: "none" }}>
-                                             {team.category}
-                                          </span>
-                                       </div>
-                                       : ''
-                                 })
-                                 : "Time não encontrado"
-                           }
-                        </div>
-                     </Label>
-                     <Label>
-                        Tipo de evento
-                        <Input.Default
-                           name='type'
-                           value={eventData.type}
-                           onChange={handleInputChange}
-                        />
-                     </Label>
-                     <S.Flex>
-                        <Label>
-                           Data(s)
-                           <Input.Default
-                              name='date'
-                              value={datesInput}
-                              disabled
-                              ref={dateRef}
-                           />
-                        </Label>
-                        <Label>
-                           Horário
-                           <Input.Masked
-                              name='time'
-                              value={eventData.time}
-                              onChange={handleInputChange}
-                              mask='00:00'
-                           />
-                        </Label>
-                     </S.Flex>
-                     <Label>
-                        Local
-                        <Input.Default
-                           name='local'
-                           value={eventData.local}
-                           onChange={handleInputChange}
-                        />
-                     </Label>
-                     <Label>
-                        Descricação
-                        <Input.Textarea
-                           name='description'
-                           value={eventData.description}
-                           onChange={handleDescSize}
-                           rows={5}
-                        />
-                        <S.DescSize>{eventData.description.length}/300</S.DescSize>
-                     </Label>
-                     <Button
-                        value={'Cadastrar evento'}
-                        marginTop='0rem'
-                        fontSize='1.5rem'
-                     />
-                  </S.Form>
-               </S.Container>
-            </S.AgendaGrid>
+            <S.TopContainer>
+               <Title text='Eventos' uppercase />
+               <S.EventsOptions>
+                  <S.Option active={isVisualization} onClick={handleVisualization}>Visualização</S.Option>
+                  <S.Option active={isRegistration} onClick={handleRegistration}>Cadastro</S.Option>
+               </S.EventsOptions>
+            </S.TopContainer>
+            {isVisualization && <EventsVisualization />}
+            {isRegistration && <EventsRegistration />}
          </S.ContentContainer>
       </S.PageContainer>
    )

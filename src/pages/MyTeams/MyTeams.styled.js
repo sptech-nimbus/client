@@ -32,6 +32,7 @@ export const Team = styled.div`
    height: 250px;
    min-width: 250px;
    min-height: 250px;
+   cursor: pointer;
 `
 
 export const TeamImage = styled.img`

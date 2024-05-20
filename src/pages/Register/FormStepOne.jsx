@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react';
 
+import { useNotification } from '@contexts/notification';
+
 import * as S from './Register.styled';
 import * as LS from '../Login/Login.styles';
 
@@ -15,10 +17,11 @@ import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from 'react-router-dom';
 
 export default function FormStepOne({onSubmit}) {
+    const { addNotification } = useNotification();
     const navigate = useNavigate();
     const [userData, setUserData] = useState({
-        name: 'Yuri',
-        lastName: 'Oliveira',
+        name: '',
+        lastName: '',
         date: '',
         typeUser: 'coach'
     })
@@ -77,9 +80,9 @@ export default function FormStepOne({onSubmit}) {
         if (TextValidation(userData.name) && TextValidation(userData.lastName) && PastDateValidation(userData.date)) {
             onSubmit(userData);
         } else {
-            if (!TextValidation(userData.name)) toast.error("O nome inserido não é válido.");
-            if (!TextValidation(userData.lastName)) toast.error("O sobrenome inserido não é válido.");
-            if (!PastDateValidation(userData.date)) toast.error("A data de nascimento inserida não é válida. Datas futuras não são aceitas.");
+            if (!TextValidation(userData.name)) addNotification('error',"O nome inserido não é válido.");
+            if (!TextValidation(userData.lastName)) addNotification('error',"O sobrenome inserido não é válido.");
+            if (!PastDateValidation(userData.date)) addNotification('error',"A data de nascimento inserida não é válida. Datas futuras não são aceitas.");
         }
     }
     
@@ -92,6 +95,7 @@ export default function FormStepOne({onSubmit}) {
     return (
         <S.Form onSubmit={handleSubmit}>
             <S.TabsRoot>
+                <span>Selecione como deseja se cadastrar</span>
                 <S.TabsList>
                     <S.TabsTrigger value="coach" onClick={(e) => { e.preventDefault(); handleTabClick("coach"); }} active={userData.typeUser === "coach"}>
                         Treinador

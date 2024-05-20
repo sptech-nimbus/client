@@ -59,7 +59,7 @@ async function deleteUser() {
 async function changePassword(id, body) {
     try {
         const response = await axios.patch(`${config.baseURL}/${path}/change-password/${id}`, body);
-        return response
+        return response;
     }
     catch (err) {
         throw err;
@@ -69,7 +69,7 @@ async function changePassword(id, body) {
 async function changePasswordRequest(id, body) {
     try {
         const response = await axios.post(`${config.baseURL}/${path}/change-password-request`, body);
-        return response
+        return response;
     }
     catch (err) {
         throw err;

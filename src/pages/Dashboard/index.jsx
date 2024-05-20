@@ -7,6 +7,7 @@ import { LineChart, PieChart, BarChart } from "@components/Charts";
 import Utils from "@utils/Helpers";
 import Title from "@components/Title/Title";
 import { Line } from 'react-chartjs-2';
+import { useEffect } from 'react';
 
 export default function Dashboard() {
    const pieConfig = {
@@ -195,7 +196,6 @@ export default function Dashboard() {
          }
       },
    }
-
    return (
       <S.PageContainer>
          <Background.Default />

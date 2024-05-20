@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react';
 
+import { useNotification } from '@contexts/notification';
+
 import * as S from '../Register.styled';
 import * as LS from '../../Login/Login.styles';
 
@@ -16,7 +18,8 @@ import { ToastContainer, toast } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 
 export default function FormStepFour({onSubmit}) {
-    const [teamCode, setTeamCode] = useState('1A2B3C');
+    const { addNotification } = useNotification();
+    const [teamCode, setTeamCode] = useState('');
     const [teamCodeTtpOpen, setTeamCodeTtpOpen] = useState(false);
 
     const [toastPosition, setToastPosition] = useState('top-right');
@@ -49,7 +52,7 @@ export default function FormStepFour({onSubmit}) {
             onSubmit({ code: teamCode });
         }
         else {
-            if (!TeamCodeValidation(teamCode)) toast.error('Código inserido é inválido');
+            if (!TeamCodeValidation(teamCode)) addNotification('error','Código inserido é inválido');
         }
     }
 

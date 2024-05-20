@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNotification } from '@contexts/notification';
 
 import Input from "@components/Input/Input";
 import Label from "@components/Label/Label";
@@ -7,9 +8,11 @@ import * as S from './ForgotPassword.styled';
 import { InputLine } from "../Register/Register.styled";
 import { TooltipInput as Tooltip } from '@components/Tooltip/Tooltip';
 
-import { Lock } from "@phosphor-icons/react";
+import { PasswordValidation, ConfirmPasswordValidation } from "@utils/Validations";
 
-export default function FormStepThree({ handleSubmit }) {
+export default function FormStepThree({ onSubmit }) {
+   const { addNotification } = useNotification();
+
    const [password, setPassword] = useState('');
    const [confirmPassword, setConfirmPassword] = useState('');
 
@@ -24,13 +27,25 @@ export default function FormStepThree({ handleSubmit }) {
       setConfirmPassword(e.target.value);
    }
 
-   function handlePasswordTtpChange() {
+   const handlePasswordTtpChange = () => {
       setPasswordTtpOpen(!passwordTtpOpen);
    }
 
-  function handleConfirmPasswordTtpChange() {
+   const handleConfirmPasswordTtpChange = () => {
       setConfirmPasswordTtpOpen(!confirmPasswordTtpOpen);
    }
+
+   const handleSubmit = (e) => {
+      e.preventDefault();
+
+      if(PasswordValidation(password) && ConfirmPasswordValidation(password, confirmPassword)) {
+         onSubmit({ password });
+      }
+      else {
+         if(!PasswordValidation(password)) addNotification('error','Senha inválida.');
+         if(!ConfirmPasswordValidation(password, confirmPassword)) addNotification('error','As senhas não correspondem.');
+      }
+   }  
 
    return (
       <>

@@ -1,4 +1,5 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
+import { Colors } from "@utils/Helpers";
 
 export const PageContainer = styled.div`
    display: flex;
@@ -14,6 +15,33 @@ export const ContentContainer = styled.div`
    height: 100vh;
    padding: 2rem 10rem;
    gap: 2rem;
+`
+
+export const TopContainer = styled.div`
+   display: flex;
+   gap: 4rem;
+   align-items: center;
+`
+
+export const EventsOptions = styled.div`
+   display: flex;
+   gap: 3rem;
+`
+
+export const Option = styled.span`
+   cursor: pointer;
+   position: relative;
+
+   &::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      bottom: -.2rem;
+      width: ${props => props.active ? '100%' : '0'};
+      height: 3px;
+      border-radius: 4px;
+      background-color: ${Colors.orange500};
+   }
 `
 
 export const AgendaGrid = styled.div`
@@ -55,4 +83,118 @@ export const DescSize = styled.span`
    font-family: 'Inter';
    font-size: .8rem;
    color: #808080;
+`
+
+export const AgendaContainer = styled.div`
+   width: 100%;
+   height: 100%;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   gap: 2rem;
+`
+
+export const Subtitles = styled.div`
+   display: flex;
+   gap: 2rem;
+`
+
+export const Subtitle = styled.span`
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   gap: .5rem;
+`
+
+export const EventsContainer = styled.div`
+   width: 100%;
+   height: 100%;
+   display: flex;
+   flex-direction: column;
+   background-color: ${Colors.gray700};
+   border: 1px solid #4E4E4E;
+   border-radius: 1rem;
+   padding: 1rem 1.2rem;
+   box-sizing: border-box;
+   gap: 2rem;
+`
+
+export const EventsContainerHeader = styled.div`
+   display: flex;
+   flex-direction: column;
+   margin-left: 4px;
+`
+
+export const EventsList = styled.div`
+   width: 100%;
+   height: 100%;
+   max-height: 65vh;
+   display: flex;
+   flex-direction: column;
+   gap: 1rem;
+   overflow: auto;
+   padding-right: 8px;
+
+   &::-webkit-scrollbar {
+      width: 6px;
+   }
+
+   &::-webkit-scrollbar-track {
+      border-radius: 8px;
+      background-color: ${Colors.gray700};
+   }
+
+   &::-webkit-scrollbar-thumb {
+      background: ${Colors.orange500}; 
+      border-radius: 8px;
+   }
+
+   &::-webkit-scrollbar-thumb:hover {
+      background: ${Colors.orange300}; 
+   }
+`
+
+export const Event = styled.div`
+   display: flex;
+   align-items: center;
+   justify-content: space-between;
+   width: 100%;
+   height: 4rem;
+   background-color: ${Colors.gray800};
+   border-radius: .8rem;
+   padding: 1rem;
+   cursor: pointer;
+`
+
+export const EventType = styled.div`
+   width: 20px;
+   height: 20px;
+   background-color: ${props => props.type == 'match' ? Colors.red : Colors.green};
+   border-radius: 50%;
+`
+
+export const EventSection = styled.div`
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   gap: .5rem;
+`
+
+export const Adversary = styled.span`
+   width: 15ch;
+   overflow: hidden;
+   text-overflow: ellipsis;
+   white-space: nowrap;
+`
+
+export const OptionWithImage = styled.div`
+   display: flex;
+   align-items: center;
+   gap: .5rem;
+` 
+
+export const OptionImage = styled.img`
+   width: 30px;
+   height: 30px;
+   border-radius: .5rem;
 `

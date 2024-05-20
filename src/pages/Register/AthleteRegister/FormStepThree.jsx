@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react';
 
+import { useNotification } from '@contexts/notification';
+
 import * as S from '../Register.styled';
 import * as LS from '../../Login/Login.styles';
 
@@ -15,10 +17,11 @@ import { ToastContainer, toast } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 
 export default function FormStepThreeAthlete({onSubmit}) {
-    const [weight, setWeight] = useState('80.00kg');
-    const [height, setHeight] = useState('1.90cm');
-    const [position, setPosition] = useState('Pivo');
-    const [category, setCategory] = useState('Sub-20');
+    const { addNotification } = useNotification();
+    const [weight, setWeight] = useState('');
+    const [height, setHeight] = useState('');
+    const [position, setPosition] = useState('');
+    const [category, setCategory] = useState('');
 
     const [toastPosition, setToastPosition] = useState('top-right');
 
@@ -87,10 +90,10 @@ export default function FormStepThreeAthlete({onSubmit}) {
             onSubmit({ weight, height, position, category });
         }
         else {
-            if (!WeightValidation(weight)) toast.error('Peso inválido');
-            if (!HeightValidation(height)) toast.error('Altura inválido');
-            if (!PositionValidation(position)) toast.error('Posição inválida');
-            if (!CategoryValidation(category)) toast.error('Categoria inválida');
+            if (!WeightValidation(weight)) addNotification('error','Peso inválido');
+            if (!HeightValidation(height)) addNotification('error','Altura inválido');
+            if (!PositionValidation(position)) addNotification('error','Posição inválida');
+            if (!CategoryValidation(category)) addNotification('error','Categoria inválida');
             console.log(weight, height, position, category)
         }
     }

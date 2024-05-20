@@ -9,7 +9,7 @@ export default function TeamGrid({ players }) {
    
    const athletes = players.map(player => {
       return { ...player, fullName: `${player.firstName} ${player.lastName}` }
-   })
+   });
 
    let playerCards;
    let hasData = false;
@@ -18,7 +18,8 @@ export default function TeamGrid({ players }) {
       hasData = true;
       playerCards =  athletes.map(player => {
          return (
-            <Card width="250px" key={player.fullName}>
+            //futuramente substituir essa key pelo id do jogador
+            <Card width="250px" key={player.id}>
             <S.PlayerImage src={player.picture}/>
             <S.PlayerName>
                {player.fullName}
@@ -28,7 +29,7 @@ export default function TeamGrid({ players }) {
                   {player.position}
                </S.PlayerPosition>
                <S.Buttons>
-                  <S.ShowInfoButton onClick={() => navigate('/athlete')}>
+                  <S.ShowInfoButton onClick={() => navigate(`/athlete?id=${player.id}`)}>
                      <Eye size={24} weight="bold"/>
                   </S.ShowInfoButton>
                   <S.ShowInfoButton>

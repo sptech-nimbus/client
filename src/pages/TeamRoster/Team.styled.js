@@ -19,6 +19,9 @@ export const ContentContainer = styled.div`
 
 export const MainContainer = styled.div`
    display: flex;
+   height: 100%;
+   align-items: center;
+   justify-content: center;
    flex-direction: column;  
 `
 
