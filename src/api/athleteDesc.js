@@ -3,33 +3,27 @@ import config from "./config";
 
 const path = "athlete-descs";
 
-async function registerAthleteDesc(body, token ) {
-    try {
-        const response = await axios.post(`${config.baseURL}/${path}`, body)
-        return response;
-    } catch (err) {
-        throw err;
-    }
+async function registerAthleteDesc(body, token) {
+    const response = await axios.post(`${config.baseURL}/${path}`, {
+        body,
+        headers: { Authorization: `Bearer ${token}` }
+    });
+    
+    return response;
 }
 
-async function getAthleteDesc({ param }) {
-    try {
-        const response = await axios.get(`${config.baseURL}/${path}/${param}`)
+async function getAthleteDesc(athleteId, token) {
+    const response = await axios.get(`${config.baseURL}/${path}/${athleteId}`, {
+        headers: { Authorization: `Bearer ${token}` }
+    })
 
-        return response;
-    } catch (err) {
-        throw err;
-    }
+    return response;
 }
 
 async function putAthleteDesc({ param, body }) {
-    try {
-        const response = await axios.put(`${config.baseURL}/${path}/${param}`, body)
+    const response = await axios.put(`${config.baseURL}/${path}/${param}`, body)
 
-        return response;
-    } catch (err) {
-        throw err;
-    }
+    return response;
 }
 
 const athleteDesc = {

@@ -4,28 +4,29 @@ import config from "./config";
 const path = "athletes";
 
 async function putAthlete({ param, body }) {
-    try {
-        const response = await axios.put(`${config.baseURL}/${path}/${param}`, body)
+    const response = await axios.put(`${config.baseURL}/${path}/${param}`, body)
 
-        return response;
-    } catch (err) {
-        throw err;
-    }
+    return response;
+}
+
+async function getByTeam(teamId, token) {
+    const res = await axios.get(`${config.baseURL}/${path}/by-team/${teamId}`, {
+        headers: { Authorization: `Bearer ${token}` }
+    });
+
+    return res;
 }
 
 async function registerTeam({ param, body }) {
-    try {
-        const response = await axios.patch(`${config.baseURL}/${path}/register-team/${param}`, body)
+    const response = await axios.patch(`${config.baseURL}/${path}/register-team/${param}`, body)
 
-        return response;
-    } catch (err) {
-        throw err;
-    }
+    return response;
 }
 
 const athlete = {
     put: putAthlete,
-    registerTeam
+    registerTeam,
+    byTeam: getByTeam
 }
 
 export default athlete;

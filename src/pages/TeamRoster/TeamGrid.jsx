@@ -26,7 +26,7 @@ export default function TeamGrid({ players }) {
             </S.PlayerName>
             <S.PlayerLine>
                <S.PlayerPosition>
-                  {player.position}
+                  {player.athleteDesc.position}
                </S.PlayerPosition>
                <S.Buttons>
                   <S.ShowInfoButton onClick={() => navigate(`/athlete?id=${player.id}`)}>

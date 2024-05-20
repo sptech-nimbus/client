@@ -8,8 +8,6 @@ async function getAllTeamsByCoach(id, token) {
         headers: { Authorization: `Bearer ${token}` }
     });
 
-    console.log(res);
-
     return res;
 }
 
