@@ -14,16 +14,6 @@ async function getUserById(headers = {}) {
     }
 }
 
-async function getUserSpecific() {
-    try {
-        const response = await axios.get(`${config.baseURL}/${path}/specific`, headers);
-        return response;
-    }
-    catch (err) {
-        throw err;
-    }
-}
-
 async function postUser(body = {}) {
     try {
         const response = await axios.post(`${config.baseURL}/${path}`, body);
@@ -88,7 +78,6 @@ async function login(body) {
 
 const user = {
     get: getUserById,
-    getSpecific: getUserSpecific,
     post: postUser,
     put: putUser,
     delete: deleteUser,
