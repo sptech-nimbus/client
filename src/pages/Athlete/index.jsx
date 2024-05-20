@@ -7,10 +7,11 @@ import Background from "@components/Background/Background";
 import Sidebar from '@components/Sidebar/Sidebar';
 import Title from "@components/Title/Title";
 import { useState } from "react";
+import get from "@api/user";
 
 export default function PlayerInfo() {
-   const [deskActive, setDeskActive] = useState(true);
-   const [statsActive, setStatsActive] = useState(false);
+    const [deskActive, setDeskActive] = useState(true);
+    const [statsActive, setStatsActive] = useState(false);
 
    const handleStatsActive = (e) => {
       if(deskActive) setDeskActive(!deskActive);
