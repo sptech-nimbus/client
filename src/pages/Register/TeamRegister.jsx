@@ -5,10 +5,11 @@ import Background from '@components/Background/Background';
 
 import FormStepThree from './TrainerRegister/FormStepThree';
 
-import team from '@api/team';
 import { useNavigate } from 'react-router-dom';
-
 import { ToastContainer, toast } from 'react-toastify';
+
+import team from "@api/team";
+import blobStorage from "@api/blolStorage";
 
 export default function TeamRegister() {
     const navigate = useNavigate();
@@ -39,7 +40,6 @@ export default function TeamRegister() {
             name: formData.name,
             category: formData.category,
             picture: formData.picture,
-            // isAmateur: formData.chkAmateur;
       });
 
       team.post(teamData);
