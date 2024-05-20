@@ -83,7 +83,7 @@ export default function UserRegister({ teamRegister = false }) {
                 email: formData.email,
                 password: formData.password
             })
-            personData.phone = formData.phone
+            personData.phone = formData.phone.replace("(", "").replace(")", "").replace("-", "").replace(" ", "");
             setStep(step + 1)
         }
         else if (step == 2 && typeUser == "athlete") {
@@ -94,7 +94,7 @@ export default function UserRegister({ teamRegister = false }) {
             })
 
 
-            personData.phone = formData.phone;
+            personData.phone = formData.phone.replace("(", "").replace(")", "").replace("-", "").replace(" ", "");
             const updatePersonData = {
                 ...personData,
                 category: '',

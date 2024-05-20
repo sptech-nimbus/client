@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 
 import { useNotification } from '@contexts/notification';
 
@@ -24,6 +25,7 @@ export default function FormStepTwo({onSubmit}) {
       phone: '',
       password: ''
    });
+
    const [confirmPassword, setConfirmPassword] = useState('');
 
    const [passwordTtpOpen, setPasswordTtpOpen] = useState(false);
@@ -89,12 +91,6 @@ export default function FormStepTwo({onSubmit}) {
          // && BrPhoneValidation(userData.phone)
       ) 
       {
-          let formattedPhone = userData.phone.replace("(", "").replace(")", "").replace("-", "").replace(" ", "");
-          console.log(formattedPhone)
-          setUserData({
-            phone: formattedPhone
-          })
-
           onSubmit(userData);
       }
       else {
@@ -195,3 +191,7 @@ export default function FormStepTwo({onSubmit}) {
    </S.Form>
    )
 }
+
+FormStepTwo.propTypes = {
+   onSubmit: PropTypes.func.isRequired,
+};

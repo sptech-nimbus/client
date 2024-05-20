@@ -1,9 +1,10 @@
 import * as S from "./Player.styled";
+import { useState, useEffect } from 'react';
 
 import Title from "@components/Title/Title";
+import { DeleteDialog } from "@components/Dialog/Dialog";
 import { PrimaryButton as Button } from "@components/Button/Button";
-import { Trash, Pencil, FilePdf } from "@phosphor-icons/react";
-import user from "@api/user";
+import get from "@api/user";
 
 export default function AthleteDesk({ playerData }) {
    let { birthDate } = playerData;

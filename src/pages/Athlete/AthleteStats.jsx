@@ -115,7 +115,7 @@ export default function Stats({ playerData }) {
     ];
     
     const notes = annotations.map(note => {
-      return <Note note={note} key={`note${note.time.replaceAll('-', '')}`}/>
+        return <Note note={note} key={`note${note.time.replaceAll('-', '')}`} />
     })
   
    return(

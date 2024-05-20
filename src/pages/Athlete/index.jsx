@@ -7,6 +7,7 @@ import AthleteDesk from './AthleteDesk';
 import Background from "@components/Background/Background";
 import Sidebar from '@components/Sidebar/Sidebar';
 import Title from "@components/Title/Title";
+
 import { useEffect, useState } from "react";
 
 import axios from 'axios';
@@ -35,7 +36,7 @@ export default function PlayerInfo() {
 
       fetchData();
    }, [playerId]);
-
+  
    const handleStatsActive = (e) => {
       if (deskActive) setDeskActive(!deskActive);
       if (!statsActive) setStatsActive(!statsActive)

@@ -8,13 +8,12 @@ import * as LS from '../../Login/Login.styles';
 import Label from '@components/Label/Label';
 import Input from '@components/Input/Input';
 import Button from '@components/Button/Button';
-import Checkbox from '@components/Checkbox/Checkbox';
 
 import { TooltipInput as Tooltip } from '@components/Tooltip/Tooltip';
 import { TextValidation, TeamCodeValidation, ImageValidation } from '@utils/Validations';
 
 import { useMediaQuery } from 'react-responsive';
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 
 export default function FormStepThree({onSubmit}) {
@@ -25,7 +24,6 @@ export default function FormStepThree({onSubmit}) {
         category: '',
         picture: '',
         local: '',
-        chkAmateur: false
     });
 
     const [teamNameTtpOpen, setTeamNameTtpOpen] = useState(false);
@@ -80,12 +78,6 @@ export default function FormStepThree({onSubmit}) {
             ...teamData,
             picture: e.target.files[0]
         });
-    }
-
-    function handleChkAmateur() {
-        setTeamData({
-            chkAmateur: !teamData.chkAmateur
-    });
     }
 
     function handleTeamNameTtpChange() {
