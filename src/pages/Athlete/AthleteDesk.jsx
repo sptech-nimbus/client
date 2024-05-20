@@ -9,6 +9,8 @@ export default function AthleteDesk({ playerData }) {
    let { birthDate } = playerData;
    birthDate = new Date(birthDate).toLocaleDateString('pt-BR');
 
+   console.log(playerData);
+
    return (
       <S.InfoWrapper>
       <S.InfoGrid>
