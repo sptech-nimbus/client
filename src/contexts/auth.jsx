@@ -27,15 +27,15 @@ export const AuthProvider = ({ children }) => {
 
    const login = async (credentials) => {
       try {
-         // const response = await user.login(credentials);
-         // const { token, id } = response.data.data;
-         const response = await axios.get('https://3yyr7.wiremockapi.cloud/login');
-         const { token, id } = response.data;
+         const response = await user.login(credentials);
+         const { token, userId } = response.data.data;
+         // const response = await axios.get('https://3yyr7.wiremockapi.cloud/login');
+         // const { token, userId } = response.data;
          localStorage.setItem('token', token);
-         localStorage.setItem('id', id);
+         localStorage.setItem('id', userId);
 
          setToken(token);
-         setUserId(id);
+         setUserId(userId);
 
          setIsAuthenticated(true);
       }

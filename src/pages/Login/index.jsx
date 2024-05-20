@@ -42,35 +42,35 @@ export default function Login() {
       });
    }
 
-   const handleFormSubmit = async (e) =>{
+   const handleFormSubmit = async (e) => {
       e.preventDefault();
 
-      if(credentials.email && credentials.password) {
+      if (credentials.email && credentials.password) {
          try {
             await login(credentials);
          }
-         catch(err) {
-            if(err.response) {
-               addNotification('error','Credenciais inválidas.');
+         catch (err) {
+            if (err.response) {
+               addNotification('error', 'Credenciais inválidas.');
             }
-            else if(err.request) {
-               addNotification('error','Houve um erro ao realizar o login. Por favor tente novamente mais tarde.');
-            }  
+            else if (err.request) {
+               addNotification('error', 'Houve um erro ao realizar o login. Por favor tente novamente mais tarde.');
+            }
             else {
-               addNotification('error','Houve um erro inesperado.');
+               addNotification('error', 'Houve um erro inesperado.');
             }
          }
       }
       else {
-         addNotification('error','Preencha todos os campos')
+         addNotification('error', 'Preencha todos os campos')
       }
    }
 
-   useEffect(() => { if(isAuthenticated) navigate('/my-teams') }, [isAuthenticated, navigate]);
+   useEffect(() => { if (isAuthenticated) navigate('/my-teams') }, [isAuthenticated, navigate]);
 
    return (
       <S.Header>
-         <ToastContainer   
+         <ToastContainer
             autoClose={8000}
             hideProgressBar={false}
             newestOnTop={false}
@@ -80,7 +80,7 @@ export default function Login() {
             draggable
             theme="dark"
             limit={3}
-         /> 
+         />
 
          <Background.Login />
          <S.Title>
@@ -100,7 +100,7 @@ export default function Login() {
                      placeholder={'seu@email.com'}
                      value={credentials.email}
                      onChange={handleEmailChange}
-                  >                    
+                  >
                      <Envelope />
                   </Input.Default>
                </Label>
@@ -109,12 +109,12 @@ export default function Login() {
                   <Input.Password
                      placeholder={'**********'}
                      value={credentials.password}
-                     hasIcon 
+                     hasIcon
                      onChange={handlePasswordChange}
                   />
                </Label>
             </S.InputsContainer>
-            <Button.Primary 
+            <Button.Primary
                value={'Entrar'}
                size={'md'}
                width={'100%'}
@@ -131,7 +131,7 @@ export default function Login() {
                   <S.Link>
                      <S.Highlight onClick={() => navigate('/register')}>Faça seu cadastro!</S.Highlight>
                   </S.Link>
-                  </span>
+               </span>
             </S.FormFooter>
          </S.Form>
       </S.Header>
