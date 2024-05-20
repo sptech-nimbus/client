@@ -70,18 +70,20 @@ export default function Register() {
         else if (step == 2 && typeUser == "coach") {
             setUserData({
                 email: formData.email,
-                password: formData.password,
-                phone: formData.phone,
+                password: formData.password
             })
+
+            personData.phone = formData.phone;
 
             setStep(step + 1)
         }
         else if (step == 2 && typeUser == "athlete") {
             setUserData({
                 email: formData.email,
-                password: formData.password,
-                phone: formData.phone,
+                password: formData.password
             })
+            
+            personData.phone = formData.phone.replace(" ", "").replace("(", "").replace(")", "").replace("-", "");
 
             const updatePersonData = {
                 ...personData,
@@ -90,8 +92,7 @@ export default function Register() {
             }
 
             setPersonData(updatePersonData)
-            console.log(personData);
-
+            console.log(personData)
             setStep(step + 1);
         }
         else if (step == 3 && typeUser == "coach") {

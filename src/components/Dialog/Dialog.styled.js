@@ -1,4 +1,4 @@
-import styled, { keyframes } from "styled-components";
+import styled from "styled-components";
 import Colors from "@utils/Colors";
 import * as D from "@radix-ui/react-dialog";
 

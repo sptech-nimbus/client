@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 
 import * as S from '../Register.styled';
 import * as LS from '../../Login/Login.styles';
@@ -21,9 +22,6 @@ export default function FormStepTwo({onSubmit}) {
       password: ''
    });
 
-   const [email, setEmail] = useState('');
-   const [phone, setPhone] = useState('');
-   const [password, setPassword] = useState('');
    const [confirmPassword, setConfirmPassword] = useState('');
 
    const [passwordTtpOpen, setPasswordTtpOpen] = useState(false);
@@ -88,13 +86,6 @@ export default function FormStepTwo({onSubmit}) {
          ConfirmPasswordValidation(userData.password, confirmPassword) &&
          BrPhoneValidation(userData.phone)) 
       {
-          let formattedPhone = userData.phone.replace(" ", "").replace("(", "").replace(")", "").replace("-", "");
-
-          setUserData({
-            ...userData,
-            phone: formattedPhone
-          })
-
           onSubmit(userData);
       }
       else {
@@ -195,3 +186,7 @@ export default function FormStepTwo({onSubmit}) {
    </S.Form>
    )
 }
+
+FormStepTwo.propTypes = {
+   onSubmit: PropTypes.func.isRequired,
+};

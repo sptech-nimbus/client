@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 
 import * as S from '../Register.styled';
 import * as LS from '../../Login/Login.styles';
@@ -6,7 +7,6 @@ import * as LS from '../../Login/Login.styles';
 import Label from '@components/Label/Label';
 import Input from '@components/Input/Input';
 import Button from '@components/Button/Button';
-import Checkbox from '@components/Checkbox/Checkbox';
 
 import { TooltipInput as Tooltip } from '@components/Tooltip/Tooltip';
 import { TeamCodeValidation } from '@utils/Validations';
@@ -101,3 +101,7 @@ export default function FormStepFour({onSubmit}) {
         </S.Form>
     )
 }
+
+FormStepFour.propTypes = {
+    onSubmit: PropTypes.func.isRequired,
+};

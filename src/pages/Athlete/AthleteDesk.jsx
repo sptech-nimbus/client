@@ -1,14 +1,25 @@
 import * as S from "./Player.styled";
+import { useState, useEffect } from 'react';
 
 import Title from "@components/Title/Title";
 import { DeleteDialog } from "@components/Dialog/Dialog";
 import { PrimaryButton as Button } from "@components/Button/Button";
-import { Trash, Pencil, FilePdf } from "@phosphor-icons/react";
-import user from "@api/user";
-import { useState } from "react";
+import get from "@api/user";
+
 
 export default function AthleteDesk() {
-    
+    const [athlete, setAthlete] = useState({
+        id: '',
+        name: 'Isaasc',
+        position: '',
+        description: 'coach',
+        number: '',
+        dateBirth: '',
+    });
+
+    useEffect(() => {
+        get
+    })
 
     return (
         <S.InfoWrapper>
@@ -22,22 +33,22 @@ export default function AthleteDesk() {
                     <S.InfomationContainer>
                         <S.Information>
                             <S.Label>Nome completo:</S.Label>
-                            <span>Yuri Oliveira da Silva</span>
+                            <span>{athlete.name}</span>
                         </S.Information>
 
                         <S.Information>
                             <S.Label>Número: </S.Label>
-                            <span>15</span>
+                            <span>{athlete.number}</span>
                         </S.Information>
 
                         <S.Information>
                             <S.Label>Posição: </S.Label>
-                            <span>Ala-armador</span>
+                            <span>{athlete.position}</span>
                         </S.Information>
 
                         <S.Information>
                             <S.Label>Data de nascimento: </S.Label>
-                            <span>15/12/2004</span>
+                            <span>{athlete.dateBirth}</span>
                         </S.Information>
 
                         <S.Information>
@@ -107,7 +118,7 @@ export default function AthleteDesk() {
             </S.InfoGrid>
             <S.Buttons>
                 <Button value='Editar' onClick={() => console.log("abiru")} />
-                <DeleteDialog trigger = {
+                <DeleteDialog athlete={athlete} trigger = {
                     <Button value='Deletar' />    
                 } />
                 <Button value='Baixar PDF' />
