@@ -1,4 +1,5 @@
-import * as S from './Background.styled.js'
+import * as S from './Background.styled.js';
+import vectorWave from '@assets/elements/vector-wave.svg';
 
 export function BackgroundDefault() {
    return (
@@ -9,7 +10,7 @@ export function BackgroundDefault() {
 export function BackgroundLogin() {
    return (
       <>
-         <S.WaveVector src="/public/assets/vector-wave.svg"/>
+         <S.WaveVector src={vectorWave}/>
          <S.BackgroundDiv />
       </>
    )

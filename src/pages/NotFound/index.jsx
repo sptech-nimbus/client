@@ -2,7 +2,7 @@ import * as S from './NotFound.styled';
 
 import Background from "@components/Background/Background";
 import Title from "@components/Title/Title";
-import Colors from "@utils/Colors";
+import { Colors } from "@utils/Helpers";
 
 export default function NotFound() {
    return (

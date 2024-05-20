@@ -2,14 +2,14 @@ import * as S from "./Team.styled";
 import Card from "@components/Card/Card";
 import { Pencil, Trash, Eye } from "@phosphor-icons/react";
 import { useNavigate } from "react-router-dom";
-import { Dialog } from "@components/Dialog/Dialog";
+import { DeleteDialog } from "@components/Dialog/Dialog";
 
 export default function TeamGrid({ players }) {
    const navigate = useNavigate();
    
    const athletes = players.map(player => {
       return { ...player, fullName: `${player.firstName} ${player.lastName}` }
-   })
+   });
 
    let playerCards;
    let hasData = false;
@@ -18,7 +18,8 @@ export default function TeamGrid({ players }) {
       hasData = true;
       playerCards =  athletes.map(player => {
          return (
-            <Card width="250px" key={player.fullName}>
+            //futuramente substituir essa key pelo id do jogador
+            <Card width="250px" key={`${player.fullName}${player.number}`}>
             <S.PlayerImage src={player.picture}/>
             <S.PlayerName>
                {player.fullName}

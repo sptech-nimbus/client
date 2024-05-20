@@ -1,7 +1,7 @@
 import * as S from './LandingPage.styled.js';
 import React, { useState, useEffect, useRef } from 'react';
 import { useMediaQuery } from 'react-responsive';
-import Colors from "@utils/Colors";
+import { Colors } from "@utils/Helpers";
 
 import Background from '@components/Background/Background';
 import Title from "@components/Title/Title";
@@ -14,6 +14,16 @@ import { motion } from "framer-motion";
 
 import Menu from './Menu.jsx';
 import BallOutline from './BallOutline.jsx';
+
+import mockupImage from '@assets/images/mockup.png';
+import transitionTextSvg from '@assets/elements/transition-text.svg';
+import scrollDownSvg from '@assets/elements/scroll-down.svg';
+import nimbusLogo from '@assets/icons/nimbus-logo.svg';
+import nimbusAltLogo from '@assets/icons/nimbus-alternative-logo.svg';
+import instagramLogo from '@assets/icons/instagram-logo.svg';
+import githubLogo from '@assets/icons/github-logo.svg';
+import basketballImage from '@assets/images/basketball-image.png';
+import vectorWave from '@assets/elements/vector-wave.svg';
 
 export default function LandingPage() {
    const [navOpen, setNavOpen] = useState(false);
@@ -64,8 +74,8 @@ export default function LandingPage() {
             }
             <S.Navbar>
                {navOpen ?
-               <S.NavLogo src='/public/assets/nimbus-alternative-logo.svg' alt={`nimbus - logo do projeto.`}/> :
-               <S.NavLogo src='/public/assets/nimbus-logo.svg' alt={`nimbus - logo do projeto.`}/>
+               <S.NavLogo src={nimbusAltLogo} alt={`nimbus - logo do projeto.`}/> :
+               <S.NavLogo src={nimbusLogo} alt={`nimbus - logo do projeto.`}/>
                }
 
                <S.MenuTrigger onClick={handleNavOpen} state={navOpen}>
@@ -94,11 +104,11 @@ export default function LandingPage() {
                      }}/>
 
                   <S.SocialMediaContainer>
-                     <S.SocialMedia src='/public/assets/github-logo.svg'/>
-                     <S.SocialMedia src='/public/assets/instagram-logo.svg'/>
+                     <S.SocialMedia src={githubLogo}/>
+                     <S.SocialMedia src={instagramLogo}/>
                   </S.SocialMediaContainer>
                </S.Wrapper>
-               <S.ScrollDown src='/public/assets/scroll-down.svg'/>
+               <S.ScrollDown src={scrollDownSvg}/>
             </S.HeaderContent>
          </S.Header>
 
@@ -131,8 +141,8 @@ export default function LandingPage() {
                <S.TransitionText
                initial={{ opacity: 0 }}
                animate={{ opacity: 1 }} 
-               src='/public/assets/transition-text.svg'/>
-               <S.WaveSvg src='/public/assets/vector-wave.svg'/>
+               src={transitionTextSvg}/>
+               <S.WaveSvg src={vectorWave}/>
             </S.About>
             
             <S.Comunication id="comunication">
@@ -150,12 +160,12 @@ export default function LandingPage() {
                   <S.ComunicationTextContainerRight>
                      <S.ComunicationTextRight initial={{ opacity: 0, y: '50%' }} whileInView={{ opacity: 1, y: 0 }}>Troca de passes, troca de ideias: sucesso garantido.</S.ComunicationTextRight>
                   </S.ComunicationTextContainerRight>
-                  <S.Mockup initial={{ opacity: 0, y: '30%' }} whileInView={{ opacity: 1, y: 0 }} src='/public/assets/mockup.png'/>
+                  <S.Mockup initial={{ opacity: 0, y: '30%' }} whileInView={{ opacity: 1, y: 0 }} src={mockupImage}/>
                </S.ComunicationWrapper>
             </S.Comunication>
 
             <S.Features id="features">
-               <S.InvertedWaveSvg src='/public/assets/vector-wave.svg'/>
+               <S.InvertedWaveSvg src={vectorWave}/>
                <S.FeaturesWrapper>
                <S.FeaturesTitle>
                   <motion.span initial={{ opacity: 0, y: '50%' }} whileInView={{ opacity: 1, y: 0 }} transition={{ delay: .2}}>
@@ -165,7 +175,7 @@ export default function LandingPage() {
                      <S.SecondTitle>
                         <Title text='Desempenh' uppercase color={Colors.gray900} size='11.7rem'/>
                         <motion.span initial={{ rotate: 90 }} whileInView={{ rotate: 0 }} transition={{ delay: .2 }}>
-                           <S.BasketballTitle src='/public/assets/basketball-image.png'/>
+                           <S.BasketballTitle src={basketballImage}/>
                         </motion.span>
                      </S.SecondTitle>
                   </motion.span>
@@ -262,8 +272,8 @@ export default function LandingPage() {
 
          <S.Footer id="footer">
             <S.FooterFlex>
-               <S.FooterSocialMedia src='/public/assets/github-logo.svg'/>
-               <S.FooterSocialMedia src='/public/assets/instagram-logo.svg'/>
+               <S.FooterSocialMedia src={githubLogo}/>
+               <S.FooterSocialMedia src={instagramLogo}/>
             </S.FooterFlex>
             <S.Flex>
                <S.FooterLink>Voltar para o início.</S.FooterLink>

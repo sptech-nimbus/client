@@ -92,6 +92,7 @@ export default function FormStepOne({onSubmit}) {
     return (
         <S.Form onSubmit={handleSubmit}>
             <S.TabsRoot>
+                <span>Selecione como deseja se cadastrar</span>
                 <S.TabsList>
                     <S.TabsTrigger value="coach" onClick={(e) => { e.preventDefault(); handleTabClick("coach"); }} active={userData.typeUser === "coach"}>
                         Treinador

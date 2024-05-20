@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import * as S from './LandingPage.styled';
 import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
+import outlineSvg from '@assets/elements/basketball-outline.svg';
 
 export default function BallOutline() {
   const { scrollY } = useScroll();
@@ -14,7 +15,7 @@ export default function BallOutline() {
     <motion.div
     style={{ rotate }} 
     >
-        <S.Outline src='/public/assets/basketball-outline.svg'/>
+        <S.Outline src={outlineSvg}/>
     </motion.div>
   );
 };

@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import Colors from "@utils/Colors";
+import { Colors } from "@utils/Helpers";
 
 const calcLineHeight = (size) => {
   let value = parseFloat(size);

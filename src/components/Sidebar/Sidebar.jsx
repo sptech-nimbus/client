@@ -10,34 +10,34 @@ export default function Sidebar({page, logo, children}) {
       <S.Container>
          {logo ? logo : <Placeholder /> }
          <S.IconGroup>
-            <S.Icon onClick={() => navigate('/home')}>
+            <S.Icon onClick={() => navigate('/home')} title='Home'>
                <House
                weight={page == 'home' ? 'fill' : 'regular'}
                />
             </S.Icon>
-            <S.Icon onClick={() => navigate('/dashboard')}>
+            <S.Icon onClick={() => navigate('/dashboard')} title='Dashboard'>
                <ChartDonut
                weight={page == 'dashboard' ? 'fill' : 'regular'}
                />
             </S.Icon>
          </S.IconGroup>
          <S.IconGroup>
-            <S.Icon onClick={() => navigate('/news')}>
+            <S.Icon onClick={() => navigate('/news')} title='Mural de notícias'>
                <NewspaperClipping
                weight={page == 'news' ? 'fill' : 'regular'}
                />
             </S.Icon>
-            <S.Icon onClick={() => navigate('/roster')}>
+            <S.Icon onClick={() => navigate('/roster')} title='Elenco'>
                <UsersFour
                weight={page == 'team' ? 'fill' : 'regular'}
                />
             </S.Icon>
-            <S.Icon onClick={() => navigate('/chat')}>
+            <S.Icon onClick={() => navigate('/chat')} title='Chat'>
                <ChatCircleDots
                weight={page == 'chat' ? 'fill' : 'regular'}
                />
             </S.Icon>
-            <S.Icon onClick={() => navigate('/events')}>
+            <S.Icon onClick={() => navigate('/events')} title='Agenda'>
                <CalendarBlank
                weight={page == 'agenda' ? 'fill' : 'regular'}
                />
@@ -45,7 +45,7 @@ export default function Sidebar({page, logo, children}) {
          </S.IconGroup>
          {children}
          <S.IconGroupFooter>
-            <S.Icon onClick={() => navigate('/config')}>
+            <S.Icon onClick={() => navigate('/config')} title='Configurações'>
                <Gear
                weight={page == 'settings' ? 'fill' : 'regular'}
                />

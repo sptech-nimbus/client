@@ -2,7 +2,7 @@ import { useState } from 'react';
 import * as S from './Input.styled';
 import { Eye, EyeClosed, LockSimple } from '@phosphor-icons/react';
 
-export function InputDefault({type, placeholder, children, width, fontSize, onChange, value='', disabled,...props}) {
+export function InputDefault({type, placeholder, children, width, fontSize, onChange, value='', disabled, ...props}) {
    return (
          <S.Wrapper disabled={disabled} width={width}>
             <S.InputAndIcon>
@@ -80,10 +80,10 @@ export function InputPassword({placeholder, width, fontSize, onChange, value='',
                onChange={onChange}
                {...props}
                />
+               <S.EyeWrapper onClick={toggleVisibility}>
+                  {isVisible ? <EyeClosed size={25}/> : <Eye size={25}/>}
+               </S.EyeWrapper>
             </S.InputAndIcon>
-         <S.EyeWrapper onClick={toggleVisibility}>
-            {isVisible ? <EyeClosed size={25}/> : <Eye size={25}/>}
-         </S.EyeWrapper>
       </S.Wrapper>
    )
 }

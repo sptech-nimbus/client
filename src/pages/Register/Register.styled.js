@@ -1,5 +1,5 @@
 import * as LS from '@pages/Login/Login.styles'
-import Colors from "@utils/Colors";
+import { Colors } from "@utils/Helpers";
 import styled, { css } from 'styled-components';
 
 export const Mandatory = styled.span`
@@ -55,20 +55,22 @@ export const TabsRoot = styled.div`
 export const TabsList = styled.div`
   flex-shrink: 0;
   display: flex;
-  background: #FFEAE0;
 `;
 
 export const TabsTrigger = styled.button`
   font-family: inherit;
-  background-color: #131313;
+  background-color: transparent;
   height: 45px;
   flex: 1;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 15px;
-  color: #FFEAE0;
+  color: ${Colors.orange100};
   border: none;
+  font-weight: 600;
+  border-bottom: 4px solid transparent;
+  cursor: pointer;
  
   ${props => props.active && `
     border-bottom: 4px solid #FF7425;

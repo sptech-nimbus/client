@@ -2,7 +2,6 @@ import * as D from "@radix-ui/react-dialog";
 import * as S from "./Dialog.styled";
 import { X } from "@phosphor-icons/react";
 
-
 export function Drawer({title, children, trigger}) {
    return (
       <D.Root>
@@ -29,7 +28,7 @@ export function Drawer({title, children, trigger}) {
    )
 }
 
-export function Dialog({title, children, trigger}) {
+export function Dialog({ title, children, trigger }) { 
    return (
       <D.Root>
          <S.DialogTrigger>

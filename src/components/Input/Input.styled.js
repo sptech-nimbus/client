@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import Colors from "@utils/Colors";
+import { Colors } from "@utils/Helpers";
 import { IMaskInput } from "react-imask";
 
 const inputColor = props => props.disabled ? '#303030' : '#212121'
@@ -13,7 +13,6 @@ export const IconWrapper = styled.span`
 
 export const Wrapper = styled.div`
    width: ${props => props.width ? props.width : '100%'};
-   display: flex;
    align-items: center;
    justify-content: space-between;
    gap: 8px;
@@ -69,6 +68,7 @@ export const MaskedInput = styled(IMaskInput)`
 `
 
 export const WrapperGoogle = styled(Wrapper)`
+   display: flex;
    justify-content: center;
    cursor: pointer;
 `

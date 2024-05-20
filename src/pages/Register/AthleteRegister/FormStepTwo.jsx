@@ -83,14 +83,15 @@ export default function FormStepTwo({onSubmit}) {
       if(
          EmailValidation(userData.email) && 
          PasswordValidation(userData.password) && 
-         ConfirmPasswordValidation(userData.password, confirmPassword) &&
-         BrPhoneValidation(userData.phone)) 
+         ConfirmPasswordValidation(userData.password, confirmPassword) 
+         // && BrPhoneValidation(userData.phone)
+      ) 
       {
           onSubmit(userData);
       }
       else {
          if(!EmailValidation(userData.email)) toast.error('Email inválido.');
-         if(!BrPhoneValidation(userData.phone)) toast.error('Telefone inválido.')
+         // if(!BrPhoneValidation(userData.phone)) toast.error('Telefone inválido.')
          if(!PasswordValidation(userData.password)) toast.error('Senha inválida.');
          if(!ConfirmPasswordValidation(userData.password, confirmPassword)) toast.error('As senhas não correspondem.');
       }
