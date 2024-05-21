@@ -91,8 +91,10 @@ export default function FormStepThree({onSubmit}) {
     function handleTeamPictureTtpChange() {
         setTeamPictureTtpOpen(!teamPictureTtpOpen);
     }
+
     function handleSubmit(e) {
         e.preventDefault();
+        console.log('aqui no form');
 
         if (TeamCodeValidation(teamData.code)) {
             console.log("Enviando solicitação com o código do time existente: ", teamData.code);
@@ -100,19 +102,23 @@ export default function FormStepThree({onSubmit}) {
         }
         else if (
             TextValidation(teamData.name) && 
-            TextValidation(teamData.category) && 
-            ImageValidation(teamData.picture)) 
-        {
+            ImageValidation(teamData.picture)
+        ) 
+        {   
+            console.log('cheguei no onSubmit');
             onSubmit(teamData);
         }
         else {
+            console.log('deu erro');
             if (teamData.code) {
+                console.log('deu erro CODIGO');
                 if (!TeamCodeValidation(teamData.code)) addNotification('error','Código inserido é inválido');
             } else {
-                if (!TextValidation(teamData.name)) addNotification('error','Nome do time é inválido');
                 if (!ImageValidation(teamData.picture)) addNotification('error','A extensão de arquivo inserida é inválida');
             }
         }
+
+        console.log('alskjd');
     }
 
     return (
