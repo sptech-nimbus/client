@@ -71,7 +71,7 @@ export default function AthleteDesk({ playerData }) {
 
                   <S.Information>
                      <S.Label>Categoria:</S.Label>
-                     <span>Sub-25</span>
+                     <span>{playerData.category}</span>
                   </S.Information>
                   
                   <S.Information>

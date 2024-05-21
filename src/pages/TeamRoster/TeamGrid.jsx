@@ -6,7 +6,7 @@ import { DeleteDialog } from "@components/Dialog/Dialog";
 
 export default function TeamGrid({ players }) {
    const navigate = useNavigate();
-   
+
    const athletes = players.map(player => {
       return { ...player, fullName: `${player.firstName} ${player.lastName}` }
    });

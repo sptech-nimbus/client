@@ -29,14 +29,14 @@ export default function PlayerInfo() {
       async function fetchData() {
          //requisição de mock api - substituir pela requisição correta ao backend
          // const { data } = await axios.get(`https://6642243c3d66a67b34366411.mockapi.io/nimbus/athlete/${playerId}`);
-         const { data } = await athleteDesc.byId(playerId, localStorage.getItem('token'));
-
+         const { data } = await athleteDesc.allInfo(playerId, localStorage.getItem('token'));
+         
          setPlayerData(data.data);
       }
 
       fetchData();
    }, [playerId]);
-  
+
    const handleStatsActive = (e) => {
       if (deskActive) setDeskActive(!deskActive);
       if (!statsActive) setStatsActive(!statsActive)

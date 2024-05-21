@@ -8,7 +8,7 @@ async function registerAthleteDesc(body, token) {
         body,
         headers: { Authorization: `Bearer ${token}` }
     });
-    
+
     return response;
 }
 
@@ -20,6 +20,14 @@ async function getAthleteDesc(athleteId, token) {
     return response;
 }
 
+async function getAthleteAllInfo(athleteId, token) {
+    const res = await axios.get(`${config.baseURL}/${path}/all-info/${athleteId}`, {
+        headers: { Authorization: `Bearer ${token}` }
+    });
+
+    return res;
+}
+
 async function putAthleteDesc({ param, body }) {
     const response = await axios.put(`${config.baseURL}/${path}/${param}`, body)
 
@@ -29,7 +37,8 @@ async function putAthleteDesc({ param, body }) {
 const athleteDesc = {
     post: registerAthleteDesc,
     get: getAthleteDesc,
-    put: putAthleteDesc
+    put: putAthleteDesc,
+    allInfo: getAthleteAllInfo
 }
 
 export default athleteDesc

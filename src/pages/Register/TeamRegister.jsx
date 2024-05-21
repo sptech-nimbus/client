@@ -9,7 +9,7 @@ import { useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 
 import team from "@api/team";
-import blobStorage from "@api/blolStorage";
+import blobStorage from "@api/blobStorage";
 
 export default function TeamRegister() {
     const navigate = useNavigate();
