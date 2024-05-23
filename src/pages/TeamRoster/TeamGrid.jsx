@@ -50,9 +50,14 @@ export default function TeamGrid({ players }) {
       <S.CardsContainer hasData={hasData}>
          {playerCards ?
          playerCards :
-         <S.NotFoundMessage>
-            Não foram encontrados jogadores.
-         </S.NotFoundMessage>
+         (
+         <S.NotFoundContainer>
+            <S.NotFoundMessage>
+               Não foram encontrados jogadores.
+            </S.NotFoundMessage>
+            <span>Seu time não possui jogadores cadastrados ou não conseguimos encontrar eles.</span>
+         </S.NotFoundContainer>
+         )
          }
       </S.CardsContainer>
    )

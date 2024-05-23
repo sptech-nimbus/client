@@ -4,7 +4,7 @@ import config from "./config";
 const path = "athletes";
 
 async function putAthlete({ param, body }) {
-    const response = await axios.put(`${config.baseURL}/${path}/${param}`, body)
+    const response = await axios.put(`${config.baseURL}/${path}/${param}`, body);
 
     return response;
 }
@@ -17,8 +17,10 @@ async function getByTeam(teamId, token) {
     return res;
 }
 
-async function registerTeam({ param, body }) {
-    const response = await axios.patch(`${config.baseURL}/${path}/register-team/${param}`, body)
+async function registerTeam({ param, body, token }) {
+    const response = await axios.patch(`${config.baseURL}/${path}/register-team/${param}`, body, {
+        headers: { Authorization: `Bearer ${token}` }
+    })
 
     return response;
 }

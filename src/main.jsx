@@ -4,8 +4,6 @@ import App from './App.jsx'
 import './global.css'
 import WebFont from 'webfontloader';
 
-import Teste from './localtests/Teste.jsx';
-
 WebFont.load({
   google: {
     families: [
