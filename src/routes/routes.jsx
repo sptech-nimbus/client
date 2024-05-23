@@ -7,7 +7,6 @@ import Register from "@pages/Register";
 import NotFound from "@pages/NotFound";
 import PlayerInfo from "@pages/Athlete";
 import AboutUs from '@pages/AboutUs';
-import News from '@pages/News';
 import Home from '@pages/Home';
 import Settings from '@pages/Settings';
 import Dashboard from "@pages/Dashboard";
@@ -67,14 +66,6 @@ export default function AppRoutes() {
                element={
                   <ProtectedRoute requireTeam>
                      <Settings />
-                  </ProtectedRoute>
-               } 
-            />
-            <Route 
-               path="/news" 
-               element={
-                  <ProtectedRoute requireTeam>
-                     <News />
                   </ProtectedRoute>
                } 
             />

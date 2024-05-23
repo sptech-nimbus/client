@@ -156,9 +156,6 @@ export default function TeamRoster() {
       return positions[random];
    }
 
-   //   área de testes
-
-
    return (
       <S.PageContainer>
          <Background.Default />
