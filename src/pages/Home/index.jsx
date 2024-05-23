@@ -1,74 +1,108 @@
 import * as S from './Home.styled';
 import Sidebar from "@components/Sidebar/Sidebar";
 import Background from "@components/Background/Background";
+import { useState, useEffect } from 'react';
 
 import { RadarChart, DoughnutChart } from '../../components/Charts';
 import Results from './Result';
 import Title from '@components/Title/Title';
 
+import game from '../../api/game';
+
 import { Colors } from "@utils/Helpers";
 
 export default function Home() {
+   const [lastGame, setLastGame] = useState({
+      game: {
+         inicialDateTime: '',
+         gameResult: {
+            challengerPoints: 0,
+            challengedPoints: 0,
+            confirmed: false
+         }
+      },
+      challenger: {
+         id: '',
+         name: '',
+         picture: '',
+      },
+      challenged: {
+         id: '',
+         name: '',
+         picture: '',
+      }
+   });
+
+   useEffect(() => {
+      async function getLastGame() {
+         const { data } = await game.lastGame(localStorage.getItem('teamId', localStorage.getItem('token')));
+
+         setLastGame(data.data);
+      }
+
+      getLastGame();
+   }, []);
+
    const radarConfig = {
       data: {
-        labels: ['Rebotes', 'Pontos', 'Assistências', 'Tocos', 'Roubos de bola', 'Lances livres'],
-        datasets: [
-          {
-            label: 'Desempenho',
-            data: [10, 12, 12, 8, 12, 9],
-            backgroundColor: `${Colors.orange500}65`,
-            borderColor: Colors.orange500,
-            borderWidth: 1,
-          },
-        ],
+         labels: ['Rebotes', 'Pontos', 'Assistências', 'Tocos', 'Roubos de bola', 'Lances livres'],
+         datasets: [
+            {
+               label: 'Desempenho',
+               data: [10, 12, 12, 8, 12, 9],
+               backgroundColor: `${Colors.orange500}65`,
+               borderColor: Colors.orange500,
+               borderWidth: 1,
+            },
+         ],
       },
       options: {
-        scales: {
-           r: {
-             grid: {
-                 color: `${Colors.gray100}65`,
-             },
-             angleLines: {
-                 color: `${Colors.gray100}65`,
-             }
-           }
-        },
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-          legend: {
-            labels: {
-               color: Colors.orange100,
-               boxWidth: 20,
-               font: {
-                  size: 18,
-                  family: 'Poppins'
+         scales: {
+            r: {
+               grid: {
+                  color: `${Colors.gray100}65`,
+               },
+               angleLines: {
+                  color: `${Colors.gray100}65`,
                }
-            },
-            position: 'right'
-          }
-        } 
-     }
-    }
+            }
+         },
+         responsive: true,
+         maintainAspectRatio: false,
+         plugins: {
+            legend: {
+               labels: {
+                  color: Colors.orange100,
+                  boxWidth: 20,
+                  font: {
+                     size: 18,
+                     family: 'Poppins'
+                  }
+               },
+               position: 'right'
+            }
+         }
+      }
+   }
 
    const doughnutConfig = {
       data: {
          labels: ['Vitórias', 'Derrotas'],
          datasets: [
-           {
-             label: '# of Votes',
-             data: [12, 12],
-             backgroundColor: [
-               `${Colors.orange500}`,
-               `${Colors.orange300}`,
-             ],
-             borderColor: [
-               Colors.orange500,
-               Colors.orange300,
-   
-             ],
-             borderWidth: 1,
-           },
+            {
+               label: '# of Votes',
+               data: [12, 12],
+               backgroundColor: [
+                  `${Colors.orange500}`,
+                  `${Colors.orange300}`,
+               ],
+               borderColor: [
+                  Colors.orange500,
+                  Colors.orange300,
+
+               ],
+               borderWidth: 1,
+            },
          ],
       },
       options: {
@@ -95,13 +129,13 @@ export default function Home() {
    return (
       <S.PageContainer>
          <Background.Default />
-         <Sidebar page='home'/>
+         <Sidebar page='home' />
          <S.ContentContainer>
             <S.HomeGrid>
                <S.Container>
-                  <Title text='Desempenho do time nos últimos jogos' size='1rem' color={Colors.orange100}/>
+                  <Title text='Desempenho do time nos últimos jogos' size='1rem' color={Colors.orange100} />
                   <S.ChartContainer>
-                     <RadarChart data={radarConfig.data} options={radarConfig.options}/>
+                     <RadarChart data={radarConfig.data} options={radarConfig.options} />
                   </S.ChartContainer>
                </S.Container>
 
@@ -120,9 +154,20 @@ export default function Home() {
                         <span>Time adversário</span>
                      </S.MatchInfo>
                      <S.MatchResults>
-                        <span>65</span>
-                        <Results result='lose'/>
-                        <span>85</span>
+                        {
+                           lastGame.game.gameResult !== null
+                              ? <>
+                                 <span>{lastGame.game.gameResult.challengerPoints}</span>
+                                 <Results result={
+                                    lastGame.game.gameResult.challengerPoints > lastGame.game.gameResult.challengedPoints
+                                       && lastGame.challenger.id === localStorage.getItem('teamId')
+                                       ? 'win'
+                                       : 'lose'
+                                 } />
+                                 <span>{lastGame.game.gameResult.challengedPoints}</span>
+                              </>
+                              : <Results />
+                        }
                      </S.MatchResults>
                   </S.MatchCard>
                   <S.MatchCard>
@@ -148,9 +193,9 @@ export default function Home() {
                <S.Container>
                   <span>Não há mensagens novas no momento.</span>
                </S.Container>
-               
+
                <S.Container>
-                  <Title text='Resultado do time nos últimos jogos' size='1rem' color={Colors.orange100}/>
+                  <Title text='Resultado do time nos últimos jogos' size='1rem' color={Colors.orange100} />
                   <S.ChartContainer>
                      <DoughnutChart data={doughnutConfig.data} options={doughnutConfig.options} />
                   </S.ChartContainer>

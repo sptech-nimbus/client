@@ -28,16 +28,12 @@ async function getTeamsByName(name, token) {
 }
 
 async function registerTeam(body = {}, token) {
-    try {
-        const response = await axios.post(`${config.baseURL}/${path}`, { 
-            body , 
-            headers: { Authorization: `Bearer ${token}` }
-        });
-        return response;
-    }
-    catch(err) {
-        throw err;
-    }
+    const response = await axios.post(`${config.baseURL}/${path}`, {
+        body,
+        headers: { Authorization: `Bearer ${token}` }
+    });
+
+    return response;
 }
 
 async function getActiveInjuries({ param }) {
