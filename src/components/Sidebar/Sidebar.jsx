@@ -1,4 +1,7 @@
 import * as S from "./Sidebar.styled";
+
+import { useAuth } from "@contexts/auth";
+
 import { 
    House, 
    ChartDonut, 
@@ -15,6 +18,7 @@ import Popover from "@components/Popover/Popover";
 
 export default function Sidebar({page, logo, children}) {
    const navigate = useNavigate();
+   const { logout } = useAuth();
 
    return (
       <S.Container>
@@ -55,10 +59,15 @@ export default function Sidebar({page, logo, children}) {
          </S.IconGroup>
          {children}
          <S.IconGroupFooter>
-            <S.Icon onClick={() => navigate('/config')} title='Configurações'>
-               <Gear
-               weight={page == 'settings' ? 'fill' : 'regular'}
-               />
+            <S.Icon title='Configurações'>
+               <Popover trigger={<Gear weight={page == 'settings' ? 'fill' : 'regular'}/>} side='right' sideOffset={20}>
+                  <S.MenuList>
+                     <S.MenuItem>Conta</S.MenuItem>
+                     <S.MenuItem>Meus times</S.MenuItem>
+                     <S.MenuItem>Configurações</S.MenuItem>
+                     <S.MenuItem onClick={logout}>Sair</S.MenuItem>
+                  </S.MenuList>
+               </Popover>
             </S.Icon>
             <S.Line />
             <S.Image />
