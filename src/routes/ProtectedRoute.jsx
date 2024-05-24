@@ -4,7 +4,7 @@ import { useAuth } from "@contexts/auth.jsx";
 const ProtectedRoute = ({ children, requireTeam }) => {
    const { isAuthenticated } = useAuth();
    if(requireTeam) {
-      return isAuthenticated || (localStorage.getItem('token') && localStorage.getItem('teamId')) ? children : <Navigate to="/my-teams" />;
+      return isAuthenticated || (localStorage.getItem('token') && sessionStorage.getItem('teamId')) ? children : <Navigate to="/my-teams" />;
    }
    return isAuthenticated || localStorage.getItem('token') ? children : <Navigate to="/login" />;
    

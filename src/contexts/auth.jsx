@@ -59,7 +59,7 @@ export const AuthProvider = ({ children }) => {
 
    const chooseTeam = (teamId) => {
       setTeamId(teamId);
-      localStorage.setItem('teamId', teamId);
+      sessionStorage.setItem('teamId', teamId);
    }
 
    const logoutTeam = () => {
