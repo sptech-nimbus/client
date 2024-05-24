@@ -14,7 +14,6 @@ import Events from '@pages/Events';
 import Chat from '@pages/Chat';
 import ForgotPassword from '@pages/ForgotPassword';
 import MyTeams from '@pages/MyTeams';
-import Comparison from '@pages/Comparison';
 import RegisterStats from '@pages/RegisterStats';
 
 import ProtectedRoute from './ProtectedRoute';
@@ -102,14 +101,6 @@ export default function AppRoutes() {
                element={
                   <ProtectedRoute>
                      <RegisterStats />
-                  </ProtectedRoute>
-               } 
-            />
-            <Route 
-               path="/comparison" 
-               element={
-                  <ProtectedRoute>
-                     <Comparison />
                   </ProtectedRoute>
                } 
             />
