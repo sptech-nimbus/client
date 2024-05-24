@@ -1,24 +1,25 @@
 import { useState, useEffect, useRef } from "react";
-import Sidebar from "@components/Sidebar/Sidebar";
+
 import Title from "@components/Title/Title";
 import Input from "@components/Input/Input";
-import ToggleGroup from "@components/ToggleGroup/ToggleGroup";
-import Background from "@components/Background/Background";
-import { Drawer } from "@components/Dialog/Dialog";
-import RadioGroup from "@components/RadioGroup/RadioGroup";
 import Button from "@components/Button/Button";
 import Loader from "@components/Loader/Loader";
+import Sidebar from "@components/Sidebar/Sidebar";
+import { Drawer } from "@components/Dialog/Dialog";
+import Background from "@components/Background/Background";
+import RadioGroup from "@components/RadioGroup/RadioGroup";
+import ToggleGroup from "@components/ToggleGroup/ToggleGroup";
 
-import user from "@api/user";
 import axios from 'axios';
+import user from "@api/user";
 
 import TeamGrid from "./TeamGrid";
 import TeamTable from "./TeamTable";
 
 import Utils from "@utils/Helpers";
 
-import { SquaresFour, Rows, Faders } from "@phosphor-icons/react";
 import { useNotification } from "@contexts/notification";
+import { SquaresFour, Rows, Faders } from "@phosphor-icons/react";
 
 import * as S from "./Team.styled";
 
