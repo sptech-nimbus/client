@@ -60,23 +60,23 @@ export default function TeamRegister() {
       }
     }
 
-    return (
-        <LS.Header>
-            <ToastContainer
-                autoClose={3000}
-                hideProgressBar={false}
-                newestOnTop={false}
-                closeOnClick
-                rtl={false}
-                pauseOnFocusLoss
-                draggable
-                theme="dark"
-                limit={3}
-            />
+  return (
+    <LS.Header>
+      <ToastContainer
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        theme="dark"
+        limit={3}
+      />
 
-            <Background.Login />
-            <LS.Title>Cadastro</LS.Title>
-            <FormStepThree onSubmit={handleFormSubmit} />
-        </LS.Header>
-    )
+      <Background.Login />
+      <LS.Title>Cadastro</LS.Title>
+      <FormStepThree onSubmit={handleFormSubmit} />
+    </LS.Header>
+  )
 }

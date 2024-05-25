@@ -16,7 +16,7 @@ export const AuthProvider = ({ children }) => {
       const storedUserId = localStorage.getItem('id');
       const storedTeamId = localStorage.getItem('teamId');
       const storedPersonaId = localStorage.getItem('personaId');
-      
+
       if (storedToken && storedUserId) {
          setToken(storedToken);
          setUserId(storedUserId);
@@ -32,8 +32,9 @@ export const AuthProvider = ({ children }) => {
       try {
          const response = await user.login(credentials);
          const { token, userId, personaId } = response.data.data;
-         // const response = await axios.get('https://3yyr7.wiremockapi.cloud/login');
-         // const { token, userId } = response.data;
+
+         console.log(token, userId, personaId);
+
          localStorage.setItem('token', token);
          localStorage.setItem('id', userId);
          localStorage.setItem('personaId', personaId);
@@ -43,7 +44,7 @@ export const AuthProvider = ({ children }) => {
 
          setIsAuthenticated(true);
       }
-      catch(err) {
+      catch (err) {
          setIsAuthenticated(false);
          throw err;
       }
@@ -68,7 +69,7 @@ export const AuthProvider = ({ children }) => {
    }
 
    return (
-      <AuthContext.Provider value={{token, userId, teamId, personaId, chooseTeam, logoutTeam, isAuthenticated, login, logout}}>
+      <AuthContext.Provider value={{ token, userId, teamId, personaId, chooseTeam, logoutTeam, isAuthenticated, login, logout }}>
          {children}
       </AuthContext.Provider>
    )
