@@ -48,7 +48,7 @@ export default function TeamRoster() {
             // let { data } = await axios.get('https://6642243c3d66a67b34366411.mockapi.io/nimbus/athlete');
             // data = data.map(item => ({ ...item, position: randomPosition() }))
 
-            const { data } = await athlete.byTeam(localStorage.getItem('teamId'), localStorage.getItem('token'));
+            const { data } = await athlete.byTeam(sessionStorage.getItem('teamId'), localStorage.getItem('token'));
 
             console.log(data);
             setPlayersData(data.data)

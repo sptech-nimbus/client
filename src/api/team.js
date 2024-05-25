@@ -28,6 +28,7 @@ async function getTeamsByName(name, token) {
 }
 
 async function registerTeam(body = {}, token) {
+    console.log(token);
     try {
         const response = await axios.post(`${config.baseURL}/${path}`, body, { 
             headers: { Authorization: `Bearer ${token}` }
