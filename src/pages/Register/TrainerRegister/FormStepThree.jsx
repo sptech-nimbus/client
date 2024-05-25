@@ -103,6 +103,7 @@ export default function FormStepThree({ onSubmit }) {
         }
         else if ((validateFields() && ImageValidation(teamData.picture)) || (!teamData.picture && validateFields())) {   
             delete teamData.code;
+            console.log(teamData);
             onSubmit(teamData);
         }
         else {

@@ -16,6 +16,7 @@ import blobStorage from "@api/blobStorage";
 
 export default function TeamRegister() {
     const { token, personaId, id } = useAuth();
+    const { addNotification } = useNotification();
     const navigate = useNavigate();
     
     const [isRegisterFinished, setIsRegisterFinished] = useState(false);
@@ -23,7 +24,7 @@ export default function TeamRegister() {
 
     useEffect(() => {
         if(isRegisterFinished) {
-          //  toast.success('Cadastro realizado!', { autoClose: 5000 });
+           toast.success('Cadastro realizado!', { autoClose: 5000 });
            setTeamData({});
           //  setTimeout(() => {
           //       navigate('/my-teams');
@@ -32,13 +33,14 @@ export default function TeamRegister() {
      }, [isRegisterFinished]);
 
     const handleFormSubmit = async (formData) => {
-      console.log(formData);
       teamData.name = formData.name;
       teamData.category = formData.category;
       teamData.local = formData.local;
       const { picture }  = formData;
       delete teamData.picture;
 
+      console.log(teamData);
+      console.log(picture);
       try {
           const { data } = await team.post(teamData, token);
           if(picture) {
@@ -47,7 +49,7 @@ export default function TeamRegister() {
             }
             catch(err) {
               console.log(err);
-              // addNotification("error", "Seu time foi cadastrado, porém houve um erro ao cadastrarmos a imagem dele. Por favor tente novamente em outro momento.")
+              addNotification("error", "Seu time foi cadastrado, porém houve um erro ao cadastrarmos a imagem dele. Por favor tente novamente em outro momento.")
             }
             finally {
               setIsRegisterFinished(true);
@@ -56,7 +58,7 @@ export default function TeamRegister() {
       }
       catch(err) {
          console.log(err);
-        //  addNotification("error", "Houve um erro ao cadastrar o time. Por favor, aguarde um momento antes de tentar novamente");
+         addNotification("error", "Houve um erro ao cadastrar o time. Por favor, aguarde um momento antes de tentar novamente");
       }
     }
 
