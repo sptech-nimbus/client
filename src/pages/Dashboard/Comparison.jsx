@@ -279,7 +279,7 @@ export default function ComparisonLayout() {
          </S.SelectContainer>
 
          <S.ComparisonContainer>
-            <Title text='Resultados dos times' size='1rem' color={Colors.orange100}/>
+            <Title text='Vitórias dos times' size='1rem' color={Colors.orange100}/>
             <S.ChartContainer>
                <PieChart data={pieConfig.data[0]} options={pieConfig.options}/>
             </S.ChartContainer>
@@ -293,7 +293,7 @@ export default function ComparisonLayout() {
          </S.ComparisonContainer>
 
          <S.ComparisonContainer>
-            <Title text='Faltas cometidas pelo time' size='1rem' color={Colors.orange100}/>
+            <Title text='Faltas cometidas pelos times' size='1rem' color={Colors.orange100}/>
             <S.ChartContainer>
                <LineChart data={lineConfig.data} options={lineConfig.options}/>
             </S.ChartContainer>
