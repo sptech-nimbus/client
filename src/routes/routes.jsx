@@ -7,7 +7,6 @@ import Register from "@pages/Register";
 import NotFound from "@pages/NotFound";
 import PlayerInfo from "@pages/Athlete";
 import AboutUs from '@pages/AboutUs';
-import News from '@pages/News';
 import Home from '@pages/Home';
 import Settings from '@pages/Settings';
 import Dashboard from "@pages/Dashboard";
@@ -15,7 +14,6 @@ import Events from '@pages/Events';
 import Chat from '@pages/Chat';
 import ForgotPassword from '@pages/ForgotPassword';
 import MyTeams from '@pages/MyTeams';
-import Comparison from '@pages/Comparison';
 import RegisterStats from '@pages/RegisterStats';
 
 import ProtectedRoute from './ProtectedRoute';
@@ -71,14 +69,6 @@ export default function AppRoutes() {
                } 
             />
             <Route 
-               path="/news" 
-               element={
-                  <ProtectedRoute requireTeam>
-                     <News />
-                  </ProtectedRoute>
-               } 
-            />
-            <Route 
                path="/events" 
                element={
                   <ProtectedRoute requireTeam>
@@ -111,14 +101,6 @@ export default function AppRoutes() {
                element={
                   <ProtectedRoute>
                      <RegisterStats />
-                  </ProtectedRoute>
-               } 
-            />
-            <Route 
-               path="/comparison" 
-               element={
-                  <ProtectedRoute>
-                     <Comparison />
                   </ProtectedRoute>
                } 
             />

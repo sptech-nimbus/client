@@ -10,6 +10,8 @@ export default function AthleteDesk({ playerData }) {
    let { birthDate } = playerData;
    birthDate = new Date(birthDate).toLocaleDateString('pt-BR');
 
+   console.log(playerData);
+
    return (
       <S.InfoWrapper>
       <S.InfoGrid>
@@ -69,7 +71,7 @@ export default function AthleteDesk({ playerData }) {
 
                   <S.Information>
                      <S.Label>Categoria:</S.Label>
-                     <span>Sub-25</span>
+                     <span>{playerData.category}</span>
                   </S.Information>
                   
                   <S.Information>

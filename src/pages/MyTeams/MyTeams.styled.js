@@ -28,17 +28,15 @@ export const Team = styled.div`
    flex-direction: column;
    align-items: center;
    gap: 1rem;
-   width: 250px;
-   height: 250px;
-   min-width: 250px;
-   min-height: 250px;
    cursor: pointer;
 `
 
 export const TeamImage = styled.img`
    border-radius: 1rem;
-   max-width: 250px;
+   width: 250px;
    height: 250px;
+   object-fit: cover;
+   object-position: center;
 `
 
 export const TeamName = styled.span`
