@@ -1,5 +1,5 @@
 import * as S from "./Player.styled";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 import AthleteStats from "./AthleteStats";
 import AthleteDesk from './AthleteDesk';
@@ -18,6 +18,8 @@ const useQuery = () => {
 }
 
 export default function PlayerInfo() {
+   const navigate = useNavigate();
+
    const [deskActive, setDeskActive] = useState(true);
    const [statsActive, setStatsActive] = useState(false);
    const [playerData, setPlayerData] = useState({});
@@ -53,6 +55,7 @@ export default function PlayerInfo() {
          <Sidebar page='team' />
          <S.ContentContainer>
             <S.TopLinkContainer>
+               <S.Back size={30} weight="bold" onClick={() => navigate('/roster')}/>
                <S.TopLink active={deskActive} onClick={handleDeskActive}>Ficha do jogador</S.TopLink>
                <S.TopLink active={statsActive} onClick={handleStatsActive}>Estatísticas</S.TopLink>
             </S.TopLinkContainer>
