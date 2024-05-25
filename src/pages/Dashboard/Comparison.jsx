@@ -24,7 +24,7 @@ export default function ComparisonLayout() {
             setIsLoading(true);
             //requisição de mock api utilizada apenas para visualização do loading 
             //substituir pela requisição correta e aplicar os dados nos graficos
-            await axios.get('https://6642243c3d66a67b34366411.mockapi.io/nimbus/athlete');
+            await axios.get('https://6642243c3d66a67b34366411.mockapi.io/nimbus/teams');
          }
          catch (err) {
             addNotification('error', 'Houve um erro ao buscar os dados do seu time. Por favor, aguarde um momento antes de tentar novamente.');
