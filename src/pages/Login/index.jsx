@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import * as S from "./Login.styles";
+
 import { useAuth } from "@contexts/auth";
+import { useNotification } from '@contexts/notification';
 
 import { Envelope } from "@phosphor-icons/react";
 import { useNavigate } from "react-router-dom";
@@ -16,12 +18,15 @@ import user from "@api/user";
 
 export default function Login() {
    const { login, isAuthenticated } = useAuth();
+   const { addNotification } = useNotification();
    const navigate = useNavigate();
 
    const [credentials, setCredentials] = useState({
       email: '',
       password: ''
    });
+
+   
 
    const handleEmailChange = (e) => {
       const { value } = e.target;
@@ -39,35 +44,35 @@ export default function Login() {
       });
    }
 
-   const handleFormSubmit = async (e) =>{
+   const handleFormSubmit = async (e) => {
       e.preventDefault();
 
-      if(credentials.email && credentials.password) {
+      if (credentials.email && credentials.password) {
          try {
             await login(credentials);
          }
-         catch(err) {
-            if(err.response) {
-               toast.error('Credenciais inválidas.');
+         catch (err) {
+            if (err.response) {
+               addNotification('error', 'Credenciais inválidas.');
             }
-            else if(err.request) {
-               toast.error('Houve um erro ao realizar o login. Por favor tente novamente mais tarde.');
-            }  
+            else if (err.request) {
+               addNotification('error', 'Houve um erro ao realizar o login. Por favor tente novamente mais tarde.');
+            }
             else {
-               toast.error('Houve um erro inesperado.');
+               addNotification('error', 'Houve um erro inesperado.');
             }
          }
       }
       else {
-         toast.error('Preencha todos os campos')
+         addNotification('error', 'Preencha todos os campos')
       }
    }
 
-   useEffect(() => { if(isAuthenticated) navigate('/my-teams') }, [isAuthenticated, navigate]);
+   useEffect(() => { if (isAuthenticated) navigate('/my-teams') }, [isAuthenticated, navigate]);
 
    return (
       <S.Header>
-         <ToastContainer   
+         <ToastContainer
             autoClose={8000}
             hideProgressBar={false}
             newestOnTop={false}
@@ -77,7 +82,7 @@ export default function Login() {
             draggable
             theme="dark"
             limit={3}
-         /> 
+         />
 
          <Background.Login />
          <S.Title>
@@ -97,7 +102,7 @@ export default function Login() {
                      placeholder={'seu@email.com'}
                      value={credentials.email}
                      onChange={handleEmailChange}
-                  >                    
+                  >
                      <Envelope />
                   </Input.Default>
                </Label>
@@ -106,12 +111,12 @@ export default function Login() {
                   <Input.Password
                      placeholder={'**********'}
                      value={credentials.password}
-                     hasIcon 
+                     hasIcon
                      onChange={handlePasswordChange}
                   />
                </Label>
             </S.InputsContainer>
-            <Button.Primary 
+            <Button.Primary
                value={'Entrar'}
                size={'md'}
                width={'100%'}
@@ -128,7 +133,7 @@ export default function Login() {
                   <S.Link>
                      <S.Highlight onClick={() => navigate('/register')}>Faça seu cadastro!</S.Highlight>
                   </S.Link>
-                  </span>
+               </span>
             </S.FormFooter>
          </S.Form>
       </S.Header>

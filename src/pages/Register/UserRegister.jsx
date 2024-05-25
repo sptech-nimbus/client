@@ -2,6 +2,9 @@ import { useState, useEffect } from 'react';
 import * as S from './Register.styled';
 import * as LS from '@pages/Login/Login.styles';
 
+import { useAuth } from '@contexts/auth';
+import { useNotification } from '@contexts/notification';
+
 import Background from '@components/Background/Background';
 import Stepper from '@components/Stepper/Stepper';
 
@@ -16,11 +19,13 @@ import user from '@api/user';
 import team from '@api/team';
 import athlete from '@api/athlete';
 import athleteDesc from '@api/athleteDesc';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useNavigation } from 'react-router-dom';
 
 import { ToastContainer, toast } from 'react-toastify';
 
 export default function UserRegister({ teamRegister = false }) {
+    const { addNotification } = useNotification();
+    const { login } = useAuth();
     const navigate = useNavigate();
     const [isRegisterFinished, setIsRegisterFinished] = useState(false);
     const [step, setStep] = useState(1);
@@ -40,12 +45,11 @@ export default function UserRegister({ teamRegister = false }) {
     });
 
     const [teamData, setTeamData] = useState({
-        code: '',
         name: '',
         category: '',
         picture: '',
         local: '',
-
+        coach: { id: '' }
     });
 
     const [athleteDescData, setAthleteDescData] = useState({
@@ -66,7 +70,7 @@ export default function UserRegister({ teamRegister = false }) {
         }
      }, [isRegisterFinished]);
 
-    function handleFormSubmit(formData) {
+    async function handleFormSubmit(formData) {
         if (step == 1) {
             setPersonData({
                 ...personData,
@@ -82,8 +86,28 @@ export default function UserRegister({ teamRegister = false }) {
             setUserData({
                 email: formData.email,
                 password: formData.password
-            })
-            personData.phone = formData.phone
+            });
+            personData.phone = formData.phone.replace("(", "").replace(")", "").replace("-", "").replace(" ", "");
+
+            try {
+                await user.post({
+                    email: formData.email,
+                    password: formData.password,
+                    coach: {
+                        ...personData
+                    }
+                });
+                try {
+                    await login({email: formData.email, password: formData.password});
+                }
+                catch(err) {
+                    addNotification('error', 'Houve um erro a validação dos seus dados. Por favor aguarde um momento antes de tentar novamente.')
+                }
+            }
+            catch(err) {
+                console.log('erro', err);
+            }
+
             setStep(step + 1)
         }
         else if (step == 2 && typeUser == "athlete") {
@@ -94,7 +118,7 @@ export default function UserRegister({ teamRegister = false }) {
             })
 
 
-            personData.phone = formData.phone;
+            personData.phone = formData.phone.replace("(", "").replace(")", "").replace("-", "").replace(" ", "");
             const updatePersonData = {
                 ...personData,
                 category: '',
@@ -103,20 +127,33 @@ export default function UserRegister({ teamRegister = false }) {
 
             setPersonData(updatePersonData)
             console.log(personData);
-
-            setStep(step + 1);
         }
         else if (step == 3 && typeUser == "coach") {
-            setTeamData({
-                code: formData.code,
-                name: formData.name,
-                category: formData.category,
-                picture: formData.picture,
-                // isAmateur: formData.chkAmateur;
-            });
 
-            team.post(teamData);
-            setIsRegisterFinished(!isRegisterFinished);
+            teamData.name = formData.name;
+            teamData.category = formData.category;
+            teamData.local = formData.local;
+            teamData.coach.id = localStorage.getItem('personaId');
+            const { picture } = formData.picture;
+
+            console.log(teamData);
+            try {
+                console.log();
+                await team.post(teamData, token);
+                try {
+                    await blobStorage.post(picture, token, id); }
+                catch(err) {
+                    addNotification('error', 'Houve um erro ao cadastrar a imagem do time. Tente novamente mais tarde.');
+                }
+                finally {
+                    addNotification('success', 'Cadastro realizado! Redirecionando para tela de seleção de time...');
+                    // setIsRegisterFinished(true);
+                }
+            }
+            catch(err) {
+                addNotification('error', 'Não foi possível realizar o cadastro do time, por favor tente novamente mais tarde.');
+                console.log(err);
+            }
         }
         else if (step == 3 && typeUser == "athlete") {
             setPersonData({

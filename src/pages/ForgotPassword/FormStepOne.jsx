@@ -1,5 +1,7 @@
 import { useState } from "react";
 
+import { useNotification } from '@contexts/notification';
+
 import Input from "@components/Input/Input";
 import Label from "@components/Label/Label";
 import Button from "@components/Button/Button";
@@ -8,9 +10,9 @@ import * as S from './ForgotPassword.styled';
 import { Envelope } from "@phosphor-icons/react";
 
 import { EmailValidation } from "@utils/Validations";
-import { toast } from 'react-toastify';
 
 export default function FormStepOne({ onSubmit }) {
+   const { addNotification } = useNotification();
    const [email, setEmail] = useState('');
 
    const handleEmailChange = (e) => {
@@ -24,8 +26,8 @@ export default function FormStepOne({ onSubmit }) {
          onSubmit({ email });
       }
       else {
-         if(!email) toast.error('Preencha o campo de e-mail');
-         else toast.error('E-mail inserido é inválido.');
+         if(!email) addNotification('error', 'Preencha o campo de e-mail');
+         else addNotification('error','E-mail inserido é inválido.');
       }
    }
 

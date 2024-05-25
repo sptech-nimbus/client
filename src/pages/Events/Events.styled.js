@@ -186,3 +186,15 @@ export const Adversary = styled.span`
    text-overflow: ellipsis;
    white-space: nowrap;
 `
+
+export const OptionWithImage = styled.div`
+   display: flex;
+   align-items: center;
+   gap: .5rem;
+` 
+
+export const OptionImage = styled.img`
+   width: 30px;
+   height: 30px;
+   border-radius: .5rem;
+`

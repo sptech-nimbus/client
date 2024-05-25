@@ -19,6 +19,9 @@ export const ContentContainer = styled.div`
 
 export const MainContainer = styled.div`
    display: flex;
+   height: 100%;
+   align-items: center;
+   justify-content: center;
    flex-direction: column;  
 `
 
@@ -223,7 +226,6 @@ export const InfoButton = styled(EditButton)`
 `
 
 export const NotFoundMessage = styled.span`
-   color: #a6a6a6;
    font-family: 'Catamaran';
    font-weight: 800;
    font-size: 2rem;
@@ -262,4 +264,12 @@ export const FilterDescription = styled.span`
 export const Buttons = styled.div`
    display: flex;
    gap: .5rem;
+`
+
+export const NotFoundContainer = styled.div`
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   justify-content: center;
+   color: #a6a6a6;
 `

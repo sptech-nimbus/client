@@ -1,5 +1,14 @@
 import styled from "styled-components";
 import { Colors } from "@utils/Helpers";
+import { CaretLeft } from "@phosphor-icons/react";
+
+export const Back = styled(CaretLeft)`
+   position: absolute;
+   color: ${Colors.orange100};
+   left: -5%;
+   top: 10%;
+   cursor: pointer;
+`
 
 export const Flex = styled.span`
    display: flex;
@@ -7,7 +16,9 @@ export const Flex = styled.span`
 `
 
 export const TopLinkContainer = styled.div`
+   position: relative;
    display: flex;
+   align-items: center;
    gap: 3rem;
 `
 
