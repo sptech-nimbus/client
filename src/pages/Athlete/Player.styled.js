@@ -36,6 +36,11 @@ export const TopLink = styled.span`
       border-radius: 4px;
       background-color: ${Colors.orange500};
    }
+
+   &:nth-child(4) {
+      position: absolute;
+      right: 0;
+   }
 `
 
 export const PageContainer = styled.div`
@@ -58,7 +63,7 @@ export const ContentContainer = styled.div`
    width: 95vw;
    height: 100vh;
    padding: 1rem 15rem;
-   gap: 2rem;
+   gap: 1.5rem;
 `
 
 export const InfoGrid = styled.div`
