@@ -76,3 +76,24 @@ export const Image = styled.div`
    border-radius: 50%;
 `
 
+export const MenuList = styled.ul`
+   margin: 0;
+   padding: 0;
+   list-style: none;
+`
+
+export const MenuItem = styled.li`
+   min-width: 80px;
+   margin: 0;
+   padding: .2rem .5rem;
+   cursor: pointer;
+
+   &:hover {
+      background-color: ${Colors.gray700};
+   }
+
+   &:nth-child(4) {
+      color: ${Colors.red};
+   }
+`
+

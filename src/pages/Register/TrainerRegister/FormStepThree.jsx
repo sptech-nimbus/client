@@ -16,7 +16,7 @@ import { useMediaQuery } from 'react-responsive';
 import { ToastContainer } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 
-export default function FormStepThree({onSubmit}) {
+export default function FormStepThree({ onSubmit }) {
     const { addNotification } = useNotification();
     const [teamData, setTeamData] = useState({
         name: '',
@@ -91,32 +91,36 @@ export default function FormStepThree({onSubmit}) {
     function handleTeamPictureTtpChange() {
         setTeamPictureTtpOpen(!teamPictureTtpOpen);
     }
+
+    const validateFields = () => {
+        return teamData.name && teamData.category && teamData.local
+    }
+
     function handleSubmit(e) {
         e.preventDefault();
-
         if (TeamCodeValidation(teamData.code)) {
-            console.log("Enviando solicitação com o código do time existente: ", teamData.code);
             onSubmit(teamData.code);
         }
-        else if (
-            TextValidation(teamData.name) && 
-            TextValidation(teamData.category) && 
-            ImageValidation(teamData.picture)) 
-        {
+        else if ((validateFields() && ImageValidation(teamData.picture)) || (!teamData.picture && validateFields())) {   
+            delete teamData.code;
             onSubmit(teamData);
         }
         else {
+            if (!teamData.name) addNotification('error','Preencha o nome do time.');
+            if (!teamData.category) addNotification('error','Preencha a categoria do time.');
+            if (!teamData.local) addNotification('error','Preencha a localidade do time.');
             if (teamData.code) {
                 if (!TeamCodeValidation(teamData.code)) addNotification('error','Código inserido é inválido');
-            } else {
-                if (!TextValidation(teamData.name)) addNotification('error','Nome do time é inválido');
-                if (!ImageValidation(teamData.picture)) addNotification('error','A extensão de arquivo inserida é inválida');
+            }
+            
+            if(teamData.picture) {
+                if(!ImageValidation(teamData.picture)) addNotification('error','A extensão de arquivo inserida é inválida');
             }
         }
     }
 
     return (
-        <S.FormStepThree onSubmit={handleSubmit}>
+        <S.FormStepThree onSubmit={handleSubmit} encType='multipart/form-data'>
             <ToastContainer
                 position={toastPosition}
                 autoClose={8000}
@@ -182,7 +186,6 @@ export default function FormStepThree({onSubmit}) {
                             value={teamData.category}
                             onChange={handleCategoryChange}
                             disabled={teamData.code ? true : false}
-                            width='40%'
                         />
                     </Label>
                     <Label>

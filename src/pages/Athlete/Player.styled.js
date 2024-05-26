@@ -1,5 +1,14 @@
 import styled from "styled-components";
 import { Colors } from "@utils/Helpers";
+import { CaretLeft } from "@phosphor-icons/react";
+
+export const Back = styled(CaretLeft)`
+   position: absolute;
+   color: ${Colors.orange100};
+   left: -5%;
+   top: 10%;
+   cursor: pointer;
+`
 
 export const Flex = styled.span`
    display: flex;
@@ -7,7 +16,9 @@ export const Flex = styled.span`
 `
 
 export const TopLinkContainer = styled.div`
+   position: relative;
    display: flex;
+   align-items: center;
    gap: 3rem;
 `
 
@@ -24,6 +35,11 @@ export const TopLink = styled.span`
       height: 4px;
       border-radius: 4px;
       background-color: ${Colors.orange500};
+   }
+
+   &:nth-child(4) {
+      position: absolute;
+      right: 0;
    }
 `
 
@@ -47,7 +63,7 @@ export const ContentContainer = styled.div`
    width: 95vw;
    height: 100vh;
    padding: 1rem 15rem;
-   gap: 2rem;
+   gap: 1.5rem;
 `
 
 export const InfoGrid = styled.div`
@@ -144,6 +160,7 @@ export const PlayerImg = styled.img`
    object-fit: cover;
    border-radius: .5rem;
    background-color: ${Colors.orange100};
+   border: 1px solid ${Colors.gray600};
 `
 
 export const InfomationContainer = styled.div`
@@ -186,4 +203,49 @@ export const ChartTitle = styled.div`
    width: 100%;
    height: 5%;
    display: flex;
+`
+
+export const ComparisonContainer = styled.div`
+   width: 100%;
+   height: 100%;
+   display: flex;
+   justify-content: space-between;
+   gap: 2rem;
+
+   ${Container} {
+      width: 100%;
+      align-items: start;
+      justify-content: start;
+      gap: .5rem;
+      box-sizing: border-box;
+   }
+
+   ${Flex} {
+      justify-content: space-between;
+   }
+
+   ${InfomationContainer} {
+      padding-top: 0;
+   }
+
+   ${ChartContainer} {
+      height: 40%;
+      flex-direction: column;
+      padding-top: 1rem;
+   }
+`
+
+export const StatsComparisonContainer = styled(ComparisonContainer)`
+   ${Container} {
+      justify-content: space-between;
+   }
+`
+
+export const PlayerImgComparison = styled(PlayerImg)`
+   width: 200px;
+   height: 200px;
+   max-width: 200px;
+   min-height: 200px;
+   max-height: 200px;
+   min-width: 200px;
 `

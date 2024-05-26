@@ -12,15 +12,14 @@ import axios from 'axios';
 
 export default function MyTeams() {
    const navigate = useNavigate();
-   const { chooseTeam, teamId } = useAuth();
+   const { chooseTeam } = useAuth();
    const [coachTeams, setCoachTeams] = useState([]);
 
    useEffect(() => {
       async function fetchData() {
          //requisição de mock api - substituir pela requisição correta ao backend
          // const { data } = await axios.get('https://6642243c3d66a67b34366411.mockapi.io/nimbus/teams');
-
-         const { data } = await team.byUser(localStorage.getItem('id'), localStorage.getItem('token'));
+         const { data } = await team.byUser(localStorage.getItem('personaId'), localStorage.getItem('token'));
 
          setCoachTeams(data.data);
       }

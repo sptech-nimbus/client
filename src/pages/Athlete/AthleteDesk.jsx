@@ -9,6 +9,7 @@ import Title from "@components/Title/Title";
 import { DeleteDialog } from "@components/Dialog/Dialog";
 import { PrimaryButton as Button } from "@components/Button/Button";
 import user from "@api/user";
+import DeskComparison from './DeskComparison';
 
 export default function AthleteDesk({playerData}) {
    const [id, setId] = useState('');
@@ -22,7 +23,7 @@ export default function AthleteDesk({playerData}) {
 
    user.get({
       header: id
-   }).then(response => {
+  , isComparison }).then(response => {
       console.log(response)
    }).catch(error => {
       console.log(error.response);
@@ -30,8 +31,8 @@ export default function AthleteDesk({playerData}) {
 
    let birthDate = playerData;
    birthDate = new Date(birthDate).toLocaleDateString('pt-BR');
-   
-   return (
+
+   return isComparison ? <DeskComparison playerData={playerData}/> : (
       <S.InfoWrapper>
       <S.InfoGrid>
             <S.Container>
@@ -90,7 +91,7 @@ export default function AthleteDesk({playerData}) {
 
                   <S.Information>
                      <S.Label>Categoria:</S.Label>
-                     <span>Sub-25</span>
+                     <span>{playerData.category}</span>
                   </S.Information>
                   
                   <S.Information>

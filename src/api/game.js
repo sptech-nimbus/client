@@ -15,7 +15,25 @@ async function getByTeam(id) {
     return response;
 }
 
+async function getlastGame(teamId, token) {
+    const res = await axios.get(`${config.baseURL}/${path}/last-game/${teamId}?now=${Date.now()}`, {
+        headers: { Authorization: `Bearer ${token}` }
+    });
+
+    return res;
+}
+
+async function getNextGame(teamId, token) {
+    const res = await axios.get(`${config.baseURL}/${path}/next-game/${teamId}?now=${Date.now()}`, {
+        headers: { Authorization: `Bearer ${token}` }
+    });
+
+    return res;
+}
+
 export default {
     post: postGame,
-    getByTeam
+    getByTeam,
+    lastGame: getlastGame,
+    nextGame: getNextGame
 }
