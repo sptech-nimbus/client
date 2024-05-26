@@ -7,6 +7,28 @@ export const Icon = styled.div`
    margin: 0;
    padding: 0;
    height: 2rem;
+   color: ${Colors.orange100};
+`
+
+export const MoreIcon = styled(Icon)`
+   position: absolute;
+   bottom: -20%;
+   font-size: 1rem;
+`
+
+export const PopoverContent = styled.div`
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   justify-content: center;
+   gap: .5rem;
+   cursor: pointer;
+`
+
+export const EditIcons = styled.span`
+   font-size: .8rem;
+   color: ${Colors.orange100};
+   text-decoration: underline;
 `
 
 export const Container = styled.div`
@@ -23,6 +45,7 @@ export const Container = styled.div`
 `
 
 export const IconGroup = styled.div`
+   position: relative;
    display: flex;
    align-items: center;
    justify-content: center;
@@ -51,5 +74,26 @@ export const Image = styled.div`
    height: 3rem;
    background-color: aliceblue;
    border-radius: 50%;
+`
+
+export const MenuList = styled.ul`
+   margin: 0;
+   padding: 0;
+   list-style: none;
+`
+
+export const MenuItem = styled.li`
+   min-width: 80px;
+   margin: 0;
+   padding: .2rem .5rem;
+   cursor: pointer;
+
+   &:hover {
+      background-color: ${Colors.gray700};
+   }
+
+   &:nth-child(4) {
+      color: ${Colors.red};
+   }
 `
 

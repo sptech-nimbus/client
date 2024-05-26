@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNotification } from '@contexts/notification';
 
 import Input from "@components/Input/Input";
 import Label from "@components/Label/Label";
@@ -9,9 +10,9 @@ import { TooltipInput as Tooltip } from '@components/Tooltip/Tooltip';
 
 import { PasswordValidation, ConfirmPasswordValidation } from "@utils/Validations";
 
-import { toast } from 'react-toastify';
-
 export default function FormStepThree({ onSubmit }) {
+   const { addNotification } = useNotification();
+
    const [password, setPassword] = useState('');
    const [confirmPassword, setConfirmPassword] = useState('');
 
@@ -41,8 +42,8 @@ export default function FormStepThree({ onSubmit }) {
          onSubmit({ password });
       }
       else {
-         if(!PasswordValidation(password)) toast.error('Senha inválida.');
-         if(!ConfirmPasswordValidation(password, confirmPassword)) toast.error('As senhas não correspondem.');
+         if(!PasswordValidation(password)) addNotification('error','Senha inválida.');
+         if(!ConfirmPasswordValidation(password, confirmPassword)) addNotification('error','As senhas não correspondem.');
       }
    }  
 

@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
+import { useNotification } from '@contexts/notification';
+
 import * as S from '../Register.styled';
 import * as LS from '../../Login/Login.styles';
 
@@ -16,6 +18,8 @@ import { ToastContainer, toast } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 
 export default function FormStepTwo({onSubmit}) {
+   const { addNotification } = useNotification();
+   
    const [userData, setUserData] = useState({
       email: '',
       phone: '',
@@ -90,10 +94,10 @@ export default function FormStepTwo({onSubmit}) {
           onSubmit(userData);
       }
       else {
-         if(!EmailValidation(userData.email)) toast.error('Email inválido.');
-         // if(!BrPhoneValidation(userData.phone)) toast.error('Telefone inválido.')
-         if(!PasswordValidation(userData.password)) toast.error('Senha inválida.');
-         if(!ConfirmPasswordValidation(userData.password, confirmPassword)) toast.error('As senhas não correspondem.');
+         if(!EmailValidation(userData.email)) addNotification('error','Email inválido.');
+         // if(!BrPhoneValidation(userData.phone)) addNotification('error','Telefone inválido.')
+         if(!PasswordValidation(userData.password)) addNotification('error','Senha inválida.');
+         if(!ConfirmPasswordValidation(userData.password, confirmPassword)) addNotification('error','As senhas não correspondem.');
       }
    }
 

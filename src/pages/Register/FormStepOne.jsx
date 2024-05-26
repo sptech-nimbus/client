@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
+import { useNotification } from '@contexts/notification';
+
 import * as S from './Register.styled';
 import * as LS from '../Login/Login.styles';
 
@@ -15,6 +17,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 
 export default function FormStepOne({onSubmit}) {
+    const { addNotification } = useNotification();
     const navigate = useNavigate();
     const [userData, setUserData] = useState({
         name: '',
@@ -77,9 +80,9 @@ export default function FormStepOne({onSubmit}) {
         if (TextValidation(userData.name) && TextValidation(userData.lastName) && PastDateValidation(userData.date)) {
             onSubmit(userData);
         } else {
-            if (!TextValidation(userData.name)) toast.error("O nome inserido não é válido.");
-            if (!TextValidation(userData.lastName)) toast.error("O sobrenome inserido não é válido.");
-            if (!PastDateValidation(userData.date)) toast.error("A data de nascimento inserida não é válida. Datas futuras não são aceitas.");
+            if (!TextValidation(userData.name)) addNotification('error',"O nome inserido não é válido.");
+            if (!TextValidation(userData.lastName)) addNotification('error',"O sobrenome inserido não é válido.");
+            if (!PastDateValidation(userData.date)) addNotification('error',"A data de nascimento inserida não é válida. Datas futuras não são aceitas.");
         }
     }
     

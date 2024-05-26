@@ -1,6 +1,12 @@
 import styled from "styled-components";
 import { Colors } from "@utils/Helpers";
 
+export const Flex = styled.div`
+   display: flex;
+   align-items: center;
+   justify-content: space-between;
+`
+
 export const PageContainer = styled.div`
    display: flex;
    width: 100vw;
@@ -30,6 +36,10 @@ export const DashGrid = styled.div`
    flex-wrap: nowrap;
 `
 
+export const ComparisonGrid = styled(DashGrid)`
+   grid-template-rows: 1fr 1fr 1fr;
+`
+
 export const Container = styled.div`
    position: relative;
    width: 100%;
@@ -49,6 +59,24 @@ export const Container = styled.div`
    }
 `
 
+export const ComparisonContainer = styled(Container)`
+   &:nth-child(2) {
+      grid-column: 1 / 2;
+   }
+   &:nth-child(3) {
+      grid-column: 2 / 4;
+   }
+`
+
+export const SelectContainer = styled(Container)`
+   padding: 0;
+   border: none;
+   background-color: transparent;
+   border: none;
+
+   grid-column: 1 / 4;
+`
+
 export const ChartContainer = styled.div`
    display: flex;
    align-items: center;
@@ -62,4 +90,30 @@ export const ChartTitle = styled.div`
    width: 100%;
    height: 5%;
    display: flex;
+`
+
+export const LoaderContainer = styled.div`
+   width: 100%;
+   height: 100%;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   flex-direction: column;
+   gap: 1rem;
+
+   span {
+      text-align: center;
+   }
+`
+
+export const OptionWithImage = styled.div`
+   display: flex;
+   align-items: center;
+   gap: .5rem;
+` 
+
+export const OptionImage = styled.img`
+   width: 30px;
+   height: 30px;
+   border-radius: .5rem;
 `

@@ -6,7 +6,7 @@ import { DeleteDialog } from "@components/Dialog/Dialog";
 
 export default function TeamGrid({ players }) {
    const navigate = useNavigate();
-   
+
    const athletes = players.map(player => {
       return { ...player, fullName: `${player.firstName} ${player.lastName}` }
    });
@@ -19,17 +19,17 @@ export default function TeamGrid({ players }) {
       playerCards =  athletes.map(player => {
          return (
             //futuramente substituir essa key pelo id do jogador
-            <Card width="250px" key={`${player.fullName}${player.number}`}>
+            <Card width="250px" key={player.id}>
             <S.PlayerImage src={player.picture}/>
             <S.PlayerName>
                {player.fullName}
             </S.PlayerName>
             <S.PlayerLine>
                <S.PlayerPosition>
-                  {player.position}
+                  {player.athleteDesc.position}
                </S.PlayerPosition>
                <S.Buttons>
-                  <S.ShowInfoButton onClick={() => navigate('/athlete')}>
+                  <S.ShowInfoButton onClick={() => navigate(`/athlete?id=${player.id}`)}>
                      <Eye size={24} weight="bold"/>
                   </S.ShowInfoButton>
                   <S.ShowInfoButton>
@@ -50,9 +50,14 @@ export default function TeamGrid({ players }) {
       <S.CardsContainer hasData={hasData}>
          {playerCards ?
          playerCards :
-         <S.NotFoundMessage>
-            Não foram encontrados jogadores.
-         </S.NotFoundMessage>
+         (
+         <S.NotFoundContainer>
+            <S.NotFoundMessage>
+               Não foram encontrados jogadores.
+            </S.NotFoundMessage>
+            <span>Seu time não possui jogadores cadastrados ou não conseguimos encontrar eles.</span>
+         </S.NotFoundContainer>
+         )
          }
       </S.CardsContainer>
    )

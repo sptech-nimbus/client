@@ -1,4 +1,7 @@
 import { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
+
+import { useNotification } from '@contexts/notification';
 
 import * as S from '../Register.styled';
 import * as LS from '../../Login/Login.styles';
@@ -7,14 +10,14 @@ import Label from '@components/Label/Label';
 import Input from '@components/Input/Input';
 import Button from '@components/Button/Button';
 
-import { TooltipInput as Tooltip } from '@components/Tooltip/Tooltip';
 import { HeightValidation, WeightValidation, PositionValidation, CategoryValidation } from '@utils/Validations';
 
 import { useMediaQuery } from 'react-responsive';
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 
 export default function FormStepThreeAthlete({onSubmit}) {
+    const { addNotification } = useNotification();
     const [weight, setWeight] = useState('');
     const [height, setHeight] = useState('');
     const [position, setPosition] = useState('');
@@ -22,7 +25,6 @@ export default function FormStepThreeAthlete({onSubmit}) {
 
     const [toastPosition, setToastPosition] = useState('top-right');
 
-    const isBelow799 = useMediaQuery({ maxWidth: 799 });
     const isBelow1050 = useMediaQuery({ maxWidth: 1050 });
 
     useEffect(() => {
@@ -56,7 +58,7 @@ export default function FormStepThreeAthlete({onSubmit}) {
         const { value } = e.target;
         let formmatedHeight = value;
 
-        formmatedHeight = value.replace(/^(\d{1})(\d{2})?$/, '$1.$2cm')
+        formmatedHeight = value.replace(/^(\d{1})(\d{2})?$/, '$1.$2m')
 
         setHeight(formmatedHeight);
     }
@@ -74,12 +76,12 @@ export default function FormStepThreeAthlete({onSubmit}) {
     function handleSubmit(e) {
         e.preventDefault(); 
 
-        setHeight(height.replace('cm', ''));
+        setHeight(height.replace('m', ''));
         setWeight(weight.replace('kg', ''));
 
         if (
             WeightValidation(weight.replace('kg', '')) &&
-            HeightValidation(height.replace('cm', '')) &&
+            HeightValidation(height.replace('m', '')) &&
             PositionValidation(position) &&
             CategoryValidation(category))
         {
@@ -87,10 +89,10 @@ export default function FormStepThreeAthlete({onSubmit}) {
             onSubmit({ weight, height, position, category });
         }
         else {
-            if (!WeightValidation(weight)) toast.error('Peso inválido');
-            if (!HeightValidation(height)) toast.error('Altura inválido');
-            if (!PositionValidation(position)) toast.error('Posição inválida');
-            if (!CategoryValidation(category)) toast.error('Categoria inválida');
+            if (!WeightValidation(weight)) addNotification('error','Peso inválido');
+            if (!HeightValidation(height)) addNotification('error','Altura inválido');
+            if (!PositionValidation(position)) addNotification('error','Posição inválida');
+            if (!CategoryValidation(category)) addNotification('error','Categoria inválida');
             console.log(weight, height, position, category)
         }
     }
@@ -124,7 +126,7 @@ export default function FormStepThreeAthlete({onSubmit}) {
                     Altura
                     <S.InputLine>
                         <Input.Masked
-                            placeholder={'1.90cm'}
+                            placeholder={'1.90m'}
                             value={height}
                             onBlur={handleHeightChange}
                             width='50%'
@@ -164,3 +166,7 @@ export default function FormStepThreeAthlete({onSubmit}) {
         </S.Form>
     )
 }
+
+FormStepThreeAthlete.propTypes = {
+    onSubmit: PropTypes.func.isRequired,
+ };

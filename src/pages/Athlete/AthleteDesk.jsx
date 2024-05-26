@@ -1,129 +1,142 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable react/prop-types */
+
 import * as S from "./Player.styled";
 import { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
+
 
 import Title from "@components/Title/Title";
 import { DeleteDialog } from "@components/Dialog/Dialog";
 import { PrimaryButton as Button } from "@components/Button/Button";
-import get from "@api/user";
+import user from "@api/user";
+import DeskComparison from './DeskComparison';
 
+export default function AthleteDesk({playerData, isComparison }) {
+   const [id, setId] = useState('');
+   const [token, setToken] = useState('');
+   
+   if (id == null && token == null){
+      setId(localStorage.getItem('id'));
+      setToken(localStorage.getItem('token'));
+      console.log(id)
+   } 
 
-export default function AthleteDesk() {
-    const [athlete, setAthlete] = useState({
-        id: '',
-        name: 'Isaasc',
-        position: '',
-        description: 'coach',
-        number: '',
-        dateBirth: '',
-    });
+   user.get({
+      header: id
+  , isComparison }).then(response => {
+      console.log(response)
+   }).catch(error => {
+      console.log(error.response);
+   });
 
-    useEffect(() => {
-        get
-    })
+   let birthDate = playerData;
+   birthDate = new Date(birthDate).toLocaleDateString('pt-BR');
 
-    return (
-        <S.InfoWrapper>
-            <S.InfoGrid>
-                <S.Container>
-                    <S.PlayerImg src="https://placehold.co/400x400" />
-                </S.Container>
+   return isComparison ? <DeskComparison playerData={playerData}/> : (
+      <S.InfoWrapper>
+      <S.InfoGrid>
+            <S.Container>
+               <S.PlayerImg src={playerData.picture}/>
+            </S.Container>
+            
+            <S.Container>
+               <Title text='Informações do jogador' size='1.3rem'/>
+               <S.InfomationContainer>
+                  <S.Information>
+                     <S.Label>Nome completo:</S.Label>  
+                     <span>{playerData.firstName} {playerData.lastName}</span>
+                  </S.Information>
 
-                <S.Container>
-                    <Title text='Informações do jogador' size='1.3rem' />
-                    <S.InfomationContainer>
-                        <S.Information>
-                            <S.Label>Nome completo:</S.Label>
-                            <span>{athlete.name}</span>
-                        </S.Information>
+                  <S.Information>
+                     <S.Label>Número: </S.Label>
+                     <span>{playerData.number}</span>
+                  </S.Information>
 
-                        <S.Information>
-                            <S.Label>Número: </S.Label>
-                            <span>{athlete.number}</span>
-                        </S.Information>
+                  <S.Information>
+                     <S.Label>Posição: </S.Label>
+                     <span>{playerData.position}</span>
+                  </S.Information>
 
-                        <S.Information>
-                            <S.Label>Posição: </S.Label>
-                            <span>{athlete.position}</span>
-                        </S.Information>
+                  <S.Information>
+                     <S.Label>Data de nascimento: </S.Label>
+                     <span>{birthDate}</span>
+                  </S.Information>
 
-                        <S.Information>
-                            <S.Label>Data de nascimento: </S.Label>
-                            <span>{athlete.dateBirth}</span>
-                        </S.Information>
+                  <S.Information>
+                     <S.Label>Idade: </S.Label>
+                     <span>{playerData.age}</span>
+                  </S.Information>
 
-                        <S.Information>
-                            <S.Label>Idade: </S.Label>
-                            <span>19</span>
-                        </S.Information>
+                  <S.Flex>
+                     <S.Information>
+                        <S.Label>Altura (cm): </S.Label>
+                        <span>{playerData.height}</span>
+                     </S.Information>
+                     <S.Information>
+                        <S.Label>Peso (kg): </S.Label>
+                        <span>{playerData.weight}</span>
+                     </S.Information>
+                  </S.Flex>
 
-                        <S.Flex>
-                            <S.Information>
-                                <S.Label>Altura (cm): </S.Label>
-                                <span>192</span>
-                            </S.Information>
-                            <S.Information>
-                                <S.Label>Peso (kg): </S.Label>
-                                <span>65</span>
-                            </S.Information>
-                        </S.Flex>
+                  <S.Information>
+                     <S.Label>Endereço: </S.Label>
+                     <span>{playerData.address}</span>
+                  </S.Information>
+               </S.InfomationContainer>
+            </S.Container>
 
-                        <S.Information>
-                            <S.Label>Endereço: </S.Label>
-                            <span>Rua Haddock Lobo</span>
-                        </S.Information>
-                    </S.InfomationContainer>
-                </S.Container>
+            <S.Container>
+               <Title text='Atributos' size='1.3rem'/>
+               <S.InfomationContainer>
 
-                <S.Container>
-                    <Title text='Atributos' size='1.3rem' />
-                    <S.InfomationContainer>
+                  <S.Information>
+                     <S.Label>Categoria:</S.Label>
+                     <span>{playerData.category}</span>
+                  </S.Information>
+                  
+                  <S.Information>
+                     <S.Label>Pontos marcados:</S.Label>
+                     <span>{playerData.pts} pontos</span>
+                  </S.Information>
 
-                        <S.Information>
-                            <S.Label>Categoria:</S.Label>
-                            <span>Sub-20</span>
-                        </S.Information>
+                  <S.Information>
+                     <S.Label>Assistências:</S.Label>
+                     <span>{playerData.ast} assistências</span>
+                  </S.Information>
 
-                        <S.Information>
-                            <S.Label>Pontos marcados:</S.Label>
-                            <span>30 pontos</span>
-                        </S.Information>
+               </S.InfomationContainer>
+            </S.Container>
 
-                        <S.Information>
-                            <S.Label>Assistências:</S.Label>
-                            <span>40 assistências</span>
-                        </S.Information>
+            <S.Container>
+               <Title text='Contatos' size='1.3rem'/>
+               <S.InfomationContainer>
+                  <S.Information>
+                     <S.Label>E-mail:</S.Label>
+                     <span>{playerData.email}</span>
+                  </S.Information>
+                  
+                  <S.Information>
+                     <S.Label>Telefone 1:</S.Label>
+                     <span>{playerData.phone}</span>
+                  </S.Information>
 
-                    </S.InfomationContainer>
-                </S.Container>
-
-                <S.Container>
-                    <Title text='Contatos' size='1.3rem' />
-                    <S.InfomationContainer>
-                        <S.Information>
-                            <S.Label>E-mail:</S.Label>
-                            <span>email@jogador.com</span>
-                        </S.Information>
-
-                        <S.Information>
-                            <S.Label>Telefone 1:</S.Label>
-                            <span>(11) 99999-9999</span>
-                        </S.Information>
-
-                        <S.Information>
-                            <S.Label>Telefone 2:</S.Label>
-                            <span>Não definido.</span>
-                        </S.Information>
-                    </S.InfomationContainer>
-                </S.Container>
-            </S.InfoGrid>
-            <S.Buttons>
-                <Button value='Editar' onClick={() => console.log("abiru")} />
-                <DeleteDialog athlete={athlete} trigger = {
-                    <Button value='Deletar' />    
-                } />
-                <Button value='Baixar PDF' />
-            </S.Buttons>
-       </S.InfoWrapper>
-
+                  <S.Information>
+                     <S.Label>Telefone 2:</S.Label>
+                     <span>Não definido.</span>
+                  </S.Information>
+               </S.InfomationContainer>
+            </S.Container>
+      </S.InfoGrid>
+      <S.Buttons>
+         <Button value='Editar'/>
+         <Button value='Deletar'/>
+         <Button value='Baixar PDF'/>
+      </S.Buttons>
+   </S.InfoWrapper>
    )
 }
+
+AthleteDesk.propTypes = {
+   onSubmit: PropTypes.func.isRequired,
+};

@@ -1,6 +1,15 @@
+/* eslint-disable react/prop-types */
+/* eslint-disable no-unused-vars */
+/* eslint-disable react-hooks/exhaustive-deps */
+
 import { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
+
 import * as S from './Register.styled';
 import * as LS from '@pages/Login/Login.styles';
+
+import { useAuth } from '@contexts/auth';
+import { useNotification } from '@contexts/notification';
 
 import Background from '@components/Background/Background';
 import Stepper from '@components/Stepper/Stepper';
@@ -14,13 +23,15 @@ import FormStepFour from './AthleteRegister/FormStepFour';
 
 import user from '@api/user';
 import team from '@api/team';
-import athlete from '@api/athlete';
 import athleteDesc from '@api/athleteDesc';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useNavigation } from 'react-router-dom';
 
 import { ToastContainer, toast } from 'react-toastify';
+import axios from 'axios';
 
 export default function UserRegister({ teamRegister = false }) {
+    const { addNotification } = useNotification();
+    const { login } = useAuth();
     const navigate = useNavigate();
     const [isRegisterFinished, setIsRegisterFinished] = useState(false);
     const [step, setStep] = useState(1);
@@ -30,7 +41,7 @@ export default function UserRegister({ teamRegister = false }) {
         email: '',
         password: ''
     });
-    const [typeUser, setTypeUser] = useState('');
+    const [typeUser, setTypeUser] = useState('coach');
 
     const [personData, setPersonData] = useState({
         firstName: '',
@@ -40,12 +51,12 @@ export default function UserRegister({ teamRegister = false }) {
     });
 
     const [teamData, setTeamData] = useState({
-        code: '',
         name: '',
         category: '',
-        picture: '',
         local: '',
-
+        coach: { 
+            id: '' 
+        }
     });
 
     const [athleteDescData, setAthleteDescData] = useState({
@@ -66,7 +77,7 @@ export default function UserRegister({ teamRegister = false }) {
         }
      }, [isRegisterFinished]);
 
-    function handleFormSubmit(formData) {
+    async function handleFormSubmit(formData) {
         if (step == 1) {
             setPersonData({
                 ...personData,
@@ -75,16 +86,34 @@ export default function UserRegister({ teamRegister = false }) {
                 birthDate: formData.date,
             });
             setTypeUser(formData.typeUser);
-
             setStep(step + 1);
         }
         else if (step == 2 && typeUser == "coach") {
             setUserData({
                 email: formData.email,
                 password: formData.password
-            })
+            });
             personData.phone = formData.phone.replace("(", "").replace(")", "").replace("-", "").replace(" ", "");
-            setStep(step + 1)
+
+            try {
+                await user.post({
+                    email: formData.email,
+                    password: formData.password,
+                    coach: {
+                        ...personData
+                    }
+                });
+                try {
+                    await login({email: formData.email, password: formData.password});
+                    navigate('/register/team');
+                }
+                catch(err) {
+                    addNotification('error', 'Houve um erro a validação dos seus dados. Por favor aguarde um momento antes de tentar novamente.')
+                }
+            }
+            catch(err) {
+                console.log('erro', err);
+            }
         }
         else if (step == 2 && typeUser == "athlete") {
             console.log(formData)
@@ -92,7 +121,6 @@ export default function UserRegister({ teamRegister = false }) {
                 email: formData.email,
                 password: formData.password
             })
-
 
             personData.phone = formData.phone.replace("(", "").replace(")", "").replace("-", "").replace(" ", "");
             const updatePersonData = {
@@ -103,20 +131,6 @@ export default function UserRegister({ teamRegister = false }) {
 
             setPersonData(updatePersonData)
             console.log(personData);
-
-            setStep(step + 1);
-        }
-        else if (step == 3 && typeUser == "coach") {
-            setTeamData({
-                code: formData.code,
-                name: formData.name,
-                category: formData.category,
-                picture: formData.picture,
-                // isAmateur: formData.chkAmateur;
-            });
-
-            team.post(teamData);
-            setIsRegisterFinished(!isRegisterFinished);
         }
         else if (step == 3 && typeUser == "athlete") {
             setPersonData({
@@ -125,12 +139,9 @@ export default function UserRegister({ teamRegister = false }) {
                 isStarting: null
             })
 
-            setAthleteDescData({
-                height: formData.height.replace('cm', ''),
-                weight: formData.weight.replace('kg', ''),
-                position: formData.position
-            })
-
+            athleteDescData.height = formData.height.replace('m', '');
+            athleteDescData.weight = formData.weight.replace('kg', '');
+            athleteDescData.position = formData.position;
             personData.category = formData.category;
             personData.isStarting = false;
             
@@ -142,23 +153,18 @@ export default function UserRegister({ teamRegister = false }) {
                 console.log(response.data.data)
 
                 if (response.status == 200) {
-                    athleteDescData.athlete.id = response.data.data.personaId
-
                     user.login({
                         email: userData.email,
                         password: userData.password,
                     }).then(response => {
-                        console.log(response.data.data.token)
-                        setToken(response.data.data.token)
+                        let token = response.data.data.token;
+                        athleteDescData.athlete.id = response.data.data.personaId
+
+                        if(response.status == 200){
+                            athleteDesc.post(athleteDescData, token);   
+                        }
                     });
-                    
-                    athleteDesc.post({
-                        body: athleteDescData, token
-                    }).then(response => {
-                        console.log(response)
-                    }).catch(error => {
-                        console.log(error.response)
-                    });      
+                       
                 }
             }).catch(error => {
                 console.log((error));
@@ -207,14 +213,17 @@ export default function UserRegister({ teamRegister = false }) {
                     <>
                         {step > 1 && 
                         <S.StepperWrapper>
-                            <Stepper steps={3} currentStep={step} />
+                            <Stepper steps={2} currentStep={step} />
                         </S.StepperWrapper>
                         }
                         {step == 2 && <FormStepTwo onSubmit={handleFormSubmit} />}
-                        {step == 3 && <FormStepThree onSubmit={handleFormSubmit} />}
                     </>
                 )
             }
         </LS.Header>
     )
+}
+
+UserRegister.propTypes = {
+    onSubmit: PropTypes.func.isRequired,
 }

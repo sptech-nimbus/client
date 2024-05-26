@@ -3,6 +3,14 @@ import config from "./config";
 
 const path = "teams";
 
+async function getAllTeamsByCoach(id, token) {
+    const res = await axios.get(`${config.baseURL}/${path}/by-coach/${id}`, {
+        headers: { Authorization: `Bearer ${token}` }
+    });
+
+    return res;
+}
+
 async function getAllTeams(token) {
     const response = await axios.get(`${config.baseURL}/${path}`, {
         headers: { Authorization: `Bearer ${token}` }
@@ -19,16 +27,16 @@ async function getTeamsByName(name, token) {
     return response;
 }
 
-async function registerTeam(body = {}) {
-    const response = await axios.post(`${config.baseURL}/${path}`, body)
-        .then(response => {
-            console.log(response);
-        })
-        .catch(error => {
-            console.log(error);
+async function registerTeam(body = {}, token) {
+    try {
+        const response = await axios.post(`${config.baseURL}/${path}`, body, { 
+            headers: { Authorization: `Bearer ${token}` }
         });
-
-    return response;
+        return response;
+    }
+    catch(err) {
+        throw err;
+    }
 }
 
 async function getActiveInjuries({ param }) {
@@ -77,7 +85,8 @@ const team = {
     getAllTeams,
     requestChangeOwner,
     acceptChangeOwner,
-    byName: getTeamsByName
+    byName: getTeamsByName,
+    byUser: getAllTeamsByCoach
 }
 
 export default team;

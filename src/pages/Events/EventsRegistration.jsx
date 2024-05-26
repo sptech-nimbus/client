@@ -1,7 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
 import * as S from './Events.styled';
 
-import { toast } from 'react-toastify';
+import { useNotification } from '@contexts/notification';
+
 import { Calendar } from "react-multi-date-picker";
 import "react-multi-date-picker/styles/layouts/prime.css"
 import "react-multi-date-picker/styles/backgrounds/bg-dark.css"
@@ -16,8 +17,10 @@ import { TimeValidation, TextValidation, FutureDateValidation } from '@utils/Val
 
 import game from '../../api/game';
 import team from '../../api/team';
+import axios from 'axios';
 
 export default function EventsRegistration() {
+   const { addNotification, getNotificationHist } = useNotification();
    sessionStorage.setItem('jwt', 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJrYXVhYW5tYXRoZXVzQGdtYWlsLmNvbSIsImlhdCI6MTcxNTY5ODg3OX0.pH2mqkYUr5yPbrReOOSgVxVBd7KEMnTP0Dp1faNO-CWIvj6He7af7W6DP_YsDdS1b7uPmduCTSFhndRm-QgT2Q');
    sessionStorage.setItem('teamId', 'eaeb6176-5354-41db-a303-388780fbd9c0');
 
@@ -48,14 +51,20 @@ export default function EventsRegistration() {
       try {
         const response = await team.byName(inputValue, sessionStorage.getItem('jwt'));
         const data = response.data.data;
+      //   const { data } = await axios.get('https://6642243c3d66a67b34366411.mockapi.io/nimbus/teams');
         const options = data.map((team) => ({
           value: team.id,
-          label: `${team.name} - ${team.category}`,
+          label: (
+            <S.OptionWithImage>
+               <S.OptionImage src={team.picture}/>
+               <>{team.name} - {team.category}</>
+            </S.OptionWithImage>
+         ),
         }));
         callback(options);
       } catch (error) {
-        toast.error('Houve um erro ao buscar os times. Aguarde um momento antes de tentar novamente.')
-        console.error('Failed to load options:', error);
+         addNotification('error', 'Houve um erro ao buscar os times. Aguarde um momento antes de tentar novamente.');
+         console.error('Failed to load options:', error);
       }
     };
 
@@ -147,11 +156,11 @@ export default function EventsRegistration() {
                   body: events
                });
             } catch (e) {
-               toast.error(`Erro ao cadastrar jogo: ${e}`);
+               addNotification('error', `Erro ao cadastrar jogo: ${e}`);
             }
          }
 
-         toast.success('Evento cadastrado!');
+         addNotification('success', 'Evento cadastrado!');
 
          setEventData({
             challenged: {
@@ -167,11 +176,11 @@ export default function EventsRegistration() {
          setDates('');
       }
       else {
-         if (!SizeValidation(eventData.description)) toast.error('A descrição do evento deve possuir no máximo 300 caracteres.');
-         if (!TextValidation(eventData.local)) toast.error('O local do evento deve possuir pelo menos 2 caracteres.');
-         if (!TextValidation(eventData.type)) toast.error('O tipo do evento deve possuir pelo menos 2 caracteres.');
-         if (!TimeValidation(eventData.time)) toast.error('O horário inserido não é válido.');
-         if (!DatesValidation(dates)) toast.error('As datas inseridas não são válidas.');
+         if (!SizeValidation(eventData.description)) addNotification('error', 'A descrição do evento deve possuir no máximo 300 caracteres.');
+         if (!TextValidation(eventData.local)) addNotification('error', 'O local do evento deve possuir pelo menos 2 caracteres.');
+         if (!TextValidation(eventData.type)) addNotification('error', 'O tipo do evento deve possuir pelo menos 2 caracteres.');
+         if (!TimeValidation(eventData.time)) addNotification('error', 'O horário inserido não é válido.');
+         if (!DatesValidation(dates)) addNotification('error', 'As datas inseridas não são válidas.');
       }
    }
 
@@ -190,7 +199,6 @@ export default function EventsRegistration() {
                monthYearSeparator=" "
                showOtherDays
                disableYearPicker
-               minDate={new Date()}
             />
          </S.Container>
          <S.Container>
