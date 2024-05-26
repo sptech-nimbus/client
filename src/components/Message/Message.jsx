@@ -2,6 +2,7 @@ import * as S from './Message.styled';
 
 export default function Message({ msg }) {
    const date = new Date(`${msg.date}`);
+   const currentDate = new Date();
 
    return (
       <S.Container isSender={msg.userId == localStorage.personaId}>
@@ -12,7 +13,11 @@ export default function Message({ msg }) {
                {msg.message}
          </S.Content>
          <S.Date>
-            {date.toLocaleDateString('pt-BR')} - {date.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}
+            {
+               currentDate.toLocaleDateString('pt-br') == date.toLocaleDateString('pt-br') 
+               ? (date.toLocaleTimeString('pt-br'))
+               : (`${date.toLocaleDateString('pt-BR')} - ${date.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}`)
+            }
          </S.Date>
       </S.Container>
    )
