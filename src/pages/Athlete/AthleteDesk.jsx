@@ -4,15 +4,14 @@ import { useState, useEffect } from 'react';
 import Title from "@components/Title/Title";
 import { DeleteDialog } from "@components/Dialog/Dialog";
 import { PrimaryButton as Button } from "@components/Button/Button";
-import get from "@api/user";
 
-export default function AthleteDesk({ playerData }) {
+import DeskComparison from './DeskComparison';
+
+export default function AthleteDesk({ playerData, isComparison }) {
    let { birthDate } = playerData;
    birthDate = new Date(birthDate).toLocaleDateString('pt-BR');
 
-   console.log(playerData);
-
-   return (
+   return isComparison ? <DeskComparison playerData={playerData}/> : (
       <S.InfoWrapper>
       <S.InfoGrid>
             <S.Container>

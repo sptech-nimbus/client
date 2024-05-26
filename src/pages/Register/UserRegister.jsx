@@ -17,11 +17,11 @@ import FormStepFour from './AthleteRegister/FormStepFour';
 
 import user from '@api/user';
 import team from '@api/team';
-import athlete from '@api/athlete';
 import athleteDesc from '@api/athleteDesc';
 import { useNavigate, useNavigation } from 'react-router-dom';
 
 import { ToastContainer, toast } from 'react-toastify';
+import axios from 'axios';
 
 export default function UserRegister({ teamRegister = false }) {
     const { addNotification } = useNotification();
@@ -35,7 +35,7 @@ export default function UserRegister({ teamRegister = false }) {
         email: '',
         password: ''
     });
-    const [typeUser, setTypeUser] = useState('');
+    const [typeUser, setTypeUser] = useState('coach');
 
     const [personData, setPersonData] = useState({
         firstName: '',
@@ -47,9 +47,10 @@ export default function UserRegister({ teamRegister = false }) {
     const [teamData, setTeamData] = useState({
         name: '',
         category: '',
-        picture: '',
         local: '',
-        coach: { id: '' }
+        coach: { 
+            id: '' 
+        }
     });
 
     const [athleteDescData, setAthleteDescData] = useState({
@@ -99,6 +100,7 @@ export default function UserRegister({ teamRegister = false }) {
                 });
                 try {
                     await login({email: formData.email, password: formData.password});
+                    navigate('/register/team');
                 }
                 catch(err) {
                     addNotification('error', 'Houve um erro a validação dos seus dados. Por favor aguarde um momento antes de tentar novamente.')
@@ -107,8 +109,6 @@ export default function UserRegister({ teamRegister = false }) {
             catch(err) {
                 console.log('erro', err);
             }
-
-            setStep(step + 1)
         }
         else if (step == 2 && typeUser == "athlete") {
             console.log(formData)
@@ -116,7 +116,6 @@ export default function UserRegister({ teamRegister = false }) {
                 email: formData.email,
                 password: formData.password
             })
-
 
             personData.phone = formData.phone.replace("(", "").replace(")", "").replace("-", "").replace(" ", "");
             const updatePersonData = {
@@ -127,33 +126,6 @@ export default function UserRegister({ teamRegister = false }) {
 
             setPersonData(updatePersonData)
             console.log(personData);
-        }
-        else if (step == 3 && typeUser == "coach") {
-
-            teamData.name = formData.name;
-            teamData.category = formData.category;
-            teamData.local = formData.local;
-            teamData.coach.id = localStorage.getItem('personaId');
-            const { picture } = formData.picture;
-
-            console.log(teamData);
-            try {
-                console.log();
-                await team.post(teamData, token);
-                try {
-                    await blobStorage.post(picture, token, id); }
-                catch(err) {
-                    addNotification('error', 'Houve um erro ao cadastrar a imagem do time. Tente novamente mais tarde.');
-                }
-                finally {
-                    addNotification('success', 'Cadastro realizado! Redirecionando para tela de seleção de time...');
-                    // setIsRegisterFinished(true);
-                }
-            }
-            catch(err) {
-                addNotification('error', 'Não foi possível realizar o cadastro do time, por favor tente novamente mais tarde.');
-                console.log(err);
-            }
         }
         else if (step == 3 && typeUser == "athlete") {
             setPersonData({
@@ -244,11 +216,10 @@ export default function UserRegister({ teamRegister = false }) {
                     <>
                         {step > 1 && 
                         <S.StepperWrapper>
-                            <Stepper steps={3} currentStep={step} />
+                            <Stepper steps={2} currentStep={step} />
                         </S.StepperWrapper>
                         }
                         {step == 2 && <FormStepTwo onSubmit={handleFormSubmit} />}
-                        {step == 3 && <FormStepThree onSubmit={handleFormSubmit} />}
                     </>
                 )
             }

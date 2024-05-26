@@ -24,23 +24,64 @@ export default function Home() {
       challenger: {
          id: '',
          name: '',
-         picture: '',
+         picture: ''
       },
       challenged: {
          id: '',
          name: '',
-         picture: '',
+         picture: ''
+      }
+   });
+
+   const [nextGame, setNextGame] = useState({
+      game: {
+         day: '',
+         month: '',
+         hour: ''
+      },
+      challenger: {
+         id: '',
+         name: '',
+         picture: ''
+      },
+      challenged: {
+         id: '',
+         name: '',
+         picture: ''
       }
    });
 
    useEffect(() => {
       async function getLastGame() {
-         const { data } = await game.lastGame(localStorage.getItem('teamId', localStorage.getItem('token')));
+         const res = await game.lastGame(sessionStorage.getItem('teamId'), localStorage.getItem('token'));
 
-         setLastGame(data.data);
+         if (res.status === 204) {
+            setLastGame(null);
+         } else {
+            setLastGame(res.data.data);
+         }
+      }
+
+      async function getNextGame() {
+         const res = await game.nextGame(sessionStorage.getItem('teamId'), localStorage.getItem('token'));
+
+         const date = new Date(res.data.data.game.inicialDateTime);
+
+         if (res.status === 204) {
+            setNextGame(null);
+         } else {
+            setNextGame({
+               ...res.data.data, game: {
+                  day: date.getDate(),
+                  month: date.getMonth() + 1,
+                  hour: `${date.getHours()}:${date.getMinutes()}`
+               }
+            });
+         }
       }
 
       getLastGame();
+      getNextGame();
    }, []);
 
    const radarConfig = {
@@ -140,36 +181,46 @@ export default function Home() {
                </S.Container>
 
                <S.MatchContainer>
-                  <S.MatchCard>
-                     <S.MatchHeader>
-                        <span>Partida anterior</span>
-                     </S.MatchHeader>
-                     <S.MatchTeams>
-                        <S.MatchTeamLogo />
-                        <span>VS</span>
-                        <S.MatchTeamLogo />
-                     </S.MatchTeams>
-                     <S.MatchInfo>
-                        <span>Meu time</span>
-                        <span>Time adversário</span>
-                     </S.MatchInfo>
-                     <S.MatchResults>
-                        {
-                           lastGame.game.gameResult !== null
-                              ? <>
-                                 <span>{lastGame.game.gameResult.challengerPoints}</span>
-                                 <Results result={
-                                    lastGame.game.gameResult.challengerPoints > lastGame.game.gameResult.challengedPoints
-                                       && lastGame.challenger.id === localStorage.getItem('teamId')
-                                       ? 'win'
-                                       : 'lose'
-                                 } />
-                                 <span>{lastGame.game.gameResult.challengedPoints}</span>
-                              </>
-                              : <Results />
-                        }
-                     </S.MatchResults>
-                  </S.MatchCard>
+                  {
+                     lastGame
+                        ? < S.MatchCard >
+                           <S.MatchHeader>
+                              <span>Partida anterior</span>
+                           </S.MatchHeader>
+                           <S.MatchTeams>
+                              <S.MatchTeamLogo>
+                                 <S.MatchTeamImage src={lastGame.challenger.picture ? lastGame.challenger.picture : ''} />
+                              </S.MatchTeamLogo>
+                              <span>VS</span>
+                              <S.MatchTeamLogo>
+                                 <S.MatchTeamImage src={lastGame.challenged.picture ? lastGame.challenger.picture : ''} />
+                              </S.MatchTeamLogo >
+
+                           </S.MatchTeams>
+                           <S.MatchInfo>
+                              <span>{lastGame.challenger.name}</span>
+                              <span>{lastGame.challenged.name}</span>
+                           </S.MatchInfo>
+                           <S.MatchResults>
+                              {
+                                 lastGame.game.gameResult !== null
+                                    ? <>
+                                       <span>{lastGame.game.gameResult.challengerPoints}</span>
+                                       <Results result={
+                                          lastGame.game.gameResult.challengerPoints > lastGame.game.gameResult.challengedPoints
+                                             && lastGame.challenger.id === localStorage.getItem('teamId')
+                                             ? 'win'
+                                             : 'lose'
+                                       } />
+                                       <span>{lastGame.game.gameResult.challengedPoints}</span>
+                                    </>
+                                    : <Results />
+                              }
+                           </S.MatchResults>
+                        </S.MatchCard>
+                        : 'Sem Jogos cadastrados'
+                  }
+
                   <S.MatchCard>
                      <S.MatchHeader>
                         <span>Próxima partida</span>
@@ -180,12 +231,12 @@ export default function Home() {
                         <S.MatchTeamLogo />
                      </S.MatchTeams>
                      <S.MatchInfo>
-                        <span>Meu time</span>
-                        <span>Time adversário</span>
+                        <span>{nextGame.challenger.name}</span>
+                        <span>{nextGame.challenged.name}</span>
                      </S.MatchInfo>
                      <S.MatchResults>
-                        <span>25.04.2024</span>
-                        <span>16:30</span>
+                        <span>{nextGame.game.day}/{nextGame.game.month}</span>
+                        <span>{nextGame.game.hour}</span>
                      </S.MatchResults>
                   </S.MatchCard>
                </S.MatchContainer>
@@ -202,6 +253,6 @@ export default function Home() {
                </S.Container>
             </S.HomeGrid>
          </S.ContentContainer>
-      </S.PageContainer>
+      </S.PageContainer >
    )
 }
