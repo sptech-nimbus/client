@@ -1,9 +1,15 @@
-import Sidebar from "@components/Sidebar/Sidebar";
-import { useEffect } from "react";
-// import { useNavigate } from "react-router-dom";
+import * as S from './Chat.styled';
+
+import { useEffect, useState } from "react";
 import { socket } from "../../utils/Socket";
-import { useState } from "react";
 import { getMessages } from "../../api/chat";
+
+import Sidebar from "@components/Sidebar/Sidebar";
+import Input from "@components/Input/Input";
+import Button from "@components/Button/Button";
+import Status from './Status';
+
+import { MagnifyingGlass, PaperPlaneRight, ChatCircleDots } from '@phosphor-icons/react';
 
 export default function Chat() {
    sessionStorage.setItem('userId', '123');
@@ -60,17 +66,95 @@ export default function Chat() {
    }, []);
 
    return (
-      <>
+      <S.PageContainer>
          <Sidebar page='chat' />
-         <input value={newMessage} onInput={e => setNewMessage(e.target.value)}></input>
-         <button onClick={sendMessage}>enviar mensagem</button>
+         <S.ContentContainer>
+            <S.TopBar>
+               <img src="https://loremflickr.com/cache/resized/65535_53323386360_17d01a1eb8_b_640_480_nofilter.jpg" alt="" />
+               <span>Nome do time</span>
+            </S.TopBar>
 
-         {
-            messages.map(message => {
-               return <h1 key={message.date} style={{ color: 'white' }}>{message.message}</h1>
-            })
-         }
-      </>
+            <S.MessagesArea>
+               <S.MessagesContainer>
+                  {
+                     messages.map(message => {
+                        return <h1 key={message.date} style={{ color: 'white' }}>{message.message}</h1>
+                     })
+                  }
+               </S.MessagesContainer>
+               <S.InputContainer>
+                  <Input.Default
+                  placeholder='Mensagem'
+                  value={newMessage}
+                  onInput={e => setNewMessage(e.target.value)}
+                  >
+                     <ChatCircleDots />
+                  </Input.Default>
+                  <Button.Primary onClick={sendMessage} marginTop='0%' value='Enviar' fontSize='1.3rem'/>
+               </S.InputContainer>
+            </S.MessagesArea>
+         </S.ContentContainer>
+         <S.RightBar>
+            <S.CurrentUserContainer>
+               <S.AthleteImage src="https://loremflickr.com/cache/resized/65535_53323386360_17d01a1eb8_b_640_480_nofilter.jpg" alt="" />
+               <S.CurrentUserInfo>
+                  <span>Nome do usuário</span>
+                  <Status status='online'/>
+               </S.CurrentUserInfo>
+            </S.CurrentUserContainer>
+
+            <Input.Default
+               placeholder="Pesquisar jogador"
+            >
+               <MagnifyingGlass />
+            </Input.Default>
+
+            <S.ListContainer>
+               <span>Jogadores do time</span>
+               <S.OnlineList>
+                  <S.Athlete>
+                     <S.AthleteImage src="https://loremflickr.com/cache/resized/65535_53323386360_17d01a1eb8_b_640_480_nofilter.jpg" alt="" />
+                     <S.AthleteInfo online={true}>
+                        <span>Nome do jogador</span>
+                        <Status status='online'/>
+                     </S.AthleteInfo>
+                  </S.Athlete>
+
+                  <S.Athlete>
+                     <S.AthleteImage src="https://loremflickr.com/cache/resized/65535_53323386360_17d01a1eb8_b_640_480_nofilter.jpg" alt="" />
+                     <S.AthleteInfo online={true}>
+                        <span>Nome do jogador</span>
+                        <Status status='online'/>
+                     </S.AthleteInfo>
+                  </S.Athlete>
+
+                  <S.Athlete>
+                     <S.AthleteImage src="https://loremflickr.com/cache/resized/65535_53323386360_17d01a1eb8_b_640_480_nofilter.jpg" alt="" />
+                     <S.AthleteInfo online={true}>
+                        <span>Nome do jogador</span>
+                        <Status status='online'/>
+                     </S.AthleteInfo>
+                  </S.Athlete>
+
+                  <S.Athlete>
+                     <S.AthleteImage src="https://loremflickr.com/cache/resized/65535_53323386360_17d01a1eb8_b_640_480_nofilter.jpg" alt="" />
+                     <S.AthleteInfo online={true}>
+                        <span>Nome do jogador</span>
+                        <Status status='online'/>
+                     </S.AthleteInfo>
+                  </S.Athlete>
+
+                  <S.Athlete>
+                     <S.AthleteImage src="https://loremflickr.com/cache/resized/65535_53323386360_17d01a1eb8_b_640_480_nofilter.jpg" alt="" />
+                     <S.AthleteInfo online={true}>
+                        <span>Nome do jogador</span>
+                        <Status status='online'/>
+                     </S.AthleteInfo>
+                  </S.Athlete>
+               </S.OnlineList>
+            </S.ListContainer>
+         </S.RightBar>
+      </S.PageContainer>
    )
 
    // mensagem: {
