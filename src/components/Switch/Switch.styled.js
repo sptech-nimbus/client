@@ -33,12 +33,11 @@ export const SwitchThumb = styled(Switch.Thumb)`
   height: 21px;
   background-color: ${Colors.orange100};
   border-radius: 9999px;
-  box-shadow: 0 2px 2px #000066;
   transition: transform 100ms;
   transform: translateX(2px);
   will-change: transform;
 
   &[data-state="checked"] {
-    transform: translateX(24px);
+    transform: translateX(25px);
   }
 `
