@@ -64,13 +64,42 @@ export const MessagesArea = styled.div`
    width: 100%;
    height: 100%;
    padding: 1rem 2rem;
-   overflow-y: auto;
+   gap: .5rem;
+   display: flex;
+   flex-direction: column;
 `
 
 export const MessagesContainer = styled.div`
-   height: 90%;
+   display: flex;
+   flex-direction: column;
+   max-height: 80%;
    width: 100%;
-   /* background-color: red; */
+   overflow-y: auto;
+   padding-right: .5rem;
+
+   &::-webkit-scrollbar {
+      width: 6px;
+   }
+
+   &::-webkit-scrollbar-track {
+      border-radius: 8px;
+      background-color: ${Colors.gray700};
+   }
+
+   &::-webkit-scrollbar-thumb {
+      background: ${Colors.orange500}; 
+      border-radius: 8px;
+   }
+
+   &::-webkit-scrollbar-thumb:hover {
+      background: ${Colors.orange300}; 
+   }
+`
+
+export const MessageBox = styled.div`
+   width: 100%;
+   display: flex;
+   justify-content: ${props => props.isSender ? 'end' : 'start'};
 `
 
 export const CurrentUserContainer = styled.div`
