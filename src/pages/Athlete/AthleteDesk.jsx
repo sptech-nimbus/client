@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
+
 import * as S from "./Player.styled";
 import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
@@ -11,7 +12,7 @@ import { PrimaryButton as Button } from "@components/Button/Button";
 import user from "@api/user";
 import DeskComparison from './DeskComparison';
 
-export default function AthleteDesk({playerData}) {
+export default function AthleteDesk({playerData, isComparison }) {
    const [id, setId] = useState('');
    const [token, setToken] = useState('');
    

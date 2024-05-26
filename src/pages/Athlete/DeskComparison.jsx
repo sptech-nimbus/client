@@ -1,3 +1,6 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable react/prop-types */
+
 import * as S from "./Player.styled";
 
 import Title from "@components/Title/Title";
