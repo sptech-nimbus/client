@@ -9,7 +9,6 @@ import { useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 
 import team from "@api/team";
-import blobStorage from "@api/blolStorage";
 
 export default function TeamRegister() {
     const navigate = useNavigate();
@@ -42,6 +41,7 @@ export default function TeamRegister() {
             picture: formData.picture,
       });
 
+      console.log(teamData);
       team.post(teamData);
       setIsRegisterFinished(!isRegisterFinished);
     }

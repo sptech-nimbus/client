@@ -1,3 +1,7 @@
+/* eslint-disable react/prop-types */
+/* eslint-disable no-unused-vars */
+/* eslint-disable react-hooks/exhaustive-deps */
+
 import * as S from "./Player.styled";
 import { useLocation } from "react-router-dom";
 
@@ -27,9 +31,9 @@ export default function PlayerInfo() {
    useEffect(() => {
       async function fetchData() {
          //requisição de mock api - substituir pela requisição correta ao backend
-         const { data } = await axios.get(`https://6642243c3d66a67b34366411.mockapi.io/nimbus/athlete/${playerId}`);
-         setPlayerData(data);
-         console.log(data);
+         // const { data } = await axios.get(`https://6642243c3d66a67b34366411.mockapi.io/nimbus/athlete/${playerId}`);
+         // setPlayerData(data);
+         // console.log(data);
       }
 
       fetchData();

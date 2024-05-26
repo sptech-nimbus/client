@@ -1,15 +1,36 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable react/prop-types */
 import * as S from "./Player.styled";
 import { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
+
 
 import Title from "@components/Title/Title";
 import { DeleteDialog } from "@components/Dialog/Dialog";
 import { PrimaryButton as Button } from "@components/Button/Button";
-import get from "@api/user";
+import user from "@api/user";
 
-export default function AthleteDesk({ playerData }) {
-   let { birthDate } = playerData;
+export default function AthleteDesk({playerData}) {
+   const [id, setId] = useState('');
+   const [token, setToken] = useState('');
+   
+   if (id == null && token == null){
+      setId(localStorage.getItem('id'));
+      setToken(localStorage.getItem('token'));
+      console.log(id)
+   } 
+
+   user.get({
+      header: id
+   }).then(response => {
+      console.log(response)
+   }).catch(error => {
+      console.log(error.response);
+   });
+
+   let birthDate = playerData;
    birthDate = new Date(birthDate).toLocaleDateString('pt-BR');
-
+   
    return (
       <S.InfoWrapper>
       <S.InfoGrid>
@@ -113,3 +134,7 @@ export default function AthleteDesk({ playerData }) {
    </S.InfoWrapper>
    )
 }
+
+AthleteDesk.propTypes = {
+   onSubmit: PropTypes.func.isRequired,
+};
