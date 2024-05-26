@@ -229,9 +229,15 @@ export const ComparisonContainer = styled.div`
    }
 
    ${ChartContainer} {
-      height: 55%;
+      height: 40%;
       flex-direction: column;
       padding-top: 1rem;
+   }
+`
+
+export const StatsComparisonContainer = styled(ComparisonContainer)`
+   ${Container} {
+      justify-content: space-between;
    }
 `
 
