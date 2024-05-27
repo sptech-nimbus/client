@@ -3,6 +3,23 @@ import config from "./config";
 
 const path = "athletes";
 
+async function getUserById(id, token) {
+    try {
+        const response = await axios.get(`${config.baseURL}/${path}/ms-get-athlete/${id}`, 
+        {
+            headers: { 
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            }
+        });
+        return response;
+    }
+    catch (err) {
+        console.log(err)
+        throw err;
+    }
+}
+
 async function putAthlete({ param, body }) {
     const response = await axios.put(`${config.baseURL}/${path}/${param}`, body);
 
@@ -26,6 +43,7 @@ async function registerTeam({ param, body, token }) {
 }
 
 const athlete = {
+    get: getUserById,
     put: putAthlete,
     registerTeam,
     byTeam: getByTeam

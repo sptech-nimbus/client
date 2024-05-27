@@ -1,3 +1,7 @@
+/* eslint-disable react/prop-types */
+/* eslint-disable no-unused-vars */
+/* eslint-disable react-hooks/exhaustive-deps */
+
 import * as S from "./Player.styled";
 import { useLocation, useNavigate } from "react-router-dom";
 
