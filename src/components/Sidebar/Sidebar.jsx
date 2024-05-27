@@ -10,7 +10,7 @@ import {
    CalendarBlank, 
    Gear, 
    Placeholder, 
-   IdentificationCard
+   Basketball
 } from "@phosphor-icons/react";
 import { useNavigate } from "react-router-dom";
 
@@ -51,9 +51,9 @@ export default function Sidebar({page, logo, children}) {
                weight={page == 'agenda' ? 'fill' : 'regular'}
                />
             </S.Icon>
-            <S.Icon onClick={() => navigate('/register-stats')} title='Cadastrar estatísticas'>
-               <IdentificationCard
-                  weight={page == 'register-stats' ? 'fill' : 'regular'} size={32}
+            <S.Icon onClick={() => navigate('/match')} title='Cadastrar estatísticas'>
+               <Basketball
+                  weight={page == 'match' ? 'fill' : 'regular'} size={32}
                />
             </S.Icon>
          </S.IconGroup>
