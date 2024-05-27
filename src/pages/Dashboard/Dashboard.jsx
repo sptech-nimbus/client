@@ -15,6 +15,8 @@ export default function DashboardLayout() {
    const [isLoading, setIsLoading] = useState(false);
    const [winsGraph, setWinsGraph] = useState([]);
    const [pointsDivision, setPointsDivision] = useState([]);
+   const [pointsPerGameLabels, setPointsPerGameLabels] = useState([]);
+   const [pointsPerGameValues, setPointsPerGameValues] = useState([]);
 
    useEffect(() => {
       async function fetchData() {
@@ -28,6 +30,16 @@ export default function DashboardLayout() {
             const pointsDivisionRes = await graph.getPointsDivision(sessionStorage.getItem('teamId'), 10, localStorage.getItem('token'));
 
             setPointsDivision([pointsDivisionRes.data.data.threePointsPorcentage, pointsDivisionRes.data.data.twoPointsPorcentage]);
+
+            const pointsPerGame = await graph.getPointsPerGame(sessionStorage.getItem('teamId'), 6, localStorage.getItem('token'));
+
+            Object.keys(pointsPerGame.data.data).forEach(key => {
+               const date = new Date(key);
+
+               setPointsPerGameLabels([...pointsPerGameLabels, `${date.getDay()}/${date.getMonth()}`]);
+
+               setPointsPerGameValues([...pointsPerGameValues, pointsPerGame.data.data[key]]);
+            });
          }
          catch (err) {
             addNotification('error', 'Houve um erro ao buscar os dados do seu time. Por favor, aguarde um momento antes de tentar novamente.');
@@ -177,7 +189,7 @@ export default function DashboardLayout() {
 
    const areaConfig = {
       data: {
-         labels: ['10/12', '12/12', '14/12', '16/12', '18/12', '20/12'],
+         labels: pointsPerGameLabels,
          datasets: [
             {
                //  fill: true,
@@ -185,18 +197,9 @@ export default function DashboardLayout() {
                backgroundColor: `${Colors.orange500}`,
                borderColor: `${Colors.orange500}`,
                borderWidth: 3,
-               data: [65, 59, 80, 81, 73, 65],
+               data: pointsPerGameValues,
                lineTension: .4,
-            },
-            {
-               //  fill: true,
-               label: 'Pontos sofridos',
-               backgroundColor: `${Colors.orange300}`,
-               borderColor: `${Colors.orange300}`,
-               borderWidth: 3,
-               data: [34, 69, 66, 67, 55, 70],
-               lineTension: .4,
-            },
+            }
          ],
       },
       options: {
