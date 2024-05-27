@@ -45,7 +45,7 @@ export default function TeamRoster() {
          try {
             setIsLoading(true);
             //requisição de mock api - substituir pela requisição correta ao backend
-            // let { data } = await axios.get('https://6642243c3d66a67b34366411.mockapi.io/nimbus/athlete');
+            // // let { data } = await axios.get('https://6642243c3d66a67b34366411.mockapi.io/nimbus/athlete');
             // data = data.map(item => ({ ...item, position: randomPosition() }))
 
             const { data } = await athlete.byTeam(localStorage.getItem('teamId'), localStorage.getItem('token'));

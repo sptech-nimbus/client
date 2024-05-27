@@ -1,15 +1,23 @@
+/* eslint-disable no-useless-catch */
 import axios from "axios";
 import config from "./config";
 
 const path = "users";
 
 
-async function getUserById(headers = {}) {
+async function getUserById(id, token) {
     try {
-        const response = await axios.get(`${config.baseURL}/${path}`, headers);
+        const response = await axios.get(`${config.baseURL}/${path}/${id}`, 
+        {
+            headers: { 
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            }
+        });
         return response;
     }
     catch (err) {
+        console.log(err)
         throw err;
     }
 }
