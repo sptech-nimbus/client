@@ -1,3 +1,4 @@
+/* eslint-disable no-useless-catch */
 import axios from "axios";
 import config from "./config";
 
@@ -12,8 +13,12 @@ async function getAllTeamsByCoach(id, token) {
 }
 
 async function getAllTeams(token) {
-    const response = await axios.get(`${config.baseURL}/${path}`, {
-        headers: { Authorization: `Bearer ${token}` }
+    const response = await axios.get(`${config.baseURL}/${path}`,
+    {
+        headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+        }
     });
 
     return response;

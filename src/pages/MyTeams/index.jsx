@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from 'react';
 import * as S from './MyTeams.styled';
 import { useNavigate } from 'react-router-dom';
@@ -8,26 +9,20 @@ import { SecondaryButton as Button } from '@components/Button/Button';
 
 import team from '../../api/team';
 
-import axios from 'axios';
-
 export default function MyTeams() {
    const navigate = useNavigate();
    const { chooseTeam } = useAuth();
    const [coachTeams, setCoachTeams] = useState([]);
 
-   useEffect(() => {
-      async function fetchData() {
-         //requisição de mock api - substituir pela requisição correta ao backend
-         // const { data } = await axios.get('https://6642243c3d66a67b34366411.mockapi.io/nimbus/teams');
-         const { data } = await team.byUser(localStorage.getItem('personaId'), localStorage.getItem('token'));
-
-         setCoachTeams(data.data);
-      }
-      fetchData();
-   }, []);
+   async function fetchData() {
+      const { data } = await team.getAllTeams(localStorage.getItem('token'));
+      console.log(data)
+      setCoachTeams(data.data);
+   }
+   fetchData();
 
    useEffect(() => {
-      if (coachTeams.length == 1) {
+      if (coachTeams.length === 1) {
          chooseTeam(coachTeams[0].id);
          navigate('/home');
       }
@@ -38,9 +33,9 @@ export default function MyTeams() {
       if (teamId) {
          navigate('/home');
       }
-   }
+   };
 
-   let teamsElements = coachTeams.map(team => (
+   const teamsElements = coachTeams.map(team => (
       <S.Team key={team.id} onClick={() => handleTeamSelection(team.id)}>
          <S.TeamImage src={team.picture} />
          <S.TeamName>{team.name}</S.TeamName>
@@ -51,8 +46,8 @@ export default function MyTeams() {
       <S.Header>
          <Background.Default />
          <S.ContentContainer>
-            <S.TeamsContainer hasTeams={teamsElements.length == 0 ? false : true}>
-               {teamsElements.length != 0
+            <S.TeamsContainer hasTeams={teamsElements.length == 0}>
+               {teamsElements.length !== 0
                   ? teamsElements
                   : (
                      <>
@@ -69,5 +64,5 @@ export default function MyTeams() {
             />
          </S.ContentContainer>
       </S.Header>
-   )
+   );
 }

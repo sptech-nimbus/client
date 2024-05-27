@@ -110,6 +110,7 @@ export default function UserRegister({ teamRegister = false }) {
                 catch(err) {
                     addNotification('error', 'Houve um erro a validação dos seus dados. Por favor aguarde um momento antes de tentar novamente.')
                 }
+                setStep(step + 1);
             }
             catch(err) {
                 console.log('erro', err);
@@ -131,6 +132,7 @@ export default function UserRegister({ teamRegister = false }) {
 
             setPersonData(updatePersonData)
             console.log(personData);
+            setStep(step + 1);
         }
         else if (step == 3 && typeUser == "athlete") {
             setPersonData({
@@ -173,8 +175,7 @@ export default function UserRegister({ teamRegister = false }) {
 
             setStep(step + 1);
         }
-        else if (step == 4 && typeUser == "athlete") {
-            console.log(formData.code);  
+        else if (step == 4 && typeUser == "athlete") { 
             setIsRegisterFinished(!isRegisterFinished);
         }
     }

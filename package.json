@@ -27,6 +27,7 @@
     "@stomp/stompjs": "^7.0.0",
     "axios": "^1.6.8",
     "chart.js": "^4.4.2",
+    "date-fns": "^3.6.0",
     "framer-motion": "^11.1.7",
     "react": "^18.2.0",
     "react-chartjs-2": "^5.2.0",
