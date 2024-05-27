@@ -11,6 +11,15 @@ async function getWinsByTeam(teamId, matches, token) {
     return response;
 }
 
+async function getPointsDivisionByTeam(teamId, matches, token) {
+    const response = axios.get(`${url}/points-division-per-team/${teamId}?matches=${matches}`, {
+        headers: { Authorization: `Bearer ${token}` }
+    });
+
+    return response;
+}
+
 export default {
-    getWins: getWinsByTeam
+    getWins: getWinsByTeam,
+    getPointsDivision: getPointsDivisionByTeam
 }
