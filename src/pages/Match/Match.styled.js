@@ -55,7 +55,8 @@ export const Container = styled.div`
    &:nth-child(1) {
       grid-column: 1 / 4;
       grid-row: 1 / 2;
-      /* background: none; */
+      background: none;
+      border: none;
    }
 
    &:nth-child(2) {
@@ -113,7 +114,7 @@ export const Versus = styled.span`
 
 export const TeamName = styled.span`
    font-size: 1.5rem;
-   font-weight: 600;
+   font-weight: 700;
 `
 
 export const OnGoingPts = styled.div`
