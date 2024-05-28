@@ -1,5 +1,25 @@
-import styled, { css } from "styled-components";
+import styled, { css, keyframes } from "styled-components";
 import { Colors } from "@utils/Helpers";
+
+import { motion } from "framer-motion";
+
+const slideDown = keyframes`
+  from {
+    height: 0;
+  }
+  to {
+    height: var(--radix-accordion-content-height);
+  }
+`;
+
+const slideUp = keyframes`
+  from {
+    height: var(--radix-accordion-content-height);
+  }
+  to {
+    height: 0;
+  }
+`;
 
 export const Flex = styled.div`
    display: grid;
@@ -171,6 +191,8 @@ export const AthletesList = styled.div`
    height: 100%;
    display: flex;
    flex-direction: column;
+   gap: 1rem;
+   overflow-y: auto;
 `
 
 export const Athlete = styled.div`
@@ -189,7 +211,15 @@ export const Athlete = styled.div`
 export const AthleteInfo = styled.div`
    display: flex;
    align-items: center;
+   position: relative;
    gap: 1rem;
+`
+
+export const CollapsibleArrow = styled.div`
+   position: absolute;
+   right: 0;
+   font-size: 1.2rem;
+   cursor: pointer;
 `
 
 export const AthleteImage = styled.img`
@@ -214,7 +244,17 @@ export const Column = styled.div`
 
 export const Actions = styled.div`
    display: flex;
+   justify-content: space-between;
    gap: .5rem;
+   overflow: hidden;
+
+   &[data-state='open'] {
+      animation: ${slideDown} 300ms cubic-bezier(0.87, 0, 0.13, 1);
+   }
+  
+   &[data-state='closed'] {
+      animation: ${slideUp} 300ms cubic-bezier(0.87, 0, 0.13, 1);
+   }
 `
 
 export const AddAction = styled.div`
@@ -260,7 +300,7 @@ export const PopoverContent = styled.div`
    gap: .5rem;
 `
 
-export const Action = styled.div`
+export const Action = styled(motion.div)`
    border-radius: .5rem;
    padding: .5rem 1rem;
    background-color: ${Colors.gray600};

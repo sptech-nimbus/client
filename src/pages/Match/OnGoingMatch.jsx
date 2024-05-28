@@ -7,7 +7,8 @@ import Sidebar from "@components/Sidebar/Sidebar";
 import Title from "@components/Title/Title";
 import Popover from "@components/Popover/Popover";
 
-import { Play, Pause, ClockClockwise } from '@phosphor-icons/react';
+import { Play, Pause, ClockClockwise, CaretDown } from '@phosphor-icons/react';
+import * as Accordion from '@radix-ui/react-accordion';
 
 export default function OnGoingMatch() {
    const { totalSeconds, seconds, minutes, hours, isRunning, start, resume, pause, reset } = useStopwatch();
@@ -131,61 +132,74 @@ export default function OnGoingMatch() {
                <S.Container>
                   <Title text='Jogadores do seu time' size='1.2rem'/>
                   <S.AthletesList>
-                     <S.Athlete>
-                        <S.AthleteInfo>
-                           <S.AthleteImage />
+                     <Accordion.Root type='single' collapsible>
 
-                           <S.Column>
-                              <S.AthleteName>Nome do jogador</S.AthleteName>
-                              <S.isPlaying isPlaying>Jogando</S.isPlaying>
-                           </S.Column>
-                        </S.AthleteInfo>
+                        <Accordion.Item value='item-1' asChild>
+                           <S.Athlete>
+                              <S.AthleteInfo>
+                                 <S.AthleteImage />
 
-                        <S.Actions>
-                           <Popover trigger={<S.Action>Pontos</S.Action>} sideOffset={8}>
-                              <S.PopoverContent>
-                                 <S.AddAction>
-                                    <S.AddButton isError onClick={() => addStatistic('pts', -1)}>+1 pts</S.AddButton>
-                                    <S.AddButton isError onClick={() => addStatistic('pts', -2)}>+2 pts</S.AddButton>
-                                    <S.AddButton isError onClick={() => addStatistic('pts', -3)}>+3 pts</S.AddButton>
-                                 </S.AddAction>
-                                 <S.AddAction>
-                                    <S.AddButton onClick={() => addStatistic('pts', 1)}>+1 pts</S.AddButton>
-                                    <S.AddButton onClick={() => addStatistic('pts', 2)}>+2 pts</S.AddButton>
-                                    <S.AddButton onClick={() => addStatistic('pts', 3)}>+3 pts</S.AddButton>
-                                 </S.AddAction>
-                              </S.PopoverContent>
-                           </Popover>
+                                 <S.Column>
+                                    <S.AthleteName>Nome do jogador</S.AthleteName>
+                                    <S.isPlaying isPlaying>Jogando</S.isPlaying>
+                                 </S.Column>
 
-                           <Popover trigger={<S.Action>Rebotes</S.Action>} sideOffset={8}>
-                              <S.PopoverContent>
-                                 <S.AddAction>
-                                    <S.AddButton onClick={() => addStatistic('offReb', 1)} title='+1 Rebote ofensivo'>+1 reb off</S.AddButton>
-                                    <S.AddButton onClick={() => addStatistic('defReb', 1)} title='+1 Rebote defensivo'>+1 reb def</S.AddButton>
-                                 </S.AddAction>
-                              </S.PopoverContent>
-                           </Popover>
+                                 <Accordion.Trigger asChild>
+                                    <S.CollapsibleArrow>
+                                       <CaretDown weight='bold'/>
+                                    </S.CollapsibleArrow>
+                                 </Accordion.Trigger>
+                              </S.AthleteInfo>
 
-                           <Popover trigger={<S.Action>Defesa</S.Action>} sideOffset={8}>
-                              <S.PopoverContent>
-                                 <S.AddAction>
-                                    <S.AddButton onClick={() => addStatistic('blk', 1)}>+1 toco</S.AddButton>
-                                    <S.AddButton onClick={() => addStatistic('stl', 1)}>+1 roubo</S.AddButton>
-                                    <S.AddButton isError onClick={() => addStatistic('foul', 1)}>+1 falta</S.AddButton>
-                                 </S.AddAction>
-                              </S.PopoverContent>
-                           </Popover>
+                              <Accordion.Content asChild>
+                                 <S.Actions>
+                                    <Popover trigger={<S.Action >Pontos</S.Action>} sideOffset={8}>
+                                       <S.PopoverContent>
+                                          <S.AddAction>
+                                             <S.AddButton isError onClick={() => addStatistic('pts', -1)}>+1 pts</S.AddButton>
+                                             <S.AddButton isError onClick={() => addStatistic('pts', -2)}>+2 pts</S.AddButton>
+                                             <S.AddButton isError onClick={() => addStatistic('pts', -3)}>+3 pts</S.AddButton>
+                                          </S.AddAction>
+                                          <S.AddAction>
+                                             <S.AddButton onClick={() => addStatistic('pts', 1)}>+1 pts</S.AddButton>
+                                             <S.AddButton onClick={() => addStatistic('pts', 2)}>+2 pts</S.AddButton>
+                                             <S.AddButton onClick={() => addStatistic('pts', 3)}>+3 pts</S.AddButton>
+                                          </S.AddAction>
+                                       </S.PopoverContent>
+                                    </Popover>
 
-                           <Popover trigger={<S.Action>Assistência</S.Action>} sideOffset={8}>
-                              <S.PopoverContent>
-                                 <S.AddAction>
-                                    <S.AddButton isError onClick={() => addStatistic('turnover', 1)}>+1 turnover</S.AddButton>
-                                    <S.AddButton onClick={() => addStatistic('ast', 1)}>+1 assistência</S.AddButton>
-                                 </S.AddAction>
-                              </S.PopoverContent>
-                           </Popover>
-                        </S.Actions>
-                     </S.Athlete>
+                                    <Popover trigger={<S.Action>Rebotes</S.Action>} sideOffset={8}>
+                                       <S.PopoverContent>
+                                          <S.AddAction>
+                                             <S.AddButton onClick={() => addStatistic('offReb', 1)} title='+1 Rebote ofensivo'>+1 reb off</S.AddButton>
+                                             <S.AddButton onClick={() => addStatistic('defReb', 1)} title='+1 Rebote defensivo'>+1 reb def</S.AddButton>
+                                          </S.AddAction>
+                                       </S.PopoverContent>
+                                    </Popover>
+
+                                    <Popover trigger={<S.Action>Defesa</S.Action>} sideOffset={8}>
+                                       <S.PopoverContent>
+                                          <S.AddAction>
+                                             <S.AddButton onClick={() => addStatistic('blk', 1)}>+1 toco</S.AddButton>
+                                             <S.AddButton onClick={() => addStatistic('stl', 1)}>+1 roubo</S.AddButton>
+                                             <S.AddButton isError onClick={() => addStatistic('foul', 1)}>+1 falta</S.AddButton>
+                                          </S.AddAction>
+                                       </S.PopoverContent>
+                                    </Popover>
+
+                                    <Popover trigger={<S.Action>Assistência</S.Action>} sideOffset={8}>
+                                       <S.PopoverContent>
+                                          <S.AddAction>
+                                             <S.AddButton isError onClick={() => addStatistic('turnover', 1)}>+1 turnover</S.AddButton>
+                                             <S.AddButton onClick={() => addStatistic('ast', 1)}>+1 assistência</S.AddButton>
+                                          </S.AddAction>
+                                       </S.PopoverContent>
+                                    </Popover>
+                                 </S.Actions>
+                              </Accordion.Content>
+                           </S.Athlete>
+                        </Accordion.Item>
+                     </Accordion.Root>
                   </S.AthletesList>
                </S.Container>
                
