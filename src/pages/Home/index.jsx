@@ -8,10 +8,13 @@ import Results from './Result';
 import Title from '@components/Title/Title';
 
 import game from '../../api/game';
+import graph from '../../api/graph';
 
 import { Colors } from "@utils/Helpers";
 
 export default function Home() {
+   const [winsGraph, setWinsGraph] = useState([]);
+
    const [lastGame, setLastGame] = useState({
       game: {
          inicialDateTime: '',
@@ -80,8 +83,15 @@ export default function Home() {
          }
       }
 
+      async function getWins() {
+         const res = await graph.getWins(sessionStorage.getItem('teamId'), 10, localStorage.getItem('token'));
+
+         setWinsGraph([res.data.data.wins, res.data.data.loses]);
+      }
+
       getLastGame();
       getNextGame();
+      getWins();
    }, []);
 
    const radarConfig = {
@@ -131,8 +141,8 @@ export default function Home() {
          labels: ['Vitórias', 'Derrotas'],
          datasets: [
             {
-               label: '# of Votes',
-               data: [12, 12],
+               label: '',
+               data: winsGraph,
                backgroundColor: [
                   `${Colors.orange500}`,
                   `${Colors.orange300}`,

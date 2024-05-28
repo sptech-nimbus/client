@@ -1,116 +1,155 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable react/prop-types */
+
 import * as S from "./Player.styled";
 import { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
+import { format, parseISO, differenceInYears } from 'date-fns';
 
 import Title from "@components/Title/Title";
-import { DeleteDialog } from "@components/Dialog/Dialog";
+import { DeleteDialog, UpdateDialog } from "@components/Dialog/Dialog";
 import { PrimaryButton as Button } from "@components/Button/Button";
-
+import athleteDesc from "@api/athleteDesc";
 import DeskComparison from './DeskComparison';
 
 export default function AthleteDesk({ playerData, isComparison }) {
-   let { birthDate } = playerData;
-   birthDate = new Date(birthDate).toLocaleDateString('pt-BR');
+   const [id, setId] = useState(localStorage.getItem('personaId'));
+   const [token, setToken] = useState(localStorage.getItem('token'));
+   const [persona, setPersona] = useState({});
+   const [hasFetchedData, setHasFetchedData] = useState(false);
+
+   useEffect(() => {
+      async function fetchData() {
+         if (id && token && !hasFetchedData) {
+            try {
+               const response = await athleteDesc.allInfo(id, token);
+               console.log(response.data.data);
+               setPersona(response.data.data);
+               setHasFetchedData(true);
+            } catch (error) {
+               console.error('Erro ao buscar os dados do atleta:', error);
+            }
+         }
+      }
+      fetchData();
+   }, [id, token, hasFetchedData]);
+
+   const calculateAge = (birthDate) => {
+      if (!birthDate) return 'Não disponível';
+      const birthDateParsed = parseISO(birthDate);
+      return differenceInYears(new Date(), birthDateParsed);
+   };
+
+   persona.birthDate = persona.birthDate 
+      ? format(parseISO(persona.birthDate), 'dd/MM/yyyy') 
+      : 'Data não disponível';
+
+   const age = persona.birthDate ? calculateAge(persona.birthDate) : 'Não disponível';
 
    return isComparison ? <DeskComparison playerData={playerData}/> : (
       <S.InfoWrapper>
-      <S.InfoGrid>
+         <S.InfoGrid>
             <S.Container>
-               <S.PlayerImg src={playerData.picture}/>
+               <S.PlayerImg src={persona.picture} />
             </S.Container>
             
             <S.Container>
-               <Title text='Informações do jogador' size='1.3rem'/>
+               <Title text='Informações do jogador' size='1.3rem' />
                <S.InfomationContainer>
                   <S.Information>
-                     <S.Label>Nome completo:</S.Label>  
-                     <span>{playerData.firstName} {playerData.lastName}</span>
+                     <S.Label>Nome completo:</S.Label>
+                     <span>{persona.firstName} {persona.lastName}</span>
                   </S.Information>
 
                   <S.Information>
                      <S.Label>Número: </S.Label>
-                     <span>{playerData.number}</span>
+                     <span>{persona.number ? persona.number : 'Não definido'}</span>
                   </S.Information>
 
                   <S.Information>
                      <S.Label>Posição: </S.Label>
-                     <span>{playerData.position}</span>
+                     <span>{persona.position ? persona.position : 'Não definido'}</span>
                   </S.Information>
 
                   <S.Information>
                      <S.Label>Data de nascimento: </S.Label>
-                     <span>{birthDate}</span>
+                     <span>{persona.birthDate}</span>
                   </S.Information>
 
                   <S.Information>
                      <S.Label>Idade: </S.Label>
-                     <span>{playerData.age}</span>
+                     <span>{age}</span>
                   </S.Information>
 
                   <S.Flex>
                      <S.Information>
                         <S.Label>Altura (cm): </S.Label>
-                        <span>{playerData.height}</span>
+                        <span>{persona.height ? persona.height : 'Não definido'}</span>
                      </S.Information>
                      <S.Information>
                         <S.Label>Peso (kg): </S.Label>
-                        <span>{playerData.weight}</span>
+                        <span>{persona.weight ? persona.weight : 'Não definido'}</span>
                      </S.Information>
                   </S.Flex>
 
                   <S.Information>
                      <S.Label>Endereço: </S.Label>
-                     <span>{playerData.address}</span>
+                     <span>{persona.address ? persona.address : 'Não definido'}</span>
                   </S.Information>
                </S.InfomationContainer>
             </S.Container>
 
             <S.Container>
-               <Title text='Atributos' size='1.3rem'/>
+               <Title text='Atributos' size='1.3rem' />
                <S.InfomationContainer>
-
                   <S.Information>
                      <S.Label>Categoria:</S.Label>
-                     <span>{playerData.category}</span>
+                     <span>{persona.category ? persona.category : 'Não definido.'}</span>
                   </S.Information>
                   
                   <S.Information>
                      <S.Label>Pontos marcados:</S.Label>
-                     <span>{playerData.pts} pontos</span>
+                     <span>{persona.pts} pontos</span>
                   </S.Information>
 
                   <S.Information>
                      <S.Label>Assistências:</S.Label>
-                     <span>{playerData.ast} assistências</span>
+                     <span>{persona.ast} assistências</span>
                   </S.Information>
-
                </S.InfomationContainer>
             </S.Container>
 
             <S.Container>
-               <Title text='Contatos' size='1.3rem'/>
+               <Title text='Contatos' size='1.3rem' />
                <S.InfomationContainer>
                   <S.Information>
                      <S.Label>E-mail:</S.Label>
-                     <span>{playerData.email}</span>
+                     <span>{persona.email ? persona.email : 'Não definido.'}</span>
                   </S.Information>
                   
                   <S.Information>
                      <S.Label>Telefone 1:</S.Label>
-                     <span>{playerData.phone}</span>
+                     <span>{persona.phone ? persona.phone : 'Não definido.'}</span>
                   </S.Information>
 
                   <S.Information>
                      <S.Label>Telefone 2:</S.Label>
-                     <span>Não definido.</span>
+                     <span>{persona.phone2 ? persona.phone2 : 'Não definido.'}</span>
                   </S.Information>
                </S.InfomationContainer>
             </S.Container>
-      </S.InfoGrid>
-      <S.Buttons>
-         <Button value='Editar'/>
-         <Button value='Deletar'/>
-         <Button value='Baixar PDF'/>
-      </S.Buttons>
-   </S.InfoWrapper>
-   )
+         </S.InfoGrid>
+         <S.Buttons>
+            <UpdateDialog athlete={persona} trigger={<Button value='Editar'/>} />
+            <DeleteDialog athlete={persona} trigger={<Button value='Deletar' />} />
+            <Button value='Baixar PDF' />
+         </S.Buttons>
+      </S.InfoWrapper>
+   );
 }
+
+AthleteDesk.propTypes = {
+   playerData: PropTypes.object.isRequired,
+   isComparison: PropTypes.bool.isRequired,
+   onSubmit: PropTypes.func,
+};
