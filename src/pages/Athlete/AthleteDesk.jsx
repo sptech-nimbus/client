@@ -7,26 +7,24 @@ import PropTypes from 'prop-types';
 import { format, parseISO, differenceInYears } from 'date-fns';
 
 import Title from "@components/Title/Title";
-import { DeleteDialog } from "@components/Dialog/Dialog";
+import { DeleteDialog, UpdateDialog } from "@components/Dialog/Dialog";
 import { PrimaryButton as Button } from "@components/Button/Button";
-import user from "@api/user";
+import athleteDesc from "@api/athleteDesc";
 import DeskComparison from './DeskComparison';
 
 export default function AthleteDesk({ playerData, isComparison }) {
-   const [id, setId] = useState(localStorage.getItem('id'));
+   const [id, setId] = useState(localStorage.getItem('personaId'));
    const [token, setToken] = useState(localStorage.getItem('token'));
    const [persona, setPersona] = useState({});
-   const [athleteDesc, setAthleteDesc] = useState({});
    const [hasFetchedData, setHasFetchedData] = useState(false);
 
    useEffect(() => {
       async function fetchData() {
          if (id && token && !hasFetchedData) {
             try {
-               const response = await user.get(id, token);
+               const response = await athleteDesc.allInfo(id, token);
                console.log(response.data.data);
                setPersona(response.data.data);
-               setAthleteDesc(response.data.data.athleteDesc);
                setHasFetchedData(true);
             } catch (error) {
                console.error('Erro ao buscar os dados do atleta:', error);
@@ -42,12 +40,11 @@ export default function AthleteDesk({ playerData, isComparison }) {
       return differenceInYears(new Date(), birthDateParsed);
    };
 
-   const birthDate = persona.birthDate 
+   persona.birthDate = persona.birthDate 
       ? format(parseISO(persona.birthDate), 'dd/MM/yyyy') 
       : 'Data não disponível';
 
    const age = persona.birthDate ? calculateAge(persona.birthDate) : 'Não disponível';
-
 
    return isComparison ? <DeskComparison playerData={playerData}/> : (
       <S.InfoWrapper>
@@ -66,17 +63,17 @@ export default function AthleteDesk({ playerData, isComparison }) {
 
                   <S.Information>
                      <S.Label>Número: </S.Label>
-                     <span>{athleteDesc.number ? athleteDesc.number : 'Não definido'}</span>
+                     <span>{persona.number ? persona.number : 'Não definido'}</span>
                   </S.Information>
 
                   <S.Information>
                      <S.Label>Posição: </S.Label>
-                     <span>{athleteDesc.position ? athleteDesc.position : 'Não definido'}</span>
+                     <span>{persona.position ? persona.position : 'Não definido'}</span>
                   </S.Information>
 
                   <S.Information>
                      <S.Label>Data de nascimento: </S.Label>
-                     <span>{birthDate}</span>
+                     <span>{persona.birthDate}</span>
                   </S.Information>
 
                   <S.Information>
@@ -87,17 +84,17 @@ export default function AthleteDesk({ playerData, isComparison }) {
                   <S.Flex>
                      <S.Information>
                         <S.Label>Altura (cm): </S.Label>
-                        <span>{athleteDesc.height ? athleteDesc.height : 'Não definido'}</span>
+                        <span>{persona.height ? persona.height : 'Não definido'}</span>
                      </S.Information>
                      <S.Information>
                         <S.Label>Peso (kg): </S.Label>
-                        <span>{athleteDesc.weight ? athleteDesc.weight : 'Não definido'}</span>
+                        <span>{persona.weight ? persona.weight : 'Não definido'}</span>
                      </S.Information>
                   </S.Flex>
 
                   <S.Information>
                      <S.Label>Endereço: </S.Label>
-                     <span>{athleteDesc.address ? athleteDesc.address : 'Não definido'}</span>
+                     <span>{persona.address ? persona.address : 'Não definido'}</span>
                   </S.Information>
                </S.InfomationContainer>
             </S.Container>
@@ -112,12 +109,12 @@ export default function AthleteDesk({ playerData, isComparison }) {
                   
                   <S.Information>
                      <S.Label>Pontos marcados:</S.Label>
-                     <span>{athleteDesc.pts} pontos</span>
+                     <span>{persona.pts} pontos</span>
                   </S.Information>
 
                   <S.Information>
                      <S.Label>Assistências:</S.Label>
-                     <span>{athleteDesc.ast} assistências</span>
+                     <span>{persona.ast} assistências</span>
                   </S.Information>
                </S.InfomationContainer>
             </S.Container>
@@ -143,8 +140,8 @@ export default function AthleteDesk({ playerData, isComparison }) {
             </S.Container>
          </S.InfoGrid>
          <S.Buttons>
-            <Button value='Editar' />
-            <Button value='Deletar' />
+            <UpdateDialog athlete={persona} trigger={<Button value='Editar'/>} />
+            <DeleteDialog athlete={persona} trigger={<Button value='Deletar' />} />
             <Button value='Baixar PDF' />
          </S.Buttons>
       </S.InfoWrapper>
