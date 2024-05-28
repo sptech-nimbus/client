@@ -23,10 +23,6 @@ export default function RegisterStats() {
       //stats
    });
 
-   const formatTime = (time) => {
-      return time.toString().padStart(2, '0');
-    };
-
    const [stats, setStats] = useState({
       pts: 0,
       ast: 0,
@@ -44,32 +40,36 @@ export default function RegisterStats() {
       foul: 0
    });
 
-      const addStatistic = (stat, value) => {
-         if (value > 0) {
+   const formatTime = (time) => {
+      return time.toString().padStart(2, '0');
+   };
+
+   const addStatistic = (stat, value) => {
+      if (value > 0) {
+         setStats(prevStats => ({
+            ...prevStats,
+            [stat]: prevStats[stat] + value
+         }));
+      }
+
+      if (stat == 'pts') {
+         const pointMapping = {
+            1: 'pts1',
+            2: 'pts2',
+            3: 'pts3',
+            '-1': 'pts1Err',
+            '-2': 'pts2Err',
+            '-3': 'pts3Err'
+         };
+
+         const pointStat = pointMapping[value];
+         if (pointStat) {
             setStats(prevStats => ({
-               ...prevStats,
-               [stat]: prevStats[stat] + value
+                  ...prevStats,
+                  [pointStat]: prevStats[pointStat] + 1
             }));
          }
-   
-         if (stat == 'pts') {
-            const pointMapping = {
-               1: 'pts1',
-               2: 'pts2',
-               3: 'pts3',
-               '-1': 'pts1Err',
-               '-2': 'pts2Err',
-               '-3': 'pts3Err'
-            };
-   
-            const pointStat = pointMapping[value];
-            if (pointStat) {
-               setStats(prevStats => ({
-                     ...prevStats,
-                     [pointStat]: prevStats[pointStat] + 1
-               }));
-            }
-         }
+      }
    };
 
    return (
@@ -188,25 +188,30 @@ export default function RegisterStats() {
                      </S.Athlete>
                   </S.AthletesList>
                </S.Container>
-
+               
                <S.Container>
                   <S.TimerContainer>
                      <S.TimerButtons>
-                        <S.TimerButton>
+                        <S.TimerButton onClick={() => isRunning ? pause() : start()} title={isRunning ? 'Pausar' : 'Iniciar/Retomar'}>
                            {
                               isRunning
-                              ? <Pause weight='fill' onClick={pause}/>
-                              : <Play weight='fill' onClick={start} />
+                              ? <Pause weight='fill'/>
+                              : <Play weight='fill'/>
                            }
                         </S.TimerButton>
-                        <S.TimerButton>
+                        <S.TimerButton title='Reiniciar timer'>
                            <ClockClockwise weight='fill' onClick={reset}/>
                         </S.TimerButton>
                      </S.TimerButtons>
                      <S.Timer>
                         <span>{formatTime(hours)}:{formatTime(minutes)}:{formatTime(seconds)}</span>
                      </S.Timer>
+                     <S.FlagButton>+ marcação</S.FlagButton>
                   </S.TimerContainer>
+
+                  <S.Flags>
+                     <S.FlagButton>Finalizar partida</S.FlagButton>
+                  </S.Flags>
                </S.Container>
             </S.MatchGrid>
          </S.ContentContainer>

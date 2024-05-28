@@ -53,7 +53,7 @@ export const Container = styled.div`
    gap: .5rem;
 
    &:nth-child(1) {
-      grid-column: 1 / 3;
+      grid-column: 2 / 4;
       grid-row: 1 / 2;
    }
 
@@ -70,6 +70,9 @@ export const Container = styled.div`
 
    &:nth-child(4) {
       gap: 1rem;
+      padding: 0;
+      background: none;
+      border: none;
    }
 `
 
@@ -271,6 +274,10 @@ export const TimerContainer = styled.div`
    display: flex;
    flex-direction: column;
    gap: 1rem;
+   background-color: ${Colors.gray700};
+   border: 1px solid #4E4E4E;
+   border-radius: 1rem;
+   padding: 1rem 1.2rem;
 `
 
 export const TimerButtons = styled.div`
@@ -308,13 +315,40 @@ export const Timer = styled.div`
    align-items: center;
    justify-content: center;
    width: 100%;
-   height: 30%;
+   height: 50%;
    background-color: ${Colors.gray800};
    border-radius: 1rem;
    font-family: 'Inter';
    font-weight: 700;
 
    span {
-      font-size: 2.3rem;
+      font-size: 2.4rem;
+   }
+`
+
+export const Flags = styled.div`
+   display: flex;
+   flex-direction: column;
+   gap: .5rem;
+   align-items: center;
+
+   span {
+      text-decoration: underline;
+      cursor: pointer;
+   }
+`
+
+export const FlagButton = styled(TimerButton)`
+   background-color: ${Colors.red};
+   font-size: 1.2rem;
+   font-weight: 600;
+   font-family: 'Catamaran';
+   border-radius: .8rem;
+
+   &:nth-child(3) {
+      height: 30px;
+      font-size: 1rem;
+      border-radius: .5rem;
+      background-color: ${Colors.yellow};
    }
 `
