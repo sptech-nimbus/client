@@ -53,10 +53,8 @@ export const Container = styled.div`
    gap: .5rem;
 
    &:nth-child(1) {
-      grid-column: 1 / 4;
+      grid-column: 1 / 3;
       grid-row: 1 / 2;
-      background: none;
-      border: none;
    }
 
    &:nth-child(2) {
@@ -68,7 +66,10 @@ export const Container = styled.div`
    &:nth-child(3) {
       grid-column: 4 / 6;
       grid-row: 1 / 4;
+   }
 
+   &:nth-child(4) {
+      gap: 1rem;
    }
 `
 
@@ -97,8 +98,8 @@ export const Team = styled.div`
 `
 
 export const TeamImage = styled.img`
-   width: 180px;
-   height: 180px;
+   width: 150px;
+   height: 150px;
    border-radius: 50%;
    object-fit: cover;
    object-position: center;
@@ -113,7 +114,6 @@ export const Versus = styled.span`
 `
 
 export const TeamName = styled.span`
-   font-size: 1.5rem;
    font-weight: 700;
 `
 
@@ -263,4 +263,58 @@ export const Action = styled.div`
    background-color: ${Colors.gray600};
    cursor: pointer;
    width: fit-content;
+`
+
+export const TimerContainer = styled.div`
+   width: 100%;
+   height: 100%;
+   display: flex;
+   flex-direction: column;
+   gap: 1rem;
+`
+
+export const TimerButtons = styled.div`
+   width: 100%;
+   display: flex;
+   gap: 1rem;
+`
+
+export const TimerButton = styled.button`
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   width: 100%;
+   padding: .5rem;
+   background-color: ${Colors.green};
+   border-radius: .5rem;
+   border: none;
+   color: ${Colors.gray100};
+   cursor: pointer;
+   transition: all .3s ease-in;
+   gap: .5rem;
+   font-size: 1.5rem;
+
+   &:hover {
+      filter: brightness(1.3);
+   }
+
+   &:nth-child(2) {
+      background-color: ${Colors.red};
+   }
+`
+
+export const Timer = styled.div`
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   width: 100%;
+   height: 30%;
+   background-color: ${Colors.gray800};
+   border-radius: 1rem;
+   font-family: 'Inter';
+   font-weight: 700;
+
+   span {
+      font-size: 2.3rem;
+   }
 `

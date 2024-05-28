@@ -1,12 +1,16 @@
 import * as S from './Match.styled';
 import { useState } from 'react';
+import { useStopwatch } from 'react-timer-hook';
 
 import Background from "@components/Background/Background";
 import Sidebar from "@components/Sidebar/Sidebar";
 import Title from "@components/Title/Title";
 import Popover from "@components/Popover/Popover";
 
+import { Play, Pause, ClockClockwise } from '@phosphor-icons/react';
+
 export default function RegisterStats() {
+   const { totalSeconds, seconds, minutes, hours, isRunning, start, resume, pause, reset } = useStopwatch();
    const [challenged, setChallenged] = useState({ 
       name: 'Nome challenged',
       picture: 'https://1000logos.net/wp-content/uploads/2017/12/Los-Angeles-Clippers-Logo.png',
@@ -15,9 +19,13 @@ export default function RegisterStats() {
 
    const [challenger, setChallenger] = useState({ 
       name: 'Nome challenger',
-      picture: 'https://i.pinimg.com/originals/64/3b/db/643bdb48540f70aed4c55ce2e3cee473.png',
+      picture: 'https://seeklogo.com/images/A/atlanta-hawks-logo-A108D0AC8D-seeklogo.com.png',
       //stats
    });
+
+   const formatTime = (time) => {
+      return time.toString().padStart(2, '0');
+    };
 
    const [stats, setStats] = useState({
       pts: 0,
@@ -36,44 +44,43 @@ export default function RegisterStats() {
       foul: 0
    });
 
-   const addStatistic = (stat, value) => {
-      if (value > 0) {
-          setStats(prevStats => ({
-              ...prevStats,
-              [stat]: prevStats[stat] + value
-          }));
-      }
-  
-      if (stat == 'pts') {
-          const pointMapping = {
-              1: 'pts1',
-              2: 'pts2',
-              3: 'pts3',
-              '-1': 'pts1Err',
-              '-2': 'pts2Err',
-              '-3': 'pts3Err'
-          };
-  
-          const pointStat = pointMapping[value];
-          if (pointStat) {
-              setStats(prevStats => ({
-                  ...prevStats,
-                  [pointStat]: prevStats[pointStat] + 1
-              }));
-          }
-      }
-  };
-  
+      const addStatistic = (stat, value) => {
+         if (value > 0) {
+            setStats(prevStats => ({
+               ...prevStats,
+               [stat]: prevStats[stat] + value
+            }));
+         }
+   
+         if (stat == 'pts') {
+            const pointMapping = {
+               1: 'pts1',
+               2: 'pts2',
+               3: 'pts3',
+               '-1': 'pts1Err',
+               '-2': 'pts2Err',
+               '-3': 'pts3Err'
+            };
+   
+            const pointStat = pointMapping[value];
+            if (pointStat) {
+               setStats(prevStats => ({
+                     ...prevStats,
+                     [pointStat]: prevStats[pointStat] + 1
+               }));
+            }
+         }
+   };
 
    return (
       <S.PageContainer>
+         <Background.Default />
          <Sidebar page='match'/>
          <S.ContentContainer>
             <Title text='Partida em andamento' uppercase/>
             <S.MatchGrid>
                <S.Container>
                   <S.TitleContainer>
-                     <Title text='Times' size='1.2rem'/>
                   </S.TitleContainer>
                   <S.TeamsContainer>
                      <S.Team>
@@ -180,6 +187,26 @@ export default function RegisterStats() {
                         </S.Actions>
                      </S.Athlete>
                   </S.AthletesList>
+               </S.Container>
+
+               <S.Container>
+                  <S.TimerContainer>
+                     <S.TimerButtons>
+                        <S.TimerButton>
+                           {
+                              isRunning
+                              ? <Pause weight='fill' onClick={pause}/>
+                              : <Play weight='fill' onClick={start} />
+                           }
+                        </S.TimerButton>
+                        <S.TimerButton>
+                           <ClockClockwise weight='fill' onClick={reset}/>
+                        </S.TimerButton>
+                     </S.TimerButtons>
+                     <S.Timer>
+                        <span>{formatTime(hours)}:{formatTime(minutes)}:{formatTime(seconds)}</span>
+                     </S.Timer>
+                  </S.TimerContainer>
                </S.Container>
             </S.MatchGrid>
          </S.ContentContainer>

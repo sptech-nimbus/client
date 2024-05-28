@@ -39,6 +39,7 @@
     "react-responsive": "^10.0.0",
     "react-router-dom": "^6.22.3",
     "react-select": "^5.8.0",
+    "react-timer-hook": "^3.0.7",
     "react-toastify": "^10.0.5",
     "socket.io-client": "^4.7.5",
     "sockjs-client": "^1.6.1",
