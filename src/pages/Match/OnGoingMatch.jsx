@@ -7,8 +7,9 @@ import Sidebar from "@components/Sidebar/Sidebar";
 import Title from "@components/Title/Title";
 import Popover from "@components/Popover/Popover";
 
-import { Play, Pause, ClockClockwise, CaretDown } from '@phosphor-icons/react';
+import { Play, Pause, ClockClockwise, CaretDown, Star } from '@phosphor-icons/react';
 import * as Accordion from '@radix-ui/react-accordion';
+import { useNavigate } from 'react-router-dom';
 
 export default function OnGoingMatch() {
    const { totalSeconds, seconds, minutes, hours, isRunning, start, resume, pause, reset } = useStopwatch();
@@ -72,6 +73,10 @@ export default function OnGoingMatch() {
          }
       }
    };
+
+   const handleFinishMatch = () => {
+      
+   }
 
    return (
       <S.PageContainer>
@@ -144,6 +149,10 @@ export default function OnGoingMatch() {
                                     <S.isPlaying isPlaying>Jogando</S.isPlaying>
                                  </S.Column>
 
+                                 <S.StartingPlayer title='Jogador titular'>
+                                    <Star weight='fill'/>
+                                 </S.StartingPlayer>
+
                                  <Accordion.Trigger asChild>
                                     <S.CollapsibleArrow>
                                        <CaretDown weight='bold'/>
@@ -151,19 +160,20 @@ export default function OnGoingMatch() {
                                  </Accordion.Trigger>
                               </S.AthleteInfo>
 
+
                               <Accordion.Content asChild>
                                  <S.Actions>
                                     <Popover trigger={<S.Action >Pontos</S.Action>} sideOffset={8}>
                                        <S.PopoverContent>
                                           <S.AddAction>
-                                             <S.AddButton isError onClick={() => addStatistic('pts', -1)}>+1 pts</S.AddButton>
-                                             <S.AddButton isError onClick={() => addStatistic('pts', -2)}>+2 pts</S.AddButton>
-                                             <S.AddButton isError onClick={() => addStatistic('pts', -3)}>+3 pts</S.AddButton>
-                                          </S.AddAction>
-                                          <S.AddAction>
                                              <S.AddButton onClick={() => addStatistic('pts', 1)}>+1 pts</S.AddButton>
                                              <S.AddButton onClick={() => addStatistic('pts', 2)}>+2 pts</S.AddButton>
                                              <S.AddButton onClick={() => addStatistic('pts', 3)}>+3 pts</S.AddButton>
+                                          </S.AddAction>
+                                          <S.AddAction>
+                                             <S.AddButton isError onClick={() => addStatistic('pts', -1)}>+1 pts</S.AddButton>
+                                             <S.AddButton isError onClick={() => addStatistic('pts', -2)}>+2 pts</S.AddButton>
+                                             <S.AddButton isError onClick={() => addStatistic('pts', -3)}>+3 pts</S.AddButton>
                                           </S.AddAction>
                                        </S.PopoverContent>
                                     </Popover>
@@ -190,8 +200,8 @@ export default function OnGoingMatch() {
                                     <Popover trigger={<S.Action>Assistência</S.Action>} sideOffset={8}>
                                        <S.PopoverContent>
                                           <S.AddAction>
-                                             <S.AddButton isError onClick={() => addStatistic('turnover', 1)}>+1 turnover</S.AddButton>
                                              <S.AddButton onClick={() => addStatistic('ast', 1)}>+1 assistência</S.AddButton>
+                                             <S.AddButton isError onClick={() => addStatistic('turnover', 1)}>+1 turnover</S.AddButton>
                                           </S.AddAction>
                                        </S.PopoverContent>
                                     </Popover>
@@ -214,7 +224,7 @@ export default function OnGoingMatch() {
                            }
                         </S.TimerButton>
                         <S.TimerButton title='Reiniciar timer'>
-                           <ClockClockwise weight='fill' onClick={reset}/>
+                           <ClockClockwise weight='fill' onClick={() => {reset(); pause()}}/>
                         </S.TimerButton>
                      </S.TimerButtons>
                      <S.Timer>

@@ -201,8 +201,7 @@ export const Athlete = styled.div`
    background-color: ${Colors.gray800};
    border-radius: 1rem;
    display: flex;
-   padding-inline: 1rem;
-   padding-block: 1rem;
+   padding: 1rem;
    justify-content: space-between;
    flex-direction: column;
    gap: 1rem;
@@ -234,12 +233,22 @@ export const AthleteName = styled.span`
 `
 
 export const isPlaying = styled.span`
-   color: ${props => props.isPlaying ? Colors.green : Colors.gray100};
+   width: fit-content;
+   text-align: center;
+   padding-inline: .5rem 1rem;
+   background-color: ${props => props.isPlaying ? Colors.green : Colors.gray100};
+   color: ${Colors.gray100};
+   border-radius: 1rem;
+   font-size: .8rem;
+   display: flex;
+   justify-content: center;
+   align-items: center;
 `
 
 export const Column = styled.div`
    display: flex;
    flex-direction: column;
+   gap: .5rem;
 `
 
 export const Actions = styled.div`
@@ -391,4 +400,19 @@ export const FlagButton = styled(TimerButton)`
       border-radius: .5rem;
       background-color: ${Colors.yellow};
    }
+`
+
+export const StartingPlayer = styled.button`
+   position: absolute;
+   right: 10%;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   padding: 0;
+   font-size: 1.8rem;
+   border-radius: 50%;
+   cursor: pointer;
+   border: none;
+   background-color: transparent;
+   color: ${Colors.orange500};
 `
