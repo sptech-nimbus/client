@@ -3,6 +3,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 
 import * as S from "./Player.styled";
+import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
 import AthleteStats from "./Stats/AthleteStats";
@@ -12,10 +13,12 @@ import AthleteInjuries from "./Injury/Injuries";
 import Background from "@components/Background/Background";
 import Sidebar from '@components/Sidebar/Sidebar';
 import Switch from "@components/Switch/Switch";
-
-import { useEffect, useState } from "react";
+import Tooltip from "@components/Tooltip/Tooltip";
 
 import athleteDesc from "@api/athleteDesc";
+import { Colors } from "@utils/Helpers";
+
+import { Warning } from "@phosphor-icons/react";
 
 const useQuery = () => {
    return new URLSearchParams(useLocation().search);
@@ -76,6 +79,12 @@ export default function PlayerInfo() {
                <S.TopLink active={injuryActive} onClick={handleInjuryActive}>Lesões</S.TopLink>
                <S.TopLink>
                   <Switch label='Comparação de jogadores' id='switch_comparacao' onCheckedChange={handleVizualitionMode} checked={isComparison}/>
+                  { 
+                     (injuryActive && isComparison) &&
+                     <Tooltip side='bottom' icon={<Warning size={28} weight="fill" color={Colors.red}/>}>
+                        Não há comparação entre jogadores para lesões.
+                     </Tooltip>
+                  }
                </S.TopLink>
             </S.TopLinkContainer>
             { deskActive && <AthleteDesk playerData={playerData} isComparison={isComparison}/> }

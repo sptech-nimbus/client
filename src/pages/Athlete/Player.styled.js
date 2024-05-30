@@ -25,6 +25,9 @@ export const TopLinkContainer = styled.div`
 export const TopLink = styled.span`
    cursor: pointer;
    position: relative;
+   display: flex;
+   align-items: center;
+   justify-content: center;
    
    &::after {
       content: '';
@@ -333,4 +336,26 @@ export const Severity = styled.span`
    };
 `
 
+export const InjuryDashboard = styled.div`
+   display: flex;
+   width: 100%;
+   height: 100%;
+   align-items: center;
+   justify-content: center;
+   gap: 2rem;
+`
 
+export const DashInfo = styled.div`
+   display: flex;
+   flex-direction: column;
+   color: ${Colors.orange100};
+
+   span:nth-child(1) {
+      color: ${Colors.gray100};
+   }
+
+   span:nth-child(2) {
+      font-size: 1.8rem;
+      font-weight: 900;
+   }
+`
