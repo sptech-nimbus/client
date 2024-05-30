@@ -104,11 +104,12 @@ export default function Home() {
             setWinsGraph([res.data.data.wins, res.data.data.loses]);
          }
 
-         getLastGame();
-         getNextGame();
-         getAllEvents();
-         getWins();
-      }, []);
+      }
+      getLastGame();
+      getNextGame();
+      getAllEvents();
+      getWins();
+   }, []);
 
    const radarConfig = {
       data: {
