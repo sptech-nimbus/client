@@ -14,7 +14,7 @@ import Events from '@pages/Events';
 import Chat from '@pages/Chat';
 import ForgotPassword from '@pages/ForgotPassword';
 import MyTeams from '@pages/MyTeams';
-import RegisterStats from '@pages/RegisterStats';
+import Match from '@pages/Match';
 
 import ProtectedRoute from './ProtectedRoute';
 
@@ -97,10 +97,18 @@ export default function AppRoutes() {
                } 
             />
             <Route 
-               path="/register-stats" 
+               path="/match" 
                element={
                   <ProtectedRoute>
-                     <RegisterStats />
+                     <Match />
+                  </ProtectedRoute>
+               } 
+            />
+            <Route 
+               path="/finished-match" 
+               element={
+                  <ProtectedRoute>
+                     <Match isMatchFinished/>
                   </ProtectedRoute>
                } 
             />

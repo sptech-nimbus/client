@@ -15,7 +15,7 @@ export default function Results({ result }) {
          text = 'Derrota'
          break;
       default:
-         color = '#F9A400';
+         color = Colors.yellow;
          text = 'Pendente'
          break;
    }

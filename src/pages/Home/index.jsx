@@ -14,6 +14,7 @@ import { Colors } from "@utils/Helpers";
 
 export default function Home() {
    const [events, setEvents] = useState([]);
+   const [winsGraph, setWinsGraph] = useState([]);
 
    const [lastGame, setLastGame] = useState({
       game: {
@@ -96,12 +97,18 @@ export default function Home() {
 
          console.log(orderedEvents);
          setEvents(orderedEvents);
-      }
 
-      getLastGame();
-      getNextGame();
-      getAllEvents();
-   }, []);
+         async function getWins() {
+            const res = await graph.getWins(sessionStorage.getItem('teamId'), 10, localStorage.getItem('token'));
+
+            setWinsGraph([res.data.data.wins, res.data.data.loses]);
+         }
+
+         getLastGame();
+         getNextGame();
+         getAllEvents();
+         getWins();
+      }, []);
 
    const radarConfig = {
       data: {
@@ -150,8 +157,8 @@ export default function Home() {
          labels: ['Vitórias', 'Derrotas'],
          datasets: [
             {
-               label: '# of Votes',
-               data: [12, 12],
+               label: '',
+               data: winsGraph,
                backgroundColor: [
                   `${Colors.orange500}`,
                   `${Colors.orange300}`,

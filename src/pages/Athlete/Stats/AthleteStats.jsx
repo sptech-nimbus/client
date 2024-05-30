@@ -1,13 +1,12 @@
-import * as S from './Player.styled';
-import { useState } from 'react';
-import { RadarChart, BarChart } from '../../components/Charts';
+import * as S from '../Player.styled';
+import { RadarChart, BarChart } from '@components/Charts';
 import { Colors } from "@utils/Helpers";
-import { months } from '@utils/Helpers';
 import Title from "@components/Title/Title";
-import { Note } from '../../components/Notes/Note';
-import { Image } from '@phosphor-icons/react';
+import { Note } from '../../../components/Notes/Note';
 
-export default function Stats({ playerData }) {
+import StatsComparison from './StatsComparison';
+
+export default function Stats({ playerData, isComparison }) {
 
   const radarConfig = {
     data: {
@@ -118,7 +117,7 @@ export default function Stats({ playerData }) {
         return <Note note={note} key={`note${note.time.replaceAll('-', '')}`} />
     })
   
-   return(
+   return isComparison ? <StatsComparison playerData={playerData}/> : (
       <S.StatsGrid>
          <S.ContainerStats>
          <S.PlayerImg src={playerData.picture}/>

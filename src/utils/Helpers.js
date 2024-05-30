@@ -35,7 +35,8 @@ export const Colors = {
    gray100: '#FFF9F6',
    //tons variados
    green: '#3FB03D',
-   red: '#FF3838'
+   red: '#FF3838',
+   yellow: '#F9A400'
 }
 
 export const Months = [

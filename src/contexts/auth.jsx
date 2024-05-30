@@ -1,5 +1,9 @@
+/* eslint-disable react-refresh/only-export-components */
+/* eslint-disable no-unused-vars */
+/* eslint-disable react/prop-types */
+
 import { createContext, useContext, useState, useEffect } from "react";
-import user from '@api/user'
+import user from '@api/user';
 import axios from 'axios';
 
 const AuthContext = createContext();
@@ -32,8 +36,6 @@ export const AuthProvider = ({ children }) => {
       try {
          const response = await user.login(credentials);
          const { token, userId, personaId } = response.data.data;
-
-         console.log(token, userId, personaId);
 
          localStorage.setItem('token', token);
          localStorage.setItem('id', userId);

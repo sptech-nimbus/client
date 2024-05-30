@@ -1,17 +1,24 @@
+/* eslint-disable react/prop-types */
+/* eslint-disable no-unused-vars */
+/* eslint-disable react-hooks/exhaustive-deps */
+
 import * as S from "./Player.styled";
+import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
-import AthleteStats from "./AthleteStats";
-import AthleteDesk from './AthleteDesk';
+import AthleteStats from "./Stats/AthleteStats";
+import AthleteDesk from './Desk/AthleteDesk';
+import AthleteInjuries from "./Injury/Injuries";
 
 import Background from "@components/Background/Background";
 import Sidebar from '@components/Sidebar/Sidebar';
-import Title from "@components/Title/Title";
+import Switch from "@components/Switch/Switch";
+import Tooltip from "@components/Tooltip/Tooltip";
 
-import { useEffect, useState } from "react";
+import athleteDesc from "@api/athleteDesc";
+import { Colors } from "@utils/Helpers";
 
-import axios from 'axios';
-import athleteDesc from "../../api/athleteDesc";
+import { Warning } from "@phosphor-icons/react";
 
 const useQuery = () => {
    return new URLSearchParams(useLocation().search);
@@ -22,15 +29,16 @@ export default function PlayerInfo() {
 
    const [deskActive, setDeskActive] = useState(true);
    const [statsActive, setStatsActive] = useState(false);
+   const [injuryActive, setInjuryActive] = useState(false);
    const [playerData, setPlayerData] = useState({});
+   const [isComparison, setIsComparison] = useState(false);
 
    const query = useQuery();
    const playerId = query.get('id');
+   const adversaryId = query.get('adversayId');
 
    useEffect(() => {
       async function fetchData() {
-         //requisição de mock api - substituir pela requisição correta ao backend
-         // const { data } = await axios.get(`https://6642243c3d66a67b34366411.mockapi.io/nimbus/athlete/${playerId}`);
          const { data } = await athleteDesc.allInfo(playerId, localStorage.getItem('token'));
          
          setPlayerData(data.data);
@@ -39,14 +47,24 @@ export default function PlayerInfo() {
       fetchData();
    }, [playerId]);
 
+   const handleVizualitionMode = () => setIsComparison(!isComparison);
+
    const handleStatsActive = (e) => {
-      if (deskActive) setDeskActive(!deskActive);
-      if (!statsActive) setStatsActive(!statsActive)
+      if (deskActive) setDeskActive(false);
+      if (injuryActive) setInjuryActive(false);
+      setStatsActive(true);
    }
 
    const handleDeskActive = (e) => {
-      if (statsActive) setStatsActive(!statsActive);
-      if (!deskActive) setDeskActive(!deskActive);
+      if (statsActive) setStatsActive(false);
+      if (injuryActive) setInjuryActive(false);
+      setDeskActive(true);
+   }
+
+   const handleInjuryActive = (e) => {
+      if (deskActive) setDeskActive(false);
+      if (statsActive) setStatsActive(false);
+      setInjuryActive(true);
    }
 
    return (
@@ -58,10 +76,20 @@ export default function PlayerInfo() {
                <S.Back size={30} weight="bold" onClick={() => navigate('/roster')}/>
                <S.TopLink active={deskActive} onClick={handleDeskActive}>Ficha do jogador</S.TopLink>
                <S.TopLink active={statsActive} onClick={handleStatsActive}>Estatísticas</S.TopLink>
+               <S.TopLink active={injuryActive} onClick={handleInjuryActive}>Lesões</S.TopLink>
+               <S.TopLink>
+                  <Switch label='Comparação de jogadores' id='switch_comparacao' onCheckedChange={handleVizualitionMode} checked={isComparison}/>
+                  { 
+                     (injuryActive && isComparison) &&
+                     <Tooltip side='bottom' icon={<Warning size={28} weight="fill" color={Colors.red}/>}>
+                        Não há comparação entre jogadores para lesões.
+                     </Tooltip>
+                  }
+               </S.TopLink>
             </S.TopLinkContainer>
-            {deskActive ?
-               <AthleteDesk playerData={playerData} /> :
-               <AthleteStats playerData={playerData} />}
+            { deskActive && <AthleteDesk playerData={playerData} isComparison={isComparison}/> }
+            { statsActive && <AthleteStats playerData={playerData} isComparison={isComparison}/> }
+            { injuryActive && <AthleteInjuries playerData={playerData} /> }
          </S.ContentContainer>
       </S.PageContainer>
    )

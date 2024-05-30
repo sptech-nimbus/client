@@ -1,3 +1,6 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable react/prop-types */
+
 import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
@@ -46,14 +49,7 @@ export default function FormStepFour({onSubmit}) {
 
     function handleSubmit(e) {
         e.preventDefault();
-
-        if (TeamCodeValidation(teamCode)) {
-            console.log("Enviando solicitação com o código do time existente: ", teamCode);
-            onSubmit({ code: teamCode });
-        }
-        else {
-            if (!TeamCodeValidation(teamCode)) addNotification('error','Código inserido é inválido');
-        }
+        onSubmit();
     }
 
     return (
@@ -72,26 +68,9 @@ export default function FormStepFour({onSubmit}) {
             />
             <LS.InputsContainer>
                 <Label>
-                    Código do time existente
-                    <S.InputLine>
-                        <Input.Default
-                            placeholder={'1A2B3C'}
-                            value={teamCode}
-                            onChange={handleTeamCodeChange}
-                            onFocus={handleTeamCodeTtpChange}
-                            onBlur={handleTeamCodeTtpChange}
-                            maxLength={6}
-                        />
-                        {
-                            !isBelow799 &&
-                            <Tooltip side='right' open={teamCodeTtpOpen} onHover={handleTeamCodeTtpChange}>
-                                <span>
-                                    O código do time é disponibilizado pelo treinador atual do time que deseja se cadastrar. Contate o treinador do time em questão e peça para ele gerar o código.
-                                </span>
-                            </Tooltip>
-                        }
-
-                    </S.InputLine>
+                    <span>
+                        O código do time é disponibilizado pelo treinador atual do time que deseja se cadastrar. Contate o treinador do time em questão e peça para ele gerar o código.
+                    </span>
                 </Label>
             </LS.InputsContainer>
             <Button.Primary
