@@ -1,6 +1,24 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import { Colors } from "@utils/Helpers";
 import { CaretLeft } from "@phosphor-icons/react";
+
+const slideDown = keyframes`
+  from {
+    height: 0;
+  }
+  to {
+    height: var(--radix-accordion-content-height);
+  }
+`;
+
+const slideUp = keyframes`
+  from {
+    height: var(--radix-accordion-content-height);
+  }
+  to {
+    height: 0;
+  }
+`;
 
 export const Back = styled(CaretLeft)`
    position: absolute;
@@ -266,7 +284,8 @@ export const Column = styled.div`
 `
 
 export const InjuryGrid = styled(InfoGrid)`
-   grid-template-rows: repeat(3, 1fr);
+   height: 100%;
+   grid-template-rows: .5fr 1fr 1fr 1fr;
    grid-template-columns: 1fr 1fr 1.5fr;
 
    ${Container} {
@@ -277,12 +296,16 @@ export const InjuryGrid = styled(InfoGrid)`
 
       &:nth-child(2) {
          grid-column: 1 / 3;
-         grid-row: 2 / 4;
+         grid-row: 2 / 5;
       }
 
       &:nth-child(3) {
          grid-column: 3 / 4;
-         grid-row: 1 / 4;
+         grid-row: 1 / 5;
+      }
+
+      ${ChartContainer} {
+         padding-top: 1rem;
       }
    }
 `
@@ -298,9 +321,11 @@ export const InjuryHist = styled.div`
 
 export const Injury = styled.div`
    display: flex;
+   flex-direction: column;
    width: 100%;
    border-radius: .8rem;
    padding: .5rem 1rem;
+   gap: 1rem;
    background-color: ${Colors.gray800};
    justify-content: space-between;
    cursor: pointer;
@@ -312,7 +337,31 @@ export const InjuryInfo = styled.div`
    display: flex;
 `
 
+export const InjuryContent = styled.div`
+   display: grid;
+   grid-template-columns: 1.5fr 1fr .2fr;
+`
+
+export const InjuryContentHidden = styled(InjuryContent)`
+   overflow: hidden;
+   &[data-state='open'] {
+      animation: ${slideDown} 300ms cubic-bezier(0.87, 0, 0.13, 1);
+   }
+  
+   &[data-state='closed'] {
+      animation: ${slideUp} 300ms cubic-bezier(0.87, 0, 0.13, 1);
+   }
+`
+
+export const Arrow = styled.div`
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   height: 100%;
+`
+
 export const InfoContainer = styled.div`
+   width: 100%;
    display: flex;
    flex-direction: column;
 
@@ -341,7 +390,7 @@ export const InjuryDashboard = styled.div`
    width: 100%;
    height: 100%;
    align-items: center;
-   justify-content: center;
+
    gap: 2rem;
 `
 
@@ -352,6 +401,7 @@ export const DashInfo = styled.div`
 
    span:nth-child(1) {
       color: ${Colors.gray100};
+      font-size: .9rem;
    }
 
    span:nth-child(2) {
