@@ -8,10 +8,13 @@ import Results from './Result';
 import Title from '@components/Title/Title';
 
 import game from '../../api/game';
+import graph from '../../api/graph';
 
 import { Colors } from "@utils/Helpers";
 
 export default function Home() {
+   const [events, setEvents] = useState([]);
+
    const [lastGame, setLastGame] = useState({
       game: {
          inicialDateTime: '',
@@ -51,6 +54,10 @@ export default function Home() {
       }
    });
 
+   const sortByDate = (a, b) => {
+      return new Date(a.inicialDateTime).getTime() - new new Date(b.inicialDateTime).getTime();
+   }
+
    useEffect(() => {
       async function getLastGame() {
          const res = await game.lastGame(sessionStorage.getItem('teamId'), localStorage.getItem('token'));
@@ -80,8 +87,20 @@ export default function Home() {
          }
       }
 
+      async function getAllEvents() {
+         const res = await graph.allEvents(sessionStorage.getItem('teamId'), localStorage.getItem('token'));
+
+         const events = [...res.data.data.games, ...res.data.data.trainings];
+
+         const orderedEvents = events.sort(sortByDate);
+
+         console.log(orderedEvents);
+         setEvents(orderedEvents);
+      }
+
       getLastGame();
       getNextGame();
+      getAllEvents();
    }, []);
 
    const radarConfig = {
