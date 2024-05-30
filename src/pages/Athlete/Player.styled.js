@@ -267,7 +267,7 @@ export const Column = styled.div`
 
 export const InjuryGrid = styled(InfoGrid)`
    grid-template-rows: repeat(3, 1fr);
-   grid-template-columns: repeat(3, 1fr);
+   grid-template-columns: 1fr 1fr 1.5fr;
 
    ${Container} {
       &:nth-child(1) {
@@ -358,4 +358,11 @@ export const DashInfo = styled.div`
       font-size: 1.8rem;
       font-weight: 900;
    }
+`
+
+export const NoInjury = styled.div`
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   text-align: center;
 `
