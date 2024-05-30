@@ -5,8 +5,9 @@
 import * as S from "./Player.styled";
 import { useLocation, useNavigate } from "react-router-dom";
 
-import AthleteStats from "./AthleteStats";
-import AthleteDesk from './AthleteDesk';
+import AthleteStats from "./Stats/AthleteStats";
+import AthleteDesk from './Desk/AthleteDesk';
+import AthleteInjuries from "./Injury/Injuries";
 
 import Background from "@components/Background/Background";
 import Sidebar from '@components/Sidebar/Sidebar';
@@ -14,8 +15,7 @@ import Switch from "@components/Switch/Switch";
 
 import { useEffect, useState } from "react";
 
-import axios from 'axios';
-import athleteDesc from "../../api/athleteDesc";
+import athleteDesc from "@api/athleteDesc";
 
 const useQuery = () => {
    return new URLSearchParams(useLocation().search);
@@ -26,6 +26,7 @@ export default function PlayerInfo() {
 
    const [deskActive, setDeskActive] = useState(true);
    const [statsActive, setStatsActive] = useState(false);
+   const [injuryActive, setInjuryActive] = useState(false);
    const [playerData, setPlayerData] = useState({});
    const [isComparison, setIsComparison] = useState(false);
 
@@ -46,13 +47,21 @@ export default function PlayerInfo() {
    const handleVizualitionMode = () => setIsComparison(!isComparison);
 
    const handleStatsActive = (e) => {
-      if (deskActive) setDeskActive(!deskActive);
-      if (!statsActive) setStatsActive(!statsActive)
+      if (deskActive) setDeskActive(false);
+      if (injuryActive) setInjuryActive(false);
+      setStatsActive(true);
    }
 
    const handleDeskActive = (e) => {
-      if (statsActive) setStatsActive(!statsActive);
-      if (!deskActive) setDeskActive(!deskActive);
+      if (statsActive) setStatsActive(false);
+      if (injuryActive) setInjuryActive(false);
+      setDeskActive(true);
+   }
+
+   const handleInjuryActive = (e) => {
+      if (deskActive) setDeskActive(false);
+      if (statsActive) setStatsActive(false);
+      setInjuryActive(true);
    }
 
    return (
@@ -64,15 +73,14 @@ export default function PlayerInfo() {
                <S.Back size={30} weight="bold" onClick={() => navigate('/roster')}/>
                <S.TopLink active={deskActive} onClick={handleDeskActive}>Ficha do jogador</S.TopLink>
                <S.TopLink active={statsActive} onClick={handleStatsActive}>Estatísticas</S.TopLink>
+               <S.TopLink active={injuryActive} onClick={handleInjuryActive}>Lesões</S.TopLink>
                <S.TopLink>
                   <Switch label='Comparação de jogadores' id='switch_comparacao' onCheckedChange={handleVizualitionMode} checked={isComparison}/>
                </S.TopLink>
             </S.TopLinkContainer>
-            {
-            deskActive ?
-               <AthleteDesk playerData={playerData} isComparison={isComparison}/> :
-               <AthleteStats playerData={playerData} isComparison={isComparison}/>
-            }
+            { deskActive && <AthleteDesk playerData={playerData} isComparison={isComparison}/> }
+            { statsActive && <AthleteStats playerData={playerData} isComparison={isComparison}/> }
+            { injuryActive && <AthleteInjuries playerData={playerData} /> }
          </S.ContentContainer>
       </S.PageContainer>
    )

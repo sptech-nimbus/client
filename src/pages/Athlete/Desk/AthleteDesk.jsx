@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 
-import * as S from "./Player.styled";
+import * as S from "../Player.styled.js";
 import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { format, parseISO, differenceInYears } from 'date-fns';

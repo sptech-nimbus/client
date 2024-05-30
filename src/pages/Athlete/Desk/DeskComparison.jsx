@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
-import * as S from "./Player.styled";
+import * as S from "../Player.styled.js";
 
 import Title from "@components/Title/Title";
 import { RadarChart } from '@components/Charts';

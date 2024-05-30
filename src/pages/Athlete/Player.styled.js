@@ -37,7 +37,7 @@ export const TopLink = styled.span`
       background-color: ${Colors.orange500};
    }
 
-   &:nth-child(4) {
+   &:nth-child(5) {
       position: absolute;
       right: 0;
    }
@@ -249,3 +249,88 @@ export const PlayerImgComparison = styled(PlayerImg)`
    max-height: 200px;
    min-width: 200px;
 `
+
+// -- injuries --
+
+export const Column = styled.div`
+   display: flex;
+   flex-direction: column;
+
+   span:nth-child(1) {
+      font-size: .8rem;
+      color: ${Colors.orange100};
+   }
+`
+
+export const InjuryGrid = styled(InfoGrid)`
+   grid-template-rows: repeat(3, 1fr);
+   grid-template-columns: repeat(3, 1fr);
+
+   ${Container} {
+      &:nth-child(1) {
+         grid-column: 1 / 3;
+         grid-row: 1 / 2;
+      }
+
+      &:nth-child(2) {
+         grid-column: 1 / 3;
+         grid-row: 2 / 4;
+      }
+
+      &:nth-child(3) {
+         grid-column: 3 / 4;
+         grid-row: 1 / 4;
+      }
+   }
+`
+
+export const InjuryHist = styled.div`
+   width: 100%;
+   height: 100%;
+   display: flex;
+   flex-direction: column;
+   gap: 1rem;
+   padding-top: 1rem;
+`
+
+export const Injury = styled.div`
+   display: flex;
+   width: 100%;
+   border-radius: .8rem;
+   padding: .5rem 1rem;
+   background-color: ${Colors.gray800};
+   justify-content: space-between;
+   cursor: pointer;
+`
+
+export const InjuryInfo = styled.div`
+   width: 100%;
+   height: 100%;
+   display: flex;
+`
+
+export const InfoContainer = styled.div`
+   display: flex;
+   flex-direction: column;
+
+   span:nth-child(2) {
+      font-size: 2rem;
+      font-weight: 900;
+   }
+`
+
+export const Severity = styled.span`
+   font-size: 2rem !important;
+   text-transform: uppercase;
+   font-weight: 900 !important;
+   color: ${
+      props => 
+         props.degree == 'Leve' ?
+            Colors.green :
+         props.degree == 'Média' ?
+            Colors.yellow :
+            Colors.red
+   };
+`
+
+
