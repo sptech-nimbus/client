@@ -2,9 +2,10 @@
 /* eslint-disable react/prop-types */
 
 import * as S from "./Player.styled";
+import { Colors, calcAge } from "@utils/Helpers";
 import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { format, parseISO, differenceInYears } from 'date-fns';
+import { format, parseISO } from 'date-fns';
 
 import Title from "@components/Title/Title";
 import { DeleteDialog, UpdateDialog } from "@components/Dialog/Dialog";
@@ -34,17 +35,9 @@ export default function AthleteDesk({ playerData, isComparison }) {
       fetchData();
    }, [id, token, hasFetchedData]);
 
-   const calculateAge = (birthDate) => {
-      if (!birthDate) return 'Não disponível';
-      const birthDateParsed = parseISO(birthDate);
-      return differenceInYears(new Date(), birthDateParsed);
-   };
-
    persona.birthDate = persona.birthDate 
       ? format(parseISO(persona.birthDate), 'dd/MM/yyyy') 
       : 'Data não disponível';
-
-   const age = persona.birthDate ? calculateAge(persona.birthDate) : 'Não disponível';
 
    return isComparison ? <DeskComparison playerData={playerData}/> : (
       <S.InfoWrapper>
@@ -78,7 +71,7 @@ export default function AthleteDesk({ playerData, isComparison }) {
 
                   <S.Information>
                      <S.Label>Idade: </S.Label>
-                     <span>{age}</span>
+                     <span>{calcAge(persona.birthDate)}</span>
                   </S.Information>
 
                   <S.Flex>
