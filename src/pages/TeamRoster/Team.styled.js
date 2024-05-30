@@ -263,7 +263,9 @@ export const FilterDescription = styled.span`
 
 export const Buttons = styled.div`
    display: flex;
-   gap: .5rem;
+   justify-content: center;
+   align-items: center;
+   gap: .25rem;
 `
 
 export const NotFoundContainer = styled.div`

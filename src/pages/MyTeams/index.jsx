@@ -1,4 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+
 import { useEffect, useState } from 'react';
 import * as S from './MyTeams.styled';
 import { useNavigate } from 'react-router-dom';
@@ -20,10 +21,13 @@ export default function MyTeams() {
       setCoachTeams(data.data);
    }
    fetchData();
-
+   
+   console.log(coachTeams)
+   
    useEffect(() => {
       if (coachTeams.length === 1) {
          chooseTeam(coachTeams[0].id);
+         localStorage.setItem('teamId',coachTeams[0].id);
          navigate('/home');
       }
    }, [coachTeams]);
