@@ -107,6 +107,8 @@ export const StatsGrid = styled(InfoGrid)`
 `
 
 export const Container = styled.div`
+   width: 100%;
+   height: 100%;
    display: flex;
    flex-direction: column;
    justify-content: center;
@@ -302,6 +304,10 @@ export const InjuryGrid = styled(InfoGrid)`
       &:nth-child(3) {
          grid-column: 3 / 4;
          grid-row: 1 / 5;
+         background: none;
+         border: none;
+         padding: 0;
+         gap: 1.2rem;
       }
 
       ${ChartContainer} {
@@ -310,13 +316,36 @@ export const InjuryGrid = styled(InfoGrid)`
    }
 `
 
+export const InjuryContainer = styled(Container)`
+   gap: .5rem;
+`
+
 export const InjuryHist = styled.div`
    width: 100%;
    height: 100%;
    display: flex;
    flex-direction: column;
    gap: 1rem;
-   padding-top: 1rem;
+   padding-right: .5rem;
+   overflow-y: auto;
+
+   &::-webkit-scrollbar {
+      width: 4px;
+   }
+
+   &::-webkit-scrollbar-track {
+      border-radius: 8px;
+      background-color: ${Colors.gray700};
+   }
+
+   &::-webkit-scrollbar-thumb {
+      background: ${Colors.orange500}; 
+      border-radius: 10px;
+   }
+
+   &::-webkit-scrollbar-thumb:hover {
+      background: ${Colors.orange300}; 
+   }
 `
 
 export const Injury = styled.div`

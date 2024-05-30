@@ -1,15 +1,27 @@
 import { useState, useEffect } from 'react';
 import * as S from '../Player.styled.js';
+import { InjuryDialog } from './InjuryDialog.jsx';
 
 import Title from "@components/Title/Title";
+
 import { PieChart } from "@components/Charts";
-import { calculateSeverity } from './Severity.jsx';
 
 import axios from 'axios';
 
 import Utils from '@utils/Helpers';
 import * as Accordion from '@radix-ui/react-accordion';
 import { CaretDown } from '@phosphor-icons/react';
+
+const calculateSeverity = (inicialDate, finalDate) => {
+   const startDate = new Date(inicialDate);
+   const endDate = new Date(finalDate);
+   const diffTime = Math.abs(endDate - startDate);
+   const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+   if (diffDays <= 7) return 'Leve';
+   if (diffDays <= 30) return 'Média';
+   return 'Grave';
+};
 
 function Chart({ data }) {
       const pieConfig = {
@@ -96,7 +108,7 @@ export default function AthleteInjuries({ playerData }) {
 
    return (
       <>
-         <Title text={`Lesões do jogador ${playerData.firstName} ${playerData.lastName}`}/>
+         <Title text={`Lesões do jogador: [nome do jogador]`}/>
          <S.InjuryGrid>
             <S.Container>
                <Title text='Infomações gerais' size='1.2rem'/>
@@ -124,46 +136,48 @@ export default function AthleteInjuries({ playerData }) {
             </S.Container>
 
             <S.Container>
-               <Title text='Histório de lesões' size='1.2rem'/>
-               <S.InjuryHist>
-                  { allInjuries && allInjuries.map(injury => (
-                  <Accordion.Root type='single' collapsible key={injury.injuryId}>
-                     <Accordion.Item value={injury.athleteId} asChild>
-                        <S.Injury>
-                           <Accordion.Trigger asChild>
-                              <S.InjuryContent>
-                                 <S.Column>
-                                    <span>Tipo</span>
-                                    <span>{injury.type}</span>
-                                 </S.Column>
-                                 <S.Column>
-                                    <span>Gravidade</span>
-                                    <span>{calculateSeverity(injury.initialDate, injury.finalDate)}</span>
-                                 </S.Column>
-                                 <S.Arrow>
-                                    <CaretDown weight='bold'/>
-                                 </S.Arrow>
-                              </S.InjuryContent>
-                           </Accordion.Trigger>
-
-                           <Accordion.Content asChild>
-                              <S.InjuryContentHidden>
-                                 <S.Column>
-                                    <span>Inicio</span>
-                                    <span>{Utils.formatDate(injury.initialDate)}</span>
-                                 </S.Column>
-                                 
-                                 <S.Column>
-                                    <span>Fim</span>
-                                    <span>{Utils.formatDate(injury.finalDate)}</span>
-                                 </S.Column>
-                              </S.InjuryContentHidden>
-                           </Accordion.Content>
-                        </S.Injury>
-                     </Accordion.Item>
-                  </Accordion.Root>
-                  )) }
-               </S.InjuryHist>
+               <InjuryDialog />
+               <S.InjuryContainer>
+                  <Title text='Histório de lesões' size='1.2rem'/>
+                  <S.InjuryHist>
+                     { allInjuries && allInjuries.map(injury => (
+                     <Accordion.Root type='single' collapsible key={injury.injuryId}>
+                        <Accordion.Item value={injury.athleteId} asChild>
+                           <S.Injury>
+                              <Accordion.Trigger asChild>
+                                 <S.InjuryContent>
+                                    <S.Column>
+                                       <span>Tipo</span>
+                                       <span>{injury.type}</span>
+                                    </S.Column>
+                                    <S.Column>
+                                       <span>Gravidade</span>
+                                       <span>{calculateSeverity(injury.initialDate, injury.finalDate)}</span>
+                                    </S.Column>
+                                    <S.Arrow>
+                                       <CaretDown weight='bold'/>
+                                    </S.Arrow>
+                                 </S.InjuryContent>
+                              </Accordion.Trigger>
+                              <Accordion.Content asChild>
+                                 <S.InjuryContentHidden>
+                                    <S.Column>
+                                       <span>Inicio</span>
+                                       <span>{Utils.formatDate(injury.initialDate)}</span>
+                                    </S.Column>
+                  
+                                    <S.Column>
+                                       <span>Fim</span>
+                                       <span>{Utils.formatDate(injury.finalDate)}</span>
+                                    </S.Column>
+                                 </S.InjuryContentHidden>
+                              </Accordion.Content>
+                           </S.Injury>
+                        </Accordion.Item>
+                     </Accordion.Root>
+                     )) }
+                  </S.InjuryHist>
+               </S.InjuryContainer>
             </S.Container>
          </S.InjuryGrid>
       </>
