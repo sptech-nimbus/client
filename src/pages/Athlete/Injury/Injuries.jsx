@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useLocation } from "react-router-dom";
 import * as S from '../Player.styled.js';
 import { InjuryDialog } from './InjuryDialog.jsx';
 
@@ -13,6 +14,8 @@ import * as Accordion from '@radix-ui/react-accordion';
 import { CaretDown } from '@phosphor-icons/react';
 import { ToastContainer } from 'react-toastify';
 
+import injury from "@api/injury";
+
 const calculateSeverity = (inicialDate, finalDate) => {
    const startDate = new Date(inicialDate);
    const endDate = new Date(finalDate);
@@ -23,6 +26,10 @@ const calculateSeverity = (inicialDate, finalDate) => {
    if (diffDays <= 30) return 'Média';
    return 'Grave';
 };
+
+const useQuery = () => {
+   return new URLSearchParams(useLocation().search);
+}
 
 function Chart({ data }) {
       const pieConfig = {
@@ -62,7 +69,22 @@ function Chart({ data }) {
    return <PieChart data={pieConfig.data} options={pieConfig.options}/>;
 }
 
+export function NoContent() {
+   const query = useQuery();
+   const playerId = query.get('id');
+
+   return (
+      <S.NoInjury>
+         <Title text='Não foram encontradas lesões associadas ao atleta.' size='' color={Utils.colors.orange100}/>
+         <InjuryDialog playerId={playerId}/>
+      </S.NoInjury>
+   )
+}
+
 export default function AthleteInjuries({ playerData }) { 
+   const query = useQuery();
+   const playerId = query.get('id');
+
    const [isLoading, setIsLoading] = useState(false);
    const [allInjuries, setAllInjuries] = useState([]);  
    const [totalDays, setTotalDays] = useState(0);
@@ -75,6 +97,8 @@ export default function AthleteInjuries({ playerData }) {
             setIsLoading(true);
             const response = await axios.get('https://3yyr7.wiremockapi.cloud/injuries');
             setAllInjuries(response.data);
+            // const response = await injury.getInjuriesFromAthlete(`?athlete=${playerId}`);
+            // setAllInjuries(response.data.data);
          }
          catch(err) {
             console.log(err);
@@ -115,7 +139,12 @@ export default function AthleteInjuries({ playerData }) {
       console.log(injuriesGraph); 
    }, [injuriesGraph]);
 
-   return isLoading ? <LoaderContainer> <Loader /> </LoaderContainer> : (
+   return (
+      isLoading 
+      ? <LoaderContainer> <Loader /> </LoaderContainer> 
+      : allInjuries.length == 0 
+      ? <NoContent />
+      : (
       <>
          <S.ToastContainer>
             <ToastContainer
@@ -159,7 +188,7 @@ export default function AthleteInjuries({ playerData }) {
             </S.Container>
 
             <S.Container>
-               <InjuryDialog />
+               <InjuryDialog playerId={playerId}/>
                <S.InjuryContainer>
                   <Title text='Histório de lesões' size='1.2rem'/>
                   <S.InjuryHist>
@@ -204,6 +233,7 @@ export default function AthleteInjuries({ playerData }) {
             </S.Container>
          </S.InjuryGrid>
       </>
+   )
    )
 }
  

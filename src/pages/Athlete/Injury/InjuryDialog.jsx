@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { useLocation } from "react-router-dom";
 import styled from "styled-components";
 import { toast, ToastContainer } from "react-toastify";
 
@@ -35,14 +34,7 @@ const DialogContainer = styled.form`
    padding-bottom: 1rem;
 `
 
-const useQuery = () => {
-   return new URLSearchParams(useLocation().search);
-}
-
-export function InjuryDialog() {
-   const query = useQuery();
-   const playerId = query.get('id');
-
+export function InjuryDialog({ playerId }) {
    const [injuryData, setInjuryData] = useState({
       initialDate: '',
       finalDate: '',
