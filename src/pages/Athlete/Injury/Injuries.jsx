@@ -3,14 +3,15 @@ import * as S from '../Player.styled.js';
 import { InjuryDialog } from './InjuryDialog.jsx';
 
 import Title from "@components/Title/Title";
-
 import { PieChart } from "@components/Charts";
+import Loader, { LoaderContainer } from "@components/Loader/Loader";
 
 import axios from 'axios';
 
 import Utils from '@utils/Helpers';
 import * as Accordion from '@radix-ui/react-accordion';
 import { CaretDown } from '@phosphor-icons/react';
+import { ToastContainer } from 'react-toastify';
 
 const calculateSeverity = (inicialDate, finalDate) => {
    const startDate = new Date(inicialDate);
@@ -62,6 +63,7 @@ function Chart({ data }) {
 }
 
 export default function AthleteInjuries({ playerData }) { 
+   const [isLoading, setIsLoading] = useState(false);
    const [allInjuries, setAllInjuries] = useState([]);  
    const [totalDays, setTotalDays] = useState(0);
    const [totalInjuries, setTotalInjuries] = useState(0);
@@ -69,10 +71,17 @@ export default function AthleteInjuries({ playerData }) {
 
    useEffect(() => {
       async function fetchData() {
-         const response = await axios.get('https://3yyr7.wiremockapi.cloud/injuries');
-         const { data } = response;
-
-         setAllInjuries(data);
+         try {
+            setIsLoading(true);
+            const response = await axios.get('https://3yyr7.wiremockapi.cloud/injuries');
+            setAllInjuries(response.data);
+         }
+         catch(err) {
+            console.log(err);
+         }
+         finally {
+            setIsLoading(false);
+         }
       }
 
       fetchData();
@@ -106,8 +115,22 @@ export default function AthleteInjuries({ playerData }) {
       console.log(injuriesGraph); 
    }, [injuriesGraph]);
 
-   return (
+   return isLoading ? <LoaderContainer> <Loader /> </LoaderContainer> : (
       <>
+         <S.ToastContainer>
+            <ToastContainer
+               autoClose={8000}
+               hideProgressBar={false}
+               newestOnTop={false}
+               closeOnClick
+               rtl={false}
+               pauseOnFocusLoss
+               draggable
+               theme="dark"
+               limit={3}
+            />
+         </S.ToastContainer>
+
          <Title text={`Lesões do jogador: [nome do jogador]`}/>
          <S.InjuryGrid>
             <S.Container>

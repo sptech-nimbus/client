@@ -445,3 +445,7 @@ export const NoInjury = styled.div`
    justify-content: center;
    text-align: center;
 `
+
+export const ToastContainer = styled.div`
+   position: absolute;
+`

@@ -1,12 +1,15 @@
 import { useState } from "react";
 import { useLocation } from "react-router-dom";
 import styled from "styled-components";
+import { toast, ToastContainer } from "react-toastify";
 
 import { Colors } from '@utils/Helpers';
 import { Dialog } from "@components/Dialog/Dialog";
 import Button from "@components/Button/Button";
 import Input from "@components/Input/Input";
 import Label from "@components/Label/Label";
+
+import injury from "@api/injury";
 
 const Flex = styled.div`
    display: flex;
@@ -25,7 +28,7 @@ const Column = styled.div`
    }
 `
 
-const DialogContainer = styled.div`
+const DialogContainer = styled.form`
    display: flex;
    flex-direction: column;
    gap: 1rem;
@@ -55,12 +58,46 @@ export function InjuryDialog() {
       console.log(injuryData);
    }
 
+   const handleSubmit = async (e) => {
+      e.preventDefault();
+
+      if(injuryData.finalDate && injuryData.initialDate && injuryData.type) {
+         try {
+            await injury.post(injuryData);
+
+            setInjuryData({
+               initialDate: '',
+               finalDate: '',
+               type: '',
+               athleteId: playerId
+            });
+            window.location.reload();
+         }
+         catch(err) {
+            if(err.response) {
+               toast.error(`Erro do servidor: ${err.response.status} - ${err.response.message}`)
+            }
+            else if(err.request) {
+               toast.error(`Erro na requisição: O servidor não respondeu. Por favor, aguarde um momento antes de tentar novamente.`);
+            }
+            else {
+               toast.error(`Erro: ${êrr.message}`);
+            }
+         }
+      }
+      else {
+         if(!injuryData.initialDate) toast.error(`Preencha o período inicial do tratamento.`)
+         if(!injuryData.finalDate) toast.error(`Preencha o período final do tratamento.`)
+         if(!injuryData.type) toast.error(`Preencha o tipo da lesão.`);
+      }
+   }
+
    return (
       <Dialog
       title='Adicionar nova lesão' 
       trigger={<Button.Primary value='+ Adicionar lesão' marginTop="0px" fontSize="1.2rem" width="100%"/>}
       >
-         <DialogContainer>
+         <DialogContainer onSubmit={handleSubmit}>
             <Label>
                Tipo de lesão
                <Input.Default
