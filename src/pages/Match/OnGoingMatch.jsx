@@ -111,8 +111,6 @@ export default function OnGoingMatch() {
             <Title text='Partida em andamento' uppercase />
             <S.MatchGrid>
                <S.Container>
-                  <S.TitleContainer>
-                  </S.TitleContainer>
                   <S.TeamsContainer>
                      <S.Team>
                         <S.TeamImage src={challenger.picture} />
@@ -252,11 +250,13 @@ export default function OnGoingMatch() {
                            <ClockClockwise weight='fill' onClick={() => { reset(); pause() }} />
                         </S.TimerButton>
                      </S.TimerButtons>
-                     <span>Quarto: {atualQuarter}</span>
-                     <input type='text' id='flag_text' />
                      <S.Timer>
                         <span>{formatTime(hours)}:{formatTime(minutes)}:{formatTime(seconds)}</span>
                      </S.Timer>
+                     <S.AddFlag>
+                        <span>{atualQuarter}º Quarto</span>
+                        <input type='text' id='flag_text' />
+                     </S.AddFlag>
                      <S.FlagButton onClick={addFlag}>+ marcação</S.FlagButton>
                   </S.TimerContainer>
 

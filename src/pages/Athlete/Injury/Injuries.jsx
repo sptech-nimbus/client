@@ -75,7 +75,7 @@ export function NoContent() {
 
    return (
       <S.NoInjury>
-         <Title text='Não foram encontradas lesões associadas ao atleta.' size='' color={Utils.colors.orange100}/>
+         <Title text='Não foram encontradas lesões associadas ao atleta.' size='' color='#a6a6a6'/>
          <InjuryDialog playerId={playerId}/>
       </S.NoInjury>
    )

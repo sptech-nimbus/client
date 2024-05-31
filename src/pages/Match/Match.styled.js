@@ -73,6 +73,7 @@ export const Container = styled.div`
    gap: .5rem;
 
    &:nth-child(1) {
+      position: relative;
       grid-column: 2 / 4;
       grid-row: 1 / 2;
    }
@@ -143,6 +144,13 @@ export const TeamName = styled.span`
 export const OnGoingPts = styled.div`
    width: 100%;
    height: 30%;
+   display: flex;
+   align-items: center;
+   justify-content: space-evenly;
+`
+
+export const Teams = styled.div`
+   width: 100%;
    display: flex;
    align-items: center;
    justify-content: space-evenly;
@@ -393,12 +401,27 @@ export const FlagButton = styled(TimerButton)`
    font-weight: 600;
    font-family: 'Catamaran';
    border-radius: .8rem;
+   padding: .4rem;
 
-   &:nth-child(3) {
+   &:nth-child(4) {
       height: 30px;
       font-size: 1rem;
       border-radius: .5rem;
       background-color: ${Colors.yellow};
+   }
+`
+
+export const AddFlag = styled.div`
+   display: flex;
+   flex-direction: column;
+   gap: .2rem;
+
+   input {
+      color: ${Colors.gray100};
+      border: 1px solid ${Colors.gray600};
+      border-radius: .4rem;
+      padding: .4rem .8rem;
+      background-color: ${Colors.gray800};
    }
 `
 
