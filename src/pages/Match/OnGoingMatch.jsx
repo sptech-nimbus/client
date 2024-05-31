@@ -12,11 +12,12 @@ import * as Accordion from '@radix-ui/react-accordion';
 import { useNavigate } from 'react-router-dom';
 
 export default function OnGoingMatch() {
-   const { totalSeconds, seconds, minutes, hours, isRunning, start, resume, pause, reset } = useStopwatch();
+   const navigate = useNavigate();
+   const { seconds, minutes, hours, isRunning, start, pause, reset } = useStopwatch();
 
-   const [atualQuarter, setAtualQuarter] = useState(1);
-
+   const [flagInput, setFlagInput] = useState('');
    const [flags, setFlags] = useState([])
+   const [currentQuarter, setCurrentQuarter] = useState(1);
 
    const [challenged, setChallenged] = useState({
       name: 'Nome challenged',
@@ -80,8 +81,8 @@ export default function OnGoingMatch() {
    };
 
    const handleFinishQuarter = () => {
-      if (atualQuarter < 4) {
-         setAtualQuarter(atualQuarter + 1);
+      if (currentQuarter < 4) {
+         setCurrentQuarter(currentQuarter + 1);
          reset();
          pause();
       } else {
@@ -90,16 +91,13 @@ export default function OnGoingMatch() {
    }
 
    const addFlag = async () => {
-      let flagText = document.querySelector('#flag_text');
-
-      setFlags([...flags, { quarter: atualQuarter, time: `${formatTime(hours)}:${formatTime(minutes)}:${formatTime(seconds)}`, text: flagText.value }]);
-
-      flagText.value = '';
+      setFlags([...flags, { quarter: currentQuarter, time: `${formatTime(hours)}:${formatTime(minutes)}:${formatTime(seconds)}`, text: flagInput }]);
+      setFlagInput('');
    }
 
    const finishGame = () => {
       console.log('JOGO FINALIZADO');
-
+      navigate('finished')
       console.log(flags);
    }
 
@@ -254,8 +252,8 @@ export default function OnGoingMatch() {
                         <span>{formatTime(hours)}:{formatTime(minutes)}:{formatTime(seconds)}</span>
                      </S.Timer>
                      <S.AddFlag>
-                        <span>{atualQuarter}º Quarto</span>
-                        <input type='text' id='flag_text' />
+                        <span>{currentQuarter}º Quarto</span>
+                        <input type='text' value={flagInput} onChange={ (e) => { setFlagInput(e.target.value) } }/>
                      </S.AddFlag>
                      <S.FlagButton onClick={addFlag}>+ marcação</S.FlagButton>
                   </S.TimerContainer>

@@ -422,6 +422,7 @@ export const AddFlag = styled.div`
       border-radius: .4rem;
       padding: .4rem .8rem;
       background-color: ${Colors.gray800};
+      font-family: 'Poppins';
    }
 `
 
