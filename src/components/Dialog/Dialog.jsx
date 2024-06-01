@@ -42,9 +42,9 @@ export function Drawer({title, children, trigger}) {
    )
 }
 
-export function Dialog({ title, children, trigger }) { 
+export function Dialog({ title, children, trigger, ...props }) { 
    return (
-      <D.Root>
+      <D.Root modal {...props}>
          <S.DialogTrigger>
             {trigger}
          </S.DialogTrigger>
