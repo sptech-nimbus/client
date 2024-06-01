@@ -201,6 +201,25 @@ export const AthletesList = styled.div`
    flex-direction: column;
    gap: 1rem;
    overflow-y: auto;
+   padding-right: .5rem;
+
+   &::-webkit-scrollbar {
+      width: 8px;
+   }
+
+   &::-webkit-scrollbar-track {
+      border-radius: 8px;
+      background-color: ${Colors.gray700};
+   }
+
+   &::-webkit-scrollbar-thumb {
+      background: ${Colors.orange500}; 
+      border-radius: 10px;
+   }
+
+   &::-webkit-scrollbar-thumb:hover {
+      background: ${Colors.orange300}; 
+   }
 `
 
 export const Athlete = styled.div`
@@ -439,4 +458,21 @@ export const StartingPlayer = styled.button`
    border: none;
    background-color: transparent;
    color: ${Colors.orange500};
+`
+
+export const FinishMatch = styled.div`
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   justify-content: center;
+   text-align: center;
+
+   span {
+      font-size: 1.2rem;
+   }
+
+   div {
+      display: flex;
+      gap: 1rem;
+   }
 `

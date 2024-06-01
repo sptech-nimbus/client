@@ -6,12 +6,14 @@ import { useNavigate } from 'react-router-dom';
 import Background from "@components/Background/Background";
 import Sidebar from "@components/Sidebar/Sidebar";
 import Title from "@components/Title/Title";
+import Button from "@components/Button/Button";
+import { Dialog, DialogClose as Close } from "@components/Dialog/Dialog";
 
 import { Play, Pause, ClockClockwise } from '@phosphor-icons/react';
 
 import Athlete from './Athlete';
 
-export default function OnGoingMatch({ allPlayers, matchData }) {
+export default function OnGoingMatch({ allPlayers, gameData, setMatchData }) {
    const navigate = useNavigate();
    const { seconds, minutes, hours, isRunning, start, pause, reset } = useStopwatch();
 
@@ -28,7 +30,6 @@ export default function OnGoingMatch({ allPlayers, matchData }) {
    const [challenger, setChallenger] = useState({
       name: 'Nome challenger',
       picture: 'https://seeklogo.com/images/A/atlanta-hawks-logo-A108D0AC8D-seeklogo.com.png',
-      //stats
    });
 
    const [players, setPlayers] = useState(allPlayers);
@@ -48,6 +49,30 @@ export default function OnGoingMatch({ allPlayers, matchData }) {
       defReb: 0,
       foul: 0
    });
+
+   useEffect(() => {
+      const mapPlayers = players.map(player => ({
+         ...player,
+         stats: {
+            pts: 0,
+            ast: 0,
+            blk: 0,
+            stl: 0,
+            turnover: 0,
+            pts1: 0,
+            pts2: 0,
+            pts3: 0,
+            pts1Err: 0,
+            pts2Err: 0,
+            pts3Err: 0,
+            offReb: 0,
+            defReb: 0,
+            foul: 0
+         }
+      }));
+
+      setPlayers(mapPlayers);
+   }, []);
 
    const formatTime = (time) => {
       return time.toString().padStart(2, '0');
@@ -108,13 +133,9 @@ export default function OnGoingMatch({ allPlayers, matchData }) {
    
 
    const handleFinishQuarter = () => {
-      if (currentQuarter < 4) {
-         setCurrentQuarter(currentQuarter + 1);
-         reset();
-         pause();
-      } else {
-         finishGame();
-      }
+      setCurrentQuarter(currentQuarter + 1);
+      reset();
+      pause();
    }
 
    const addFlag = async () => {
@@ -122,36 +143,35 @@ export default function OnGoingMatch({ allPlayers, matchData }) {
       setFlagInput('');
    }
 
-   const finishGame = () => {
-      console.log('JOGO FINALIZADO');
-      console.log('flags', flags);
-      console.log('players stats', players);
-      console.log('team stats', teamStats);
+   const handleFlags = () => {
+      const maxQuarter = Math.max(...flags.map(flag => flag.quarter));
+      const groupedFlags = {};
+
+      for (let i = 1; i <= maxQuarter; i++) {
+         groupedFlags[`quarter${i}`] = flags.filter(flag => flag.quarter == i);
+      }
+
+      return groupedFlags;
    }
 
-   useEffect(() => {
-      const mapPlayers = players.map(player => ({
-         ...player,
-         stats: {
-            pts: 0,
-            ast: 0,
-            blk: 0,
-            stl: 0,
-            turnover: 0,
-            pts1: 0,
-            pts2: 0,
-            pts3: 0,
-            pts1Err: 0,
-            pts2Err: 0,
-            pts3Err: 0,
-            offReb: 0,
-            defReb: 0,
-            foul: 0
-         }
-      }));
+   const handleResult = () => {
+      return {
+         challenged,
+         challenger: {
+            ...challenger,
+            stats: { ...teamStats }
+         },
+         // gameId: gameData.gameId,
+         players,
+         flags: handleFlags()
+      }      
+   }
 
-      setPlayers(mapPlayers);
-   }, []);
+   const finishGame = () => {
+      console.clear();
+      setMatchData(handleResult());
+      navigate('finished');
+   }
 
    return (
       <S.PageContainer>
@@ -244,10 +264,41 @@ export default function OnGoingMatch({ allPlayers, matchData }) {
                      </S.AddFlag>
                      <S.FlagButton onClick={addFlag}>+ marcação</S.FlagButton>
                   </S.TimerContainer>
-
-                  <S.Flags>
-                     <S.FlagButton onClick={handleFinishQuarter}>Finalizar quarto</S.FlagButton>
-                  </S.Flags>
+                  
+                  {
+                     currentQuarter > 3
+                     ? (
+                        <Dialog 
+                        title='Finalizar partida'
+                        childTrigger
+                        trigger={
+                           <S.Flags>
+                              <S.FlagButton onClick={handleFinishQuarter}>{currentQuarter == 4 ? 'Finalizar partida' : 'Finalizar quarto'}</S.FlagButton>
+                           </S.Flags>
+                        }>
+                           <S.FinishMatch>
+                              <span>Deseja finalizar a partida?</span>
+                              <div>
+                                 <Button.Primary
+                                 onClick={finishGame}
+                                 value='Finalizar partida'
+                                 />
+                                 <Close>
+                                    <Button.Secondary
+                                    value='Ir para prorrogação'
+                                    />
+                                 </Close>
+                              </div>
+                           </S.FinishMatch>
+                        </Dialog>
+                     )
+                     : (
+                        <S.Flags>
+                           <S.FlagButton onClick={handleFinishQuarter}>{currentQuarter == 4 ? 'Finalizar partida' : 'Finalizar quarto'}</S.FlagButton>
+                        </S.Flags>
+                     )
+                  }
+                  
                </S.Container>
             </S.MatchGrid>
          </S.ContentContainer>

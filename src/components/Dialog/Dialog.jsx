@@ -42,10 +42,10 @@ export function Drawer({title, children, trigger}) {
    )
 }
 
-export function Dialog({ title, children, trigger, ...props }) { 
+export function Dialog({ title, children, trigger, childTrigger, ...props }) { 
    return (
       <D.Root modal {...props}>
-         <S.DialogTrigger>
+         <S.DialogTrigger asChild={childTrigger}>
             {trigger}
          </S.DialogTrigger>
 
@@ -66,6 +66,14 @@ export function Dialog({ title, children, trigger, ...props }) {
             </S.DialogContent>
          </D.Portal>
       </D.Root>
+   )
+}
+
+export function DialogClose({ children }) {
+   return (
+      <D.Close asChild>
+         { children }
+      </D.Close>
    )
 }
 
