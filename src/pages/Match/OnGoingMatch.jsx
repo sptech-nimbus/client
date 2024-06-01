@@ -7,18 +7,25 @@ import Sidebar from "@components/Sidebar/Sidebar";
 import Title from "@components/Title/Title";
 import Popover from "@components/Popover/Popover";
 
-import { Play, Pause, ClockClockwise, CaretDown } from '@phosphor-icons/react';
+import { Play, Pause, ClockClockwise, CaretDown, Star } from '@phosphor-icons/react';
 import * as Accordion from '@radix-ui/react-accordion';
+import { useNavigate } from 'react-router-dom';
 
 export default function OnGoingMatch() {
-   const { totalSeconds, seconds, minutes, hours, isRunning, start, resume, pause, reset } = useStopwatch();
-   const [challenged, setChallenged] = useState({ 
+   const navigate = useNavigate();
+   const { seconds, minutes, hours, isRunning, start, pause, reset } = useStopwatch();
+
+   const [flagInput, setFlagInput] = useState('');
+   const [flags, setFlags] = useState([])
+   const [currentQuarter, setCurrentQuarter] = useState(1);
+
+   const [challenged, setChallenged] = useState({
       name: 'Nome challenged',
       picture: 'https://1000logos.net/wp-content/uploads/2017/12/Los-Angeles-Clippers-Logo.png',
       pts: 0
    });
 
-   const [challenger, setChallenger] = useState({ 
+   const [challenger, setChallenger] = useState({
       name: 'Nome challenger',
       picture: 'https://seeklogo.com/images/A/atlanta-hawks-logo-A108D0AC8D-seeklogo.com.png',
       //stats
@@ -66,23 +73,42 @@ export default function OnGoingMatch() {
          const pointStat = pointMapping[value];
          if (pointStat) {
             setStats(prevStats => ({
-                  ...prevStats,
-                  [pointStat]: prevStats[pointStat] + 1
+               ...prevStats,
+               [pointStat]: prevStats[pointStat] + 1
             }));
          }
       }
    };
 
+   const handleFinishQuarter = () => {
+      if (currentQuarter < 4) {
+         setCurrentQuarter(currentQuarter + 1);
+         reset();
+         pause();
+      } else {
+         finishGame();
+      }
+   }
+
+   const addFlag = async () => {
+      setFlags([...flags, { quarter: currentQuarter, time: `${formatTime(hours)}:${formatTime(minutes)}:${formatTime(seconds)}`, text: flagInput }]);
+      setFlagInput('');
+   }
+
+   const finishGame = () => {
+      console.log('JOGO FINALIZADO');
+      navigate('finished')
+      console.log(flags);
+   }
+
    return (
       <S.PageContainer>
          <Background.Default />
-         <Sidebar page='match'/>
+         <Sidebar page='match' />
          <S.ContentContainer>
-            <Title text='Partida em andamento' uppercase/>
+            <Title text='Partida em andamento' uppercase />
             <S.MatchGrid>
                <S.Container>
-                  <S.TitleContainer>
-                  </S.TitleContainer>
                   <S.TeamsContainer>
                      <S.Team>
                         <S.TeamImage src={challenger.picture} />
@@ -90,7 +116,7 @@ export default function OnGoingMatch() {
                      </S.Team>
                      <S.Versus>VS</S.Versus>
                      <S.Team>
-                        <S.TeamImage src={challenged.picture}  />
+                        <S.TeamImage src={challenged.picture} />
                         <S.TeamName>{challenged.name}</S.TeamName>
                      </S.Team>
                   </S.TeamsContainer>
@@ -103,7 +129,7 @@ export default function OnGoingMatch() {
                      <S.Pts isWinning={challenged.pts > stats.pts}>{challenged.pts}</S.Pts>
                   </S.OnGoingPts>
                   <S.TitleContainer>
-                     <Title text='Estatísticas do seu time' size='1.2rem'/>
+                     <Title text='Estatísticas do seu time' size='1.2rem' />
                   </S.TitleContainer>
                   <S.StatsContainer>
                      <S.Flex>
@@ -130,7 +156,7 @@ export default function OnGoingMatch() {
                </S.Container>
 
                <S.Container>
-                  <Title text='Jogadores do seu time' size='1.2rem'/>
+                  <Title text='Jogadores do seu time' size='1.2rem' />
                   <S.AthletesList>
                      <Accordion.Root type='single' collapsible>
 
@@ -144,26 +170,31 @@ export default function OnGoingMatch() {
                                     <S.isPlaying isPlaying>Jogando</S.isPlaying>
                                  </S.Column>
 
+                                 <S.StartingPlayer title='Jogador titular'>
+                                    <Star weight='fill' />
+                                 </S.StartingPlayer>
+
                                  <Accordion.Trigger asChild>
                                     <S.CollapsibleArrow>
-                                       <CaretDown weight='bold'/>
+                                       <CaretDown weight='bold' />
                                     </S.CollapsibleArrow>
                                  </Accordion.Trigger>
                               </S.AthleteInfo>
+
 
                               <Accordion.Content asChild>
                                  <S.Actions>
                                     <Popover trigger={<S.Action >Pontos</S.Action>} sideOffset={8}>
                                        <S.PopoverContent>
                                           <S.AddAction>
-                                             <S.AddButton isError onClick={() => addStatistic('pts', -1)}>+1 pts</S.AddButton>
-                                             <S.AddButton isError onClick={() => addStatistic('pts', -2)}>+2 pts</S.AddButton>
-                                             <S.AddButton isError onClick={() => addStatistic('pts', -3)}>+3 pts</S.AddButton>
-                                          </S.AddAction>
-                                          <S.AddAction>
                                              <S.AddButton onClick={() => addStatistic('pts', 1)}>+1 pts</S.AddButton>
                                              <S.AddButton onClick={() => addStatistic('pts', 2)}>+2 pts</S.AddButton>
                                              <S.AddButton onClick={() => addStatistic('pts', 3)}>+3 pts</S.AddButton>
+                                          </S.AddAction>
+                                          <S.AddAction>
+                                             <S.AddButton isError onClick={() => addStatistic('pts', -1)}>+1 pts</S.AddButton>
+                                             <S.AddButton isError onClick={() => addStatistic('pts', -2)}>+2 pts</S.AddButton>
+                                             <S.AddButton isError onClick={() => addStatistic('pts', -3)}>+3 pts</S.AddButton>
                                           </S.AddAction>
                                        </S.PopoverContent>
                                     </Popover>
@@ -190,8 +221,8 @@ export default function OnGoingMatch() {
                                     <Popover trigger={<S.Action>Assistência</S.Action>} sideOffset={8}>
                                        <S.PopoverContent>
                                           <S.AddAction>
-                                             <S.AddButton isError onClick={() => addStatistic('turnover', 1)}>+1 turnover</S.AddButton>
                                              <S.AddButton onClick={() => addStatistic('ast', 1)}>+1 assistência</S.AddButton>
+                                             <S.AddButton isError onClick={() => addStatistic('turnover', 1)}>+1 turnover</S.AddButton>
                                           </S.AddAction>
                                        </S.PopoverContent>
                                     </Popover>
@@ -202,29 +233,33 @@ export default function OnGoingMatch() {
                      </Accordion.Root>
                   </S.AthletesList>
                </S.Container>
-               
+
                <S.Container>
                   <S.TimerContainer>
                      <S.TimerButtons>
                         <S.TimerButton onClick={() => isRunning ? pause() : start()} title={isRunning ? 'Pausar' : 'Iniciar/Retomar'}>
                            {
                               isRunning
-                              ? <Pause weight='fill'/>
-                              : <Play weight='fill'/>
+                                 ? <Pause weight='fill' />
+                                 : <Play weight='fill' />
                            }
                         </S.TimerButton>
                         <S.TimerButton title='Reiniciar timer'>
-                           <ClockClockwise weight='fill' onClick={reset}/>
+                           <ClockClockwise weight='fill' onClick={() => { reset(); pause() }} />
                         </S.TimerButton>
                      </S.TimerButtons>
                      <S.Timer>
                         <span>{formatTime(hours)}:{formatTime(minutes)}:{formatTime(seconds)}</span>
                      </S.Timer>
-                     <S.FlagButton>+ marcação</S.FlagButton>
+                     <S.AddFlag>
+                        <span>{currentQuarter}º Quarto</span>
+                        <input type='text' value={flagInput} onChange={ (e) => { setFlagInput(e.target.value) } }/>
+                     </S.AddFlag>
+                     <S.FlagButton onClick={addFlag}>+ marcação</S.FlagButton>
                   </S.TimerContainer>
 
                   <S.Flags>
-                     <S.FlagButton>Finalizar partida</S.FlagButton>
+                     <S.FlagButton onClick={handleFinishQuarter}>Finalizar quarto</S.FlagButton>
                   </S.Flags>
                </S.Container>
             </S.MatchGrid>

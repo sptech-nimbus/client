@@ -1,4 +1,4 @@
-import * as S from "./Player.styled";
+import * as S from "../Player.styled.js";
 
 import Title from "@components/Title/Title";
 import { RadarChart, BarChart } from '@components/Charts';

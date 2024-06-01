@@ -30,3 +30,11 @@ export const StyledLoader = styled.div`
   background-size: 30px 30px;
   animation: ${l9} 1s infinite alternate;
 `;
+
+export const LoaderContainer = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`

@@ -104,6 +104,14 @@ export default function AppRoutes() {
                   </ProtectedRoute>
                } 
             />
+            <Route 
+               path="/match/finished" 
+               element={
+                  <ProtectedRoute>
+                     <Match isMatchFinished/>
+                  </ProtectedRoute>
+               } 
+            />
          </Routes>
       </Router>
    )
