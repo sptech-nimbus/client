@@ -18,68 +18,7 @@ export default function Chat() {
    sessionStorage.setItem('username', 'kauan oliveira');
 
    const [newMessage, setNewMessage] = useState('');
-   const [messages, setMessages] = useState([
-      {
-        date: "2024-05-25T14:30:00Z",
-        message: "Olá, como você está?",
-        userId: "1",
-        username: "joao123"
-      },
-      {
-        date: "2024-05-25T14:32:00Z",
-        message: "Estou bem, obrigado! E você?",
-        userId: "27754777-4b9c-4960-9b1a-75377502ad03",
-        username: "maria456"
-      },
-      {
-        date: "2024-05-25T14:34:00Z",
-        message: "Também estou bem. O que você tem feito ultimamente?",
-        userId: "1",
-        username: "joao123"
-      },
-      {
-        date: "2024-05-25T14:36:00Z",
-        message: "Tenho trabalhado em alguns projetos. E você?",
-        userId: "27754777-4b9c-4960-9b1a-75377502ad03",
-        username: "maria456"
-      },
-      {
-        date: "2024-05-25T14:38:00Z",
-        message: "Tenho estudado bastante para a faculdade.",
-        userId: "1",
-        username: "joao123"
-      },
-      {
-        date: "2024-05-25T14:40:00Z",
-        message: "Isso é ótimo! Qual é o seu curso?",
-        userId: "27754777-4b9c-4960-9b1a-75377502ad03",
-        username: "maria456"
-      },
-      {
-        date: "2024-05-25T14:42:00Z",
-        message: "Estou estudando engenharia.",
-        userId: "1",
-        username: "joao123"
-      },
-      {
-        date: "2024-05-25T14:44:00Z",
-        message: "Que legal! Eu estudo ciência da computação.",
-        userId: "27754777-4b9c-4960-9b1a-75377502ad03",
-        username: "maria456"
-      },
-      {
-        date: "2024-05-25T14:46:00Z",
-        message: "Que coincidência! Podemos trocar dicas de estudo.",
-        userId: "1",
-        username: "joao123"
-      },
-      {
-        date: "2024-05-26T14:48:00Z",
-        message: "Com certeza! Vamos marcar um dia para isso.",
-        userId: "27754777-4b9c-4960-9b1a-75377502ad03",
-        username: "maria456"
-      }
-    ]);
+   const [messages, setMessages] = useState([]);
 
    const sendMessage = () => {
       const date = new Date();
@@ -99,33 +38,33 @@ export default function Chat() {
       setNewMessage('');
    }
 
-   // useEffect(() => {
-   //    const getMessagesRes = async () => {
-   //       const messagesRes = await getMessages('312', 1, 20);
+   useEffect(() => {
+      const getMessagesRes = async () => {
+         const messagesRes = await getMessages(sessionStorage.getItem('teamId'), 1, 20);
 
-   //       setMessages(messagesRes.data.page);
-   //    }
+         setMessages(messagesRes.data.page);
+      }
 
-   //    if (!socket.connected) {
-   //       socket.auth = {
-   //          user: {
-   //             id: sessionStorage.getItem('userId')
-   //          },
-   //          teams: [sessionStorage.getItem('teamId')]
-   //       };
+      if (!socket.connected) {
+         socket.auth = {
+            user: {
+               id: sessionStorage.getItem('userId')
+            },
+            teams: [sessionStorage.getItem('teamId')]
+         };
 
-   //       socket.on('connection', console.log('Usuário conectado'));
+         socket.on('connection', console.log('Usuário conectado'));
 
-   //       socket.on('ttm', m => {
-   //          console.log(m);
-   //          setMessages(oldMessages => [...oldMessages, m]);
-   //       });
+         socket.on('ttm', m => {
+            console.log(m);
+            setMessages(oldMessages => [...oldMessages, m]);
+         });
 
-   //       socket.connect();
+         socket.connect();
 
-   //       getMessagesRes();
-   //    }
-   // }, []);
+         getMessagesRes();
+      }
+   }, []);
 
    return (
       <S.PageContainer>
