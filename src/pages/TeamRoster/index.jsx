@@ -1,29 +1,22 @@
-import { useState, useEffect, useRef } from "react";
+/* eslint-disable no-unused-vars */
 
+import { useState, useEffect } from "react";
 import Title from "@components/Title/Title";
 import Input from "@components/Input/Input";
 import Button from "@components/Button/Button";
 import Loader from "@components/Loader/Loader";
 import Sidebar from "@components/Sidebar/Sidebar";
-import { Drawer } from "@components/Dialog/Dialog";
+import * as D from "@components/Dialog/Dialog";
 import Background from "@components/Background/Background";
 import RadioGroup from "@components/RadioGroup/RadioGroup";
 import ToggleGroup from "@components/ToggleGroup/ToggleGroup";
-
-import axios from 'axios';
-import user from "@api/user";
-
-import TeamGrid from "./TeamGrid";
-import TeamTable from "./TeamTable";
-
-import Utils from "@utils/Helpers";
-
 import { useNotification } from "@contexts/notification";
 import { SquaresFour, Rows, Faders } from "@phosphor-icons/react";
-
 import * as S from "./Team.styled";
-
-import athlete from "../../api/athlete";
+import athlete from "@api/athlete";
+import TeamGrid from "./TeamGrid";
+import TeamTable from "./TeamTable";
+import Utils from "@utils/Helpers";
 
 export default function TeamRoster() {
    const [isLoading, setIsLoading] = useState(false);
@@ -33,34 +26,27 @@ export default function TeamRoster() {
       position: 'default',
       age: 'default',
    });
-
    const [gridState, setGridState] = useState(true);
    const [tableState, setTableState] = useState(false);
-
    const [playersData, setPlayersData] = useState([]);
    const [playersFiltered, setPlayersFiltered] = useState([]);
 
    useEffect(() => {
-      async function fetchData() {
+      const fetchData = async () => {
          try {
             setIsLoading(true);
-            //requisição de mock api - substituir pela requisição correta ao backend
-            // // let { data } = await axios.get('https://6642243c3d66a67b34366411.mockapi.io/nimbus/athlete');
-            // data = data.map(item => ({ ...item, position: randomPosition() }))
-
-            const { data } = await athlete.byTeam(localStorage.getItem('teamId'), localStorage.getItem('token'));
-
-            console.log(data);
-            setPlayersData(data.data)
-            setPlayersFiltered(playersData);
-         }
-         catch (err) {
-            console.log('Houve um erro durante a requisição');
-         }
-         finally {
+            const response = await athlete.byTeam(
+               localStorage.getItem('teamId'),
+               localStorage.getItem('token')
+            );
+            setPlayersData(response.data.data);
+            console.log(response.data.data);
+         } catch (error) {
+            console.log('Houve um erro durante a requisição:', error.message);
+         } finally {
             setIsLoading(false);
          }
-      }
+      };
       fetchData();
    }, []);
 
@@ -90,7 +76,7 @@ export default function TeamRoster() {
       }
 
       filteredPlayers = Utils.sort(filteredPlayers, 'firstName');
-      if (filters.alphabetical == 'z-a') filteredPlayers.reverse();
+      if (filters.alphabetical === 'z-a') filteredPlayers.reverse();
 
       if (filters.position !== 'default') {
          filteredPlayers = Utils.filterByAttr(filteredPlayers, 'position', filters.position);
@@ -116,7 +102,7 @@ export default function TeamRoster() {
          alphabetical: 'default',
          position: 'default',
          age: 'default',
-      })
+      });
    }
 
    const handleAlphabetRadio = (value) => {
@@ -141,16 +127,15 @@ export default function TeamRoster() {
    }
 
    const handleGridStateChange = () => {
-      if (tableState) setGridState(!gridState);
-      if (tableState) setTableState(!setTableState);
+      setGridState(true);
+      setTableState(false);
    }
 
    const handleTableStateChange = () => {
-      if (gridState) setTableState(!tableState);
-      if (gridState) setGridState(!gridState);
+      setGridState(false);
+      setTableState(true);
    }
 
-   //funçõo feita apenas para adaptar dados da mock api, remover futuramente quando conectar ao backend
    const randomPosition = () => {
       const positions = ['Armador', 'Ala-Armador', 'Ala', 'Ala-Pivô', 'Pivô', 'Pivô'];
       const random = Math.floor(Math.random() * positions.length);
@@ -174,7 +159,7 @@ export default function TeamRoster() {
                   <S.SearchIcon onClick={searchByName} />
                </Input.Default>
 
-               <Drawer title={'Filtros de jogadores'} trigger={<Faders size={36} />}>
+               <D.Drawer title={'Filtros de jogadores'} trigger={<Faders size={36} />}>
                   <Button.Secondary value={'Remover filtros'} size={'sm'} width='100%' fontSize='1rem' onClick={removeFilters} />
                   <S.FiltersContainer>
                      <S.FilterTitle>Por nome</S.FilterTitle>
@@ -218,13 +203,13 @@ export default function TeamRoster() {
                         </S.Filter>
                      </S.Filter>
                   </S.FiltersContainer>
-               </Drawer>
+               </D.Drawer>
 
                <ToggleGroup.Root type="single" defaultValue={"grid"}>
-                  <ToggleGroup.Item value="grid" aria-label="Alinhado por grades" dataState={gridState} onClick={handleGridStateChange}>
+                  <ToggleGroup.Item value="grid" aria-label="Alinhado por grades" data-state={gridState} onClick={handleGridStateChange}>
                      <SquaresFour size={36} />
                   </ToggleGroup.Item>
-                  <ToggleGroup.Item value="rows" aria-label="Alinhado por linhas" dataState={tableState} onClick={handleTableStateChange}>
+                  <ToggleGroup.Item value="rows" aria-label="Alinhado por linhas" data-state={tableState} onClick={handleTableStateChange}>
                      <Rows size={36} />
                   </ToggleGroup.Item>
                </ToggleGroup.Root>
@@ -239,5 +224,5 @@ export default function TeamRoster() {
             </S.MainContainer>
          </S.ContentContainer>
       </S.PageContainer>
-   )
+   );
 }

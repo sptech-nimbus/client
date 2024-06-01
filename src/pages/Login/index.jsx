@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+
 import { useEffect, useState } from "react";
 import * as S from "./Login.styles";
 
@@ -13,8 +15,6 @@ import Background from "@components/Background/Background";
 import Input from "@components/Input/Input";
 import Label from "@components/Label/Label";
 import Button from "@components/Button/Button";
-
-import user from "@api/user";
 
 export default function Login() {
    const { login, isAuthenticated } = useAuth();

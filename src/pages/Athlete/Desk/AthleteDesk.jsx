@@ -1,10 +1,13 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 
-import * as S from "./Player.styled";
+import * as S from "../Player.styled.js";
+import { Colors, calcAge } from "@utils/Helpers";
 import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { format, parseISO, differenceInYears } from 'date-fns';
+import { format, parseISO } from 'date-fns';
+
+import { useAuth } from "@contexts/auth";
 
 import Title from "@components/Title/Title";
 import { DeleteDialog, UpdateDialog } from "@components/Dialog/Dialog";
@@ -13,17 +16,16 @@ import athleteDesc from "@api/athleteDesc";
 import DeskComparison from './DeskComparison';
 
 export default function AthleteDesk({ playerData, isComparison }) {
-   const [id, setId] = useState(localStorage.getItem('personaId'));
-   const [token, setToken] = useState(localStorage.getItem('token'));
+   const { token, personaId } = useAuth();
    const [persona, setPersona] = useState({});
    const [hasFetchedData, setHasFetchedData] = useState(false);
 
    useEffect(() => {
       async function fetchData() {
-         if (id && token && !hasFetchedData) {
+         if (personaId && token && !hasFetchedData) {
             try {
-               const response = await athleteDesc.allInfo(id, token);
-               console.log(response.data.data);
+               const response = await athleteDesc.allInfo(personaId, token);
+
                setPersona(response.data.data);
                setHasFetchedData(true);
             } catch (error) {
@@ -32,19 +34,11 @@ export default function AthleteDesk({ playerData, isComparison }) {
          }
       }
       fetchData();
-   }, [id, token, hasFetchedData]);
+   }, [personaId, token, hasFetchedData]);
 
-   const calculateAge = (birthDate) => {
-      if (!birthDate) return 'Não disponível';
-      const birthDateParsed = parseISO(birthDate);
-      return differenceInYears(new Date(), birthDateParsed);
-   };
-
-   persona.birthDate = persona.birthDate 
-      ? format(parseISO(persona.birthDate), 'dd/MM/yyyy') 
-      : 'Data não disponível';
-
-   const age = persona.birthDate ? calculateAge(persona.birthDate) : 'Não disponível';
+   const birthDateString = persona.birthDate 
+   ? new Date(persona.birthDate).toLocaleDateString('pt-br') 
+   : 'Data não disponível';
 
    return isComparison ? <DeskComparison playerData={playerData}/> : (
       <S.InfoWrapper>
@@ -63,38 +57,38 @@ export default function AthleteDesk({ playerData, isComparison }) {
 
                   <S.Information>
                      <S.Label>Número: </S.Label>
-                     <span>{persona.number ? persona.number : 'Não definido'}</span>
+                     <span>{persona.number ?? 'Não definido'}</span>
                   </S.Information>
 
                   <S.Information>
                      <S.Label>Posição: </S.Label>
-                     <span>{persona.position ? persona.position : 'Não definido'}</span>
+                     <span>{persona.position ?? 'Não definido'}</span>
                   </S.Information>
 
                   <S.Information>
                      <S.Label>Data de nascimento: </S.Label>
-                     <span>{persona.birthDate}</span>
+                     <span>{birthDateString}</span>
                   </S.Information>
 
                   <S.Information>
                      <S.Label>Idade: </S.Label>
-                     <span>{age}</span>
+                     <span>{calcAge(persona.birthDate)}</span>
                   </S.Information>
 
                   <S.Flex>
                      <S.Information>
                         <S.Label>Altura (cm): </S.Label>
-                        <span>{persona.height ? persona.height : 'Não definido'}</span>
+                        <span>{persona.height ?? 'Não definido'}</span>
                      </S.Information>
                      <S.Information>
                         <S.Label>Peso (kg): </S.Label>
-                        <span>{persona.weight ? persona.weight : 'Não definido'}</span>
+                        <span>{persona.weight ?? 'Não definido'}</span>
                      </S.Information>
                   </S.Flex>
 
                   <S.Information>
                      <S.Label>Endereço: </S.Label>
-                     <span>{persona.address ? persona.address : 'Não definido'}</span>
+                     <span>{persona.address ?? 'Não definido'}</span>
                   </S.Information>
                </S.InfomationContainer>
             </S.Container>
@@ -104,7 +98,7 @@ export default function AthleteDesk({ playerData, isComparison }) {
                <S.InfomationContainer>
                   <S.Information>
                      <S.Label>Categoria:</S.Label>
-                     <span>{persona.category ? persona.category : 'Não definido.'}</span>
+                     <span>{persona.category ?? 'Não definido.'}</span>
                   </S.Information>
                   
                   <S.Information>
@@ -124,17 +118,17 @@ export default function AthleteDesk({ playerData, isComparison }) {
                <S.InfomationContainer>
                   <S.Information>
                      <S.Label>E-mail:</S.Label>
-                     <span>{persona.email ? persona.email : 'Não definido.'}</span>
+                     <span>{persona.email ?? 'Não definido.'}</span>
                   </S.Information>
                   
                   <S.Information>
                      <S.Label>Telefone 1:</S.Label>
-                     <span>{persona.phone ? persona.phone : 'Não definido.'}</span>
+                     <span>{persona.phone ?? 'Não definido.'}</span>
                   </S.Information>
 
                   <S.Information>
                      <S.Label>Telefone 2:</S.Label>
-                     <span>{persona.phone2 ? persona.phone2 : 'Não definido.'}</span>
+                     <span>{persona.phone2 ?? 'Não definido.'}</span>
                   </S.Information>
                </S.InfomationContainer>
             </S.Container>

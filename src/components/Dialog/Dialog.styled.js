@@ -4,13 +4,23 @@ import { Colors } from "@utils/Helpers";
 import * as D from "@radix-ui/react-dialog";
 import { SecondaryButton } from "../Button/Button";
 
+const contentShow = keyframes`
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -48%) scale(.96);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+`;
+
 export const DrawerOverlay = styled(D.Overlay)` 
    background-color: ${Colors.gray900};
    position: fixed;
    inset: 0;
    opacity: .8;
    z-index: 1;
-   transition: all .5s ease-in-out;
 `
 
 export const DrawerContent = styled(D.Content)`
@@ -24,6 +34,7 @@ export const DrawerContent = styled(D.Content)`
    z-index: 1;
    &:focus { outline: 'none' }
    overflow-y: auto;
+   animation: ${contentShow} 150ms cubic-bezier(0.16, 1, 0.3, 1);
 
    &::-webkit-scrollbar {
       width: 8px;

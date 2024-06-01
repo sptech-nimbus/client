@@ -1,7 +1,13 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable react/prop-types */
+
+import * as S from "./Team.styled";
+import { Colors, calcAge } from "@utils/Helpers";
+
 import { useNavigate } from "react-router-dom";
-import { calcAge } from "@utils/Helpers";
 import { Pencil, Trash, Eye } from "@phosphor-icons/react";
-import * as S from "./Team.styled.js";
+import { DeleteDialog, UpdateDialog } from "@components/Dialog/Dialog";
+
 
 export default function TeamTable({players}) {
    const navigate = useNavigate();
@@ -18,15 +24,23 @@ export default function TeamTable({players}) {
                <S.Td>{`${calcAge(player.birthDate)} anos`}</S.Td>
                <S.Td>{player.number}</S.Td>
                <S.TdActions>
-                  <S.InfoButton onClick={() => navigate('/athlete')}>
-                     <Eye />
-                  </S.InfoButton>
-                  <S.EditButton>
-                     <Pencil />
-                  </S.EditButton>
-                  <S.DeleteButton>
-                     <Trash />
-                  </S.DeleteButton>
+               <S.ShowInfoButton onClick={() => navigate(`/athlete?id=${player.id}`, localStorage.setItem('personaId', player.id))}>
+                     <Eye size={24} weight="bold"/>
+                  </S.ShowInfoButton>
+                  <UpdateDialog athlete={player}
+                  trigger={
+                     <S.ShowInfoButton style={{ backgroundColor: `${Colors.green}` }}>
+                        <Pencil size={26} weight="bold"/>
+                     </S.ShowInfoButton>
+                  }
+                  />
+                  <DeleteDialog athlete={player} 
+                     trigger={
+                        <S.ShowInfoButton style={{ backgroundColor: `${Colors.red}` }}>
+                           <Trash size={26} weight="bold" />
+                        </S.ShowInfoButton>
+                     }
+                  />
                </S.TdActions>
             </tr>
          );

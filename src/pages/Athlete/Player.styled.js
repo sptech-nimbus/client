@@ -1,6 +1,24 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import { Colors } from "@utils/Helpers";
 import { CaretLeft } from "@phosphor-icons/react";
+
+const slideDown = keyframes`
+  from {
+    height: 0;
+  }
+  to {
+    height: var(--radix-accordion-content-height);
+  }
+`;
+
+const slideUp = keyframes`
+  from {
+    height: var(--radix-accordion-content-height);
+  }
+  to {
+    height: 0;
+  }
+`;
 
 export const Back = styled(CaretLeft)`
    position: absolute;
@@ -25,6 +43,9 @@ export const TopLinkContainer = styled.div`
 export const TopLink = styled.span`
    cursor: pointer;
    position: relative;
+   display: flex;
+   align-items: center;
+   justify-content: center;
    
    &::after {
       content: '';
@@ -37,7 +58,7 @@ export const TopLink = styled.span`
       background-color: ${Colors.orange500};
    }
 
-   &:nth-child(4) {
+   &:nth-child(5) {
       position: absolute;
       right: 0;
    }
@@ -86,6 +107,8 @@ export const StatsGrid = styled(InfoGrid)`
 `
 
 export const Container = styled.div`
+   width: 100%;
+   height: 100%;
    display: flex;
    flex-direction: column;
    justify-content: center;
@@ -248,4 +271,185 @@ export const PlayerImgComparison = styled(PlayerImg)`
    min-height: 200px;
    max-height: 200px;
    min-width: 200px;
+`
+
+// -- injuries --
+
+export const Column = styled.div`
+   display: flex;
+   flex-direction: column;
+
+   span:nth-child(1) {
+      font-size: .8rem;
+      color: ${Colors.orange100};
+   }
+`
+
+export const InjuryGrid = styled(InfoGrid)`
+   height: 100%;
+   grid-template-rows: .5fr 1fr 1fr 1fr;
+   grid-template-columns: 1fr 1fr 1.5fr;
+
+   ${Container} {
+      &:nth-child(1) {
+         grid-column: 1 / 3;
+         grid-row: 1 / 2;
+      }
+
+      &:nth-child(2) {
+         grid-column: 1 / 3;
+         grid-row: 2 / 5;
+      }
+
+      &:nth-child(3) {
+         grid-column: 3 / 4;
+         grid-row: 1 / 5;
+         background: none;
+         border: none;
+         padding: 0;
+         gap: 1.2rem;
+      }
+
+      ${ChartContainer} {
+         padding-top: 1rem;
+      }
+   }
+`
+
+export const InjuryContainer = styled(Container)`
+   gap: .5rem;
+`
+
+export const InjuryHist = styled.div`
+   width: 100%;
+   height: 100%;
+   display: flex;
+   flex-direction: column;
+   gap: 1rem;
+   padding-right: .5rem;
+   overflow-y: auto;
+
+   &::-webkit-scrollbar {
+      width: 4px;
+   }
+
+   &::-webkit-scrollbar-track {
+      border-radius: 8px;
+      background-color: ${Colors.gray700};
+   }
+
+   &::-webkit-scrollbar-thumb {
+      background: ${Colors.orange500}; 
+      border-radius: 10px;
+   }
+
+   &::-webkit-scrollbar-thumb:hover {
+      background: ${Colors.orange300}; 
+   }
+`
+
+export const Injury = styled.div`
+   display: flex;
+   flex-direction: column;
+   width: 100%;
+   border-radius: .8rem;
+   padding: .5rem 1rem;
+   gap: 1rem;
+   background-color: ${Colors.gray800};
+   justify-content: space-between;
+   cursor: pointer;
+`
+
+export const InjuryInfo = styled.div`
+   width: 100%;
+   height: 100%;
+   display: flex;
+`
+
+export const InjuryContent = styled.div`
+   display: grid;
+   grid-template-columns: 1.5fr 1fr .2fr;
+`
+
+export const InjuryContentHidden = styled(InjuryContent)`
+   overflow: hidden;
+   &[data-state='open'] {
+      animation: ${slideDown} 300ms cubic-bezier(0.87, 0, 0.13, 1);
+   }
+  
+   &[data-state='closed'] {
+      animation: ${slideUp} 300ms cubic-bezier(0.87, 0, 0.13, 1);
+   }
+`
+
+export const Arrow = styled.div`
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   height: 100%;
+`
+
+export const InfoContainer = styled.div`
+   width: 100%;
+   display: flex;
+   flex-direction: column;
+
+   span:nth-child(2) {
+      font-size: 2rem;
+      font-weight: 900;
+   }
+`
+
+export const Severity = styled.span`
+   font-size: 2rem !important;
+   text-transform: uppercase;
+   font-weight: 900 !important;
+   color: ${
+      props => 
+         props.degree == 'Leve' ?
+            Colors.green :
+         props.degree == 'Média' ?
+            Colors.yellow :
+            Colors.red
+   };
+`
+
+export const InjuryDashboard = styled.div`
+   display: flex;
+   width: 100%;
+   height: 100%;
+   align-items: center;
+
+   gap: 2rem;
+`
+
+export const DashInfo = styled.div`
+   display: flex;
+   flex-direction: column;
+   color: ${Colors.orange100};
+
+   span:nth-child(1) {
+      color: ${Colors.gray100};
+      font-size: .9rem;
+   }
+
+   span:nth-child(2) {
+      font-size: 1.8rem;
+      font-weight: 900;
+   }
+`
+
+export const NoInjury = styled.div`
+   width: 100%;
+   height: 100%;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   text-align: center;
+   flex-direction: column;
+   gap: 1rem;
+`
+
+export const ToastContainer = styled.div`
+   position: absolute;
 `
