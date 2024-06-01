@@ -16,16 +16,15 @@ import athleteDesc from "@api/athleteDesc";
 import DeskComparison from './DeskComparison';
 
 export default function AthleteDesk({ playerData, isComparison }) {
-   const { token } = useAuth();
-   const [id, setId] = useState(localStorage.getItem('id'))
+   const { token, personaId } = useAuth();
    const [persona, setPersona] = useState({});
    const [hasFetchedData, setHasFetchedData] = useState(false);
 
    useEffect(() => {
       async function fetchData() {
-         if (id && token && !hasFetchedData) {
+         if (personaId && token && !hasFetchedData) {
             try {
-               const response = await athleteDesc.allInfo(id, token);
+               const response = await athleteDesc.allInfo(personaId, token);
 
                setPersona(response.data.data);
                setHasFetchedData(true);
@@ -35,7 +34,7 @@ export default function AthleteDesk({ playerData, isComparison }) {
          }
       }
       fetchData();
-   }, [id, token, hasFetchedData]);
+   }, [personaId, token, hasFetchedData]);
 
    const birthDateString = persona.birthDate 
    ? new Date(persona.birthDate).toLocaleDateString('pt-br') 
