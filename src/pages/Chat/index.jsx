@@ -13,9 +13,6 @@ import Status from './Status';
 import { MagnifyingGlass, PaperPlaneRight, ChatCircleDots } from '@phosphor-icons/react';
 
 export default function Chat() {
-   sessionStorage.setItem('userId', '123');
-   sessionStorage.setItem('teamId', '312');
-   sessionStorage.setItem('username', 'kauan oliveira');
 
    const [newMessage, setNewMessage] = useState('');
    const [messages, setMessages] = useState([]);
@@ -25,8 +22,8 @@ export default function Chat() {
 
       socket.emit('ttm', {
          user: {
-            id: sessionStorage.getItem('userId'),
-            username: sessionStorage.getItem('username')
+            id: localStorage.getItem('id'),
+            username: localStorage.getItem('username')
          },
          content: newMessage,
          date: date.toISOString(),
@@ -48,7 +45,7 @@ export default function Chat() {
       if (!socket.connected) {
          socket.auth = {
             user: {
-               id: sessionStorage.getItem('userId')
+               id: localStorage.getItem('id')
             },
             teams: [sessionStorage.getItem('teamId')]
          };
@@ -56,8 +53,11 @@ export default function Chat() {
          socket.on('connection', console.log('Usuário conectado'));
 
          socket.on('ttm', m => {
-            console.log(m);
             setMessages(oldMessages => [...oldMessages, m]);
+         });
+
+         socket.on('messageError', e => {
+            console.log(e);
          });
 
          socket.connect();
@@ -80,22 +80,22 @@ export default function Chat() {
                   {
                      messages.map(message => {
                         return (
-                        <S.MessageBox isSender={message.userId == localStorage.getItem('personaId')}>
-                           <Message msg={message}/>
-                        </S.MessageBox>
+                           <S.MessageBox isSender={message.userId == localStorage.getItem('id')}>
+                              <Message msg={message} />
+                           </S.MessageBox>
                         )
                      })
                   }
                </S.MessagesContainer>
                <S.InputContainer>
                   <Input.Default
-                  placeholder='Mensagem'
-                  value={newMessage}
-                  onInput={e => setNewMessage(e.target.value)}
+                     placeholder='Mensagem'
+                     value={newMessage}
+                     onInput={e => setNewMessage(e.target.value)}
                   >
                      <ChatCircleDots />
                   </Input.Default>
-                  <Button.Primary onClick={sendMessage} marginTop='0%' value='Enviar' fontSize='1.3rem'/>
+                  <Button.Primary onClick={sendMessage} marginTop='0%' value='Enviar' fontSize='1.3rem' />
                </S.InputContainer>
             </S.MessagesArea>
          </S.ContentContainer>
@@ -104,7 +104,7 @@ export default function Chat() {
                <S.AthleteImage src="https://loremflickr.com/cache/resized/65535_53323386360_17d01a1eb8_b_640_480_nofilter.jpg" alt="" />
                <S.CurrentUserInfo>
                   <span>Nome do usuário</span>
-                  <Status status='online'/>
+                  <Status status='online' />
                </S.CurrentUserInfo>
             </S.CurrentUserContainer>
 
@@ -121,7 +121,7 @@ export default function Chat() {
                      <S.AthleteImage src="https://loremflickr.com/cache/resized/65535_53323386360_17d01a1eb8_b_640_480_nofilter.jpg" alt="" />
                      <S.AthleteInfo online={true}>
                         <span>Nome do jogador</span>
-                        <Status status='online'/>
+                        <Status status='online' />
                      </S.AthleteInfo>
                   </S.Athlete>
 
@@ -129,7 +129,7 @@ export default function Chat() {
                      <S.AthleteImage src="https://loremflickr.com/cache/resized/65535_53323386360_17d01a1eb8_b_640_480_nofilter.jpg" alt="" />
                      <S.AthleteInfo online={true}>
                         <span>Nome do jogador</span>
-                        <Status status='online'/>
+                        <Status status='online' />
                      </S.AthleteInfo>
                   </S.Athlete>
 
@@ -137,7 +137,7 @@ export default function Chat() {
                      <S.AthleteImage src="https://loremflickr.com/cache/resized/65535_53323386360_17d01a1eb8_b_640_480_nofilter.jpg" alt="" />
                      <S.AthleteInfo online={true}>
                         <span>Nome do jogador</span>
-                        <Status status='online'/>
+                        <Status status='online' />
                      </S.AthleteInfo>
                   </S.Athlete>
 
@@ -145,7 +145,7 @@ export default function Chat() {
                      <S.AthleteImage src="https://loremflickr.com/cache/resized/65535_53323386360_17d01a1eb8_b_640_480_nofilter.jpg" alt="" />
                      <S.AthleteInfo online={true}>
                         <span>Nome do jogador</span>
-                        <Status status='online'/>
+                        <Status status='online' />
                      </S.AthleteInfo>
                   </S.Athlete>
 
@@ -153,7 +153,7 @@ export default function Chat() {
                      <S.AthleteImage src="https://loremflickr.com/cache/resized/65535_53323386360_17d01a1eb8_b_640_480_nofilter.jpg" alt="" />
                      <S.AthleteInfo online={true}>
                         <span>Nome do jogador</span>
-                        <Status status='online'/>
+                        <Status status='online' />
                      </S.AthleteInfo>
                   </S.Athlete>
                </S.OnlineList>
