@@ -1,17 +1,17 @@
 import * as S from './Match.styled';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useStopwatch } from 'react-timer-hook';
+import { useNavigate } from 'react-router-dom';
 
 import Background from "@components/Background/Background";
 import Sidebar from "@components/Sidebar/Sidebar";
 import Title from "@components/Title/Title";
-import Popover from "@components/Popover/Popover";
 
-import { Play, Pause, ClockClockwise, CaretDown, Star } from '@phosphor-icons/react';
-import * as Accordion from '@radix-ui/react-accordion';
-import { useNavigate } from 'react-router-dom';
+import { Play, Pause, ClockClockwise } from '@phosphor-icons/react';
 
-export default function OnGoingMatch() {
+import Athlete from './Athlete';
+
+export default function OnGoingMatch({ allPlayers, matchData }) {
    const navigate = useNavigate();
    const { seconds, minutes, hours, isRunning, start, pause, reset } = useStopwatch();
 
@@ -31,7 +31,8 @@ export default function OnGoingMatch() {
       //stats
    });
 
-   const [stats, setStats] = useState({
+   const [players, setPlayers] = useState(allPlayers);
+   const [teamStats, setTeamStats] = useState({
       pts: 0,
       ast: 0,
       blk: 0,
@@ -52,15 +53,13 @@ export default function OnGoingMatch() {
       return time.toString().padStart(2, '0');
    };
 
-   const addStatistic = (stat, value) => {
-      if (value > 0) {
-         setStats(prevStats => ({
-            ...prevStats,
-            [stat]: prevStats[stat] + value
-         }));
-      }
+   const addTeamStatistic = (stat, value) => {
+      setTeamStats(prevStats => ({
+         ...prevStats,
+         [stat]: prevStats[stat] + value
+      }));
 
-      if (stat == 'pts') {
+      if (stat === 'pts') {
          const pointMapping = {
             1: 'pts1',
             2: 'pts2',
@@ -72,13 +71,41 @@ export default function OnGoingMatch() {
 
          const pointStat = pointMapping[value];
          if (pointStat) {
-            setStats(prevStats => ({
+            setTeamStats(prevStats => ({
                ...prevStats,
                [pointStat]: prevStats[pointStat] + 1
             }));
          }
       }
    };
+
+   const updatePlayerStats = (playerId, stat, value) => {
+      setPlayers(prevPlayers => prevPlayers.map(player => {
+         if (player.personaId === playerId) {
+            const updatedStats = {
+               ...player.stats,
+               [stat]: player.stats[stat] + value
+            };
+   
+            if (stat === 'pts') {
+               const pointMapping = {
+                  1: 'pts1',
+                  2: 'pts2',
+                  3: 'pts3',
+               };
+   
+               const pointStat = pointMapping[value];
+               if (pointStat) {
+                  updatedStats[pointStat] += 1;
+               }
+            }
+   
+            return { ...player, stats: updatedStats };
+         }
+         return player;
+      }));
+   };
+   
 
    const handleFinishQuarter = () => {
       if (currentQuarter < 4) {
@@ -97,9 +124,34 @@ export default function OnGoingMatch() {
 
    const finishGame = () => {
       console.log('JOGO FINALIZADO');
-      navigate('finished')
-      console.log(flags);
+      console.log('flags', flags);
+      console.log('players stats', players);
+      console.log('team stats', teamStats);
    }
+
+   useEffect(() => {
+      const mapPlayers = players.map(player => ({
+         ...player,
+         stats: {
+            pts: 0,
+            ast: 0,
+            blk: 0,
+            stl: 0,
+            turnover: 0,
+            pts1: 0,
+            pts2: 0,
+            pts3: 0,
+            pts1Err: 0,
+            pts2Err: 0,
+            pts3Err: 0,
+            offReb: 0,
+            defReb: 0,
+            foul: 0
+         }
+      }));
+
+      setPlayers(mapPlayers);
+   }, []);
 
    return (
       <S.PageContainer>
@@ -124,33 +176,33 @@ export default function OnGoingMatch() {
 
                <S.Container>
                   <S.OnGoingPts>
-                     <S.Pts isWinning={stats.pts > challenged.pts}>{stats.pts}</S.Pts>
+                     <S.Pts isWinning={teamStats.pts > challenged.pts}>{teamStats.pts}</S.Pts>
                      <S.Versus>X</S.Versus>
-                     <S.Pts isWinning={challenged.pts > stats.pts}>{challenged.pts}</S.Pts>
+                     <S.Pts isWinning={challenged.pts > teamStats.pts}>{challenged.pts}</S.Pts>
                   </S.OnGoingPts>
                   <S.TitleContainer>
                      <Title text='Estatísticas do seu time' size='1.2rem' />
                   </S.TitleContainer>
                   <S.StatsContainer>
                      <S.Flex>
-                        <span><S.StatsLabel>Rebotes ofensivos:</S.StatsLabel> {stats.offReb}</span>
-                        <span><S.StatsLabel>Rebotes defensivos:</S.StatsLabel> {stats.defReb}</span>
+                        <span><S.StatsLabel>Rebotes ofensivos:</S.StatsLabel> {teamStats.offReb}</span>
+                        <span><S.StatsLabel>Rebotes defensivos:</S.StatsLabel> {teamStats.defReb}</span>
                      </S.Flex>
                      <S.Flex>
-                        <span><S.StatsLabel>Tocos:</S.StatsLabel> {stats.blk}</span>
-                        <span><S.StatsLabel>Roubos:</S.StatsLabel> {stats.stl}</span>
+                        <span><S.StatsLabel>Tocos:</S.StatsLabel> {teamStats.blk}</span>
+                        <span><S.StatsLabel>Roubos:</S.StatsLabel> {teamStats.stl}</span>
                      </S.Flex>
                      <S.Flex>
-                        <span><S.StatsLabel>Faltas:</S.StatsLabel> {stats.foul}</span>
-                        <span><S.StatsLabel>Turnovers:</S.StatsLabel> {stats.turnover}</span>
+                        <span><S.StatsLabel>Faltas:</S.StatsLabel> {teamStats.foul}</span>
+                        <span><S.StatsLabel>Turnovers:</S.StatsLabel> {teamStats.turnover}</span>
                      </S.Flex>
                      <S.Flex>
-                        <span><S.StatsLabel>Assistências:</S.StatsLabel> {stats.ast}</span>
-                        <span><S.StatsLabel>Lances livres:</S.StatsLabel> {stats.pts1}/{stats.pts1 + stats.pts1Err}</span>
+                        <span><S.StatsLabel>Assistências:</S.StatsLabel> {teamStats.ast}</span>
+                        <span><S.StatsLabel>Lances livres:</S.StatsLabel> {teamStats.pts1}/{teamStats.pts1 + teamStats.pts1Err}</span>
                      </S.Flex>
                      <S.Flex>
-                        <span><S.StatsLabel>Arremessos de 3 pontos:</S.StatsLabel> {stats.pts3}/{stats.pts3 + stats.pts3Err}</span>
-                        <span><S.StatsLabel>Arremessos de 2 pontos:</S.StatsLabel> {stats.pts2}/{stats.pts2 + stats.pts2Err}</span>
+                        <span><S.StatsLabel>Arremessos de 3 pontos:</S.StatsLabel> {teamStats.pts3}/{teamStats.pts3 + teamStats.pts3Err}</span>
+                        <span><S.StatsLabel>Arremessos de 2 pontos:</S.StatsLabel> {teamStats.pts2}/{teamStats.pts2 + teamStats.pts2Err}</span>
                      </S.Flex>
                   </S.StatsContainer>
                </S.Container>
@@ -158,79 +210,14 @@ export default function OnGoingMatch() {
                <S.Container>
                   <Title text='Jogadores do seu time' size='1.2rem' />
                   <S.AthletesList>
-                     <Accordion.Root type='single' collapsible>
-
-                        <Accordion.Item value='item-1' asChild>
-                           <S.Athlete>
-                              <S.AthleteInfo>
-                                 <S.AthleteImage />
-
-                                 <S.Column>
-                                    <S.AthleteName>Nome do jogador</S.AthleteName>
-                                    <S.isPlaying isPlaying>Jogando</S.isPlaying>
-                                 </S.Column>
-
-                                 <S.StartingPlayer title='Jogador titular'>
-                                    <Star weight='fill' />
-                                 </S.StartingPlayer>
-
-                                 <Accordion.Trigger asChild>
-                                    <S.CollapsibleArrow>
-                                       <CaretDown weight='bold' />
-                                    </S.CollapsibleArrow>
-                                 </Accordion.Trigger>
-                              </S.AthleteInfo>
-
-
-                              <Accordion.Content asChild>
-                                 <S.Actions>
-                                    <Popover trigger={<S.Action >Pontos</S.Action>} sideOffset={8}>
-                                       <S.PopoverContent>
-                                          <S.AddAction>
-                                             <S.AddButton onClick={() => addStatistic('pts', 1)}>+1 pts</S.AddButton>
-                                             <S.AddButton onClick={() => addStatistic('pts', 2)}>+2 pts</S.AddButton>
-                                             <S.AddButton onClick={() => addStatistic('pts', 3)}>+3 pts</S.AddButton>
-                                          </S.AddAction>
-                                          <S.AddAction>
-                                             <S.AddButton isError onClick={() => addStatistic('pts', -1)}>+1 pts</S.AddButton>
-                                             <S.AddButton isError onClick={() => addStatistic('pts', -2)}>+2 pts</S.AddButton>
-                                             <S.AddButton isError onClick={() => addStatistic('pts', -3)}>+3 pts</S.AddButton>
-                                          </S.AddAction>
-                                       </S.PopoverContent>
-                                    </Popover>
-
-                                    <Popover trigger={<S.Action>Rebotes</S.Action>} sideOffset={8}>
-                                       <S.PopoverContent>
-                                          <S.AddAction>
-                                             <S.AddButton onClick={() => addStatistic('offReb', 1)} title='+1 Rebote ofensivo'>+1 reb off</S.AddButton>
-                                             <S.AddButton onClick={() => addStatistic('defReb', 1)} title='+1 Rebote defensivo'>+1 reb def</S.AddButton>
-                                          </S.AddAction>
-                                       </S.PopoverContent>
-                                    </Popover>
-
-                                    <Popover trigger={<S.Action>Defesa</S.Action>} sideOffset={8}>
-                                       <S.PopoverContent>
-                                          <S.AddAction>
-                                             <S.AddButton onClick={() => addStatistic('blk', 1)}>+1 toco</S.AddButton>
-                                             <S.AddButton onClick={() => addStatistic('stl', 1)}>+1 roubo</S.AddButton>
-                                             <S.AddButton isError onClick={() => addStatistic('foul', 1)}>+1 falta</S.AddButton>
-                                          </S.AddAction>
-                                       </S.PopoverContent>
-                                    </Popover>
-
-                                    <Popover trigger={<S.Action>Assistência</S.Action>} sideOffset={8}>
-                                       <S.PopoverContent>
-                                          <S.AddAction>
-                                             <S.AddButton onClick={() => addStatistic('ast', 1)}>+1 assistência</S.AddButton>
-                                             <S.AddButton isError onClick={() => addStatistic('turnover', 1)}>+1 turnover</S.AddButton>
-                                          </S.AddAction>
-                                       </S.PopoverContent>
-                                    </Popover>
-                                 </S.Actions>
-                              </Accordion.Content>
-                           </S.Athlete>
-                        </Accordion.Item>
-                     </Accordion.Root>
+                     {players.map(player => (
+                        <Athlete 
+                           key={player.id}
+                           player={player}
+                           addStatistic={addTeamStatistic}
+                           updatePlayerStats={updatePlayerStats}
+                        />
+                     ))}
                   </S.AthletesList>
                </S.Container>
 

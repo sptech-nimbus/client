@@ -1,8 +1,31 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import OnGoingMatch from "./OnGoingMatch";
 import FinishedMatch from "./FinishedMatch";
 
-export default function Match({ isMatchFinished }) {
+import Loader, { LoaderContainer } from '@components/Loader/Loader';
 
-   return isMatchFinished ? <FinishedMatch /> : <OnGoingMatch />
+import axios from "axios";
+
+export default function Match({ isMatchFinished }) {
+   const [isLoading, setIsLoading] = useState(false);
+   const [allPlayers, setAllPlayers] = useState([]);
+
+   useEffect(() => {
+      async function fetchData() {
+         try {
+            setIsLoading(true);
+            const { data } = await axios.get(`https://6642243c3d66a67b34366411.mockapi.io/nimbus/athletes`);
+            setAllPlayers(data);
+         }
+         catch(err) {
+            console.log(err);
+         }
+         finally {
+            setIsLoading(false);
+         }
+      }
+
+      fetchData();
+   }, []);
+   return isLoading ? <Loader /> : isMatchFinished ? <FinishedMatch /> : <OnGoingMatch allPlayers={allPlayers}/>
 }
