@@ -1,6 +1,8 @@
+/* eslint-disable no-unused-vars */
 import styled, { keyframes } from "styled-components";
 import { Colors } from "@utils/Helpers";
 import * as D from "@radix-ui/react-dialog";
+import { SecondaryButton } from "../Button/Button";
 
 const contentShow = keyframes`
   0% {
@@ -72,7 +74,7 @@ export const DrawerTitle = styled(D.Title)`
 `
 
 export const DialogTitle = styled(D.Title)`
-   width: 100%;
+   width: 90%;
    display: flex;
    justify-content: space-between;
    align-items: center;
@@ -130,3 +132,111 @@ export const DialogTrigger = styled(D.Trigger)`
    background: none;
    border: none;
 `
+
+// Delete Dialog
+export const DialogDeleteContent = styled(DrawerContent)`
+   min-width: 30vw;
+   width: ${props => props.width};
+   height: fit-content;
+   max-width: 80vw;
+   top: 50%;
+   left: 50%;
+   transform: translate(-50%, -50%);
+   border-radius: 1rem;
+   display: flex;
+   text-align: center;
+   flex-direction: column;
+`
+
+export const DeleteDialogTitle = styled(D.Title)`
+   width: 100%;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+`
+
+export const DeleteDescription = styled(D.Description)`
+width: ${props => props.width};
+display: ${props => props.display};
+justify-content: ${props => props.justify};
+align-items: ${props => props.align};
+flex-direction: ${props => props.flexdirection};
+gap: ${props => props.gap};
+margin: ${props => props.margin};
+`
+export const InfoDeleteAthlete = styled(D.Description)`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  text-align: start;
+  justify-content: center;
+`
+export const ButtonDelete = styled(SecondaryButton)`
+width: ${props => props.width};
+font-size: ${props => 
+   props.fontSize ? props.fontSize :
+   props.size == `md` ? `1.1rem` : 
+   props.size == `sm` ? `.7rem` : `1rem`
+};
+padding: ${props => 
+   props.size == `md` ? `.3rem 3.3rem` : 
+   props.size == `sm` ? `.1rem 1.5rem` : `.1rem 1.5rem`
+};
+border-radius: ${props => 
+   props.size == `md` ? `.8rem` : 
+   props.size == `sm` ? `.5rem` : '.5rem'
+};
+border: ${props => 
+   props.size == `md` ? `3px` : 
+   props.size == `sm` ? `2px` : '2px'
+} solid ${props => props.color ? props.color : Colors.orange500};
+background-color: ${props => props.color ? props.color : `transparent`};
+color: ${props => props.fontColor ? props.fontColor : Colors.orange500};
+cursor: pointer;
+text-transform: capitalize;
+font-weight: bold;
+font-family: 'Catamaran', sans-serif;
+transition: background-color .2s ease-in, border-color .2s ease-in, color .2s ease-in;
+margin-top: ${props => props.marginTop ? props.marginTop : '5%'};
+
+&:hover {
+   border-color: ${Colors.orange300};
+}
+
+`
+export const DelS = styled(D.Description)`
+width: 100%;
+display: flex;
+flex-direction: column;
+align-items: center;
+text-align: center;
+`
+export const InfoAthlete = styled(D.Description)`
+width: 100%;
+height: fit-content;
+display: flex;
+align-items: center;
+flex-direction: column;
+`
+export const Container = styled(DrawerContent)`
+width: 100%;
+`
+
+export const DeleteTitle = styled(D.Title)`
+
+`
+
+// Update
+export const Mandatory = styled.span`
+   color: ${Colors.red};
+`
+
+export const InputLine = styled.div`
+   position: relative;
+   display: flex;
+   align-items: center;
+   width: 100%;
+   gap: 1rem;
+   justify-content: space-between;
+`;
+
