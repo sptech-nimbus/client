@@ -13,14 +13,14 @@ import { PasswordValidation, ConfirmPasswordValidation } from "@utils/Validation
 export default function FormStepThree({ onSubmit }) {
    const { addNotification } = useNotification();
 
-   const [password, setPassword] = useState('');
+   const [newPassword, setNewPassword] = useState('');
    const [confirmPassword, setConfirmPassword] = useState('');
 
    const [passwordTtpOpen, setPasswordTtpOpen] = useState(false);
    const [confirmPasswordTtpOpen, setConfirmPasswordTtpOpen] = useState(false);
 
    const handlePasswordChange = (e) => {
-      setPassword(e.target.value);
+      setNewPassword(e.target.value);
    }
 
    const handleConfirmPasswordChange = (e) => {
@@ -38,12 +38,12 @@ export default function FormStepThree({ onSubmit }) {
    const handleSubmit = (e) => {
       e.preventDefault();
 
-      if(PasswordValidation(password) && ConfirmPasswordValidation(password, confirmPassword)) {
-         onSubmit({ password });
+      if(PasswordValidation(newPassword) && ConfirmPasswordValidation(newPassword, confirmPassword)) {
+         onSubmit({ newPassword });
       }
       else {
-         if(!PasswordValidation(password)) addNotification('error','Senha inválida.');
-         if(!ConfirmPasswordValidation(password, confirmPassword)) addNotification('error','As senhas não correspondem.');
+         if(!PasswordValidation(newPassword)) addNotification('error','Senha inválida.');
+         if(!ConfirmPasswordValidation(newPassword, confirmPassword)) addNotification('error','As senhas não correspondem.');
       }
    }  
 
@@ -61,7 +61,7 @@ export default function FormStepThree({ onSubmit }) {
             <InputLine>
                <Input.Password
                   placeholder={'******'}
-                  value={password}
+                  value={newPassword}
                   onChange={handlePasswordChange}
                   onFocus={handlePasswordTtpChange}
                   onBlur={handlePasswordTtpChange}

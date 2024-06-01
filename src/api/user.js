@@ -7,13 +7,13 @@ const path = "users";
 
 async function getUserById(id, token) {
     try {
-        const response = await axios.get(`${config.baseURL}/${path}/${id}`, 
-        {
-            headers: { 
-                'Authorization': `Bearer ${token}`,
-                'Content-Type': 'application/json'
-            }
-        });
+        const response = await axios.get(`${config.baseURL}/${path}/${id}`,
+            {
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                }
+            });
         return response;
     }
     catch (err) {
@@ -26,7 +26,7 @@ async function postUser(body = {}) {
     try {
         const response = await axios.post(`${config.baseURL}/${path}`, body);
         console.log(response);
-        
+
         return response;
     }
     catch (err) {
@@ -64,9 +64,12 @@ async function changePassword(id, body) {
     }
 }
 
-async function changePasswordRequest(id, body) {
+async function changePasswordRequest(email) {
     try {
-        const response = await axios.post(`${config.baseURL}/${path}/change-password-request`, body);
+        const response = await axios.post(`${config.baseURL}/${path}/change-password-request`, {
+            email,
+            expirationDate: Date.now()
+        });
         return response;
     }
     catch (err) {
