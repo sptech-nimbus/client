@@ -10,6 +10,7 @@ import Button from "@components/Button/Button";
 import { Dialog, DialogClose as Close } from "@components/Dialog/Dialog";
 
 import { Play, Pause, ClockClockwise } from '@phosphor-icons/react';
+import * as Accordion from '@radix-ui/react-accordion';
 
 import Athlete from './Athlete';
 
@@ -228,16 +229,18 @@ export default function OnGoingMatch({ allPlayers, gameData, setMatchData }) {
 
                <S.Container>
                   <Title text='Jogadores do seu time' size='1.2rem' />
-                  <S.AthletesList>
-                     {players.map(player => (
-                        <Athlete 
-                           key={player.id}
-                           player={player}
-                           addStatistic={addTeamStatistic}
-                           updatePlayerStats={updatePlayerStats}
-                        />
-                     ))}
-                  </S.AthletesList>
+                  <Accordion.Root collapsible asChild>
+                     <S.AthletesList>
+                        {players.map(player => (
+                           <Athlete 
+                              key={player.id}
+                              player={player}
+                              addStatistic={addTeamStatistic}
+                              updatePlayerStats={updatePlayerStats}
+                           />
+                        ))}
+                     </S.AthletesList>
+                  </Accordion.Root>
                </S.Container>
 
                <S.Container>
