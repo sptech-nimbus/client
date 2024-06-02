@@ -9,7 +9,7 @@ import axios from "axios";
 export default function Match({ isMatchFinished }) {
    const [isLoading, setIsLoading] = useState(false);
    const [allPlayers, setAllPlayers] = useState([]);
-   const [matchData, setMatchData] = useState({});
+   const [matchData, setMatchData] = useState();
 
    useEffect(() => {
       async function fetchData() {

@@ -108,7 +108,6 @@ export default function Home() {
       getLastGame();
       getNextGame();
       getAllEvents();
-      getWins();
    }, []);
 
    const radarConfig = {

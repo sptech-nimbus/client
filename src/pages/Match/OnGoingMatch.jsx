@@ -1,4 +1,4 @@
-import * as S from './Match.styled';
+import * as S from './styled/Match.styled';
 import { useEffect, useState } from 'react';
 import { useStopwatch } from 'react-timer-hook';
 import { useNavigate } from 'react-router-dom';

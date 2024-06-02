@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import * as S from './Match.styled';
+import * as S from './styled/Match.styled';
 import Popover from "@components/Popover/Popover";
 
 import { CaretDown, Star } from '@phosphor-icons/react';
