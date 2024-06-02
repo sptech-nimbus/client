@@ -6,10 +6,10 @@ export default function Title({size, color, font, text, weight, uppercase, ...pr
       size={size} 
       color={color} 
       font={font} 
-      uppercase={uppercase} 
+      uppercase={uppercase ? 1 : 0} 
       weight={weight} 
       {...props}>
-         {text ? text : "Título"}
+         {text ?? "Título"}
       </S.Span>
    )
 }
