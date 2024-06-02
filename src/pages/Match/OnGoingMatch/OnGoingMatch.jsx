@@ -1,4 +1,4 @@
-import * as S from './styled/Match.styled';
+import * as S from './Match.styled';
 import { useEffect, useState } from 'react';
 import { useStopwatch } from 'react-timer-hook';
 import { useNavigate } from 'react-router-dom';
@@ -168,7 +168,6 @@ export default function OnGoingMatch({ allPlayers, gameData, setMatchData }) {
    }
 
    const finishGame = () => {
-      console.clear();
       setMatchData(handleResult());
       navigate('finished');
    }
@@ -196,9 +195,9 @@ export default function OnGoingMatch({ allPlayers, gameData, setMatchData }) {
 
                <S.Container>
                   <S.OnGoingPts>
-                     <S.Pts isWinning={teamStats.pts > challenged.pts}>{teamStats.pts}</S.Pts>
+                     <S.Pts $isWinning={teamStats.pts > challenged.pts}>{teamStats.pts}</S.Pts>
                      <S.Versus>X</S.Versus>
-                     <S.Pts isWinning={challenged.pts > teamStats.pts}>{challenged.pts}</S.Pts>
+                     <S.Pts $isWinning={challenged.pts > teamStats.pts}>{challenged.pts}</S.Pts>
                   </S.OnGoingPts>
                   <S.TitleContainer>
                      <Title text='Estatísticas do seu time' size='1.2rem' />

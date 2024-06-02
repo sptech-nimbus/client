@@ -4,21 +4,13 @@ import { Colors } from "@utils/Helpers";
 import { motion } from "framer-motion";
 
 const slideDown = keyframes`
-  from {
-    height: 0;
-  }
-  to {
-    height: var(--radix-accordion-content-height);
-  }
+  from { height: 0; }
+  to { height: var(--radix-accordion-content-height); }
 `;
 
 const slideUp = keyframes`
-  from {
-    height: var(--radix-accordion-content-height);
-  }
-  to {
-    height: 0;
-  }
+  from { height: var(--radix-accordion-content-height); }
+  to { height: 0; }
 `;
 
 export const Flex = styled.div`
@@ -138,6 +130,10 @@ export const Versus = styled.span`
 
 export const TeamName = styled.span`
    font-weight: 700;
+   max-width: 16ch;
+   overflow: hidden;
+   text-overflow: ellipsis;
+   white-space: nowrap;
 `
 
 export const OnGoingPts = styled.div`
@@ -175,7 +171,7 @@ export const Pts = styled.span`
    position: relative;
    transition: all .3s ease-in;
 
-   ${props => props.isWinning && css`
+   ${props => props.$isWinning && css`
       font-size: 3.2rem;
       font-weight: 900;
 
@@ -262,7 +258,7 @@ export const isPlaying = styled.span`
    width: fit-content;
    text-align: center;
    padding-inline: .5rem 1rem;
-   background-color: ${props => props.isPlaying ? Colors.green : Colors.gray100};
+   background-color: ${props => props.$isPlaying ? Colors.green : Colors.gray100};
    color: ${Colors.gray100};
    border-radius: 1rem;
    font-size: .8rem;

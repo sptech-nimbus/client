@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import OnGoingMatch from "./OnGoingMatch";
-import FinishedMatch from "./FinishedMatch";
+import OnGoingMatch from "./OnGoingMatch/OnGoingMatch";
+import FinishedMatch from "./FinishedMatch/FinishedMatch";
 
 import Loader, { LoaderContainer } from '@components/Loader/Loader';
 

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import * as S from './styled/Match.styled';
+import * as S from './Match.styled';
 import Popover from "@components/Popover/Popover";
 
 import { CaretDown, Star } from '@phosphor-icons/react';
@@ -21,7 +21,7 @@ export default function Athlete({ player, addStatistic, updatePlayerStats }) {
 
                   <S.Column>
                      <S.AthleteName>{player.firstName} {player.lastName}</S.AthleteName>
-                     <S.isPlaying isPlaying>Jogando</S.isPlaying>
+                     <S.isPlaying $isPlaying>Jogando</S.isPlaying>
                   </S.Column>
 
                   <S.StartingPlayer title='Jogador titular'>
