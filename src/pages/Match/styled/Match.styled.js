@@ -105,7 +105,6 @@ export const TitleContainer = styled.div`
 `
 
 export const TeamsContainer = styled.div`
-   padding: 0;
    background-color: none;
    border: none;
    display: flex;

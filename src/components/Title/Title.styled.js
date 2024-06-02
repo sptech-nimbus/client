@@ -16,7 +16,7 @@ export const Span = styled.span`
    color: ${props => props.color ? props.color : Colors.orange500};
    font-size: ${props => props.size ? props.size : "2rem"};
    font-weight: ${props => props.weight ? props.weight : "900"};
-   text-transform: ${props => props.uppercase ? "uppercase" : "none"};
+   text-transform: ${props => props.$uppercase ? "uppercase" : "none"};
    margin: 0;
    padding: 0;
    line-height: ${props => props.size ? calcLineHeight(props.size) : "2.1rem"};

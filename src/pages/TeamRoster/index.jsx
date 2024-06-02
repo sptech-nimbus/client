@@ -147,7 +147,7 @@ export default function TeamRoster() {
          <Background.Default />
          <Sidebar page="team" />
          <S.ContentContainer>
-            <Title text="Elenco" uppercase size='3rem' />
+            <Title text="Elenco" $uppercase size='3rem' />
             <S.FilterLine>
                <Input.Default
                   value={filters.search}

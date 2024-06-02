@@ -6,7 +6,7 @@ export default function Title({size, color, font, text, weight, uppercase, ...pr
       size={size} 
       color={color} 
       font={font} 
-      uppercase={uppercase ? 1 : 0} 
+      $uppercase={uppercase ? 1 : 0} 
       weight={weight} 
       {...props}>
          {text ?? "Título"}

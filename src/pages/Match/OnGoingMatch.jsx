@@ -178,7 +178,7 @@ export default function OnGoingMatch({ allPlayers, gameData, setMatchData }) {
          <Background.Default />
          <Sidebar page='match' />
          <S.ContentContainer>
-            <Title text='Partida em andamento' uppercase />
+            <Title text='Partida em andamento' $uppercase />
             <S.MatchGrid>
                <S.Container>
                   <S.TeamsContainer>
