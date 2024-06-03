@@ -59,7 +59,7 @@ export default function TeamGrid({ players }) {
    } 
 
    return(
-      <S.CardsContainer hasData={hasData}>
+      <S.CardsContainer $hasData={hasData}>
          {playerCards ?
          playerCards :
          (

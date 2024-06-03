@@ -43,8 +43,8 @@ export default function Events() {
             <S.TopContainer>
                <Title text='Eventos' $uppercase />
                <S.EventsOptions>
-                  <S.Option active={isVisualization} onClick={handleVisualization}>Visualização</S.Option>
-                  <S.Option active={isRegistration} onClick={handleRegistration}>Cadastro</S.Option>
+                  <S.Option $active={isVisualization} onClick={handleVisualization}>Visualização</S.Option>
+                  <S.Option $active={isRegistration} onClick={handleRegistration}>Cadastro</S.Option>
                </S.EventsOptions>
             </S.TopContainer>
             {isVisualization && <EventsVisualization />}

@@ -74,9 +74,9 @@ export default function PlayerInfo() {
          <S.ContentContainer>
             <S.TopLinkContainer>
                <S.Back size={30} weight="bold" onClick={() => navigate('/roster')}/>
-               <S.TopLink active={deskActive} onClick={handleDeskActive}>Ficha do jogador</S.TopLink>
-               <S.TopLink active={statsActive} onClick={handleStatsActive}>Estatísticas</S.TopLink>
-               <S.TopLink active={injuryActive} onClick={handleInjuryActive}>Lesões</S.TopLink>
+               <S.TopLink $active={deskActive} onClick={handleDeskActive}>Ficha do jogador</S.TopLink>
+               <S.TopLink $active={statsActive} onClick={handleStatsActive}>Estatísticas</S.TopLink>
+               <S.TopLink $active={injuryActive} onClick={handleInjuryActive}>Lesões</S.TopLink>
                <S.TopLink>
                   <Switch label='Comparação de jogadores' id='switch_comparacao' onCheckedChange={handleVizualitionMode} checked={isComparison}/>
                   { 

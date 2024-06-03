@@ -52,7 +52,7 @@ export const TopLink = styled.span`
       position: absolute;
       left: 0;
       bottom: -.5rem;
-      width: ${props => props.active ? '100%' : '0'};
+      width: ${props => props.$active ? '100%' : '0'};
       height: 4px;
       border-radius: 4px;
       background-color: ${Colors.orange500};
