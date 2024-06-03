@@ -65,12 +65,12 @@ export default function LandingPage() {
    }
 
    return ( 
-      <S.PageWrapper navOpen={navOpen}>
+      <S.PageWrapper $navOpen={navOpen}>
          <ScrollProgress color={Colors.orange300}/>
          <S.Header id="header">
             <Background.Default />
             {navOpen &&
-            <Menu navOpen={navOpen} handleNavOpen={handleNavOpen}/>
+            <Menu $navOpen={navOpen} handleNavOpen={handleNavOpen}/>
             }
             <S.Navbar>
                {navOpen ?
@@ -78,10 +78,10 @@ export default function LandingPage() {
                <S.NavLogo src={nimbusLogo} alt={`nimbus - logo do projeto.`}/>
                }
 
-               <S.MenuTrigger onClick={handleNavOpen} state={navOpen}>
-                  <S.MenuLineUpper state={navOpen} />
-                  <S.MenuLineMid state={navOpen} width='70%'/>
-                  <S.MenuLineLower state={navOpen} />
+               <S.MenuTrigger onClick={handleNavOpen} $state={navOpen}>
+                  <S.MenuLineUpper $state={navOpen} />
+                  <S.MenuLineMid $state={navOpen} width='70%'/>
+                  <S.MenuLineLower $state={navOpen} />
                </S.MenuTrigger>
             </S.Navbar>
             <S.HeaderContent>
@@ -128,9 +128,9 @@ export default function LandingPage() {
 
                </S.AboutTextContainer>
                <BallOutline />
-               <S.AboutTextContainer textAlign='right'>
+               <S.AboutTextContainer $textAlign='right'>
                   <motion.span initial={{ opacity: 0, y: '50%' }} whileInView={{ opacity: 1, y: 0 }} transition={{ delay: .2}}>
-                     <S.AboutText textAlign='right'>
+                     <S.AboutText $textAlign='right'>
                         Gerencie várias de suas equipes e jogadores de forma intuitiva e eficiente dentro de uma única plataforma.
                      </S.AboutText>
                   </motion.span>
