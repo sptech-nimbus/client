@@ -8,7 +8,7 @@ export default function Menu({$navOpen, handleNavOpen}) {
    const navigate = useNavigate();
 
    return (
-      <S.MenuContainer $state={navOpen}>
+      <S.MenuContainer $state={$navOpen}>
          <S.MenuContent>
             <motion.div initial={{ opacity: 0 }} animate={{opacity: 1}} transition={{delay: .5}}>
                <S.LogoBackground src={logoBackground}/>

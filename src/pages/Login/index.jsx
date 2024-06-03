@@ -123,11 +123,11 @@ export default function Login() {
                fontSize={'1.5rem'}
             />
             <S.FormFooter>
-               <underlined>
+               <S.Underlined>
                   <S.Link onClick={() => navigate('/forgot-password')}>
                      Esqueceu sua senha?
                   </S.Link>
-               </underlined>
+               </S.Underlined>
                <span>
                   Não possui uma conta ainda? <br />
                   <S.Link>

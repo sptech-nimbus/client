@@ -109,3 +109,7 @@ export const LoadingButton = styled.img`
    align-items: center;
    justify-content: center;
 `
+
+export const Underlined = styled.span`
+   text-decoration: underline;
+`
