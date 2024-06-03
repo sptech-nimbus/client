@@ -2,6 +2,7 @@ import styled, { css, keyframes } from "styled-components";
 import { Colors } from "@utils/Helpers";
 
 import { motion } from "framer-motion";
+import * as Accordion from "@radix-ui/react-accordion";
 
 const slideDown = keyframes`
   from { height: 0; }
@@ -226,7 +227,7 @@ export const Athlete = styled.div`
    padding: 1rem;
    justify-content: space-between;
    flex-direction: column;
-   gap: 1rem;
+   gap: .7rem;
 `
 
 export const AthleteInfo = styled.div`
@@ -273,12 +274,7 @@ export const Column = styled.div`
    gap: .5rem;
 `
 
-export const Actions = styled.div`
-   display: flex;
-   justify-content: space-between;
-   gap: .5rem;
-   overflow: hidden;
-
+export const AccordionContent = styled(Accordion.Content)`
    &[data-state='open'] {
       animation: ${slideDown} 300ms cubic-bezier(0.87, 0, 0.13, 1);
    }
@@ -286,6 +282,14 @@ export const Actions = styled.div`
    &[data-state='closed'] {
       animation: ${slideUp} 300ms cubic-bezier(0.87, 0, 0.13, 1);
    }
+`
+
+export const Actions = styled.div`
+   display: flex;
+   justify-content: space-between;
+   gap: .5rem;
+   overflow: hidden;
+   font-size: .9rem;
 `
 
 export const AddAction = styled.div`

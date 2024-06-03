@@ -34,7 +34,7 @@ export default function Athlete({ player, addStatistic, updatePlayerStats }) {
                </Accordion.Trigger>
             </S.AthleteInfo>
 
-            <Accordion.Content asChild>
+            <S.AccordionContent asChild>
                <S.Actions>
                   <Popover trigger={<S.Action>Pontos</S.Action>} sideOffset={8}>
                      <S.PopoverContent>
@@ -79,7 +79,7 @@ export default function Athlete({ player, addStatistic, updatePlayerStats }) {
                      </S.PopoverContent>
                   </Popover>
                </S.Actions>
-            </Accordion.Content>
+            </S.AccordionContent>
          </S.Athlete>
       </Accordion.Item>
    );
