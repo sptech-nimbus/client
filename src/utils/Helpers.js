@@ -122,6 +122,24 @@ export const calcDayDiff = (inicialDate, finalDate) => {
    return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 }; 
 
+export const sumTimes = (times) => {
+   let totalSeconds = 0;
+
+   times.forEach(time => {
+         const [hours, minutes, seconds] = time.split(':').map(Number);
+         totalSeconds += (hours * 3600) + (minutes * 60) + seconds;
+   });
+
+   const totalHours = Math.floor(totalSeconds / 3600);
+   totalSeconds %= 3600;
+   const totalMinutes = Math.floor(totalSeconds / 60);
+   const totalRemainingSeconds = totalSeconds % 60;
+
+   const formatNumber = num => num.toString().padStart(2, '0');
+
+   return `${formatNumber(totalHours)}:${formatNumber(totalMinutes)}:${formatNumber(totalRemainingSeconds)}`;
+}
+
 export const Size = {
    mobileS: '320px',
    mobileM: '375px',
@@ -153,6 +171,7 @@ const Utils = {
    size: Size,
    formatDate,
    calcDayDiff,
+   sumTimes
 }
 
 export default Utils;

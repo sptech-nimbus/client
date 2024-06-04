@@ -17,6 +17,7 @@ import Athlete from './Athlete';
 export default function OnGoingMatch({ allPlayers, gameData, setMatchData }) {
    const navigate = useNavigate();
    const { seconds, minutes, hours, isRunning, start, pause, reset } = useStopwatch();
+   const [times, setTimes] = useState([]);
 
    const [flagInput, setFlagInput] = useState('');
    const [flags, setFlags] = useState([])
@@ -48,7 +49,8 @@ export default function OnGoingMatch({ allPlayers, gameData, setMatchData }) {
       pts3Err: 0,
       offReb: 0,
       defReb: 0,
-      foul: 0
+      foul: 0,
+      times: []
    });
 
    useEffect(() => {
@@ -134,6 +136,7 @@ export default function OnGoingMatch({ allPlayers, gameData, setMatchData }) {
    
 
    const handleFinishQuarter = () => {
+      times.push(`${formatTime(hours)}:${formatTime(minutes)}:${formatTime(seconds)}`);
       setCurrentQuarter(currentQuarter + 1);
       reset();
       pause();
@@ -171,7 +174,11 @@ export default function OnGoingMatch({ allPlayers, gameData, setMatchData }) {
          },
          // gameId: gameData.gameId,
          players: matchPlayers,
-         flags: handleFlags()
+         flags: handleFlags(),
+         stats: {
+            times,
+            teamStats
+         }
       }      
    }
 

@@ -192,7 +192,7 @@ export const FlagTime = styled.span`
    font-size: .9rem;
 `
 
-export const NoFlags = styled.div`
+export const NoContent = styled.div`
    width: 100%;
    height: 100%;
    display: flex;
@@ -219,4 +219,9 @@ export const Stats = styled.div`
    flex-direction: column;
    padding-top: 1rem;
    gap: .5rem;
+`
+
+export const TitleContainer = styled.div`
+   display: flex;
+   justify-content: space-between;
 `
