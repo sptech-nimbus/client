@@ -156,6 +156,13 @@ export default function OnGoingMatch({ allPlayers, gameData, setMatchData }) {
    }
 
    const handleResult = () => {
+      const matchPlayers = players.filter(player => {
+         const allZeros = Object.values(player.stats).every(value => value === 0);
+         return !allZeros;
+      });
+
+      console.log('filtrado jogadores', matchPlayers);
+
       return {
          challenged,
          challenger: {
@@ -163,7 +170,7 @@ export default function OnGoingMatch({ allPlayers, gameData, setMatchData }) {
             stats: { ...teamStats }
          },
          // gameId: gameData.gameId,
-         players,
+         players: matchPlayers,
          flags: handleFlags()
       }      
    }

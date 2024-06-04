@@ -69,12 +69,6 @@ export const TeamImage = styled(S.TeamImage)`
    height: 80px;
 `
 
-export const Team = styled(S.Team)``
-
-export const TeamName = styled(S.TeamName)``
-
-export const Versus = styled(S.Versus)``
-
 export const FlagsContainer = styled.div`
    width: 100%;
    height: 100%;
@@ -205,4 +199,16 @@ export const NoFlags = styled.div`
    justify-content: center;
    align-items: center;
    text-align: center;
+`
+
+export const Athlete = styled(S.Athlete)`
+   cursor: pointer;
+   border: 2px solid ${props => props.$active ? Colors.orange500 : Colors.gray800};
+   transition: all .3s ease-in;
+`
+
+export const StatsContainer = styled.div`
+   width: 100%;
+   height: 100%;
+   display: flex;
 `

@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react';
 import * as S from './FinishedMatch.styled';
+import * as MS from '../OnGoingMatch/Match.styled';
 
 import Sidebar from '@components/Sidebar/Sidebar';
 import Title from '@components/Title/Title';
 
 import * as Accordion from '@radix-ui/react-accordion';
+import { Star } from '@phosphor-icons/react';
 
 import Quarters from './Quarters';
 import { useNavigate } from 'react-router-dom';
@@ -14,8 +16,24 @@ function Return() {
    useEffect(() => {navigate('/match')}, [])
 }
 
+function NoContent({ value }) {
+
+}
+
 export default function FinishedMatch({ matchData }) {
-   return !matchData ? <Return /> : (
+   const [selectedPlayer, setSelectedPlayer] = useState();
+
+   const handleSelectedPlayer = (key) => {
+      if(selectedPlayer) {
+         if(matchData.players[key].personaId == selectedPlayer.personaId) setSelectedPlayer(0);
+         else setSelectedPlayer(matchData.players[key]);
+      }
+      else {
+         setSelectedPlayer(matchData.players[key]);
+      }
+   }
+
+   return (
       <S.PageContainer>
          <Sidebar page='match' />
          <S.ContentContainer>
@@ -24,15 +42,15 @@ export default function FinishedMatch({ matchData }) {
                <S.Container>
                   <Title text='Times' size='1.2rem'/>
                   <S.TeamsContainer>
-                     <S.Team>
-                        <S.TeamImage src='' />
-                        <S.TeamName>Nome challenger</S.TeamName>
-                     </S.Team>
-                     <S.Versus>VS</S.Versus>
-                     <S.Team>
-                        <S.TeamImage src='' />
-                        <S.TeamName>Nome challenged</S.TeamName>
-                     </S.Team>
+                     <MS.Team>
+                        <S.TeamImage src={matchData.challenger.picture} />
+                        <MS.TeamName>{matchData.challenger.name}</MS.TeamName>
+                     </MS.Team>
+                     <MS.Versus>VS</MS.Versus>
+                     <MS.Team>
+                        <S.TeamImage src={matchData.challenged.picture} />
+                        <MS.TeamName>{matchData.challenged.name}</MS.TeamName>
+                     </MS.Team>
                   </S.TeamsContainer>
                </S.Container>
 
@@ -49,9 +67,35 @@ export default function FinishedMatch({ matchData }) {
                   </Accordion.Root>
                </S.Container>
 
-               <S.Container></S.Container>
+               <S.Container>
+                  <Title text='JogMadores que participaram da partida' size='1.2rem'/>
+                  <MS.AthletesList>
+                     {matchData.players.map((player, index) => (
+                        <S.Athlete onClick={() => handleSelectedPlayer(index)} $active={selectedPlayer.personaId === player.personaId}>
+                           <MS.AthleteInfo>
+                              <MS.AthleteImage src={player.picture}/>
 
-               <S.Container></S.Container>
+                              <MS.Column>
+                                 <MS.AthleteName>{player.firstName} {player.lastName}</MS.AthleteName>
+                              </MS.Column>
+                           </MS.AthleteInfo>
+                        </S.Athlete>
+                     ))}
+                  </MS.AthletesList>
+               </S.Container>
+
+               <S.Container>
+                  <Title text='Estatísticas do jogador' size='1.2rem'/>
+                  {
+                     !selectedPlayer 
+                     ? 'seleciona' : (
+                        <S.StatsContainer>
+                           <span>Estatísticas de {selectedPlayer.firstName} {selectedPlayer.lastName}</span>
+                        </S.StatsContainer>
+                     )
+                  }
+                     
+               </S.Container>
             </S.FinishedMatchGrid>
          </S.ContentContainer>
       </S.PageContainer>
