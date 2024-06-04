@@ -4,11 +4,13 @@ import * as MS from '../OnGoingMatch/Match.styled';
 
 import Sidebar from '@components/Sidebar/Sidebar';
 import Title from '@components/Title/Title';
+import { Colors } from '@utils/Helpers';
 
 import * as Accordion from '@radix-ui/react-accordion';
 import { Star } from '@phosphor-icons/react';
 
 import Quarters from './Quarters';
+import Stats from './Stats';
 import { useNavigate } from 'react-router-dom';
 
 function Return() {
@@ -71,7 +73,7 @@ export default function FinishedMatch({ matchData }) {
                   <Title text='JogMadores que participaram da partida' size='1.2rem'/>
                   <MS.AthletesList>
                      {matchData.players.map((player, index) => (
-                        <S.Athlete onClick={() => handleSelectedPlayer(index)} $active={selectedPlayer.personaId === player.personaId}>
+                        <S.Athlete onClick={() => handleSelectedPlayer(index)} $active={selectedPlayer && selectedPlayer.personaId === player.personaId}>
                            <MS.AthleteInfo>
                               <MS.AthleteImage src={player.picture}/>
 
@@ -85,12 +87,18 @@ export default function FinishedMatch({ matchData }) {
                </S.Container>
 
                <S.Container>
-                  <Title text='Estatísticas do jogador' size='1.2rem'/>
+                  <Title text='Estatísticas' size='1.2rem'/>
                   {
                      !selectedPlayer 
-                     ? 'seleciona' : (
+                     ?
+                     <S.StatsContainer>
+                        <Title text={`das`} size='1.2rem' color={Colors.orange100}/>
+                        <Stats stats={matchData.teamStats}/>
+                     </S.StatsContainer> 
+                     : (
                         <S.StatsContainer>
-                           <span>Estatísticas de {selectedPlayer.firstName} {selectedPlayer.lastName}</span>
+                           <Title text={`${selectedPlayer.firstName} ${selectedPlayer.lastName}`} size='1.2rem' color={Colors.orange100}/>
+                           <Stats stats={selectedPlayer}/>
                         </S.StatsContainer>
                      )
                   }

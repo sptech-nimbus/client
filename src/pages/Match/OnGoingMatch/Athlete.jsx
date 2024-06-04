@@ -65,7 +65,7 @@ export default function Athlete({ player, addStatistic, updatePlayerStats }) {
                         <S.AddAction>
                            <S.AddButton onClick={() => addStatisticHandler('blk', 1)}>+1 toco</S.AddButton>
                            <S.AddButton onClick={() => addStatisticHandler('stl', 1)}>+1 roubo</S.AddButton>
-                           <S.AddButton isError onClick={() => addStatisticHandler('foul', 1)}>+1 falta</S.AddButton>
+                           <S.AddButton $isError onClick={() => addStatisticHandler('foul', 1)}>+1 falta</S.AddButton>
                         </S.AddAction>
                      </S.PopoverContent>
                   </Popover>
@@ -74,7 +74,7 @@ export default function Athlete({ player, addStatistic, updatePlayerStats }) {
                      <S.PopoverContent>
                         <S.AddAction>
                            <S.AddButton onClick={() => addStatisticHandler('ast', 1)}>+1 assistência</S.AddButton>
-                           <S.AddButton isError onClick={() => addStatisticHandler('turnover', 1)}>+1 turnover</S.AddButton>
+                           <S.AddButton $isError onClick={() => addStatisticHandler('turnover', 1)}>+1 turnover</S.AddButton>
                         </S.AddAction>
                      </S.PopoverContent>
                   </Popover>
