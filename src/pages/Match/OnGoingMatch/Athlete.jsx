@@ -9,11 +9,11 @@ export default function Athlete({ player, addStatistic, updatePlayerStats }) {
 
    const addStatisticHandler = (stat, value) => {
       addStatistic(stat, value);
-      updatePlayerStats(player.personaId, stat, value);
+      updatePlayerStats(player.id, stat, value);
    };
 
    return (
-      <Accordion.Item value={player.personaId} asChild>
+      <Accordion.Item value={player.id} asChild>
          <S.Athlete>
             <S.AthleteInfo>
                <S.AthleteImage src={player.picture}/>
@@ -31,7 +31,7 @@ export default function Athlete({ player, addStatistic, updatePlayerStats }) {
                   <S.CollapsibleArrow>
                      <CaretDown weight='bold' />
                   </S.CollapsibleArrow>
-               </Accordion.Trigger>
+               </Accordion.Trigger>   
             </S.AthleteInfo>
 
             <S.AccordionContent asChild>
@@ -44,9 +44,9 @@ export default function Athlete({ player, addStatistic, updatePlayerStats }) {
                            <S.AddButton onClick={() => addStatisticHandler('pts', 3)}>+3 pts</S.AddButton>
                         </S.AddAction>
                         <S.AddAction>
-                           <S.AddButton isError onClick={() => addStatisticHandler('pts1Err', 1)}>+1 pts</S.AddButton>
-                           <S.AddButton isError onClick={() => addStatisticHandler('pts2Err', 2)}>+2 pts</S.AddButton>
-                           <S.AddButton isError onClick={() => addStatisticHandler('pts3Err', 3)}>+3 pts</S.AddButton>
+                           <S.AddButton $isError onClick={() => addStatisticHandler('pts1Err', 1)}>+1 pts</S.AddButton>
+                           <S.AddButton $isError onClick={() => addStatisticHandler('pts2Err', 2)}>+2 pts</S.AddButton>
+                           <S.AddButton $isError onClick={() => addStatisticHandler('pts3Err', 3)}>+3 pts</S.AddButton>
                         </S.AddAction>
                      </S.PopoverContent>
                   </Popover>
@@ -65,7 +65,7 @@ export default function Athlete({ player, addStatistic, updatePlayerStats }) {
                         <S.AddAction>
                            <S.AddButton onClick={() => addStatisticHandler('blk', 1)}>+1 toco</S.AddButton>
                            <S.AddButton onClick={() => addStatisticHandler('stl', 1)}>+1 roubo</S.AddButton>
-                           <S.AddButton isError onClick={() => addStatisticHandler('foul', 1)}>+1 falta</S.AddButton>
+                           <S.AddButton $isError onClick={() => addStatisticHandler('foul', 1)}>+1 falta</S.AddButton>
                         </S.AddAction>
                      </S.PopoverContent>
                   </Popover>
@@ -74,7 +74,7 @@ export default function Athlete({ player, addStatistic, updatePlayerStats }) {
                      <S.PopoverContent>
                         <S.AddAction>
                            <S.AddButton onClick={() => addStatisticHandler('ast', 1)}>+1 assistência</S.AddButton>
-                           <S.AddButton isError onClick={() => addStatisticHandler('turnover', 1)}>+1 turnover</S.AddButton>
+                           <S.AddButton $isError onClick={() => addStatisticHandler('turnover', 1)}>+1 turnover</S.AddButton>
                         </S.AddAction>
                      </S.PopoverContent>
                   </Popover>

@@ -107,6 +107,7 @@ export function InjuryDialog({ playerId }) {
                   <Label>
                      Início
                      <Input.Default
+                        type='date'
                         name='inicialDate'
                         value={injuryData.inicialDate}
                         onChange={handleInputChange}
@@ -115,6 +116,7 @@ export function InjuryDialog({ playerId }) {
                   <Label>
                      Final
                      <Input.Default
+                        type='date'
                         name='finalDate'
                         value={injuryData.finalDate}
                         onChange={handleInputChange}

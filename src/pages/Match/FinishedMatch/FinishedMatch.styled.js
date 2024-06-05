@@ -23,6 +23,7 @@ export const ContentContainer = styled(S.ContentContainer)`
 
 export const Flex = styled(S.Flex)`
    display: flex;
+   position: relative;
 ` 
 
 export const FinishedMatchGrid = styled.div`
@@ -68,12 +69,6 @@ export const TeamImage = styled(S.TeamImage)`
    width: 80px;
    height: 80px;
 `
-
-export const Team = styled(S.Team)``
-
-export const TeamName = styled(S.TeamName)``
-
-export const Versus = styled(S.Versus)``
 
 export const FlagsContainer = styled.div`
    width: 100%;
@@ -198,11 +193,41 @@ export const FlagTime = styled.span`
    font-size: .9rem;
 `
 
-export const NoFlags = styled.div`
+export const NoContent = styled.div`
    width: 100%;
    height: 100%;
    display: flex;
    justify-content: center;
    align-items: center;
    text-align: center;
+`
+
+export const Athlete = styled(S.Athlete)`
+   cursor: pointer;
+   border: 2px solid ${props => props.$active ? Colors.orange500 : Colors.gray800};
+   transition: all .3s ease-in;
+`
+
+export const StatsContainer = styled.div`
+   width: 100%;
+   height: 100%;
+   display: flex;
+   flex-direction: column;
+`
+
+export const Stats = styled.div`
+   display: flex;
+   flex-direction: column;
+   padding-top: 1rem;
+   gap: 1rem;
+   
+   div {
+      display: flex;
+      flex-direction: column;
+
+      span:nth-child(1) {
+
+         font-weight: 600;
+      }
+   }
 `

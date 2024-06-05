@@ -17,6 +17,7 @@ import Athlete from './Athlete';
 export default function OnGoingMatch({ allPlayers, gameData, setMatchData }) {
    const navigate = useNavigate();
    const { seconds, minutes, hours, isRunning, start, pause, reset } = useStopwatch();
+   const [times, setTimes] = useState([]);
 
    const [flagInput, setFlagInput] = useState('');
    const [flags, setFlags] = useState([])
@@ -48,7 +49,8 @@ export default function OnGoingMatch({ allPlayers, gameData, setMatchData }) {
       pts3Err: 0,
       offReb: 0,
       defReb: 0,
-      foul: 0
+      foul: 0,
+      times: []
    });
 
    useEffect(() => {
@@ -107,7 +109,7 @@ export default function OnGoingMatch({ allPlayers, gameData, setMatchData }) {
 
    const updatePlayerStats = (playerId, stat, value) => {
       setPlayers(prevPlayers => prevPlayers.map(player => {
-         if (player.personaId === playerId) {
+         if (player.id === playerId) {
             const updatedStats = {
                ...player.stats,
                [stat]: player.stats[stat] + value
@@ -134,6 +136,7 @@ export default function OnGoingMatch({ allPlayers, gameData, setMatchData }) {
    
 
    const handleFinishQuarter = () => {
+      times.push(`${formatTime(hours)}:${formatTime(minutes)}:${formatTime(seconds)}`);
       setCurrentQuarter(currentQuarter + 1);
       reset();
       pause();
@@ -156,6 +159,13 @@ export default function OnGoingMatch({ allPlayers, gameData, setMatchData }) {
    }
 
    const handleResult = () => {
+      const matchPlayers = players.filter(player => {
+         const allZeros = Object.values(player.stats).every(value => value === 0);
+         return !allZeros;
+      });
+
+      console.log('filtrado jogadores', matchPlayers);
+
       return {
          challenged,
          challenger: {
@@ -163,8 +173,12 @@ export default function OnGoingMatch({ allPlayers, gameData, setMatchData }) {
             stats: { ...teamStats }
          },
          // gameId: gameData.gameId,
-         players,
-         flags: handleFlags()
+         players: matchPlayers,
+         flags: handleFlags(),
+         stats: {
+            times,
+            teamStats
+         }
       }      
    }
 

@@ -314,12 +314,8 @@ export const AddButton = styled.button`
    &:hover {
       filter: brightness(1.3);
    }
-
-   ${props => props.isAttempt && css`
-      background-color: ${Colors.gray800};
-      `} 
       
-   ${props => props.isError && css`
+   ${props => props.$isError && css`
       background-color: ${Colors.red};
    `}
 `
