@@ -15,6 +15,7 @@ import Chat from '@pages/Chat';
 import ForgotPassword from '@pages/ForgotPassword';
 import MyTeams from '@pages/MyTeams';
 import Match from '@pages/Match';
+import JoinTeam from '@pages/JoinTeam';
 
 import ProtectedRoute from './ProtectedRoute';
 
@@ -112,6 +113,7 @@ export default function AppRoutes() {
                   </ProtectedRoute>
                } 
             />
+            <Route path='/join-team' element={<JoinTeam />}/>
          </Routes>
       </Router>
    )
