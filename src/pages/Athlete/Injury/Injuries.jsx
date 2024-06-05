@@ -98,7 +98,10 @@ export default function AthleteInjuries({ playerData }) {
             setIsLoading(true);
 
             const response = await injury.getInjuriesFromAthlete(playerId, localStorage.getItem('token'));
-            setAllInjuries(response.data.data);
+
+            if (response.status === 200) {
+               setAllInjuries(response.data.data);
+            }
          }
          catch (err) {
             console.log(err);
@@ -109,7 +112,7 @@ export default function AthleteInjuries({ playerData }) {
       }
 
       fetchData();
-   }, []);
+   }, [playerId]);
 
    useEffect(() => {
       if (allInjuries.length > 0) {

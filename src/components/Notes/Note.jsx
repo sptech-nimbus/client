@@ -9,7 +9,6 @@ export function Note({ note }) {
          <S.Container>
             <S.Header>
                <span>{note.title}</span>
-               <span>{date.toLocaleDateString('pt-br')}</span>
             </S.Header>
             <S.Description>{note.description}</S.Description>
          </S.Container>
@@ -18,4 +17,3 @@ export function Note({ note }) {
       </Dialog>
    )
 }
-      
