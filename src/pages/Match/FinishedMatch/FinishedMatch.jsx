@@ -4,6 +4,7 @@ import * as MS from '../OnGoingMatch/Match.styled';
 
 import Sidebar from '@components/Sidebar/Sidebar';
 import Title from '@components/Title/Title';
+import Button from '@components/Button/Button';
 import Utils from '@utils/Helpers';
 
 import * as Accordion from '@radix-ui/react-accordion';
@@ -24,11 +25,10 @@ function NoContent({ value }) {
 
 export default function FinishedMatch({ matchData }) {
    const [selectedPlayer, setSelectedPlayer] = useState();
-   console.log(matchData);
 
    const handleSelectedPlayer = (key) => {
       if(selectedPlayer) {
-         if(matchData.players[key].personaId == selectedPlayer.personaId) setSelectedPlayer(0);
+         if(matchData.players[key].id == selectedPlayer.id) setSelectedPlayer(0);
          else setSelectedPlayer(matchData.players[key]);
       }
       else {
@@ -40,7 +40,9 @@ export default function FinishedMatch({ matchData }) {
       <S.PageContainer>
          <Sidebar page='match' />
          <S.ContentContainer>
-            <Title text='Partida finalizada' $uppercase/>
+            <S.Flex>
+               <Title text='Partida finalizada' $uppercase/>
+            </S.Flex>
             <S.FinishedMatchGrid>
                <S.Container>
                   <Title text='Times' size='1.2rem'/>
@@ -82,7 +84,7 @@ export default function FinishedMatch({ matchData }) {
                      {
                         matchData.players.length != 0 
                         ?
-                        matchData.players.map((player, index) => (
+                        matchData && matchData.players.map((player, index) => (
                            <S.Athlete key={index} onClick={() => handleSelectedPlayer(index)} $active={selectedPlayer && selectedPlayer.personaId === player.personaId}>
                               <MS.AthleteInfo>
                                  <MS.AthleteImage src={player.picture}/>
@@ -103,13 +105,13 @@ export default function FinishedMatch({ matchData }) {
 
                <S.Container>
                   <Title text='Estatísticas' size='1.2rem'/>
-                  <span>Tempo total de partida: {Utils.sumTimes(matchData.stats.times)}</span>
+                  <span>Duração total da partida: {Utils.sumTimes(matchData.stats.times)}</span>
                   {  
                      !selectedPlayer 
                      ?
                      <S.StatsContainer>
                         <Title text={`Geral do time`} size='1.2rem' color={Utils.colors.orange100}/>
-                        <Stats stats={matchData.stats}/>
+                        <Stats stats={matchData.stats.teamStats}/>
                      </S.StatsContainer> 
                      : (
                         <S.StatsContainer>

@@ -97,8 +97,8 @@ export default function AthleteInjuries({ playerData }) {
          try {
             setIsLoading(true);
 
-            const response = await injury.getInjuriesFromAthlete(playerId, localStorage.getItem('token'));
-            setAllInjuries(response.data.data);
+            const { data } = await injury.getInjuriesFromAthlete(playerId, localStorage.getItem('token'));
+            setAllInjuries(data.data);
          }
          catch (err) {
             console.log(err);
@@ -193,9 +193,9 @@ export default function AthleteInjuries({ playerData }) {
                         <S.InjuryContainer>
                            <Title text='Histório de lesões' size='1.2rem' />
                            <S.InjuryHist>
+                              <Accordion.Root type='single' collapsible>
                               {allInjuries && allInjuries.map(injury => (
-                                 <Accordion.Root type='single' collapsible key={injury.injuryId}>
-                                    <Accordion.Item value={injury.athleteId} asChild>
+                                    <Accordion.Item value={injury.injuryId} key={injury.injuryId} asChild>
                                        <S.Injury>
                                           <Accordion.Trigger asChild>
                                              <S.InjuryContent>
@@ -212,6 +212,7 @@ export default function AthleteInjuries({ playerData }) {
                                                 </S.Arrow>
                                              </S.InjuryContent>
                                           </Accordion.Trigger>
+                                          
                                           <Accordion.Content asChild>
                                              <S.InjuryContentHidden>
                                                 <S.Column>
@@ -227,8 +228,8 @@ export default function AthleteInjuries({ playerData }) {
                                           </Accordion.Content>
                                        </S.Injury>
                                     </Accordion.Item>
-                                 </Accordion.Root>
                               ))}
+                              </Accordion.Root>
                            </S.InjuryHist>
                         </S.InjuryContainer>
                      </S.Container>

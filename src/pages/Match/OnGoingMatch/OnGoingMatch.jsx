@@ -109,7 +109,7 @@ export default function OnGoingMatch({ allPlayers, gameData, setMatchData }) {
 
    const updatePlayerStats = (playerId, stat, value) => {
       setPlayers(prevPlayers => prevPlayers.map(player => {
-         if (player.personaId === playerId) {
+         if (player.id === playerId) {
             const updatedStats = {
                ...player.stats,
                [stat]: player.stats[stat] + value

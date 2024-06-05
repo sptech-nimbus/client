@@ -23,6 +23,7 @@ export const ContentContainer = styled(S.ContentContainer)`
 
 export const Flex = styled(S.Flex)`
    display: flex;
+   position: relative;
 ` 
 
 export const FinishedMatchGrid = styled.div`
@@ -218,10 +219,15 @@ export const Stats = styled.div`
    display: flex;
    flex-direction: column;
    padding-top: 1rem;
-   gap: .5rem;
-`
+   gap: 1rem;
+   
+   div {
+      display: flex;
+      flex-direction: column;
 
-export const TitleContainer = styled.div`
-   display: flex;
-   justify-content: space-between;
+      span:nth-child(1) {
+
+         font-weight: 600;
+      }
+   }
 `

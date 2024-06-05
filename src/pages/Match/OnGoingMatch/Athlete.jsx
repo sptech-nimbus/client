@@ -9,11 +9,11 @@ export default function Athlete({ player, addStatistic, updatePlayerStats }) {
 
    const addStatisticHandler = (stat, value) => {
       addStatistic(stat, value);
-      updatePlayerStats(player.personaId, stat, value);
+      updatePlayerStats(player.id, stat, value);
    };
 
    return (
-      <Accordion.Item value={player.personaId} asChild>
+      <Accordion.Item value={player.id} asChild>
          <S.Athlete>
             <S.AthleteInfo>
                <S.AthleteImage src={player.picture}/>
@@ -31,7 +31,7 @@ export default function Athlete({ player, addStatistic, updatePlayerStats }) {
                   <S.CollapsibleArrow>
                      <CaretDown weight='bold' />
                   </S.CollapsibleArrow>
-               </Accordion.Trigger>
+               </Accordion.Trigger>   
             </S.AthleteInfo>
 
             <S.AccordionContent asChild>
