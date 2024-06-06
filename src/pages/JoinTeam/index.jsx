@@ -30,7 +30,7 @@ export default function JoinTeam() {
    const navigate = useNavigate();
 
    const [team, setTeam] = useState();
-   const [token, setToken] = useState('eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJrYXVhYW5tYXRoZXVzQGdtYWlsLmNvbSIsImlhdCI6MTcxNzY4MzU5N30.3KwoTVtqNKzLjc2SpS1wIj_WpgOkarJW-IV8-PKd3mMccjTlPsdr2oHl12bOxg3F8NxUhCM1v-rtaHU1gsoZRA');
+   const [token, setToken] = useState('');
    const [personaId, setPersonaId] = useState();
    const [credentials, setCredentials] = useState({ email: '', password: '' });
 
