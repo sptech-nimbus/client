@@ -1,27 +1,16 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
+
 import * as S from './FinishedMatch.styled';
 import * as MS from '../OnGoingMatch/Match.styled';
 
 import Sidebar from '@components/Sidebar/Sidebar';
 import Title from '@components/Title/Title';
-import Button from '@components/Button/Button';
 import Utils from '@utils/Helpers';
 
 import * as Accordion from '@radix-ui/react-accordion';
-import { Star } from '@phosphor-icons/react';
 
 import Quarters from './Quarters';
 import Stats from './Stats';
-import { useNavigate } from 'react-router-dom';
-
-function Return() {
-   const navigate = useNavigate();
-   useEffect(() => {navigate('/match')}, [])
-}
-
-function NoContent({ value }) {
-
-}
 
 export default function FinishedMatch({ matchData }) {
    const [selectedPlayer, setSelectedPlayer] = useState();
@@ -105,7 +94,10 @@ export default function FinishedMatch({ matchData }) {
 
                <S.Container>
                   <Title text='Estatísticas' size='1.2rem'/>
-                  <span>Duração total da partida: {Utils.sumTimes(matchData.stats.times)}</span>
+                  <S.DurationContainer>
+                     <span>Duração total da partida</span>
+                     <span>{Utils.sumTimes(matchData.stats.times)}</span>
+                  </S.DurationContainer>
                   {  
                      !selectedPlayer 
                      ?

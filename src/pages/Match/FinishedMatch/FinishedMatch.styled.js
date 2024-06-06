@@ -215,19 +215,13 @@ export const StatsContainer = styled.div`
    flex-direction: column;
 `
 
-export const Stats = styled.div`
+export const DurationContainer = styled.div`
    display: flex;
    flex-direction: column;
-   padding-top: 1rem;
-   gap: 1rem;
-   
-   div {
-      display: flex;
-      flex-direction: column;
 
-      span:nth-child(1) {
-
-         font-weight: 600;
-      }
+   span:nth-child(2) {
+      font-size: 2rem;
+      font-weight: 600;
+      font-family: 'Inter';
    }
 `
