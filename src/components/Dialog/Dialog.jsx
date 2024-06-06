@@ -70,6 +70,10 @@ export function Dialog({ title, children, trigger }) {
 }
 
 export function DeleteDialog({ athlete, trigger }) {
+   function DeleteAthlete(e) {
+      console.log(e)
+   }
+
     return (  
         <D.Root>
             <S.DialogTrigger>
@@ -101,6 +105,7 @@ export function DeleteDialog({ athlete, trigger }) {
                               width='10rem'
                               size='sm'
                               fontSize='1rem'
+                              onClick={() => DeleteAthlete(athlete.id)}
                            />
                         </S.DelS>
                     </S.DialogDeleteContent>
@@ -110,6 +115,9 @@ export function DeleteDialog({ athlete, trigger }) {
 }
 
 export function UpdateDialog({ athlete, trigger }) {
+   function UpdateAthlete(e) {
+      console.log('deletando ', e)
+   }
    return (  
        <D.Root>
            <S.DialogTrigger>
@@ -220,6 +228,7 @@ export function UpdateDialog({ athlete, trigger }) {
                              width='10rem'
                              size='sm'
                              fontSize='1rem'
+                             onClick={() => UpdateAthlete(athlete.id)}
                           />
                        </S.DelS>
                    </S.DialogDeleteContent>

@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+
 import * as S from './Home.styled';
 import Sidebar from "@components/Sidebar/Sidebar";
 import Background from "@components/Background/Background";
@@ -97,13 +99,13 @@ export default function Home() {
 
          console.log(orderedEvents);
          setEvents(orderedEvents);
+         
+      }
+      
+      async function getWins() {
+         const res = await graph.getWins(sessionStorage.getItem('teamId'), 10, localStorage.getItem('token'));
 
-         async function getWins() {
-            const res = await graph.getWins(sessionStorage.getItem('teamId'), 10, localStorage.getItem('token'));
-
-            setWinsGraph([res.data.data.wins, res.data.data.loses]);
-         }
-
+         setWinsGraph([res.data.data.wins, res.data.data.loses]);
       }
       getLastGame();
       getNextGame();
