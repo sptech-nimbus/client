@@ -50,7 +50,7 @@ async function getActiveInjuries({ param }) {
     return response;
 }
 
-async function getTeamEspecific({ param }) {
+async function getTeamEspecific({ param, token }) {
     const response = await axios.get(`${config.baseURL}/${path}/${param}`)
 
     return response;
