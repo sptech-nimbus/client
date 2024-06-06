@@ -23,6 +23,8 @@ export default function FinishedMatch({ matchData }) {
       else {
          setSelectedPlayer(matchData.players[key]);
       }
+
+      console.log(selectedPlayer.id);
    }
 
    return (
@@ -74,7 +76,7 @@ export default function FinishedMatch({ matchData }) {
                         matchData.players.length != 0 
                         ?
                         matchData && matchData.players.map((player, index) => (
-                           <S.Athlete key={index} onClick={() => handleSelectedPlayer(index)} $active={selectedPlayer && selectedPlayer.personaId === player.personaId}>
+                           <S.Athlete key={index} onClick={() => handleSelectedPlayer(index)} $active={selectedPlayer && selectedPlayer.id === player.id}>
                               <MS.AthleteInfo>
                                  <MS.AthleteImage src={player.picture}/>
 
