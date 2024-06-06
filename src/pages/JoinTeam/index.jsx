@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import * as S from './JoinTeam.styled';
 import * as LS from '../Login/Login.styles';
@@ -19,6 +20,8 @@ const useQuery = () => {
 }
 
 export default function JoinTeam() {
+   const navigate = useNavigate();
+
    const [teamData, setTeamData] = useState();
    const [credentials, setCredentials] = useState({ email: '', password: '' });
 
@@ -27,9 +30,14 @@ export default function JoinTeam() {
 
    useEffect(() => {
       async function fetchData() {
-         const { data } = await axios.get(`https://6642243c3d66a67b34366411.mockapi.io/nimbus/teams/${teamId}`);
-         setTeamData(data)
-         console.log(teamData);
+         try {
+            const { data } = await axios.get(`https://6642243c3d66a67b34366411.mockapi.io/nimbus/teams/${teamId}`);
+            setTeamData(data)
+            console.log(teamData);
+         }
+         catch(err) {
+            navigate('/not-found');
+         }
       }
 
       fetchData();
