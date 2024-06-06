@@ -24,6 +24,7 @@ export const Colors = {
    orange600: '#CE5F20',
    orange500: '#FF7425',
    orange300: '#FFA877',
+   orange200: '#FAD3C0',
    orange100: '#FFEAE0',
    //tons de cinza/preto
    gray900: '#131313',
@@ -109,6 +110,17 @@ function merge(left, right, param) {
    return sortedArray.concat(left.slice(leftIndex)).concat(right.slice(rightIndex));
 }
 
+export const formatDate = (date, to = 'pt-BR') => {
+   const dateFormatted = new Date(date);
+   return dateFormatted.toLocaleDateString(to);
+}
+
+export const calcDayDiff = (inicialDate, finalDate) => {
+   const startDate = new Date(inicialDate);
+   const endDate = new Date(finalDate);
+   const diffTime = Math.abs(endDate - startDate);
+   return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+}; 
 
 export const Size = {
    mobileS: '320px',
@@ -139,6 +151,8 @@ const Utils = {
    colors: Colors,
    device: Device,
    size: Size,
+   formatDate,
+   calcDayDiff,
 }
 
 export default Utils;

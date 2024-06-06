@@ -3,6 +3,14 @@ import config from "./config";
 
 const url = `${config.baseURL}/graphs`;
 
+async function getAllEvents(teamId, token) {
+    const res = await axios.get(`${url}/all-events-by-team/${teamId}`, {
+        headers: { Authorization: `Bearer ${token}` }
+    });
+
+    return res;
+}
+
 async function getWinsByTeam(teamId, matches, token) {
     const response = axios.get(`${url}/wins-by-team-matches/${teamId}?matches=${matches}`, {
         headers: { Authorization: `Bearer ${token}` }
@@ -30,5 +38,6 @@ async function getPointsPerGame(teamId, matches, token) {
 export default {
     getWins: getWinsByTeam,
     getPointsDivision: getPointsDivisionByTeam,
-    getPointsPerGame
+    getPointsPerGame,
+    allEvents: getAllEvents
 }

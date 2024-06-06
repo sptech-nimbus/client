@@ -1,8 +1,8 @@
-import * as S from './Player.styled';
+import * as S from '../Player.styled';
 import { RadarChart, BarChart } from '@components/Charts';
 import { Colors } from "@utils/Helpers";
 import Title from "@components/Title/Title";
-import { Note } from '../../components/Notes/Note';
+import { Note } from '../../../components/Notes/Note';
 
 import StatsComparison from './StatsComparison';
 

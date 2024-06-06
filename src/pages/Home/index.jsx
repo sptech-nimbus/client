@@ -13,6 +13,7 @@ import graph from '../../api/graph';
 import { Colors } from "@utils/Helpers";
 
 export default function Home() {
+   const [events, setEvents] = useState([]);
    const [winsGraph, setWinsGraph] = useState([]);
 
    const [lastGame, setLastGame] = useState({
@@ -54,6 +55,10 @@ export default function Home() {
       }
    });
 
+   const sortByDate = (a, b) => {
+      return new Date(a.inicialDateTime).getTime() - new new Date(b.inicialDateTime).getTime();
+   }
+
    useEffect(() => {
       async function getLastGame() {
          const res = await game.lastGame(sessionStorage.getItem('teamId'), localStorage.getItem('token'));
@@ -83,14 +88,26 @@ export default function Home() {
          }
       }
 
-      async function getWins() {
-         const res = await graph.getWins(sessionStorage.getItem('teamId'), 10, localStorage.getItem('token'));
+      async function getAllEvents() {
+         const res = await graph.allEvents(sessionStorage.getItem('teamId'), localStorage.getItem('token'));
 
-         setWinsGraph([res.data.data.wins, res.data.data.loses]);
+         const events = [...res.data.data.games, ...res.data.data.trainings];
+
+         const orderedEvents = events.sort(sortByDate);
+
+         console.log(orderedEvents);
+         setEvents(orderedEvents);
+
+         async function getWins() {
+            const res = await graph.getWins(sessionStorage.getItem('teamId'), 10, localStorage.getItem('token'));
+
+            setWinsGraph([res.data.data.wins, res.data.data.loses]);
+         }
+
       }
-
       getLastGame();
       getNextGame();
+      getAllEvents();
       getWins();
    }, []);
 

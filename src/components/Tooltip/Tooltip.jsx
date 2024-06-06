@@ -23,7 +23,7 @@ export default function Tooltip({children, icon, open, side = 'right', color, on
       <T.Provider>
          <T.Root open={open}>
             <S.Trigger color={color} onMouseEnter={onHover} onMouseLeave={onHover}>
-               {icon ? icon : <Info size={25} weight='fill'/>}
+               {icon ?? <Info size={25} weight='fill'/>}
             </S.Trigger>
             <S.Content side={side} avoidCollisions={false}>
                {children}
