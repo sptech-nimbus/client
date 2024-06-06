@@ -18,9 +18,9 @@ export const ContentContainer = styled.div`
 
 export const TeamsContainer = styled.div`
    display: flex;
-   flex-direction: ${props => props.hasTeams ? 'row' : 'column'};
+   flex-direction: ${props => props.$hasTeams ? 'row' : 'column'};
    align-items: center;
-   gap: ${props => props.hasTeams ? '2rem' : '1rem'};
+   gap: ${props => props.$hasTeams ? '2rem' : '1rem'};
 `
 
 export const Team = styled.div`

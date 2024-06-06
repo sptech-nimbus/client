@@ -11,9 +11,16 @@ import Input from '@components/Input/Input';
 import Button from '@components/Button/Button';
 import Loader from '@components/Loader/Loader'
 
+import { EmailValidation } from '@utils/Validations';
+
 import axios from 'axios';
 import { Envelope } from '@phosphor-icons/react';
 import { useLocation } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
+
+import user from '@api/user';
+import athlete from '@api/athlete';
+import team from '@api/team';
 
 const useQuery = () => {
    return new URLSearchParams(useLocation().search);
@@ -22,7 +29,9 @@ const useQuery = () => {
 export default function JoinTeam() {
    const navigate = useNavigate();
 
-   const [teamData, setTeamData] = useState();
+   const [team, setTeam] = useState();
+   const [token, setToken] = useState('eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJrYXVhYW5tYXRoZXVzQGdtYWlsLmNvbSIsImlhdCI6MTcxNzY4MzU5N30.3KwoTVtqNKzLjc2SpS1wIj_WpgOkarJW-IV8-PKd3mMccjTlPsdr2oHl12bOxg3F8NxUhCM1v-rtaHU1gsoZRA');
+   const [personaId, setPersonaId] = useState();
    const [credentials, setCredentials] = useState({ email: '', password: '' });
 
    const query = useQuery();
@@ -31,9 +40,10 @@ export default function JoinTeam() {
    useEffect(() => {
       async function fetchData() {
          try {
-            const { data } = await axios.get(`https://6642243c3d66a67b34366411.mockapi.io/nimbus/teams/${teamId}`);
-            setTeamData(data)
-            console.log(teamData);
+            const { data: { data } } = await axios.get(`http://localhost:8080/teams/${teamId}`, { 
+               headers: { Authorization: `Bearer ${token}` }
+            });
+            setTeam(data);
          }
          catch(err) {
             navigate('/not-found');
@@ -47,50 +57,99 @@ export default function JoinTeam() {
       setCredentials({ ...credentials, [e.target.name]: e.target.value });
    }
 
-   return !teamData ? <S.LoaderContaiener> <Loader /> </S.LoaderContaiener> : (
+   const handleSubmit = async (e) => {
+      e.preventDefault();
+      
+      if(EmailValidation(credentials.email) && credentials.password) {
+         try {
+            const { data: { data } } = await user.login(credentials);
+            setPersonaId(data.personaId);
+            setToken(data.token);
+
+            try {
+               await athlete.registerTeam(personaId, { id: teamId }, token);
+               toast.success("Você acabou de entrar para o time "+team.name+"! Redirecionando para a tela de login...", { autoClose: 2000 });
+               setTimeout(() => {
+                    navigate('/login');
+               }, 2600);
+            }
+            catch(err) {
+               console.log(err);
+            }
+         }
+         catch(err) {
+            if(err.response.status == 401) toast.error(`Credenciais inválidas.`);
+            else toast.error(`Houve um erro durante a validação de seus dados. Por favor, aguarde um momento antes de tentar novamente.`)
+         }
+      }
+      else {
+         if(!credentials.email && !credentials.password) {
+            toast.error("Preencha todos os campos");
+         }
+         else {
+            if(!EmailValidation()) toast.error("O email inserido é inválido.");
+            if(!credentials.password) toast.error("Preencha o campo de senha.");
+         }
+      }
+   }
+
+   return !team ? <S.LoaderContaiener> <Loader /> </S.LoaderContaiener> : (
       <LS.Header>
-            <Background.Login />
-            <LS.Title>
-               <Title text='Entrar para um time' $uppercase/>
-            </LS.Title>
+         <ToastContainer
+            autoClose={8000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            theme="dark"
+            limit={3}
+         />
 
-            <S.JoinTeamText>Insira suas credenciais para entrar para o time {teamData.name}</S.JoinTeamText>
+         <Background.Login />
+         <LS.Title>
+            <Title text='Entrar para um time' $uppercase/>
+         </LS.Title>
 
-            <S.JoinTeamGrid>
-               <S.TeamImage src={teamData.picture}/>
+         <S.JoinTeamText>Insira suas credenciais para entrar para o time {team.name}</S.JoinTeamText>
 
-               <S.Form>
-                  <Label>
-                     Insira seu email
-                     <Input.Default
-                        name='email'
-                        placeholder={'seu@email.com'}
-                        value={credentials.email}
-                        onChange={handleInputChange}
-                     >
-                        <Envelope />
-                     </Input.Default>
-                  </Label>
+         <S.JoinTeamGrid>
+            <S.TeamImage src={team.picture}/>
 
-                  <Label >
-                     Insira sua senha
-                     <Input.Password
-                        name='password'
-                        placeholder={'**********'}
-                        value={credentials.password}
-                        hasIcon
-                        onChange={handleInputChange}
-                     />
-                  </Label>
+            <S.Form onSubmit={handleSubmit}>
+               <Label>
+                  Insira seu email
+                  <Input.Default
+                     name='email'
+                     placeholder={'seu@email.com'}
+                     value={credentials.email}
+                     onChange={handleInputChange}
+                  >
+                     <Envelope />
+                  </Input.Default>
+               </Label>
 
-                  <Button.Primary
-                     value={'Entrar'}
-                     size={'md'}
-                     width={'100%'}
-                     fontSize={'1.5rem'}
+               <Label >
+                  Insira sua senha
+                  <Input.Password
+                     name='password'
+                     placeholder={'**********'}
+                     value={credentials.password}
+                     hasIcon
+                     onChange={handleInputChange}
                   />
-               </S.Form>   
-            </S.JoinTeamGrid>
+               </Label>
+
+               <Button.Primary
+                  value={'Entrar'}
+                  size={'md'}
+                  width={'100%'}
+                  fontSize={'1.5rem'}
+                  onClick={handleSubmit}
+               />
+            </S.Form>   
+         </S.JoinTeamGrid>
       </LS.Header>
    )
 }
