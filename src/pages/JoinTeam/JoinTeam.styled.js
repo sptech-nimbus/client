@@ -1,6 +1,14 @@
 import styled from "styled-components";
 import * as LS from '../Login/Login.styles';
 
+export const LoaderContaiener = styled.div`
+   width: 100vw;
+   height: 100vh;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+`
+
 export const TeamImage = styled.img`
    width: 250px;
    height: 250px;

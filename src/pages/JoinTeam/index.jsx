@@ -8,28 +8,48 @@ import Title from '@components/Title/Title';
 import Label from '@components/Label/Label';
 import Input from '@components/Input/Input';
 import Button from '@components/Button/Button';
+import Loader from '@components/Loader/Loader'
 
 import axios from 'axios';
 import { Envelope } from '@phosphor-icons/react';
+import { useLocation } from 'react-router-dom';
+
+const useQuery = () => {
+   return new URLSearchParams(useLocation().search);
+}
 
 export default function JoinTeam() {
+   const [teamData, setTeamData] = useState();
    const [credentials, setCredentials] = useState({ email: '', password: '' });
+
+   const query = useQuery();
+   const teamId = query.get('t');
+
+   useEffect(() => {
+      async function fetchData() {
+         const { data } = await axios.get(`https://6642243c3d66a67b34366411.mockapi.io/nimbus/teams/${teamId}`);
+         setTeamData(data)
+         console.log(teamData);
+      }
+
+      fetchData();
+   }, []);
 
    const handleInputChange = (e) => {
       setCredentials({ ...credentials, [e.target.name]: e.target.value });
    }
 
-   return (
+   return !teamData ? <S.LoaderContaiener> <Loader /> </S.LoaderContaiener> : (
       <LS.Header>
             <Background.Login />
             <LS.Title>
                <Title text='Entrar para um time' $uppercase/>
             </LS.Title>
 
-            <S.JoinTeamText>Insira suas credenciais para entrar para o time [nome do time]</S.JoinTeamText>
+            <S.JoinTeamText>Insira suas credenciais para entrar para o time {teamData.name}</S.JoinTeamText>
 
             <S.JoinTeamGrid>
-               <S.TeamImage src='https://1000logos.net/wp-content/uploads/2017/12/Los-Angeles-Clippers-Logo.png'/>
+               <S.TeamImage src={teamData.picture}/>
 
                <S.Form>
                   <Label>

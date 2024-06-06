@@ -4,9 +4,9 @@ export default function Loader({ color }) {
   return <S.StyledLoader color={color}/>
 };
 
-export function LoaderContainer({ children }) {
+export function LoaderContainer({ children, $fullWitdh }) {
   return (
-    <S.LoaderContainer>
+    <S.LoaderContainer $fullWitdh={$fullWitdh}>
       {children}
     </S.LoaderContainer>
   )
