@@ -23,8 +23,6 @@ export default function FinishedMatch({ matchData }) {
       else {
          setSelectedPlayer(matchData.players[key]);
       }
-
-      console.log(selectedPlayer.id);
    }
 
    return (
