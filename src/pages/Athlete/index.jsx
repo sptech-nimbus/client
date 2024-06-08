@@ -16,11 +16,10 @@ import Sidebar from '@components/Sidebar/Sidebar';
 import Switch from "@components/Switch/Switch";
 import Tooltip from "@components/Tooltip/Tooltip";
 import Button from "@components/Button/Button";
-import Loader from "@components/Loader/Loader";
+import Loader, { LoaderContainer } from "@components/Loader/Loader";
 import { Dialog } from "@components/Dialog/Dialog";
 
 import athleteDesc from "@api/athleteDesc";
-import athleteHistoric from "@api/athleteHistoric.js";
 import athlete from '@api/athlete';
 import { Colors } from "@utils/Helpers";
 
@@ -73,6 +72,11 @@ function SelectPlayerDialog({ isOpen = false, set, onConfirm }) {
       <Dialog title='Jogadores do time' open={modalOpen ?? isOpen} noClose>
          <S.DialogContainer>
             <S.DialogText>Selecione um jogador abaixo para realizar a comparação</S.DialogText>
+            {
+            !allPlayers ? 
+            <LoaderContainer> 
+               <Loader /> 
+            </LoaderContainer> :
             <S.AthletesList>
                {allPlayers && allPlayers.map(player => (
                   <S.Athlete key={player.id} onClick={() => handleSelectedPlayer(player)} $active={selectedPlayer && selectedPlayer.id == player.id}>
@@ -86,6 +90,7 @@ function SelectPlayerDialog({ isOpen = false, set, onConfirm }) {
                   </S.Athlete>
                ))}
             </S.AthletesList>
+            }  
             <S.Flex>
                <Button.Secondary width='100%' value='Cancelar' onClick={cancelAction}/>
                <Button.Primary width='100%' value='Confirmar' onClick={confirmAction}/>
