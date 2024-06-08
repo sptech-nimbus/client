@@ -10,10 +10,11 @@ import athleteHistoric from '../../../api/athleteHistoric';
 import StatsComparison from './StatsComparison';
 import { useEffect, useState } from 'react';
 
-export default function Stats({ playerData, isComparison }) {
-  const useQuery = () => {
-    return new URLSearchParams(useLocation().search);
-  }
+const useQuery = () => {
+  return new URLSearchParams(useLocation().search);
+}
+
+export default function Stats({ playerData, adversaryData, isComparison }) {
 
   const query = useQuery();
   const athleteId = query.get('id');
@@ -160,7 +161,7 @@ export default function Stats({ playerData, isComparison }) {
     return note ? <Note note={note} key={note.id} /> : ''
   })
 
-  return isComparison ? <StatsComparison playerData={playerData} /> : (
+  return isComparison ? <StatsComparison playerData={playerData} adversaryData={adversaryData}/> : (
     <S.StatsGrid>
       <S.ContainerStats>
         <S.PlayerImg src={playerData.picture} />

@@ -1,4 +1,4 @@
-import styled, { keyframes } from "styled-components";
+import styled, { keyframes, css } from "styled-components";
 import { Colors } from "@utils/Helpers";
 import { CaretLeft } from "@phosphor-icons/react";
 
@@ -472,6 +472,7 @@ export const AthletesList = styled.div`
    gap: 1rem;
    max-height: 50vh;
    overflow-y: auto;
+   padding-right: .5rem;
 
    &::-webkit-scrollbar {
       width: 8px;
@@ -494,4 +495,13 @@ export const AthletesList = styled.div`
 
 export const Athlete = styled(AthleteStyle.Athlete)`
    cursor: pointer;
+   border: 2px solid ${Colors.gray700};
+   transition: .3s all ease-in;
+   ${props => props.$active && css`
+      border: 2px solid ${Colors.orange500};
+   `}
+`
+
+export const Absolute = styled.div`
+   position: absolute;
 `

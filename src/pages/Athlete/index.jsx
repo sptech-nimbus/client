@@ -15,10 +15,12 @@ import Background from "@components/Background/Background";
 import Sidebar from '@components/Sidebar/Sidebar';
 import Switch from "@components/Switch/Switch";
 import Tooltip from "@components/Tooltip/Tooltip";
+import Button from "@components/Button/Button";
 import Loader from "@components/Loader/Loader";
 import { Dialog } from "@components/Dialog/Dialog";
 
 import athleteDesc from "@api/athleteDesc";
+import athleteHistoric from "@api/athleteHistoric.js";
 import athlete from '@api/athlete';
 import { Colors } from "@utils/Helpers";
 
@@ -28,8 +30,10 @@ const useQuery = () => {
    return new URLSearchParams(useLocation().search);
 }
 
-function SelectPlayerDialog({ isOpen = false, setAdversary }) {
+function SelectPlayerDialog({ isOpen = false, set, onConfirm }) {
+   const [modalOpen, setModalOpen] = useState();
    const [allPlayers, setAllPlayers] = useState();
+   const [selectedPlayer, setSelectedPlayer] = useState();
 
    useEffect(()=> {
       async function fetchData() {
@@ -40,7 +44,6 @@ function SelectPlayerDialog({ isOpen = false, setAdversary }) {
             );
    
             setAllPlayers(data);
-            console.log(data);
          }
          catch(err) {
             console.log('Houve um erro ao buscar por jogadores para comparação. Por favor, aguarde um momento antes de tentar novamente.');
@@ -50,13 +53,27 @@ function SelectPlayerDialog({ isOpen = false, setAdversary }) {
       fetchData();
    }, []);
 
+   const handleSelectedPlayer = (player) => { setSelectedPlayer(player); }
+
+   const cancelAction = () => { 
+      setSelectedPlayer(); 
+      setModalOpen();
+      set(false);
+   }
+
+   const confirmAction = () => {
+      onConfirm(selectedPlayer.id);
+      setModalOpen(false);
+      setSelectedPlayer();
+   }
+
    return (
-      <Dialog title='Jogadores do time' open={isOpen}>
+      <Dialog title='Jogadores do time' open={modalOpen ?? isOpen} noClose>
          <S.DialogContainer>
             <S.DialogText>Selecione um jogador abaixo para realizar a comparação</S.DialogText>
             <S.AthletesList>
                {allPlayers && allPlayers.map(player => (
-                  <S.Athlete onClick={() => setAdversary(player.id)}>
+                  <S.Athlete key={player.id} onClick={() => handleSelectedPlayer(player)} $active={selectedPlayer && selectedPlayer.id == player.id}>
                      <Athlete.AthleteInfo>
                         <Athlete.AthleteImage />
                         <Athlete.Column>
@@ -67,6 +84,10 @@ function SelectPlayerDialog({ isOpen = false, setAdversary }) {
                   </S.Athlete>
                ))}
             </S.AthletesList>
+            <S.Flex>
+               <Button.Secondary width='100%' value='Cancelar' onClick={cancelAction}/>
+               <Button.Primary width='100%' value='Confirmar' onClick={confirmAction}/>
+            </S.Flex>
          </S.DialogContainer>
       </Dialog>
    )
@@ -99,9 +120,10 @@ export default function PlayerInfo() {
       set(!get);
    }
 
-   const setAdversary = (id) => {
-      navigate('?id')
-      console.log(id);
+   const setAdversary = async (id) => {
+      const { data: { data } } = await athleteDesc.allInfo(id, localStorage.getItem('token'));
+         
+      setAdversaryData(data);
    }
 
    const handleStatsActive = (e) => {
@@ -127,7 +149,15 @@ export default function PlayerInfo() {
          <Background.Default />
          <Sidebar page='team' />
          <S.ContentContainer>
-            <SelectPlayerDialog isOpen={isComparison} setAdversary={setAdversary}/>
+            {isComparison && 
+            <S.Absolute>
+               <SelectPlayerDialog 
+               isOpen={isComparison} 
+               set={() => toggleValue(isComparison, setIsComparison)}
+               onConfirm={setAdversary}
+               />
+            </S.Absolute>
+            }
 
             <S.TopLinkContainer>
                <S.Back size={30} weight="bold" onClick={() => navigate('/roster')}/>
@@ -144,8 +174,8 @@ export default function PlayerInfo() {
                   }
                </S.TopLink>
             </S.TopLinkContainer>
-            { deskActive && <AthleteDesk playerData={playerData} isComparison={isComparison}/> }
-            { statsActive && <AthleteStats playerData={playerData} isComparison={isComparison}/> }
+            { deskActive && <AthleteDesk playerData={playerData} adversaryData={adversaryData} isComparison={isComparison}/> }
+            { statsActive && <AthleteStats playerData={playerData} adversaryData={adversaryData} isComparison={isComparison}/> }
             { injuryActive && <AthleteInjuries playerData={playerData} /> }
          </S.ContentContainer>
       </S.PageContainer>

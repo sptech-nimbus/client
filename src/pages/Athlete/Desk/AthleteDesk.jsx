@@ -14,13 +14,13 @@ import { PrimaryButton as Button } from "@components/Button/Button";
 
 import DeskComparison from './DeskComparison';
 
-export default function AthleteDesk({ playerData, isComparison }) {
+export default function AthleteDesk({ playerData, adversaryData, isComparison }) {
 
    const birthDateString = playerData.birthDate 
    ? new Date(playerData.birthDate).toLocaleDateString('pt-br') 
    : 'Data não disponível';
 
-   return isComparison ? <DeskComparison playerData={playerData}/> : (
+   return isComparison ? <DeskComparison playerData={playerData} adversaryData={adversaryData}/> : (
       <S.InfoWrapper>
          <S.InfoGrid>
             <S.Container>
@@ -57,7 +57,7 @@ export default function AthleteDesk({ playerData, isComparison }) {
 
                   <S.Flex>
                      <S.Information>
-                        <S.Label>Altura (cm): </S.Label>
+                        <S.Label>Altura (m): </S.Label>
                         <span>{playerData.height ?? 'Não definido'}</span>
                      </S.Information>
                      <S.Information>

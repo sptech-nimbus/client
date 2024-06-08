@@ -5,7 +5,7 @@ import { RadarChart, BarChart } from '@components/Charts';
 
 import { Colors } from "@utils/Helpers";
 
-export default function StatsComparison({ playerData }) {
+export default function StatsComparison({ playerData, adversaryData }) {
 
    const radarConfig = {
       data: {
