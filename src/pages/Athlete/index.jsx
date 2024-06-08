@@ -55,6 +55,8 @@ function SelectPlayerDialog({ isOpen = false, set, onConfirm }) {
 
    const handleSelectedPlayer = (player) => { setSelectedPlayer(player); }
 
+   useEffect(() => { console.log('selected', selectedPlayer); }, [selectedPlayer]);
+
    const cancelAction = () => { 
       setSelectedPlayer(); 
       setModalOpen();
@@ -123,7 +125,10 @@ export default function PlayerInfo() {
    const setAdversary = async (id) => {
       const { data: { data } } = await athleteDesc.allInfo(id, localStorage.getItem('token'));
          
-      setAdversaryData(data);
+      setAdversaryData({
+         id,
+         ...data
+      });
    }
 
    const handleStatsActive = (e) => {

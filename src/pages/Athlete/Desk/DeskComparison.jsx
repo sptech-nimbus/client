@@ -31,6 +31,7 @@ export default function DeskComparison({ playerData, adversaryData }) {
       rebounds: 0,
       blocks: 0
     });
+
    const [adversaryAvgs, setAdversaryAvgs] = useState({
       points: 0,
       assists: 0,
@@ -68,6 +69,7 @@ export default function DeskComparison({ playerData, adversaryData }) {
    }, [athleteId])
 
    useEffect(() => {
+      console.log(adversaryData);
       const calcAvg = (a, c) => a + c;
 
       const setAverages = historics => {

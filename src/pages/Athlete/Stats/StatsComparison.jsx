@@ -7,6 +7,8 @@ import Loader, { LoaderContainer } from '@components/Loader/Loader';
 
 import { Colors } from "@utils/Helpers";
 
+import athleteHistoric from "@api/athleteHistoric.js";
+
 export default function StatsComparison({ playerData, playerAvgs, adversaryData }) {
     const [adversaryAvgs, setAdversaryAvgs] = useState({
       points: 0,
