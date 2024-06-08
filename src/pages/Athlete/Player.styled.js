@@ -254,9 +254,10 @@ export const ComparisonContainer = styled.div`
    }
 
    ${ChartContainer} {
-      height: 40%;
+      height: 50%;
       flex-direction: column;
-      padding-top: 1rem;
+      gap: 2rem;
+      padding-top: 2rem;
    }
 `
 

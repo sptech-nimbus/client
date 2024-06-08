@@ -7,7 +7,7 @@ import Title from "@components/Title/Title";
 import { RadarChart } from '@components/Charts';
 import Loader, { LoaderContainer } from "@components/Loader/Loader";
 
-import { Colors } from "@utils/Helpers";
+import Utils from "@utils/Helpers";
 
 import { useLocation } from "react-router-dom";
 
@@ -103,8 +103,8 @@ export default function DeskComparison({ playerData, adversaryData }) {
           {
             label: 'Desempenho do jogador',
             data: [avgs.rebounds, avgs.points, avgs.assists, avgs.blocks, avgs.steals, avgs.freeThrows],
-            backgroundColor: `${Colors.orange500}65`,
-            borderColor: Colors.orange500,
+            backgroundColor: `${Utils.colors.orange500}65`,
+            borderColor: Utils.colors.orange500,
             borderWidth: 1,
           },
         ],
@@ -115,8 +115,8 @@ export default function DeskComparison({ playerData, adversaryData }) {
            {
              label: 'Desempenho do jogador',
              data: [adversaryAvgs.rebounds, adversaryAvgs.points, adversaryAvgs.assists, adversaryAvgs.blocks, adversaryAvgs.steals, adversaryAvgs.freeThrows],
-             backgroundColor: `${Colors.orange500}65`,
-             borderColor: Colors.orange500,
+             backgroundColor: `${Utils.colors.orange500}65`,
+             borderColor: Utils.colors.orange500,
              borderWidth: 1,
            },
          ],
@@ -125,10 +125,10 @@ export default function DeskComparison({ playerData, adversaryData }) {
          scales: {
             r: {
                grid: {
-                  color: `${Colors.gray100}65`,
+                  color: `${Utils.colors.gray100}65`,
                },
                angleLines: {
-                  color: `${Colors.gray100}65`,
+                  color: `${Utils.colors.gray100}65`,
                }
             }
          },
@@ -138,7 +138,7 @@ export default function DeskComparison({ playerData, adversaryData }) {
             legend: {
                display: false,
                labels: {
-                  color: Colors.orange100,
+                  color: Utils.colors.orange100,
                   boxWidth: 20,
                   font: {
                      size: 18,
@@ -153,15 +153,10 @@ export default function DeskComparison({ playerData, adversaryData }) {
    return (
    <S.ComparisonContainer>
       <S.Container>
-         <Title text='Jogador(a) 1' size='1.3rem'/>
+         <Title text={`${playerData.firstName} ${playerData.lastName}`} size='1.3rem'/>
          <S.Flex>
             <S.PlayerImgComparison src={playerData.picture}/>
             <S.InfomationContainer>
-               <S.Information>
-                  <S.Label>Nome: </S.Label>
-                  <span title={`${playerData.firstName} ${playerData.lastName}`}>{`${playerData.firstName} ${playerData.lastName}`}</span>
-               </S.Information>
-
                <S.Information>
                   <S.Label>Posição: </S.Label>
                   <span>{playerData.position}</span>
@@ -169,12 +164,12 @@ export default function DeskComparison({ playerData, adversaryData }) {
             
                <S.Information>
                   <S.Label>Número: </S.Label>
-                  <span>{playerData.number}</span>
+                  <span>{playerData.number ?? 'Não definido'}</span>
                </S.Information>
 
                <S.Information>
                   <S.Label>Idade: </S.Label>
-                  <span>{playerData.age}</span>
+                  <span>{Utils.calcAge(playerData.birthDate)}</span>
                </S.Information>
 
                <S.Information>
@@ -204,15 +199,10 @@ export default function DeskComparison({ playerData, adversaryData }) {
             <Loader />
          </LoaderContainer> : 
          <>
-         <Title text='Jogador(a) 2' size='1.3rem'/>
+         <Title text={`${adversaryData.firstName} ${adversaryData.lastName}`} size='1.3rem'/>
          <S.Flex>
             <S.PlayerImgComparison src={adversaryData.picture}/>
             <S.InfomationContainer>
-               <S.Information>
-                  <S.Label>Nome: </S.Label>
-                  <span title={`${adversaryData.firstName} ${adversaryData.lastName}`}>{`${adversaryData.firstName} ${adversaryData.lastName}`}</span>
-               </S.Information>
-
                <S.Information>
                   <S.Label>Posição: </S.Label>
                   <span>{adversaryData.position}</span>
@@ -220,12 +210,12 @@ export default function DeskComparison({ playerData, adversaryData }) {
             
                <S.Information>
                   <S.Label>Número: </S.Label>
-                  <span>{adversaryData.number}</span>
+                  <span>{adversaryData.number ?? 'Não definido'}</span>
                </S.Information>
 
                <S.Information>
                   <S.Label>Idade: </S.Label>
-                  <span>{adversaryData.age}</span>
+                  <span>{Utils.calcAge(adversaryData.birthDate)}</span>
                </S.Information>
 
                <S.Information>

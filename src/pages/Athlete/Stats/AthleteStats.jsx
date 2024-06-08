@@ -161,7 +161,7 @@ export default function Stats({ playerData, adversaryData, isComparison }) {
     return note ? <Note note={note} key={note.id} /> : ''
   })
 
-  return isComparison ? <StatsComparison playerData={playerData} adversaryData={adversaryData}/> : (
+  return isComparison ? <StatsComparison playerData={playerData} playerAvgs={avgs} adversaryData={adversaryData}/> : (
     <S.StatsGrid>
       <S.ContainerStats>
         <S.PlayerImg src={playerData.picture} />
