@@ -35,9 +35,18 @@ async function getPointsPerGame(teamId, matches, token) {
     return response;
 }
 
+async function getFoulsPerGame(teamId, matches, token) {
+    const response = axios.get(`${url}/fouls-per-game/${teamId}?matches=${matches}`, {
+        headers: { Authorization: `Bearer ${token}` }
+    });
+
+    return response;
+}
+
 export default {
     getWins: getWinsByTeam,
     getPointsDivision: getPointsDivisionByTeam,
     getPointsPerGame,
-    allEvents: getAllEvents
+    allEvents: getAllEvents,
+    foulsPerGame: getFoulsPerGame
 }

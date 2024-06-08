@@ -17,6 +17,8 @@ export default function DashboardLayout() {
    const [pointsDivision, setPointsDivision] = useState([]);
    const [pointsPerGameLabels, setPointsPerGameLabels] = useState([]);
    const [pointsPerGameValues, setPointsPerGameValues] = useState([]);
+   const [foulsPerGameLables, setFoulsPerGameLables] = useState([]);
+   const [foulsPerGameValues, setFoulsPerGameValues] = useState([]);
 
    useEffect(() => {
       async function fetchData() {
@@ -33,12 +35,24 @@ export default function DashboardLayout() {
 
             const pointsPerGame = await graph.getPointsPerGame(sessionStorage.getItem('teamId'), 6, localStorage.getItem('token'));
 
-            Object.keys(pointsPerGame.data.data).forEach(key => {
-               const date = new Date(key);
+            const pointsGames = Object.keys(pointsPerGame.data.data);
+
+            pointsGames.forEach(gameDate => {
+               const date = new Date(gameDate);
 
                setPointsPerGameLabels([...pointsPerGameLabels, `${date.getDay()}/${date.getMonth()}`]);
+               setPointsPerGameValues([...pointsPerGameValues, pointsPerGame.data.data[gameDate]]);
+            });
 
-               setPointsPerGameValues([...pointsPerGameValues, pointsPerGame.data.data[key]]);
+            const foulsPerGame = await graph.foulsPerGame(sessionStorage.getItem('teamId'), 5, localStorage.getItem('token'));
+
+            const foulsGames = Object.keys(foulsPerGame.data.data);
+
+            foulsGames.forEach(gameDate => {
+               const date = new Date(gameDate);
+
+               setFoulsPerGameLables([...foulsPerGameLables, `${date.getDay()}/${date.getMonth()}`]);
+               setFoulsPerGameValues([...foulsPerGameValues, foulsPerGame.data.data[gameDate]]);
             });
          }
          catch (err) {
@@ -154,14 +168,14 @@ export default function DashboardLayout() {
 
    const lineConfig = {
       data: {
-         labels: ['10/12', '12/12', '14/12', '16/12', '18/12'],
+         labels: foulsPerGameLables,
          datasets: [
             {
-               label: 'Jogador 1',
+               label: 'Faltas',
                backgroundColor: `${Colors.orange500}65`,
                borderColor: `${Colors.orange500}`,
                borderWidth: 3,
-               data: [5, 8, 8, 9, 10],
+               data: foulsPerGameValues,
                lineTension: .4,
             }
          ],

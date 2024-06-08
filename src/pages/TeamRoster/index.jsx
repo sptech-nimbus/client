@@ -38,11 +38,13 @@ export default function TeamRoster() {
          try {
             setIsLoading(true);
             const response = await athlete.byTeam(
-               localStorage.getItem('teamId'),
+               sessionStorage.getItem('teamId'),
                localStorage.getItem('token')
             );
-            setPlayersData(response.data.data);
-            console.log(response.data.data);
+
+            if (response.status === 200) {
+               setPlayersData(response.data.data);
+            }
          } catch (error) {
             console.log('Houve um erro durante a requisição:', error.message);
          } finally {

@@ -98,16 +98,18 @@ export default function Home() {
          console.log(orderedEvents);
          setEvents(orderedEvents);
 
-         async function getWins() {
-            const res = await graph.getWins(sessionStorage.getItem('teamId'), 10, localStorage.getItem('token'));
-
-            setWinsGraph([res.data.data.wins, res.data.data.loses]);
-         }
-
       }
+
+      async function getWins() {
+         const res = await graph.getWins(sessionStorage.getItem('teamId'), 10, localStorage.getItem('token'));
+
+         setWinsGraph([res.data.data.wins, res.data.data.loses]);
+      }
+
       getLastGame();
       getNextGame();
       getAllEvents();
+      getWins();
    }, []);
 
    const radarConfig = {
