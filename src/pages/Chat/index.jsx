@@ -12,8 +12,11 @@ import Status from './Status';
 
 import { MagnifyingGlass, PaperPlaneRight, ChatCircleDots } from '@phosphor-icons/react';
 
-export default function Chat() {
+import athlete from '@api/athlete';
 
+export default function Chat() {
+   const [user, setUser] = useState();
+   const [allPlayers, setAllPlayers] = useState([]);
    const [newMessage, setNewMessage] = useState('');
    const [messages, setMessages] = useState([]);
 
@@ -38,8 +41,30 @@ export default function Chat() {
    useEffect(() => {
       const getMessagesRes = async () => {
          const messagesRes = await getMessages(sessionStorage.getItem('teamId'), 1, 20);
-
          setMessages(messagesRes.data.page);
+      }
+
+      const fetchAllPlayers = async () => {
+         try {
+            const { data: { data } } = await athlete.byTeam(
+               localStorage.getItem('teamId'),
+               localStorage.getItem('token')
+            );
+   
+            setAllPlayers(data);
+         }
+         catch(err) {
+            console.log(err);
+         }
+      }
+
+      const fetchCurrentUser = async () => {
+         try {
+            const { data: { data } } = await athlete.get(localStorage.getItem('id'),localStorage.getItem('token'));
+         }
+         catch(err) {
+            console.log(err);
+         }
       }
 
       if (!socket.connected) {
@@ -51,20 +76,20 @@ export default function Chat() {
          };
 
          socket.on('connection', console.log('Usuário conectado'));
-
          socket.on('ttm', m => {
             setMessages(oldMessages => [...oldMessages, m]);
          });
-
          socket.on('messageError', e => {
             console.log(e);
          });
 
          socket.connect();
-
          getMessagesRes();
       }
+
+      fetchAllPlayers();
    }, []);
+
 
    return (
       <S.PageContainer>
@@ -117,45 +142,16 @@ export default function Chat() {
             <S.ListContainer>
                <span>Jogadores do time</span>
                <S.OnlineList>
-                  <S.Athlete>
-                     <S.AthleteImage src="https://loremflickr.com/cache/resized/65535_53323386360_17d01a1eb8_b_640_480_nofilter.jpg" alt="" />
-                     <S.AthleteInfo online={true}>
-                        <span>Nome do jogador</span>
-                        <Status status='online' />
-                     </S.AthleteInfo>
-                  </S.Athlete>
-
-                  <S.Athlete>
-                     <S.AthleteImage src="https://loremflickr.com/cache/resized/65535_53323386360_17d01a1eb8_b_640_480_nofilter.jpg" alt="" />
-                     <S.AthleteInfo online={true}>
-                        <span>Nome do jogador</span>
-                        <Status status='online' />
-                     </S.AthleteInfo>
-                  </S.Athlete>
-
-                  <S.Athlete>
-                     <S.AthleteImage src="https://loremflickr.com/cache/resized/65535_53323386360_17d01a1eb8_b_640_480_nofilter.jpg" alt="" />
-                     <S.AthleteInfo online={true}>
-                        <span>Nome do jogador</span>
-                        <Status status='online' />
-                     </S.AthleteInfo>
-                  </S.Athlete>
-
-                  <S.Athlete>
-                     <S.AthleteImage src="https://loremflickr.com/cache/resized/65535_53323386360_17d01a1eb8_b_640_480_nofilter.jpg" alt="" />
-                     <S.AthleteInfo online={true}>
-                        <span>Nome do jogador</span>
-                        <Status status='online' />
-                     </S.AthleteInfo>
-                  </S.Athlete>
-
-                  <S.Athlete>
-                     <S.AthleteImage src="https://loremflickr.com/cache/resized/65535_53323386360_17d01a1eb8_b_640_480_nofilter.jpg" alt="" />
-                     <S.AthleteInfo online={true}>
-                        <span>Nome do jogador</span>
-                        <Status status='online' />
-                     </S.AthleteInfo>
-                  </S.Athlete>
+                  {allPlayers && allPlayers.map(player => (
+                        <S.Athlete>
+                           <S.AthleteImage src={player.picture} alt="" />
+                           <S.AthleteInfo online={true}>
+                              <span>{player.firstName} {player.lastName}</span>
+                              <Status status='online' />
+                           </S.AthleteInfo>
+                        </S.Athlete>
+                     )
+                  )}
                </S.OnlineList>
             </S.ListContainer>
          </S.RightBar>
