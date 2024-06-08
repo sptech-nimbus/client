@@ -2,6 +2,8 @@ import styled, { keyframes } from "styled-components";
 import { Colors } from "@utils/Helpers";
 import { CaretLeft } from "@phosphor-icons/react";
 
+import * as AthleteStyle from "../Match/OnGoingMatch/Match.styled"
+
 const slideDown = keyframes`
   from {
     height: 0;
@@ -452,4 +454,44 @@ export const NoInjury = styled.div`
 
 export const ToastContainer = styled.div`
    position: absolute;
+`
+
+export const DialogContainer = styled.div`
+   display: flex;
+   flex-direction: column;
+   gap: 1rem;
+`
+
+export const DialogText = styled.div`
+   font-size: 1.1rem;
+`
+
+export const AthletesList = styled.div`
+   display: flex;
+   flex-direction: column;
+   gap: 1rem;
+   max-height: 50vh;
+   overflow-y: auto;
+
+   &::-webkit-scrollbar {
+      width: 8px;
+   }
+
+   &::-webkit-scrollbar-track {
+      border-radius: 8px;
+      background-color: ${Colors.gray700};
+   }
+
+   &::-webkit-scrollbar-thumb {
+      background: ${Colors.orange500}; 
+      border-radius: 10px;
+   }
+
+   &::-webkit-scrollbar-thumb:hover {
+      background: ${Colors.orange300}; 
+   }
+`
+
+export const Athlete = styled(AthleteStyle.Athlete)`
+   cursor: pointer;
 `

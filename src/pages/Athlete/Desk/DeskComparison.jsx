@@ -25,26 +25,32 @@ export default function DeskComparison({ playerData }) {
         ],
       },
       options: {
-        layout: {
-          padding: 0
-        },
-        scales: {
-          r: {
-            grid: {
-                color: `${Colors.gray100}65`,
-            },
-            angleLines: {
-                color: `${Colors.gray100}65`,
+         scales: {
+            r: {
+               grid: {
+                  color: `${Colors.gray100}65`,
+               },
+               angleLines: {
+                  color: `${Colors.gray100}65`,
+               }
             }
-          },
-        },
-        responsive: true,
-        plugins: {
-          legend: {
-            position: 'bottom',
-          }
-        } 
-     }
+         },
+         responsive: true,
+         maintainAspectRatio: false,
+         plugins: {
+            legend: {
+               display: false,
+               labels: {
+                  color: Colors.orange100,
+                  boxWidth: 20,
+                  font: {
+                     size: 18,
+                     family: 'Poppins'
+                  }
+               },
+            }
+         }
+      }
     }
 
    return (

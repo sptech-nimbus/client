@@ -12,7 +12,10 @@ import { useAuth } from "@contexts/auth";
 import Title from "@components/Title/Title";
 import { DeleteDialog, UpdateDialog } from "@components/Dialog/Dialog";
 import { PrimaryButton as Button } from "@components/Button/Button";
+
 import athleteDesc from "@api/athleteDesc";
+import athlete from "@api/athlete";
+
 import DeskComparison from './DeskComparison';
 
 export default function AthleteDesk({ playerData, isComparison }) {

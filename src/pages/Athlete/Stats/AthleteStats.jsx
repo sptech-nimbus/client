@@ -79,7 +79,7 @@ export default function Stats({ playerData, isComparison }) {
       labels: ['Rebotes', 'Pontos', 'Assistências', 'Tocos', 'Roubos de bola', 'Lances livres'],
       datasets: [
         {
-          label: '# of Votes',
+          label: 'Desempenho',
           data: [avgs.rebounds, avgs.points, avgs.assists, avgs.blocks, avgs.steals, avgs.freeThrows],
           backgroundColor: `${Colors.orange500}65`,
           borderColor: Colors.orange500,
@@ -89,22 +89,31 @@ export default function Stats({ playerData, isComparison }) {
     },
     options: {
       scales: {
-        r: {
-          grid: {
-            color: `${Colors.gray100}65`,
-          },
-          angleLines: {
-            color: `${Colors.gray100}65`,
-          }
-        }
+         r: {
+            grid: {
+               color: `${Colors.gray100}65`,
+            },
+            angleLines: {
+               color: `${Colors.gray100}65`,
+            }
+         }
       },
       responsive: true,
+      maintainAspectRatio: false,
       plugins: {
-        legend: {
-          position: 'bottom'
-        }
+         legend: {
+            labels: {
+               color: Colors.orange100,
+               boxWidth: 20,
+               font: {
+                  size: 18,
+                  family: 'Poppins'
+               }
+            },
+            position: 'right'
+         }
       }
-    }
+   }
   }
 
   const options = {
@@ -126,7 +135,7 @@ export default function Stats({ playerData, isComparison }) {
     },
     plugins: {
       legend: {
-        position: 'right',
+        display: false,
       },
     },
   };
@@ -162,7 +171,7 @@ export default function Stats({ playerData, isComparison }) {
           <Title text='Desempenho do jogador' size='1.2rem' />
         </S.ChartTitle>
         <S.ChartContainer>
-          <RadarChart data={radarConfig.data} options={radarConfig.data} />
+          <RadarChart data={radarConfig.data} options={radarConfig.options} />
         </S.ChartContainer>
       </S.ContainerStats>
 
