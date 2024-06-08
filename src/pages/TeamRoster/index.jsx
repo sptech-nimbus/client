@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-vars */
-
+import * as S from "./Team.styled";
 import { useState, useEffect } from "react";
+
 import Title from "@components/Title/Title";
 import Input from "@components/Input/Input";
 import Button from "@components/Button/Button";
@@ -12,10 +13,11 @@ import RadioGroup from "@components/RadioGroup/RadioGroup";
 import ToggleGroup from "@components/ToggleGroup/ToggleGroup";
 import { useNotification } from "@contexts/notification";
 import { SquaresFour, Rows, Faders } from "@phosphor-icons/react";
-import * as S from "./Team.styled";
+
 import athlete from "@api/athlete";
 import TeamGrid from "./TeamGrid";
 import TeamTable from "./TeamTable";
+
 import Utils from "@utils/Helpers";
 
 export default function TeamRoster() {
@@ -147,7 +149,7 @@ export default function TeamRoster() {
          <Background.Default />
          <Sidebar page="team" />
          <S.ContentContainer>
-            <Title text="Elenco" uppercase size='3rem' />
+            <Title text="Elenco" $uppercase size='3rem' />
             <S.FilterLine>
                <Input.Default
                   value={filters.search}

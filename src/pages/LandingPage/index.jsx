@@ -65,12 +65,12 @@ export default function LandingPage() {
    }
 
    return ( 
-      <S.PageWrapper navOpen={navOpen}>
+      <S.PageWrapper $navOpen={navOpen}>
          <ScrollProgress color={Colors.orange300}/>
          <S.Header id="header">
             <Background.Default />
             {navOpen &&
-            <Menu navOpen={navOpen} handleNavOpen={handleNavOpen}/>
+            <Menu $navOpen={navOpen} handleNavOpen={handleNavOpen}/>
             }
             <S.Navbar>
                {navOpen ?
@@ -78,23 +78,23 @@ export default function LandingPage() {
                <S.NavLogo src={nimbusLogo} alt={`nimbus - logo do projeto.`}/>
                }
 
-               <S.MenuTrigger onClick={handleNavOpen} state={navOpen}>
-                  <S.MenuLineUpper state={navOpen} />
-                  <S.MenuLineMid state={navOpen} width='70%'/>
-                  <S.MenuLineLower state={navOpen} />
+               <S.MenuTrigger onClick={handleNavOpen} $state={navOpen}>
+                  <S.MenuLineUpper $state={navOpen} />
+                  <S.MenuLineMid $state={navOpen} width='70%'/>
+                  <S.MenuLineLower $state={navOpen} />
                </S.MenuTrigger>
             </S.Navbar>
             <S.HeaderContent>
                <S.Wrapper>
                   <motion.span>
                   <S.TitleContainer>
-                     <Title text={'Basquete para todos!'} uppercase size='6.2rem' color={Colors.orange100}/>
+                     <Title text={'Basquete para todos!'} $uppercase size='6.2rem' color={Colors.orange100}/>
                   </S.TitleContainer>
                   </motion.span>
 
                   <motion.span>
                   <S.TitleContainer>
-                     <Title text={'E perto de você!'} uppercase size='6.2rem' color={Colors.orange100}/>
+                     <Title text={'E perto de você!'} $uppercase size='6.2rem' color={Colors.orange100}/>
                   </S.TitleContainer>
                   </motion.span>
                   
@@ -117,7 +117,7 @@ export default function LandingPage() {
                <Background.Default />
                <S.AboutTextContainer>
                   <motion.span initial={{ opacity: 0, y: '50%' }} whileInView={{ opacity: 1, y: 0 }} transition={{ delay: .2}}>
-                     <Title text='Para o jogador' uppercase size='2.5rem'/>
+                     <Title text='Para o jogador' $uppercase size='2.5rem'/>
                   </motion.span>
 
                   <motion.span initial={{ opacity: 0, y: '50%' }} whileInView={{ opacity: 1, y: 0 }} transition={{ delay: .2}}>
@@ -128,14 +128,14 @@ export default function LandingPage() {
 
                </S.AboutTextContainer>
                <BallOutline />
-               <S.AboutTextContainer textAlign='right'>
+               <S.AboutTextContainer $textAlign='right'>
                   <motion.span initial={{ opacity: 0, y: '50%' }} whileInView={{ opacity: 1, y: 0 }} transition={{ delay: .2}}>
-                     <S.AboutText textAlign='right'>
+                     <S.AboutText $textAlign='right'>
                         Gerencie várias de suas equipes e jogadores de forma intuitiva e eficiente dentro de uma única plataforma.
                      </S.AboutText>
                   </motion.span>
                   <motion.span initial={{ opacity: 0, y: '50%' }} whileInView={{ opacity: 1, y: 0 }} transition={{ delay: .2}}>
-                     <Title text='Para o treinador' uppercase size='2.5rem'/>
+                     <Title text='Para o treinador' $uppercase size='2.5rem'/>
                   </motion.span>
                </S.AboutTextContainer>
                <S.TransitionText
@@ -154,7 +154,7 @@ export default function LandingPage() {
                   </S.ComunicationTextContainer>
                   
                   <motion.span initial={{ opacity: 0, y: '50%' }} whileInView={{ opacity: 1, y: 0 }} transition={{ delay: .2}}>
-                     <Title text='Comunicação direta' color={Colors.orange100} size='7rem' uppercase/>
+                     <Title text='Comunicação direta' color={Colors.orange100} size='7rem' $uppercase/>
                   </motion.span>
 
                   <S.ComunicationTextContainerRight>
@@ -169,11 +169,11 @@ export default function LandingPage() {
                <S.FeaturesWrapper>
                <S.FeaturesTitle>
                   <motion.span initial={{ opacity: 0, y: '50%' }} whileInView={{ opacity: 1, y: 0 }} transition={{ delay: .2}}>
-                     <Title text='Acompanhe o seu' uppercase color={Colors.gray900} size='4.5rem'/>
+                     <Title text='Acompanhe o seu' $uppercase color={Colors.gray900} size='4.5rem'/>
                   </motion.span>
                   <motion.span initial={{ opacity: 0, y: '50%' }} whileInView={{ opacity: 1, y: 0 }} transition={{ delay: .2}}>
                      <S.SecondTitle>
-                        <Title text='Desempenh' uppercase color={Colors.gray900} size='11.7rem'/>
+                        <Title text='Desempenh' $uppercase color={Colors.gray900} size='11.7rem'/>
                         <motion.span initial={{ rotate: 90 }} whileInView={{ rotate: 0 }} transition={{ delay: .2 }}>
                            <S.BasketballTitle src={basketballImage}/>
                         </motion.span>
@@ -190,7 +190,7 @@ export default function LandingPage() {
                <S.FeaturesCardContainer>
                   <S.FeaturesCard>
                      <motion.span initial={{ opacity: 0, y: '50%' }} whileInView={{ opacity: 1, y: 0 }} transition={{ delay: .2}}>
-                        <Title text='Gráficos' uppercase/>
+                        <Title text='Gráficos' $uppercase/>
                      </motion.span>
                      <motion.span initial={{ opacity: 0, y: '50%' }} whileInView={{ opacity: 1, y: 0 }} transition={{ delay: .2}}>
                      <S.FeaturesCardText>
@@ -201,7 +201,7 @@ export default function LandingPage() {
 
                   <S.FeaturesCard>
                      <motion.span initial={{ opacity: 0, y: '50%' }} whileInView={{ opacity: 1, y: 0 }} transition={{ delay: .2}}>
-                        <Title text='Eventos' uppercase/>
+                        <Title text='Eventos' $uppercase/>
                      </motion.span>
                      <motion.span initial={{ opacity: 0, y: '50%' }} whileInView={{ opacity: 1, y: 0 }} transition={{ delay: .2}}>
                         <S.FeaturesCardText>
@@ -212,7 +212,7 @@ export default function LandingPage() {
 
                   <S.FeaturesCard>
                      <motion.span initial={{ opacity: 0, y: '50%' }} whileInView={{ opacity: 1, y: 0 }} transition={{ delay: .2}}>
-                        <Title text='Anotações' uppercase/>
+                        <Title text='Anotações' $uppercase/>
                      </motion.span>
                      <motion.span initial={{ opacity: 0, y: '50%' }} whileInView={{ opacity: 1, y: 0 }} transition={{ delay: .2}}>
                         <S.FeaturesCardText>
@@ -232,7 +232,7 @@ export default function LandingPage() {
                         <Title
                         text='Dúvidas, sugestões ou reclamações?'
                         color={Colors.orange100}
-                        uppercase
+                        $uppercase
                         size='4rem'/>
                      </motion.span>
 

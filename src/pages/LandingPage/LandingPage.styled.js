@@ -63,9 +63,9 @@ export const Flex = styled.div`
 
 export const PageWrapper = styled.div`
    width: 100%;
-   height: ${props => props.navOpen ? '100vh' : 'fit-content'};
+   height: ${props => props.$navOpen ? '100vh' : 'fit-content'};
    overflow-x: hidden;
-   overflow-y: ${props => props.navOpen ?  'hidden' : 'auto'};
+   overflow-y: ${props => props.$navOpen ?  'hidden' : 'auto'};
 `
 
 // --------- header -----------
@@ -200,22 +200,22 @@ export const Animation3rd = styled(AnimationContainer)`
 export const MenuLine = styled.div`
    width: ${props => props.width ? props.width : '100%'};
    height: 0.25rem;
-   background-color: ${props => props.state ? Colors.orange500 : Colors.orange100};
+   background-color: ${props => props.$state ? Colors.orange500 : Colors.orange100};
    border-radius: 1rem;
    transition: all .5s cubic-bezier(.34,.44,0,.66), width .2s cubic-bezier(.34,.44,0,.66);
 `
 
 export const MenuLineUpper = styled(MenuLine)`
-   transform: translateY(${props => props.state ? '12px' : '0px'});
+   transform: translateY(${props => props.$state ? '12px' : '0px'});
 `
 
 export const MenuLineMid = styled(MenuLine)`
-   width: ${props => props.state ? '0%' : props.width ? props.width : '100%'};
+   width: ${props => props.$state ? '0%' : props.width ? props.width : '100%'};
    transform: rotate(0deg);
 `
 
 export const MenuLineLower = styled(MenuLine)`
-   transform: translateY(${props => props.state ? '-12px' : '0px'});
+   transform: translateY(${props => props.$state ? '-12px' : '0px'});
 `
 
 export const HeaderContent = styled.div`
@@ -306,12 +306,12 @@ export const AboutTextContainer = styled.div`
    flex-direction: column;
    gap: 1.2rem;
    max-width: 500px;
-   text-align: ${props => props.textAlign ? props.textAlign : 'left'};
+   text-align: ${props => props.$textAlign ? props.$textAlign : 'left'};
 `
 
 export const AboutText = styled.span`
    font-size: 1.4rem;
-   text-align: ${props => props.textAlign ? props.textAlign : 'left'};
+   text-align: ${props => props.$textAlign ? props.$textAlign : 'left'};
 `
 
 export const WaveSvg = styled.img`

@@ -225,6 +225,6 @@ export default function UserRegister({ teamRegister = false }) {
     )
 }
 
-UserRegister.propTypes = {
-    onSubmit: PropTypes.func.isRequired,
-}
+// UserRegister.propTypes = {
+//     onSubmit: PropTypes.func.isRequired,
+// }

@@ -42,10 +42,10 @@ export function Drawer({title, children, trigger}) {
    )
 }
 
-export function Dialog({ title, children, trigger }) { 
+export function Dialog({ title, children, trigger, childTrigger, noClose, ...props }) { 
    return (
-      <D.Root>
-         <S.DialogTrigger>
+      <D.Root modal {...props}>
+         <S.DialogTrigger asChild={childTrigger}>
             {trigger}
          </S.DialogTrigger>
 
@@ -56,9 +56,12 @@ export function Dialog({ title, children, trigger }) {
                   <S.DialogTitle>
                      {title}
                   </S.DialogTitle>
+                  {
+                  !noClose &&
                   <S.DrawerClose>
                      <X/>
                   </S.DrawerClose>
+                  }
                </S.DrawerHeader>
                <S.DrawerDescription>
                   {children}
@@ -66,6 +69,14 @@ export function Dialog({ title, children, trigger }) {
             </S.DialogContent>
          </D.Portal>
       </D.Root>
+   )
+}
+
+export function DialogClose({ children }) {
+   return (
+      <D.Close asChild>
+         { children }
+      </D.Close>
    )
 }
 

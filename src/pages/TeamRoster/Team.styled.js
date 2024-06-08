@@ -94,11 +94,11 @@ export const ShowInfoButton = styled.button`
 export const CardsContainer = styled.div`
    display: flex;
    width: 100%;
-   height: ${props => props.hasData ? 'fit-content' : '70vh'};;
+   height: ${props => props.$hasData ? 'fit-content' : '70vh'};;
    max-height: 70vh;
-   overflow-y: ${props => props.hasData ? "scroll" : "hidden"};
-   justify-content: ${props => props.hasData ? 'space-between' : 'center'};
-   align-items: ${props => props.hasData ? 'start' : 'center'};
+   overflow-y: ${props => props.$hasData ? "scroll" : "hidden"};
+   justify-content: ${props => props.$hasData ? 'space-between' : 'center'};
+   align-items: ${props => props.$hasData ? 'start' : 'center'};
    flex-wrap: wrap;
    gap: 3rem;
    padding-right: 1rem;

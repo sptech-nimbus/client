@@ -28,6 +28,7 @@ export const Header = styled.header`
    text-align: center;
    display: flex;
    align-items: center;
+   justify-content: center;
    flex-direction: column;
    position: relative;
    width: 100vw;
@@ -108,4 +109,8 @@ export const LoadingButton = styled.img`
    display: flex;
    align-items: center;
    justify-content: center;
+`
+
+export const Underlined = styled.span`
+   text-decoration: underline;
 `

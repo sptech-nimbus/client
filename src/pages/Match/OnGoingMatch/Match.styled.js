@@ -2,23 +2,16 @@ import styled, { css, keyframes } from "styled-components";
 import { Colors } from "@utils/Helpers";
 
 import { motion } from "framer-motion";
+import * as Accordion from "@radix-ui/react-accordion";
 
 const slideDown = keyframes`
-  from {
-    height: 0;
-  }
-  to {
-    height: var(--radix-accordion-content-height);
-  }
+  from { height: 0; }
+  to { height: var(--radix-accordion-content-height); }
 `;
 
 const slideUp = keyframes`
-  from {
-    height: var(--radix-accordion-content-height);
-  }
-  to {
-    height: 0;
-  }
+  from { height: var(--radix-accordion-content-height); }
+  to { height: 0; }
 `;
 
 export const Flex = styled.div`
@@ -105,7 +98,6 @@ export const TitleContainer = styled.div`
 `
 
 export const TeamsContainer = styled.div`
-   padding: 0;
    background-color: none;
    border: none;
    display: flex;
@@ -139,6 +131,10 @@ export const Versus = styled.span`
 
 export const TeamName = styled.span`
    font-weight: 700;
+   max-width: 16ch;
+   overflow: hidden;
+   text-overflow: ellipsis;
+   white-space: nowrap;
 `
 
 export const OnGoingPts = styled.div`
@@ -176,7 +172,7 @@ export const Pts = styled.span`
    position: relative;
    transition: all .3s ease-in;
 
-   ${props => props.isWinning && css`
+   ${props => props.$isWinning && css`
       font-size: 3.2rem;
       font-weight: 900;
 
@@ -201,6 +197,25 @@ export const AthletesList = styled.div`
    flex-direction: column;
    gap: 1rem;
    overflow-y: auto;
+   padding-right: .5rem;
+
+   &::-webkit-scrollbar {
+      width: 8px;
+   }
+
+   &::-webkit-scrollbar-track {
+      border-radius: 8px;
+      background-color: ${Colors.gray700};
+   }
+
+   &::-webkit-scrollbar-thumb {
+      background: ${Colors.orange500}; 
+      border-radius: 10px;
+   }
+
+   &::-webkit-scrollbar-thumb:hover {
+      background: ${Colors.orange300}; 
+   }
 `
 
 export const Athlete = styled.div`
@@ -212,7 +227,7 @@ export const Athlete = styled.div`
    padding: 1rem;
    justify-content: space-between;
    flex-direction: column;
-   gap: 1rem;
+   gap: .7rem;
 `
 
 export const AthleteInfo = styled.div`
@@ -244,7 +259,7 @@ export const isPlaying = styled.span`
    width: fit-content;
    text-align: center;
    padding-inline: .5rem 1rem;
-   background-color: ${props => props.isPlaying ? Colors.green : Colors.gray100};
+   background-color: ${props => props.$isPlaying ? Colors.green : Colors.gray100};
    color: ${Colors.gray100};
    border-radius: 1rem;
    font-size: .8rem;
@@ -259,12 +274,7 @@ export const Column = styled.div`
    gap: .5rem;
 `
 
-export const Actions = styled.div`
-   display: flex;
-   justify-content: space-between;
-   gap: .5rem;
-   overflow: hidden;
-
+export const AccordionContent = styled(Accordion.Content)`
    &[data-state='open'] {
       animation: ${slideDown} 300ms cubic-bezier(0.87, 0, 0.13, 1);
    }
@@ -272,6 +282,14 @@ export const Actions = styled.div`
    &[data-state='closed'] {
       animation: ${slideUp} 300ms cubic-bezier(0.87, 0, 0.13, 1);
    }
+`
+
+export const Actions = styled.div`
+   display: flex;
+   justify-content: space-between;
+   gap: .5rem;
+   overflow: hidden;
+   font-size: .9rem;
 `
 
 export const AddAction = styled.div`
@@ -296,12 +314,8 @@ export const AddButton = styled.button`
    &:hover {
       filter: brightness(1.3);
    }
-
-   ${props => props.isAttempt && css`
-      background-color: ${Colors.gray800};
-      `} 
       
-   ${props => props.isError && css`
+   ${props => props.$isError && css`
       background-color: ${Colors.red};
    `}
 `
@@ -439,4 +453,21 @@ export const StartingPlayer = styled.button`
    border: none;
    background-color: transparent;
    color: ${Colors.orange500};
+`
+
+export const FinishMatch = styled.div`
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   justify-content: center;
+   text-align: center;
+
+   span {
+      font-size: 1.2rem;
+   }
+
+   div {
+      display: flex;
+      gap: 1rem;
+   }
 `

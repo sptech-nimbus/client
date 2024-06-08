@@ -1,6 +1,8 @@
-import styled, { keyframes } from "styled-components";
+import styled, { keyframes, css } from "styled-components";
 import { Colors } from "@utils/Helpers";
 import { CaretLeft } from "@phosphor-icons/react";
+
+import * as AthleteStyle from "../Match/OnGoingMatch/Match.styled"
 
 const slideDown = keyframes`
   from {
@@ -52,7 +54,7 @@ export const TopLink = styled.span`
       position: absolute;
       left: 0;
       bottom: -.5rem;
-      width: ${props => props.active ? '100%' : '0'};
+      width: ${props => props.$active ? '100%' : '0'};
       height: 4px;
       border-radius: 4px;
       background-color: ${Colors.orange500};
@@ -252,9 +254,10 @@ export const ComparisonContainer = styled.div`
    }
 
    ${ChartContainer} {
-      height: 40%;
+      height: 50%;
       flex-direction: column;
-      padding-top: 1rem;
+      gap: 2rem;
+      padding-top: 2rem;
    }
 `
 
@@ -451,5 +454,55 @@ export const NoInjury = styled.div`
 `
 
 export const ToastContainer = styled.div`
+   position: absolute;
+`
+
+export const DialogContainer = styled.div`
+   display: flex;
+   flex-direction: column;
+   gap: 1rem;
+`
+
+export const DialogText = styled.div`
+   font-size: 1.1rem;
+`
+
+export const AthletesList = styled.div`
+   display: flex;
+   flex-direction: column;
+   gap: 1rem;
+   max-height: 50vh;
+   overflow-y: auto;
+   padding-right: .5rem;
+
+   &::-webkit-scrollbar {
+      width: 8px;
+   }
+
+   &::-webkit-scrollbar-track {
+      border-radius: 8px;
+      background-color: ${Colors.gray700};
+   }
+
+   &::-webkit-scrollbar-thumb {
+      background: ${Colors.orange500}; 
+      border-radius: 10px;
+   }
+
+   &::-webkit-scrollbar-thumb:hover {
+      background: ${Colors.orange300}; 
+   }
+`
+
+export const Athlete = styled(AthleteStyle.Athlete)`
+   cursor: pointer;
+   border: 2px solid ${Colors.gray700};
+   transition: .3s all ease-in;
+   ${props => props.$active && css`
+      border: 2px solid ${Colors.orange500};
+   `}
+`
+
+export const Absolute = styled.div`
    position: absolute;
 `

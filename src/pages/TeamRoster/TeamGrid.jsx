@@ -23,8 +23,7 @@ export default function TeamGrid({ players }) {
       hasData = true;
       playerCards =  athletes.map(player => {
          return (
-            //futuramente substituir essa key pelo id do jogador
-            <Card width="250px" key={player.id}>
+         <Card width="250px" key={player.id}>
             <S.PlayerImage src={player.picture}/>
             <S.PlayerName>
                {player.fullName}
@@ -59,9 +58,8 @@ export default function TeamGrid({ players }) {
    } 
 
    return(
-      <S.CardsContainer hasData={hasData}>
-         {playerCards ?
-         playerCards :
+      <S.CardsContainer $hasData={hasData}>
+         {playerCards ??
          (
          <S.NotFoundContainer>
             <S.NotFoundMessage>
