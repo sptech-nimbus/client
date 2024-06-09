@@ -25,13 +25,14 @@ export default function Match({ isMatchFinished }) {
       async function fetchData() {
          try {
             setIsLoading(true);
-            // const { data } = await axios.get(`https://6642243c3d66a67b34366411.mockapi.io/nimbus/athletes`);
-            const { data } = await athlete.byTeam(
-               localStorage.getItem('teamId'),
+            const response = await athlete.byTeam(
+               sessionStorage.getItem('teamId'),
                localStorage.getItem('token')
             );
-            console.log(data.data);
-            setAllPlayers(data.data);
+
+            if(response.status === 200) {
+               setAllPlayers(response.data.data);
+            }
          }
          catch(err) {
             console.log(err);
