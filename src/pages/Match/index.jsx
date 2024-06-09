@@ -1,11 +1,20 @@
+import styled from "styled-components";
+
 import { useEffect, useState } from "react";
 import OnGoingMatch from "./OnGoingMatch/OnGoingMatch";
 import FinishedMatch from "./FinishedMatch/FinishedMatch";
 
-import Loader, { LoaderContainer } from '@components/Loader/Loader';
+import Loader from '@components/Loader/Loader';
 
-import axios from "axios";
 import athlete from '@api/athlete';
+
+const LoaderContainer = styled.div`
+   width: 100vw;
+   height: 100vh;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+`
 
 export default function Match({ isMatchFinished }) {
    const [isLoading, setIsLoading] = useState(false);
@@ -35,5 +44,9 @@ export default function Match({ isMatchFinished }) {
       fetchData();
    }, []);
 
-   return isLoading ? <Loader /> : isMatchFinished ? <FinishedMatch matchData={matchData}/> : <OnGoingMatch allPlayers={allPlayers} setMatchData={setMatchData}/>
+   return isLoading ? 
+   <LoaderContainer>
+      <Loader />
+   </LoaderContainer> : isMatchFinished ? 
+   <FinishedMatch matchData={matchData}/> : <OnGoingMatch allPlayers={allPlayers} setMatchData={setMatchData}/>
 }

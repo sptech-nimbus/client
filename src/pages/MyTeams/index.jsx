@@ -45,9 +45,18 @@ export default function MyTeams() {
       }
    };
 
+   const getTeamInitials = (name) => {
+      const nameArray = name.split(' ');
+      let initials = '';
+
+      nameArray.forEach(element => initials += element[0]);
+
+      return initials;
+   }
+
    const teamsElements = coachTeams.map(team => (
       <S.Team key={team.id} onClick={() => handleTeamSelection(team.id)}>
-         <S.TeamImage src={team.picture} />
+         { team.picture ? <S.TeamImage src={team.picture} /> : <S.TemplateImage>{getTeamInitials(team.name)}</S.TemplateImage> }
          <S.TeamName>{team.name}</S.TeamName>
       </S.Team>
    ));

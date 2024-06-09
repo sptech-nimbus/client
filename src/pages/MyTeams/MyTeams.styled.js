@@ -1,5 +1,5 @@
-import styled from "styled-components";
-import Colors from "@utils/Helpers";
+import styled, { css } from "styled-components";
+import { Colors } from "@utils/Helpers";
 
 export const Header = styled.header`
    width: 100vw;
@@ -18,9 +18,9 @@ export const ContentContainer = styled.div`
 
 export const TeamsContainer = styled.div`
    display: flex;
-   flex-direction: ${props => props.$hasTeams ? 'row' : 'column'};
+   flex-direction: ${props => props.$hasTeams ? 'column' : 'row'};
    align-items: center;
-   gap: ${props => props.$hasTeams ? '2rem' : '1rem'};
+   gap: ${props => props.$hasTeams ? '1rem' : '2rem'};
 `
 
 export const Team = styled.div`
@@ -37,6 +37,19 @@ export const TeamImage = styled.img`
    height: 250px;
    object-fit: cover;
    object-position: center;
+`
+
+export const TemplateImage = styled.div`
+   width: 250px;
+   height: 250px;
+   border-radius: 1rem;
+   background-color: ${Colors.gray500};
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   font-size: 2rem;
+   font-weight: 700;
+   color: ${Colors.orange100};
 `
 
 export const TeamName = styled.span`
