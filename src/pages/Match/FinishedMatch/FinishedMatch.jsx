@@ -1,10 +1,12 @@
 import { useState } from 'react';
+import { Navigate } from 'react-router-dom';
 
 import * as S from './FinishedMatch.styled';
 import * as MS from '../OnGoingMatch/Match.styled';
 
 import Sidebar from '@components/Sidebar/Sidebar';
 import Title from '@components/Title/Title';
+import Button from '@components/Button/Button'
 import Utils from '@utils/Helpers';
 
 import * as Accordion from '@radix-ui/react-accordion';
@@ -12,8 +14,10 @@ import * as Accordion from '@radix-ui/react-accordion';
 import Quarters from './Quarters';
 import Stats from './Stats';
 
-export default function FinishedMatch({ matchData }) {
+export default function FinishedMatch() {
+   const [matchData, setMatchData] = useState(JSON.parse(sessionStorage.getItem('matchData')));
    const [selectedPlayer, setSelectedPlayer] = useState();
+   console.log(matchData);
 
    const handleSelectedPlayer = (key) => {
       if(selectedPlayer) {
@@ -25,12 +29,24 @@ export default function FinishedMatch({ matchData }) {
       }
    }
 
-   return (
+   const submitMatch = () => {
+      sessionStorage.removeItem('matchData');
+   }
+
+   return !matchData ? <Navigate to={'/match'}/> : (
       <S.PageContainer>
          <Sidebar page='match' />
          <S.ContentContainer>
             <S.Flex>
                <Title text='Partida finalizada' $uppercase/>
+               <S.ButtonContainer>
+                  <Button.Primary 
+                  value='Salvar partida' 
+                  marginTop='0rem' 
+                  fontSize='1.2rem'
+                  onClick={submitMatch}
+                  />
+               </S.ButtonContainer>
             </S.Flex>
             <S.FinishedMatchGrid>
                <S.Container>

@@ -19,7 +19,6 @@ const LoaderContainer = styled.div`
 export default function Match({ isMatchFinished }) {
    const [isLoading, setIsLoading] = useState(false);
    const [allPlayers, setAllPlayers] = useState([]);
-   const [matchData, setMatchData] = useState();
 
    useEffect(() => {
       async function fetchData() {
@@ -49,5 +48,5 @@ export default function Match({ isMatchFinished }) {
    <LoaderContainer>
       <Loader />
    </LoaderContainer> : isMatchFinished ? 
-   <FinishedMatch matchData={matchData}/> : <OnGoingMatch allPlayers={allPlayers} setMatchData={setMatchData}/>
+   <FinishedMatch/> : <OnGoingMatch allPlayers={allPlayers}/>
 }

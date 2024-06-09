@@ -15,6 +15,7 @@ import { Colors } from "@utils/Helpers";
 export default function Home() {
    const [events, setEvents] = useState([]);
    const [winsGraph, setWinsGraph] = useState();
+   const [performanceGraph, setPerformanceGraph] = useState();
 
    const [lastGame, setLastGame] = useState({
       game: {
@@ -278,7 +279,7 @@ export default function Home() {
                <S.Container>
                   <Title text='Desempenho do time nos últimos jogos' size='1rem' color={Colors.orange100} />
                   <S.ChartContainer>
-                     {!radarConfig.data ? <S.NoContent>Não foram encontrados dados de desempenho do time.</S.NoContent> : <RadarChart data={radarConfig.data} options={radarConfig.options} />}
+                     {!performanceGraph ? <S.NoContent>Não foram encontrados dados de desempenho do time.</S.NoContent> : <RadarChart data={radarConfig.data} options={radarConfig.options} />}
                   </S.ChartContainer>
                </S.Container>
 
@@ -288,7 +289,8 @@ export default function Home() {
                </S.MatchContainer>
 
                <S.Container>
-                  <span>Não há mensagens novas no momento.</span>
+                  <Title text='Próximos eventos do time' size='1rem' color={Colors.orange100} />
+                  <S.NoContent>Não foram encontrados eventos agendados.</S.NoContent>
                </S.Container>
 
                <S.Container>

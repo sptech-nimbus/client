@@ -50,13 +50,6 @@ export const Container = styled.div`
    }
    &:nth-child(3) {
       grid-row: 5 / 11;
-      align-items: center;
-      justify-content: center;
-
-      span {
-         font-weight: 600;
-         font-size: 1.5rem;
-      }
    }
    &:nth-child(4) {
       grid-row: 6 / 11;

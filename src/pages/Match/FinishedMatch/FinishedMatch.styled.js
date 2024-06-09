@@ -225,3 +225,8 @@ export const DurationContainer = styled.div`
       font-family: 'Inter';
    }
 `
+
+export const ButtonContainer = styled.div`
+   position: absolute;
+   right: 0;
+`

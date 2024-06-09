@@ -14,7 +14,7 @@ import * as Accordion from '@radix-ui/react-accordion';
 
 import Athlete from './Athlete';
 
-export default function OnGoingMatch({ allPlayers, gameData, setMatchData }) {
+export default function OnGoingMatch({ allPlayers, gameData }) {
    const navigate = useNavigate();
    const { seconds, minutes, hours, isRunning, start, pause, reset } = useStopwatch();
    const [times, setTimes] = useState([]);
@@ -54,6 +54,7 @@ export default function OnGoingMatch({ allPlayers, gameData, setMatchData }) {
    });
 
    useEffect(() => {
+      sessionStorage.removeItem('matchData')
       const mapPlayers = players.map(player => ({
          ...player,
          stats: {
@@ -183,7 +184,8 @@ export default function OnGoingMatch({ allPlayers, gameData, setMatchData }) {
    }
 
    const finishGame = () => {
-      setMatchData(handleResult());
+      const matchData = JSON.stringify(handleResult());
+      sessionStorage.setItem('matchData', matchData);
       navigate('finished');
    }
 
