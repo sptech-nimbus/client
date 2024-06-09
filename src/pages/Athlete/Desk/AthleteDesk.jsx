@@ -24,7 +24,7 @@ export default function AthleteDesk({ playerData, isComparison }) {
       async function fetchData() {
          if (personaId && token && !hasFetchedData) {
             try {
-               const response = await athleteDesc.allInfo(personaId, token);
+               const response = await athleteDesc.allInfo(localStorage.getItem('personaId'), token);
 
                setPersona(response.data.data);
                setHasFetchedData(true);
