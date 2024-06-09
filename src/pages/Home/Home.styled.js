@@ -170,3 +170,15 @@ export const MatchTeamImage = styled.img`
    object-fit: cover;
    object-position: center;
 `
+
+export const NoContent = styled.div`
+   width: 100%;
+   height: 100%;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   font-size: 1.2rem;
+   color: #808080;
+   padding: 2rem;
+   text-align: center;
+`
