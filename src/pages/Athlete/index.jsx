@@ -34,15 +34,19 @@ function SelectPlayerDialog({ isOpen = false, set, onConfirm }) {
    const [allPlayers, setAllPlayers] = useState();
    const [selectedPlayer, setSelectedPlayer] = useState();
 
+   const query = useQuery();
+   const playerId = query.get('id');
+
    useEffect(()=> {
       async function fetchData() {
          try {
             const { data: { data } } = await athlete.byTeam(
-               localStorage.getItem('teamId'),
+               sessionStorage.getItem('teamId'),
                localStorage.getItem('token')
             );
-   
-            setAllPlayers(data);
+            
+            const playersData = data.filter(player => player.id !== playerId);
+            setAllPlayers(playersData);
          }
          catch(err) {
             console.log('Houve um erro ao buscar por jogadores para comparação. Por favor, aguarde um momento antes de tentar novamente.');
@@ -53,8 +57,6 @@ function SelectPlayerDialog({ isOpen = false, set, onConfirm }) {
    }, []);
 
    const handleSelectedPlayer = (player) => { setSelectedPlayer(player); }
-
-   useEffect(() => { console.log('selected', selectedPlayer); }, [selectedPlayer]);
 
    const cancelAction = () => { 
       setSelectedPlayer(); 
@@ -71,7 +73,13 @@ function SelectPlayerDialog({ isOpen = false, set, onConfirm }) {
    return (
       <Dialog title='Jogadores do time' open={modalOpen ?? isOpen} noClose>
          <S.DialogContainer>
-            <S.DialogText>Selecione um jogador abaixo para realizar a comparação</S.DialogText>
+            <S.DialogText>
+            {
+            allPlayers ? 
+            'Selecione um jogador abaixo para realizar a comparação' 
+            : 'Não foram encontrados jogadores para comparação'
+            }
+            </S.DialogText>
             {
             !allPlayers ? 
             <LoaderContainer> 
@@ -107,7 +115,7 @@ export default function PlayerInfo() {
    const [statsActive, setStatsActive] = useState(false);
    const [injuryActive, setInjuryActive] = useState(false);
    const [isComparison, setIsComparison] = useState(false);
-   const [playerData, setPlayerData] = useState({});
+   const [playerData, setPlayerData] = useState();
    const [adversaryData, setAdversaryData] = useState();
 
    const query = useQuery();
@@ -154,7 +162,7 @@ export default function PlayerInfo() {
       setInjuryActive(true);
    }
 
-   return (
+   return !playerData ? <S.LoaderContainer> <Loader /> </S.LoaderContainer> : (
       <S.PageContainer>
          <Background.Default />
          <Sidebar page='team' />

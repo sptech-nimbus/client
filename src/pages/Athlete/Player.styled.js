@@ -506,3 +506,11 @@ export const Athlete = styled(AthleteStyle.Athlete)`
 export const Absolute = styled.div`
    position: absolute;
 `
+
+export const LoaderContainer = styled.div`
+   width: 100vw;
+   height: 100vh;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+`
