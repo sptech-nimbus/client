@@ -24,12 +24,14 @@ export default function OnGoingMatch({ allPlayers, gameData }) {
    const [currentQuarter, setCurrentQuarter] = useState(1);
 
    const [challenged, setChallenged] = useState({
+      id: 0,
       name: 'Nome challenged',
       picture: 'https://1000logos.net/wp-content/uploads/2017/12/Los-Angeles-Clippers-Logo.png',
       pts: 0
    });
 
    const [challenger, setChallenger] = useState({
+      id: 0,
       name: 'Nome challenger',
       picture: 'https://seeklogo.com/images/A/atlanta-hawks-logo-A108D0AC8D-seeklogo.com.png',
    });
@@ -139,8 +141,8 @@ export default function OnGoingMatch({ allPlayers, gameData }) {
    const handleFinishQuarter = () => {
       times.push(`${formatTime(hours)}:${formatTime(minutes)}:${formatTime(seconds)}`);
       setCurrentQuarter(currentQuarter + 1);
-      reset();
       pause();
+      reset();
    }
 
    const addFlag = async () => {
@@ -165,9 +167,8 @@ export default function OnGoingMatch({ allPlayers, gameData }) {
          return !allZeros;
       });
 
-      console.log('filtrado jogadores', matchPlayers);
-
       return {
+         gameId: 1,
          challenged,
          challenger: {
             ...challenger,

@@ -11,8 +11,7 @@ import * as D from "@components/Dialog/Dialog";
 import Background from "@components/Background/Background";
 import RadioGroup from "@components/RadioGroup/RadioGroup";
 import ToggleGroup from "@components/ToggleGroup/ToggleGroup";
-import { useNotification } from "@contexts/notification";
-import { SquaresFour, Rows, Faders } from "@phosphor-icons/react";
+import { SquaresFour, Rows, Faders, Bandaids, Star } from "@phosphor-icons/react";
 
 import athlete from "@api/athlete";
 import TeamGrid from "./TeamGrid";
@@ -140,12 +139,6 @@ export default function TeamRoster() {
       setTableState(true);
    }
 
-   const randomPosition = () => {
-      const positions = ['Armador', 'Ala-Armador', 'Ala', 'Ala-Pivô', 'Pivô', 'Pivô'];
-      const random = Math.floor(Math.random() * positions.length);
-      return positions[random];
-   }
-
    return (
       <S.PageContainer>
          <Background.Default />
@@ -217,6 +210,14 @@ export default function TeamRoster() {
                      <Rows size={36} />
                   </ToggleGroup.Item>
                </ToggleGroup.Root>
+               <S.Legend>
+                  <Star size={26} color={Utils.colors.orange500} weight="fill"/>
+                  Jogador titular
+               </S.Legend>
+               <S.Legend>
+                  <Bandaids size={26} color={Utils.colors.orange300} weight="fill"/>
+                  Jogador lesionado
+               </S.Legend>
             </S.FilterLine>
             <S.MainContainer>
                {isLoading

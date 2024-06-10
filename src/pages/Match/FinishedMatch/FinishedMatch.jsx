@@ -30,6 +30,33 @@ export default function FinishedMatch() {
    }
 
    const submitMatch = () => {
+      const gameResult = {
+         challengerPts : matchData.challenger.pts,
+         challengedPts : matchData.challenged.pts,
+         gameId: matchData.gameId
+      }
+
+      const mappedStats = matchData.players.map(player => ({
+            observations: [""],
+            offRebounds: player.stats.offReb,
+            defRebounds: player.stats.defReb,
+            blocks: player.stats.blk,
+            fouls: player.stats.foul,
+            turnovers: player.stats.turnover,
+            minutes: 0,
+            assists: player.stats.ast,
+            freeThrowConverted: player.stats.pts1,
+            freeThrowAttempted: player.stats.pts1 + player.stats.pts1Error,
+            steals: player.stats.stl,
+            threePointsConverted: player.stats.pts3,
+            threePointsAttempted: player.stats.pts3 + player.stats.pts3Error,
+            twoPointsConverted: player.stats.pts2,
+            twoPointsAttempted: player.stats.pts3 + player.stats.pts3Error,
+            game: matchData.gameId,
+            athlete: player.id
+      }));
+
+      console.log(mappedStats);
       sessionStorage.removeItem('matchData');
    }
 
@@ -42,7 +69,7 @@ export default function FinishedMatch() {
                <S.ButtonContainer>
                   <Button.Primary 
                   value='Salvar partida' 
-                  marginTop='0rem' 
+                  $marginTop='0rem' 
                   fontSize='1.2rem'
                   onClick={submitMatch}
                   />
