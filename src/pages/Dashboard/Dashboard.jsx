@@ -10,15 +10,13 @@ import Loader from "@components/Loader/Loader";
 import { LineChart, PieChart, BarChart } from "@components/Charts";
 import graph from '../../api/graph';
 
-export default function DashboardLayout() {
+export default function DashboardLayout({ setTeamStats }) {
    const { addNotification } = useNotification();
    const [isLoading, setIsLoading] = useState(false);
    const [winsGraph, setWinsGraph] = useState([]);
    const [pointsDivision, setPointsDivision] = useState([]);
-   const [pointsPerGameLabels, setPointsPerGameLabels] = useState([]);
-   const [pointsPerGameValues, setPointsPerGameValues] = useState([]);
-   const [foulsPerGameLables, setFoulsPerGameLables] = useState([]);
-   const [foulsPerGameValues, setFoulsPerGameValues] = useState([]);
+   const [pointsPerGame, setPointsPerGame] = useState({ labels: [], values: []});
+   const [foulsPerGame, setFoulsPerGame] = useState({ labels: [], values: [] });
 
    useEffect(() => {
       async function fetchData() {
@@ -26,33 +24,28 @@ export default function DashboardLayout() {
             setIsLoading(true);
 
             const winsRes = await graph.getWins(sessionStorage.getItem('teamId'), 100, localStorage.getItem('token'));
-
-            setWinsGraph([winsRes.data.data.wins, winsRes.data.data.loses]);
-
+            
             const pointsDivisionRes = await graph.getPointsDivision(sessionStorage.getItem('teamId'), 10, localStorage.getItem('token'));
-
-            setPointsDivision([pointsDivisionRes.data.data.threePointsPorcentage, pointsDivisionRes.data.data.twoPointsPorcentage]);
-
             const pointsPerGame = await graph.getPointsPerGame(sessionStorage.getItem('teamId'), 6, localStorage.getItem('token'));
-
             const pointsGames = Object.keys(pointsPerGame.data.data);
+            
+            setWinsGraph([winsRes.data.data.wins, winsRes.data.data.loses]);
+            setPointsDivision([pointsDivisionRes.data.data.threePointsPorcentage, pointsDivisionRes.data.data.twoPointsPorcentage]);
 
             pointsGames.forEach(gameDate => {
                const date = new Date(gameDate);
-
-               setPointsPerGameLabels([...pointsPerGameLabels, `${date.getDay()}/${date.getMonth()}`]);
-               setPointsPerGameValues([...pointsPerGameValues, pointsPerGame.data.data[gameDate]]);
+               setPointsPerGame({...pointsPerGame, labels: [...labels, `${date.getDay()}/${date.getMonth()}`]});
+               setPointsPerGame({...pointsPerGame, values: [...values, pointsPerGame.data.data[gameDate]]});
             });
 
             const foulsPerGame = await graph.foulsPerGame(sessionStorage.getItem('teamId'), 5, localStorage.getItem('token'));
-
             const foulsGames = Object.keys(foulsPerGame.data.data);
 
             foulsGames.forEach(gameDate => {
                const date = new Date(gameDate);
 
-               setFoulsPerGameLables([...foulsPerGameLables, `${date.getDay()}/${date.getMonth()}`]);
-               setFoulsPerGameValues([...foulsPerGameValues, foulsPerGame.data.data[gameDate]]);
+               setFoulsPerGame({...foulsPerGame, labels: [...labels, `${date.getDay()}/${date.getMonth()}`]});
+               setFoulsPerGame({...foulsPerGame, values: [...values, foulsPerGame.data.data[gameDate]]})
             });
          }
          catch (err) {
@@ -60,6 +53,11 @@ export default function DashboardLayout() {
          }
          finally {
             setIsLoading(false);
+            setTeamStats({
+               winsGraph,
+               pointsDivision,
+               pointsPerGame
+            })
          }
       }
 
@@ -168,14 +166,14 @@ export default function DashboardLayout() {
 
    const lineConfig = {
       data: {
-         labels: foulsPerGameLables,
+         labels: foulsPerGame.labels,
          datasets: [
             {
                label: 'Faltas',
                backgroundColor: `${Colors.orange500}65`,
                borderColor: `${Colors.orange500}`,
                borderWidth: 3,
-               data: foulsPerGameValues,
+               data: foulsPerGame.values,
                lineTension: .4,
             }
          ],
@@ -203,7 +201,7 @@ export default function DashboardLayout() {
 
    const areaConfig = {
       data: {
-         labels: pointsPerGameLabels,
+         labels: pointsPerGame.labels,
          datasets: [
             {
                //  fill: true,
@@ -211,7 +209,7 @@ export default function DashboardLayout() {
                backgroundColor: `${Colors.orange500}`,
                borderColor: `${Colors.orange500}`,
                borderWidth: 3,
-               data: pointsPerGameValues,
+               data: pointsPerGame.values,
                lineTension: .4,
             }
          ],
