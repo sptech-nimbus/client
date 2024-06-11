@@ -14,6 +14,8 @@ import * as Accordion from '@radix-ui/react-accordion';
 import Quarters from './Quarters';
 import Stats from './Stats';
 
+import athleteHistoric from "@api/athleteHistoric";
+
 export default function FinishedMatch() {
    const [matchData, setMatchData] = useState(JSON.parse(sessionStorage.getItem('matchData')));
    const [selectedPlayer, setSelectedPlayer] = useState();
@@ -29,7 +31,16 @@ export default function FinishedMatch() {
       }
    }
 
-   const submitMatch = () => {
+   const submitHistorics = async (stats) => {
+      try {
+         await athleteHistoric.postList(stats, localStorage.getItem("token"));
+      }
+      catch(err) {
+         console.log(err);
+      }
+   }
+
+   const submitMatch = async () => {
       const gameResult = {
          challengerPts : matchData.challenger.pts,
          challengedPts : matchData.challenged.pts,
@@ -37,7 +48,7 @@ export default function FinishedMatch() {
       }
 
       const mappedStats = matchData.players.map(player => ({
-            observations: [""],
+            observations: "",
             offRebounds: player.stats.offReb,
             defRebounds: player.stats.defReb,
             blocks: player.stats.blk,
@@ -52,8 +63,8 @@ export default function FinishedMatch() {
             threePointsAttempted: player.stats.pts3 + player.stats.pts3Error,
             twoPointsConverted: player.stats.pts2,
             twoPointsAttempted: player.stats.pts3 + player.stats.pts3Error,
-            game: matchData.gameId,
-            athlete: player.id
+            game: { id: matchData.gameId },
+            athlete: {id: player.id }
       }));
 
       console.log(mappedStats);

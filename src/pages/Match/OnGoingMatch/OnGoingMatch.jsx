@@ -296,7 +296,7 @@ export default function OnGoingMatch({ allPlayers, gameData }) {
                            </S.Flags>
                         }>
                            <S.FinishMatch>
-                              <span>Deseja finalizar a partida?</span>
+                              <span>Deseja finalizar a partida? IMPORTANTE: Não será possível editar as informações da partida após avançar.</span>
                               <div>
                                  <Button.Primary
                                  onClick={finishGame}

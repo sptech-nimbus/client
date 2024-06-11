@@ -3,10 +3,18 @@ import config from "./config";
 
 const path = "athlete-historics";
 
-async function postAthleteHistoric({ body }) {
-    const response = await axios.post(`${config.baseURL}/${path}`, body)
+async function postAthleteHistoric({ body, token }) {
+    const response = await axios.post(`${config.baseURL}/${path}`, body, {
+        headers: { Authorization: `Bearer ${token}` }
+    })
 
     return response;
+}
+
+async function postHistoricList({ body, token }) {
+    const response = await axios.post(`${config.baseURL}/${path}/list`, body, {
+        headers: { Authorization: `Bearer ${token}` }
+    })
 }
 
 async function getAthleteHistorics(param, token) {
@@ -44,7 +52,8 @@ const athleteHistoric = {
     get: getAthleteHistorics,
     getPage: getAthleteHistoricsPageable,
     put: putAthleteHistoric,
-    delete: deleteAthleteHistoric
+    delete: deleteAthleteHistoric,
+    postList: postHistoricList
 }
 
 export default athleteHistoric;
