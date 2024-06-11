@@ -58,6 +58,7 @@ export default function OnGoingMatch({ allPlayers, gameData }) {
    useEffect(() => {
       sessionStorage.removeItem('matchData')
       const mapPlayers = players.map(player => ({
+         observations: '',
          ...player,
          stats: {
             pts: 0,

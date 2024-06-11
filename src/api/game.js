@@ -2,6 +2,7 @@ import axios from "axios";
 import config from "./config";
 
 const path = "games";
+const resultPath = "game-results";
 
 async function postGame({ body }) {
     const response = await axios.post(`${config.baseURL}/${path}`, body);
@@ -33,9 +34,67 @@ async function getNextGame(teamId, token) {
     return res;
 }
 
+async function confirmGame(game, coach, token) {
+    try {
+        const res = await axios.patch(`${config.baseURL}/${path}/confirm-game/${game}`, coach, {
+            headers: { Authorization: `Bearer ${token}` }
+        });
+
+        return res;
+    }
+    catch(err) {
+        throw err;
+    }
+}
+
+async function registerGameResult(body, token) {
+    try {
+        const res = await axios.post(`${config.baseURL}/${resultPath}`, body, {
+            headers: { Authorization: `Bearer ${token}` }
+        });
+
+        return res;
+    }
+    catch(err) {
+        throw err;
+    }
+}
+
+async function getNotConfirmedResults(game, token) {
+    try {
+        const res = await axios.get(`${config.baseURL}/${resultPath}/not-confirmed-results/${game}`, 
+            {headers: { Authorization: `Beaerer ${token}` }
+        })
+
+        return res;
+    }
+    catch(err) {
+        throw err;
+    }
+}
+
+async function confirmGameResult(game, token) {
+    try {
+        const res = await axios.patch(`${config.baseURL}/${resultPath}/confirm-game-result/${game}`, body, {
+            headers: { Authorization: `Bearer ${token}` }
+        });
+
+        return err;
+    }
+    catch(err) {
+        throw err;
+    }
+}
+
 export default {
     post: postGame,
     getByTeam,
     lastGame: getlastGame,
-    nextGame: getNextGame
+    nextGame: getNextGame,
+    confirm: confirmGame,
+    result: {
+        post: registerGameResult,
+        notConfirmed: getNotConfirmedResults,
+        confirm: confirmGameResult
+    }
 }

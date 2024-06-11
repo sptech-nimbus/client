@@ -7,9 +7,13 @@ import * as MS from '../OnGoingMatch/Match.styled';
 import Sidebar from '@components/Sidebar/Sidebar';
 import Title from '@components/Title/Title';
 import Button from '@components/Button/Button'
+import Input from '@components/Input/Input'
+import Label from '@components/Label/Label'
+import { Dialog } from '@components/Dialog/Dialog';
 import Utils from '@utils/Helpers';
 
 import * as Accordion from '@radix-ui/react-accordion';
+import { Notepad } from '@phosphor-icons/react';
 
 import Quarters from './Quarters';
 import Stats from './Stats';
@@ -127,7 +131,8 @@ export default function FinishedMatch() {
                      {
                         matchData.players.length != 0 
                         ?
-                        matchData && matchData.players.map((player, index) => (
+                        matchData && matchData.players.map((player, index) => {
+                           return (
                            <S.Athlete key={index} onClick={() => handleSelectedPlayer(index)} $active={selectedPlayer && selectedPlayer.id === player.id}>
                               <MS.AthleteInfo>
                                  <MS.AthleteImage src={player.picture}/>
@@ -135,9 +140,26 @@ export default function FinishedMatch() {
                                  <MS.Column>
                                     <MS.AthleteName>{player.firstName} {player.lastName}</MS.AthleteName>
                                  </MS.Column>
+
+                                 <Dialog childTrigger title="Adicionar ao jogador" trigger={
+                                    <S.AddNoteBtn title='Adicionar nota'>
+                                       <Notepad size={32}/>
+                                    </S.AddNoteBtn>
+                                 }>
+                                    <Label>
+                                       Adicione uma nota sobre a partida.
+                                       <Input.Default 
+                                       placeholder={"Bom desempenho durante a partida, mas..."} 
+                                       value={player.observations}
+                                       />
+                                    </Label>
+
+                                    <Button.Primary width="100%" value="Salvar" />
+                                 </Dialog>
+
                               </MS.AthleteInfo>
                            </S.Athlete>
-                        ))
+                        )})
                         :
                         <S.NoContent>
                         Não foram encontrados dados de jogadores que participaram da partida.

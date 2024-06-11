@@ -78,10 +78,8 @@ export default function Match({ isMatchFinished }) {
             const today = new Date().toLocaleDateString('pt-br');
             const initialDate = new Date(game.inicialDateTime).toLocaleDateString('pt-br');
 
-            return today === initialDate && game.confirmed == true;
+            return today === initialDate;
          });
-
-         console.log(gamesToday);
 
          // const challengerId = gamesToday[0].challenger;
          // const challengedId = gamesToday[0].challenged;

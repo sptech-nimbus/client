@@ -230,3 +230,14 @@ export const ButtonContainer = styled.div`
    position: absolute;
    right: 0;
 `
+
+export const AddNoteBtn = styled.div`
+   position: absolute;
+   right: 0;
+   background-color: none;
+   padding: .2rem;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   border-radius: .4rem;
+`
