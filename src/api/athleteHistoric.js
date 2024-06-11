@@ -11,10 +11,11 @@ async function postAthleteHistoric({ body, token }) {
     return response;
 }
 
-async function postHistoricList({ body, token }) {
-    const response = await axios.post(`${config.baseURL}/${path}/list`, body, {
+async function postHistoricList(body, token) {
+    console.log(token);
+    await axios.post(`${config.baseURL}/${path}/list`, body, {
         headers: { Authorization: `Bearer ${token}` }
-    })
+    });
 }
 
 async function getAthleteHistorics(param, token) {
