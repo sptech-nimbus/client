@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+
 import * as S from './Home.styled';
 import Sidebar from "@components/Sidebar/Sidebar";
 import Background from "@components/Background/Background";
@@ -111,7 +113,6 @@ export default function Home() {
       const events = [...res.data.data.games, ...res.data.data.trainings];
 
       const orderedEvents = events.sort(sortByDate);
-
       console.log(orderedEvents);
       setEvents(orderedEvents);
 
