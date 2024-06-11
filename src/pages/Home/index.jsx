@@ -16,7 +16,9 @@ import { Colors } from "@utils/Helpers";
 
 export default function Home() {
    const [events, setEvents] = useState([]);
-   const [winsGraph, setWinsGraph] = useState([]);
+   const [winsGraph, setWinsGraph] = useState();
+   const [performanceGraph, setPerformanceGraph] = useState();
+   const [games, setGames] = useState();
 
    const [lastGame, setLastGame] = useState({
       game: {
@@ -61,56 +63,76 @@ export default function Home() {
       return new Date(a.inicialDateTime).getTime() - new new Date(b.inicialDateTime).getTime();
    }
 
+   const fetchGames = async () => {
+      try {
+         const response = await game.getByTeam(
+            sessionStorage.getItem('teamId'),
+            localStorage.getItem('token')
+         );
+
+         if(response.status === 200) {
+            setGames(response.data.data);
+         }
+      }
+      catch(err) {
+         console.log(err);
+      }
+   }
+
+   async function fetchLastGame() {
+      const res = await game.lastGame(sessionStorage.getItem('teamId'), localStorage.getItem('token'));
+
+      if (res.status === 204) {
+         setLastGame(null);
+      } else {
+         setLastGame(res.data.data);
+      }
+   }
+
+   async function fetchNextGame() {
+      const res = await game.nextGame(sessionStorage.getItem('teamId'), localStorage.getItem('token'));
+
+      const date = new Date(res.data.data.game.inicialDateTime);
+
+      if (res.status === 204) {
+         setNextGame(null);
+      } else {
+         setNextGame({
+            ...res.data.data, game: {
+               day: date.getDate(),
+               month: date.getMonth() + 1,
+               hour: `${date.getHours()}:${date.getMinutes()}`
+            }
+         });
+      }
+   }
+
+   async function fetchAllEvents() {
+      const res = await graph.allEvents(sessionStorage.getItem('teamId'), localStorage.getItem('token'));
+
+      const events = [...res.data.data.games, ...res.data.data.trainings];
+
+      const orderedEvents = events.sort(sortByDate);
+      console.log(orderedEvents);
+      setEvents(orderedEvents);
+
+   }
+
+   async function fetchWins() {
+      const res = await graph.getWins(sessionStorage.getItem('teamId'), 10, localStorage.getItem('token'));
+
+      setWinsGraph([res.data.data.wins, res.data.data.loses]);
+   }
+
    useEffect(() => {
-      async function getLastGame() {
-         const res = await game.lastGame(sessionStorage.getItem('teamId'), localStorage.getItem('token'));
-
-         if (res.status === 204) {
-            setLastGame(null);
-         } else {
-            setLastGame(res.data.data);
-         }
-      }
-
-      async function getNextGame() {
-         const res = await game.nextGame(sessionStorage.getItem('teamId'), localStorage.getItem('token'));
-
-         const date = new Date(res.data.data.game.inicialDateTime);
-
-         if (res.status === 204) {
-            setNextGame(null);
-         } else {
-            setNextGame({
-               ...res.data.data, game: {
-                  day: date.getDate(),
-                  month: date.getMonth() + 1,
-                  hour: `${date.getHours()}:${date.getMinutes()}`
-               }
-            });
-         }
-      }
-
-      async function getAllEvents() {
-         const res = await graph.allEvents(sessionStorage.getItem('teamId'), localStorage.getItem('token'));
-
-         const events = [...res.data.data.games, ...res.data.data.trainings];
-
-         const orderedEvents = events.sort(sortByDate);
-
-         console.log(orderedEvents);
-         setEvents(orderedEvents);
-         
-      }
-      
-      async function getWins() {
-         const res = await graph.getWins(sessionStorage.getItem('teamId'), 10, localStorage.getItem('token'));
-
-         setWinsGraph([res.data.data.wins, res.data.data.loses]);
-      }
-      getLastGame();
-      getNextGame();
-      getAllEvents();
+      fetchGames();
+      fetchLastGame();
+      fetchNextGame();
+      fetchAllEvents();
+      fetchWins();
    }, []);
+
+   useEffect(() => {console.log(games);}, [games])
 
    const radarConfig = {
       data: {
@@ -195,6 +217,78 @@ export default function Home() {
       }
    }
 
+   function LastGame({ lastGame }) {
+      
+      return (
+         <S.MatchCard >
+            <S.MatchHeader>
+               <span>Partida anterior</span>
+            </S.MatchHeader>
+            {!lastGame.inicialDateTime ? <S.NoContent>Não foram encontrados jogos anteriores.</S.NoContent> : (
+               <>
+               <S.MatchTeams>
+                  <S.MatchTeamLogo>
+                     <S.MatchTeamImage src={lastGame.challenger.picture ? lastGame.challenger.picture : ''} />
+                  </S.MatchTeamLogo>
+                  <span>VS</span>
+                  <S.MatchTeamLogo>
+                     <S.MatchTeamImage src={lastGame.challenged.picture ? lastGame.challenger.picture : ''} />
+                  </S.MatchTeamLogo >
+
+               </S.MatchTeams>
+               <S.MatchInfo>
+                  <span>{lastGame.challenger.name}</span>
+                  <span>{lastGame.challenged.name}</span>
+               </S.MatchInfo>
+               <S.MatchResults>
+                  {
+                     lastGame.game.gameResult !== null
+                        ? <>
+                           <span>{lastGame.game.gameResult.challengerPoints}</span>
+                           <Results result={
+                              lastGame.game.gameResult.challengerPoints > lastGame.game.gameResult.challengedPoints
+                                 && lastGame.challenger.id === localStorage.getItem('teamId')
+                                 ? 'win'
+                                 : 'lose'
+                           } />
+                           <span>{lastGame.game.gameResult.challengedPoints}</span>
+                        </>
+                        : <Results />
+                  }
+               </S.MatchResults>
+               </>
+            )}
+         </S.MatchCard> 
+      )
+   }
+
+   function NextGame({ nextGame }) {
+      return (
+         <S.MatchCard>
+            <S.MatchHeader>
+               <span>Próxima partida</span>
+            </S.MatchHeader>
+            {!nextGame.game.day ? <S.NoContent>Não forma encontrados jogos futuros.</S.NoContent> : (
+               <>
+               <S.MatchTeams>
+                  <S.MatchTeamLogo />
+                  <span>VS</span>
+                  <S.MatchTeamLogo />
+               </S.MatchTeams>
+               <S.MatchInfo>
+                  <span>{nextGame.challenger.name}</span>
+                  <span>{nextGame.challenged.name}</span>
+               </S.MatchInfo>
+               <S.MatchResults>
+                  <span>{nextGame.game.day}/{nextGame.game.month}</span>
+                  <span>{nextGame.game.hour}</span>
+               </S.MatchResults>
+               </>
+            )}
+         </S.MatchCard>
+      )
+   }
+
    return (
       <S.PageContainer>
          <Background.Default />
@@ -204,79 +298,24 @@ export default function Home() {
                <S.Container>
                   <Title text='Desempenho do time nos últimos jogos' size='1rem' color={Colors.orange100} />
                   <S.ChartContainer>
-                     <RadarChart data={radarConfig.data} options={radarConfig.options} />
+                     {!performanceGraph ? <S.NoContent>Não foram encontrados dados de desempenho do time.</S.NoContent> : <RadarChart data={radarConfig.data} options={radarConfig.options} />}
                   </S.ChartContainer>
                </S.Container>
 
                <S.MatchContainer>
-                  {
-                     lastGame
-                        ? < S.MatchCard >
-                           <S.MatchHeader>
-                              <span>Partida anterior</span>
-                           </S.MatchHeader>
-                           <S.MatchTeams>
-                              <S.MatchTeamLogo>
-                                 <S.MatchTeamImage src={lastGame.challenger.picture ? lastGame.challenger.picture : ''} />
-                              </S.MatchTeamLogo>
-                              <span>VS</span>
-                              <S.MatchTeamLogo>
-                                 <S.MatchTeamImage src={lastGame.challenged.picture ? lastGame.challenger.picture : ''} />
-                              </S.MatchTeamLogo >
-
-                           </S.MatchTeams>
-                           <S.MatchInfo>
-                              <span>{lastGame.challenger.name}</span>
-                              <span>{lastGame.challenged.name}</span>
-                           </S.MatchInfo>
-                           <S.MatchResults>
-                              {
-                                 lastGame.game.gameResult !== null
-                                    ? <>
-                                       <span>{lastGame.game.gameResult.challengerPoints}</span>
-                                       <Results result={
-                                          lastGame.game.gameResult.challengerPoints > lastGame.game.gameResult.challengedPoints
-                                             && lastGame.challenger.id === localStorage.getItem('teamId')
-                                             ? 'win'
-                                             : 'lose'
-                                       } />
-                                       <span>{lastGame.game.gameResult.challengedPoints}</span>
-                                    </>
-                                    : <Results />
-                              }
-                           </S.MatchResults>
-                        </S.MatchCard>
-                        : 'Sem Jogos cadastrados'
-                  }
-
-                  <S.MatchCard>
-                     <S.MatchHeader>
-                        <span>Próxima partida</span>
-                     </S.MatchHeader>
-                     <S.MatchTeams>
-                        <S.MatchTeamLogo />
-                        <span>VS</span>
-                        <S.MatchTeamLogo />
-                     </S.MatchTeams>
-                     <S.MatchInfo>
-                        <span>{nextGame.challenger.name}</span>
-                        <span>{nextGame.challenged.name}</span>
-                     </S.MatchInfo>
-                     <S.MatchResults>
-                        <span>{nextGame.game.day}/{nextGame.game.month}</span>
-                        <span>{nextGame.game.hour}</span>
-                     </S.MatchResults>
-                  </S.MatchCard>
+                  <LastGame lastGame={lastGame} />
+                  <NextGame nextGame={nextGame} />
                </S.MatchContainer>
 
                <S.Container>
-                  <span>Não há mensagens novas no momento.</span>
+                  <Title text='Próximos eventos do time' size='1rem' color={Colors.orange100} />
+                  <S.NoContent>Não foram encontrados eventos agendados.</S.NoContent>
                </S.Container>
 
                <S.Container>
                   <Title text='Resultado do time nos últimos jogos' size='1rem' color={Colors.orange100} />
                   <S.ChartContainer>
-                     <DoughnutChart data={doughnutConfig.data} options={doughnutConfig.options} />
+                     {!winsGraph ? <S.NoContent>Não foram encontrados dados de partidas</S.NoContent> : <DoughnutChart data={doughnutConfig.data} options={doughnutConfig.options} />}
                   </S.ChartContainer>
                </S.Container>
             </S.HomeGrid>

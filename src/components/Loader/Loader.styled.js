@@ -39,7 +39,7 @@ export const LoaderContainer = styled.div`
   align-items: center;
 
   ${props => props.$fullScreen && css`
-    width: 100ve;
+    width: 100vw;
     height: 100vh;
   `}
 `

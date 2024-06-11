@@ -117,3 +117,15 @@ export const OptionImage = styled.img`
    height: 30px;
    border-radius: .5rem;
 `
+
+export const NoContent = styled.div`
+   width: 100%;
+   height: 100%;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   font-size: 1.2rem;
+   color: #808080;
+   padding: 2rem;
+   text-align: center;
+`

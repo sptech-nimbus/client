@@ -16,11 +16,10 @@ import Sidebar from '@components/Sidebar/Sidebar';
 import Switch from "@components/Switch/Switch";
 import Tooltip from "@components/Tooltip/Tooltip";
 import Button from "@components/Button/Button";
-import Loader from "@components/Loader/Loader";
+import Loader, { LoaderContainer } from "@components/Loader/Loader";
 import { Dialog } from "@components/Dialog/Dialog";
 
 import athleteDesc from "@api/athleteDesc";
-import athleteHistoric from "@api/athleteHistoric.js";
 import athlete from '@api/athlete';
 import { Colors } from "@utils/Helpers";
 
@@ -35,15 +34,19 @@ function SelectPlayerDialog({ isOpen = false, set, onConfirm }) {
    const [allPlayers, setAllPlayers] = useState();
    const [selectedPlayer, setSelectedPlayer] = useState();
 
+   const query = useQuery();
+   const playerId = query.get('id');
+
    useEffect(()=> {
       async function fetchData() {
          try {
             const { data: { data } } = await athlete.byTeam(
-               localStorage.getItem('teamId'),
+               sessionStorage.getItem('teamId'),
                localStorage.getItem('token')
             );
-   
-            setAllPlayers(data);
+            
+            const playersData = data.filter(player => player.id !== playerId);
+            setAllPlayers(playersData);
          }
          catch(err) {
             console.log('Houve um erro ao buscar por jogadores para comparação. Por favor, aguarde um momento antes de tentar novamente.');
@@ -54,8 +57,6 @@ function SelectPlayerDialog({ isOpen = false, set, onConfirm }) {
    }, []);
 
    const handleSelectedPlayer = (player) => { setSelectedPlayer(player); }
-
-   useEffect(() => { console.log('selected', selectedPlayer); }, [selectedPlayer]);
 
    const cancelAction = () => { 
       setSelectedPlayer(); 
@@ -72,7 +73,18 @@ function SelectPlayerDialog({ isOpen = false, set, onConfirm }) {
    return (
       <Dialog title='Jogadores do time' open={modalOpen ?? isOpen} noClose>
          <S.DialogContainer>
-            <S.DialogText>Selecione um jogador abaixo para realizar a comparação</S.DialogText>
+            <S.DialogText>
+            {
+            allPlayers ? 
+            'Selecione um jogador abaixo para realizar a comparação' 
+            : 'Não foram encontrados jogadores para comparação'
+            }
+            </S.DialogText>
+            {
+            !allPlayers ? 
+            <LoaderContainer> 
+               <Loader /> 
+            </LoaderContainer> :
             <S.AthletesList>
                {allPlayers && allPlayers.map(player => (
                   <S.Athlete key={player.id} onClick={() => handleSelectedPlayer(player)} $active={selectedPlayer && selectedPlayer.id == player.id}>
@@ -86,6 +98,7 @@ function SelectPlayerDialog({ isOpen = false, set, onConfirm }) {
                   </S.Athlete>
                ))}
             </S.AthletesList>
+            }  
             <S.Flex>
                <Button.Secondary width='100%' value='Cancelar' onClick={cancelAction}/>
                <Button.Primary width='100%' value='Confirmar' onClick={confirmAction}/>
@@ -102,7 +115,7 @@ export default function PlayerInfo() {
    const [statsActive, setStatsActive] = useState(false);
    const [injuryActive, setInjuryActive] = useState(false);
    const [isComparison, setIsComparison] = useState(false);
-   const [playerData, setPlayerData] = useState({});
+   const [playerData, setPlayerData] = useState();
    const [adversaryData, setAdversaryData] = useState();
 
    const query = useQuery();
@@ -149,7 +162,7 @@ export default function PlayerInfo() {
       setInjuryActive(true);
    }
 
-   return (
+   return !playerData ? <S.LoaderContainer> <Loader /> </S.LoaderContainer> : (
       <S.PageContainer>
          <Background.Default />
          <Sidebar page='team' />

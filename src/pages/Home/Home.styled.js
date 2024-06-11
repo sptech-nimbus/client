@@ -50,13 +50,6 @@ export const Container = styled.div`
    }
    &:nth-child(3) {
       grid-row: 5 / 11;
-      align-items: center;
-      justify-content: center;
-
-      span {
-         font-weight: 600;
-         font-size: 1.5rem;
-      }
    }
    &:nth-child(4) {
       grid-row: 6 / 11;
@@ -169,4 +162,16 @@ export const MatchTeamImage = styled.img`
    border-radius: 50%;
    object-fit: cover;
    object-position: center;
+`
+
+export const NoContent = styled.div`
+   width: 100%;
+   height: 100%;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   font-size: 1.2rem;
+   color: #808080;
+   padding: 2rem;
+   text-align: center;
 `

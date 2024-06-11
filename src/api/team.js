@@ -13,8 +13,7 @@ async function getAllTeamsByCoach(id, token) {
 }
 
 async function getAllTeams(token) {
-    const response = await axios.get(`${config.baseURL}/${path}`,
-    {
+    const response = await axios.get(`${config.baseURL}/${path}`, {
         headers: {
             'Authorization': `Bearer ${token}`,
             'Content-Type': 'application/json'

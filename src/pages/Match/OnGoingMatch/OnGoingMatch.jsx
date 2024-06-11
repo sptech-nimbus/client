@@ -14,7 +14,7 @@ import * as Accordion from '@radix-ui/react-accordion';
 
 import Athlete from './Athlete';
 
-export default function OnGoingMatch({ allPlayers, gameData, setMatchData }) {
+export default function OnGoingMatch({ allPlayers, gameData }) {
    const navigate = useNavigate();
    const { seconds, minutes, hours, isRunning, start, pause, reset } = useStopwatch();
    const [times, setTimes] = useState([]);
@@ -24,12 +24,14 @@ export default function OnGoingMatch({ allPlayers, gameData, setMatchData }) {
    const [currentQuarter, setCurrentQuarter] = useState(1);
 
    const [challenged, setChallenged] = useState({
+      id: 0,
       name: 'Nome challenged',
       picture: 'https://1000logos.net/wp-content/uploads/2017/12/Los-Angeles-Clippers-Logo.png',
       pts: 0
    });
 
    const [challenger, setChallenger] = useState({
+      id: 0,
       name: 'Nome challenger',
       picture: 'https://seeklogo.com/images/A/atlanta-hawks-logo-A108D0AC8D-seeklogo.com.png',
    });
@@ -54,7 +56,9 @@ export default function OnGoingMatch({ allPlayers, gameData, setMatchData }) {
    });
 
    useEffect(() => {
+      sessionStorage.removeItem('matchData')
       const mapPlayers = players.map(player => ({
+         observations: '',
          ...player,
          stats: {
             pts: 0,
@@ -138,8 +142,8 @@ export default function OnGoingMatch({ allPlayers, gameData, setMatchData }) {
    const handleFinishQuarter = () => {
       times.push(`${formatTime(hours)}:${formatTime(minutes)}:${formatTime(seconds)}`);
       setCurrentQuarter(currentQuarter + 1);
-      reset();
       pause();
+      reset();
    }
 
    const addFlag = async () => {
@@ -164,9 +168,8 @@ export default function OnGoingMatch({ allPlayers, gameData, setMatchData }) {
          return !allZeros;
       });
 
-      console.log('filtrado jogadores', matchPlayers);
-
       return {
+         gameId: 1,
          challenged,
          challenger: {
             ...challenger,
@@ -183,7 +186,8 @@ export default function OnGoingMatch({ allPlayers, gameData, setMatchData }) {
    }
 
    const finishGame = () => {
-      setMatchData(handleResult());
+      const matchData = JSON.stringify(handleResult());
+      sessionStorage.setItem('matchData', matchData);
       navigate('finished');
    }
 
@@ -293,7 +297,7 @@ export default function OnGoingMatch({ allPlayers, gameData, setMatchData }) {
                            </S.Flags>
                         }>
                            <S.FinishMatch>
-                              <span>Deseja finalizar a partida?</span>
+                              <span>Deseja finalizar a partida? IMPORTANTE: Não será possível editar as informações da partida após avançar.</span>
                               <div>
                                  <Button.Primary
                                  onClick={finishGame}

@@ -20,7 +20,7 @@ export default function TeamRegister() {
     const navigate = useNavigate();
     
     const [isRegisterFinished, setIsRegisterFinished] = useState(false);
-    const [teamData, setTeamData] = useState({coach: { id: localStorage.getItem('personaId') }});
+    const [teamData, setTeamData] = useState({});
 
     useEffect(() => {
         if(isRegisterFinished) {
@@ -33,10 +33,10 @@ export default function TeamRegister() {
      }, [isRegisterFinished]);
 
     const handleFormSubmit = async (formData) => {
-      console.log(formData);
       teamData.name = formData.name;
       teamData.category = formData.category;
       teamData.local = formData.local;
+      teamData.coach = { id: localStorage.getItem('personaId') }
       const { picture }  = formData;
       delete teamData.picture;
 
