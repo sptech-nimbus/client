@@ -33,7 +33,7 @@ export default function Dashboard() {
                <Title text='Dashboard' $uppercase/> 
                <Switch label='Comparação de times' id='switch_comparacao' onCheckedChange={handleVizualitionMode} checked={isComparison}/>
             </S.Flex>
-            {isComparison ? <ComparisonLayout /> : <DashboardLayout />}
+            {isComparison ? <ComparisonLayout stats={teamStats}/> : <DashboardLayout setTeamStats={setTeamStats}/>}
          </S.ContentContainer>
       </S.PageContainer>
    )

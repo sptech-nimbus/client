@@ -5,12 +5,11 @@ import * as S from "./Team.styled";
 import { Colors } from "@utils/Helpers";
 
 import Card from "@components/Card/Card";
-import { Pencil, Trash, Eye, Star, FirstAid, Bandaids} from "@phosphor-icons/react";
+import { Pencil, Trash, Eye, Star, Bandaids} from "@phosphor-icons/react";
 import { useNavigate } from "react-router-dom";
 import { DeleteDialog, UpdateDialog } from "@components/Dialog/Dialog";
 
 export default function TeamGrid({ players }) {
-   console.clear();
    console.log(players);
    const navigate = useNavigate();
 

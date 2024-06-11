@@ -16,6 +16,7 @@ export default function Home() {
    const [events, setEvents] = useState([]);
    const [winsGraph, setWinsGraph] = useState();
    const [performanceGraph, setPerformanceGraph] = useState();
+   const [games, setGames] = useState();
 
    const [lastGame, setLastGame] = useState({
       game: {
@@ -60,58 +61,77 @@ export default function Home() {
       return new Date(a.inicialDateTime).getTime() - new new Date(b.inicialDateTime).getTime();
    }
 
+   const fetchGames = async () => {
+      try {
+         const response = await game.getByTeam(
+            sessionStorage.getItem('teamId'),
+            localStorage.getItem('token')
+         );
+
+         if(response.status === 200) {
+            setGames(response.data.data);
+         }
+      }
+      catch(err) {
+         console.log(err);
+      }
+   }
+
+   async function fetchLastGame() {
+      const res = await game.lastGame(sessionStorage.getItem('teamId'), localStorage.getItem('token'));
+
+      if (res.status === 204) {
+         setLastGame(null);
+      } else {
+         setLastGame(res.data.data);
+      }
+   }
+
+   async function fetchNextGame() {
+      const res = await game.nextGame(sessionStorage.getItem('teamId'), localStorage.getItem('token'));
+
+      const date = new Date(res.data.data.game.inicialDateTime);
+
+      if (res.status === 204) {
+         setNextGame(null);
+      } else {
+         setNextGame({
+            ...res.data.data, game: {
+               day: date.getDate(),
+               month: date.getMonth() + 1,
+               hour: `${date.getHours()}:${date.getMinutes()}`
+            }
+         });
+      }
+   }
+
+   async function fetchAllEvents() {
+      const res = await graph.allEvents(sessionStorage.getItem('teamId'), localStorage.getItem('token'));
+
+      const events = [...res.data.data.games, ...res.data.data.trainings];
+
+      const orderedEvents = events.sort(sortByDate);
+
+      console.log(orderedEvents);
+      setEvents(orderedEvents);
+
+   }
+
+   async function fetchWins() {
+      const res = await graph.getWins(sessionStorage.getItem('teamId'), 10, localStorage.getItem('token'));
+
+      setWinsGraph([res.data.data.wins, res.data.data.loses]);
+   }
+
    useEffect(() => {
-      async function getLastGame() {
-         const res = await game.lastGame(sessionStorage.getItem('teamId'), localStorage.getItem('token'));
-
-         if (res.status === 204) {
-            setLastGame(null);
-         } else {
-            setLastGame(res.data.data);
-         }
-      }
-
-      async function getNextGame() {
-         const res = await game.nextGame(sessionStorage.getItem('teamId'), localStorage.getItem('token'));
-
-         const date = new Date(res.data.data.game.inicialDateTime);
-
-         if (res.status === 204) {
-            setNextGame(null);
-         } else {
-            setNextGame({
-               ...res.data.data, game: {
-                  day: date.getDate(),
-                  month: date.getMonth() + 1,
-                  hour: `${date.getHours()}:${date.getMinutes()}`
-               }
-            });
-         }
-      }
-
-      async function getAllEvents() {
-         const res = await graph.allEvents(sessionStorage.getItem('teamId'), localStorage.getItem('token'));
-
-         const events = [...res.data.data.games, ...res.data.data.trainings];
-
-         const orderedEvents = events.sort(sortByDate);
-
-         console.log(orderedEvents);
-         setEvents(orderedEvents);
-
-      }
-
-      async function getWins() {
-         const res = await graph.getWins(sessionStorage.getItem('teamId'), 10, localStorage.getItem('token'));
-
-         setWinsGraph([res.data.data.wins, res.data.data.loses]);
-      }
-
-      getLastGame();
-      getNextGame();
-      getAllEvents();
-      getWins();
+      fetchGames();
+      fetchLastGame();
+      fetchNextGame();
+      fetchAllEvents();
+      fetchWins();
    }, []);
+
+   useEffect(() => {console.log(games);}, [games])
 
    const radarConfig = {
       data: {
@@ -268,8 +288,6 @@ export default function Home() {
       )
    }
 
-   console.clear();
-   console.log(doughnutConfig);
    return (
       <S.PageContainer>
          <Background.Default />

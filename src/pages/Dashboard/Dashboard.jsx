@@ -17,6 +17,7 @@ export default function DashboardLayout({ setTeamStats }) {
    const [pointsDivision, setPointsDivision] = useState([]);
    const [pointsPerGame, setPointsPerGame] = useState({ labels: [], values: []});
    const [foulsPerGame, setFoulsPerGame] = useState({ labels: [], values: [] });
+   const [reboundsPerGame, setReboundsPerGame] = useState({ labels: [], values: [] });
 
    useEffect(() => {
       async function fetchData() {
@@ -47,6 +48,17 @@ export default function DashboardLayout({ setTeamStats }) {
                setFoulsPerGame({...foulsPerGame, labels: [...labels, `${date.getDay()}/${date.getMonth()}`]});
                setFoulsPerGame({...foulsPerGame, values: [...values, foulsPerGame.data.data[gameDate]]})
             });
+
+            const reboundsPerGame = await graph.reboundsPerGame(sessionStorage.getItem('teamId'), 5, localStorage.getItem('token'));
+            const reboundsGames = Object.keys(reboundsPerGame.data.data);
+
+            reboundsGames.forEach(gameDate => {
+               const date = new Date(gameDate);
+
+               setReboundsPerGame({ ...reboundsPerGame, labels: [...labels, `${date.getDay()}/${date.getMonth()}`] });
+               setReboundsPerGame({ ...reboundsPerGame, values: [...values, reboundsPerGame.data.data[gameData]] })
+            })
+
          }
          catch (err) {
             addNotification('error', 'Houve um erro ao buscar os dados do seu time. Por favor, aguarde um momento antes de tentar novamente.');
@@ -54,10 +66,11 @@ export default function DashboardLayout({ setTeamStats }) {
          finally {
             setIsLoading(false);
             setTeamStats({
-               winsGraph,
+               wins: winsGraph,
                pointsDivision,
-               pointsPerGame
-            })
+               pointsPerGame,
+               foulsPerGame
+            });
          }
       }
 
@@ -116,14 +129,14 @@ export default function DashboardLayout({ setTeamStats }) {
 
    const barConfig = {
       data: {
-         labels: ['10/12', '12/12', '14/12', '16/12', '18/12', '20/12'],
+         labels: reboundsPerGame.labels,
          datasets: [
             {
                label: 'Jogador 1',
                backgroundColor: `${Colors.orange500}`,
                borderColor: `${Colors.orange500}`,
                borderWidth: 1,
-               data: [65, 59, 80, 81, 73, 65]
+               data: reboundsPerGame.values
             }
          ],
       },
@@ -251,35 +264,51 @@ export default function DashboardLayout({ setTeamStats }) {
             <S.Container>
                <Title text='Resultados do time' size='1rem' color={Colors.orange100} />
                <S.ChartContainer>
-                  <PieChart data={pieConfig.data[0]} options={pieConfig.options} />
+                  {winsGraph.length === 0
+                  ? <S.NoContent>Não foram encontrados dados de desempenho do time.</S.NoContent> 
+                  : <PieChart data={pieConfig.data[0]} options={pieConfig.options} /> 
+                  }
+                  
                </S.ChartContainer>
             </S.Container>
 
             <S.Container>
                <Title text='Pontos por jogo nos últimos jogos' size='1rem' color={Colors.orange100} />
                <S.ChartContainer>
-                  <LineChart data={areaConfig.data} options={areaConfig.options} />
+                  {pointsPerGame.labels.length === 0
+                  ? <S.NoContent>Não foram encontrados dados de desempenho do time.</S.NoContent>
+                  : <LineChart data={areaConfig.data} options={areaConfig.options} />
+                  }
                </S.ChartContainer>
             </S.Container>
 
             <S.Container>
                <Title text='Faltas cometidas pelo time' size='1rem' color={Colors.orange100} />
                <S.ChartContainer>
-                  <LineChart data={lineConfig.data} options={lineConfig.options} />
+                  {foulsPerGame.labels.length === 0
+                  ? <S.NoContent>Não foram encontrados dados de desempenho do time.</S.NoContent>
+                  : <LineChart data={lineConfig.data} options={lineConfig.options} />
+                  }
                </S.ChartContainer>
             </S.Container>
 
             <S.Container>
                <Title text='Divisão de pontos convertidos' size='1rem' color={Colors.orange100} />
                <S.ChartContainer>
-                  <PieChart data={pieConfig.data[1]} options={pieConfig.options} />
+                  {pointsDivision.length === 0
+                  ? <S.NoContent>Não foram encontrados dados de desempenho do time.</S.NoContent>
+                  : <PieChart data={pieConfig.data[1]} options={pieConfig.options} />
+                  }                  
                </S.ChartContainer>
             </S.Container>
 
             <S.Container>
-               <Title text='Quantidade de tocos por partida' size='1rem' color={Colors.orange100} />
+               <Title text='Quantidade de rebotes por partida' size='1rem' color={Colors.orange100} />
                <S.ChartContainer>
-                  <BarChart data={barConfig.data} options={barConfig.options} />
+                  {reboundsPerGame.labels.length === 0
+                  ? <S.NoContent>Não foram encontrados dados de desempenho do time.</S.NoContent>
+                  : <BarChart data={barConfig.data} options={barConfig.options} />
+                  }
                </S.ChartContainer>
             </S.Container>
          </S.DashGrid>

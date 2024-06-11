@@ -9,8 +9,10 @@ async function postGame({ body }) {
     return response;
 }
 
-async function getByTeam(id) {
-    const response = await axios.get(`${config.baseURL}/${path}/${id}`);
+async function getByTeam(id, token) {
+    const response = await axios.get(`${config.baseURL}/${path}/${id}`, {
+        headers: { Authorization: `Bearer ${token}` }
+    });
 
     return response;
 }

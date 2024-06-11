@@ -18,17 +18,20 @@ export default function MyTeams() {
    const navigate = useNavigate();
    const { chooseTeam } = useAuth();
    const [coachTeams, setCoachTeams] = useState([]);
+   const [reqStatus, setReqStatus] = useState();
 
    const query = useQuery();
    const auto = query.get('auto');
 
    async function fetchData() {
-      const { data } = await team.getAllTeams(localStorage.getItem('token'));
-      setCoachTeams(data.data);
+      const response = await team.byUser(localStorage.getItem('personaId'), localStorage.getItem('token'));
+      setReqStatus(response.status);
+      setCoachTeams(response.data.data);
    }
+   
    useEffect(() => {
-      fetchData()
-   }, [])
+      fetchData();
+   }, []);
 
    useEffect(() => {
       if (coachTeams.length === 1 && auto !== 'false') {
@@ -54,20 +57,18 @@ export default function MyTeams() {
       return initials;
    }
 
-   const teamsElements = coachTeams.map(team => (
-      <S.Team key={team.id} onClick={() => handleTeamSelection(team.id)}>
-         { team.picture ? <S.TeamImage src={team.picture} /> : <S.TemplateImage>{getTeamInitials(team.name)}</S.TemplateImage> }
-         <S.TeamName>{team.name}</S.TeamName>
-      </S.Team>
-   ));
-
    return (
       <S.Header>
          <Background.Default />
          <S.ContentContainer>
-            <S.TeamsContainer $hasTeams={teamsElements.length == 0}>
-               {teamsElements.length !== 0
-                  ? teamsElements
+            <S.TeamsContainer $hasTeams={reqStatus === 200}>
+               {reqStatus === 200
+                  ? coachTeams.map(team => (
+                     <S.Team key={team.id} onClick={() => handleTeamSelection(team.id)}>
+                        { team.picture ? <S.TeamImage src={team.picture} /> : <S.TemplateImage>{getTeamInitials(team.name)}</S.TemplateImage> }
+                        <S.TeamName>{team.name}</S.TeamName>
+                     </S.Team>
+                  ))
                   : (
                      <>
                         <S.NoTeams>Não há times cadastrados.</S.NoTeams>

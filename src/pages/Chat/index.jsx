@@ -120,7 +120,7 @@ export default function Chat() {
                   >
                      <ChatCircleDots />
                   </Input.Default>
-                  <Button.Primary onClick={sendMessage} marginTop='0%' value='Enviar' fontSize='1.3rem' />
+                  <Button.Primary onClick={sendMessage} $marginTop='0%' value='Enviar' fontSize='1.3rem' />
                </S.InputContainer>
             </S.MessagesArea>
          </S.ContentContainer>
