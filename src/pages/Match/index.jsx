@@ -30,11 +30,11 @@ export default function Match({ isMatchFinished }) {
             localStorage.getItem('token')
          );
 
-         if(response.status === 200) {
+         if (response.status === 200) {
             setAllPlayers(response.data.data);
          }
       }
-      catch(err) {
+      catch (err) {
          console.log(err);
       }
    }
@@ -46,11 +46,11 @@ export default function Match({ isMatchFinished }) {
             localStorage.getItem('token')
          );
 
-         if(response.status === 200) {
+         if (response.status === 200) {
             return response.data.data;
          }
       }
-      catch(err) {
+      catch (err) {
          console.log(err);
       }
    }
@@ -64,41 +64,44 @@ export default function Match({ isMatchFinished }) {
 
          return response;
       }
-      catch(err) {
+      catch (err) {
          console.log(err);
       }
    }
-   
-   useEffect(() => {
-      const fetchData = async () => {
-         await fetchPlayers();
-         const games = await fetchGames();
-         
-         const gamesToday = games.filter(game => {
-            const today = new Date().toLocaleDateString('pt-br');
-            const initialDate = new Date(game.inicialDateTime).toLocaleDateString('pt-br');
 
-            return today === initialDate;
-         });
+   const [gamesToday, setGamesToday] = useState([]);
 
-         // const challengerId = gamesToday[0].challenger;
-         // const challengedId = gamesToday[0].challenged;
+      useEffect(() => {
+         const fetchData = async () => {
+            await fetchPlayers();
+            const games = await fetchGames();
 
-         // const challenger = await fetchTeam(challengerId);
-         // const challenged = await fetchTeam(challengedId);
+            const gamesTodayFilter = games.filter(game => {
+               const today = new Date().toLocaleDateString('pt-br');
+               const initialDate = new Date(game.inicialDateTime).toLocaleDateString('pt-br');
 
-         // console.log(challenger);
-         // console.log(challenged);
+               return today === initialDate;
+            });
+            setGamesToday(gamesTodayFilter);
 
-         setIsLoading(false);
-      }
+            // const challengerId = gamesToday[0].challenger;
+            // const challengedId = gamesToday[0].challenged;
 
-      fetchData()
-   }, []);
+            // const challenger = await fetchTeam(challengerId);
+            // const challenged = await fetchTeam(challengedId);
 
-   return isLoading ? 
-   <LoaderContainer>
-      <Loader />
-   </LoaderContainer> : isMatchFinished ? 
-   <FinishedMatch/> : <OnGoingMatch allPlayers={allPlayers}/>
+            // console.log(challenger);
+            // console.log(challenged);
+
+            setIsLoading(false);
+         }
+
+         fetchData()
+      }, []);
+
+   return isLoading ?
+      <LoaderContainer>
+         <Loader />
+      </LoaderContainer> : isMatchFinished ?
+         <FinishedMatch /> : <OnGoingMatch gameId={gamesToday[0] ? gamesToday[0].id : null} allPlayers={allPlayers} />
 }

@@ -26,8 +26,8 @@ export default function FinishedMatch() {
    console.log(matchData);
 
    const handleSelectedPlayer = (key) => {
-      if(selectedPlayer) {
-         if(matchData.players[key].id == selectedPlayer.id) setSelectedPlayer(0);
+      if (selectedPlayer) {
+         if (matchData.players[key].id == selectedPlayer.id) setSelectedPlayer(0);
          else setSelectedPlayer(matchData.players[key]);
       }
       else {
@@ -39,60 +39,61 @@ export default function FinishedMatch() {
       try {
          await athleteHistoric.postList(stats, localStorage.getItem("token"));
       }
-      catch(err) {
+      catch (err) {
          console.log(err);
       }
    }
 
    const submitMatch = async () => {
       const gameResult = {
-         challengerPts : matchData.challenger.pts,
-         challengedPts : matchData.challenged.pts,
+         challengerPts: matchData.challenger.pts,
+         challengedPts: matchData.challenged.pts,
          gameId: matchData.gameId
       }
 
       const mappedStats = matchData.players.map(player => ({
-            observations: "",
-            offRebounds: player.stats.offReb,
-            defRebounds: player.stats.defReb,
-            blocks: player.stats.blk,
-            fouls: player.stats.foul,
-            turnovers: player.stats.turnover,
-            minutes: 0,
-            assists: player.stats.ast,
-            freeThrowConverted: player.stats.pts1,
-            freeThrowAttempted: player.stats.pts1 + player.stats.pts1Error,
-            steals: player.stats.stl,
-            threePointsConverted: player.stats.pts3,
-            threePointsAttempted: player.stats.pts3 + player.stats.pts3Error,
-            twoPointsConverted: player.stats.pts2,
-            twoPointsAttempted: player.stats.pts3 + player.stats.pts3Error,
-            game: { id: matchData.gameId },
-            athlete: {id: player.id }
+         observations: "",
+         offRebounds: player.stats.offReb,
+         defRebounds: player.stats.defReb,
+         blocks: player.stats.blk,
+         fouls: player.stats.foul,
+         turnovers: player.stats.turnover,
+         minutes: 0,
+         assists: player.stats.ast,
+         freeThrowConverted: player.stats.pts1,
+         freeThrowAttempted: player.stats.pts1 + player.stats.pts1Error,
+         steals: player.stats.stl,
+         threePointsConverted: player.stats.pts3,
+         threePointsAttempted: player.stats.pts3 + player.stats.pts3Error,
+         twoPointsConverted: player.stats.pts2,
+         twoPointsAttempted: player.stats.pts3 + player.stats.pts3Error,
+         game: { id: matchData.gameId },
+         athlete: { id: player.id }
       }));
 
-      console.log(mappedStats);
+      submitHistorics(mappedStats);
+
       sessionStorage.removeItem('matchData');
    }
 
-   return !matchData ? <Navigate to={'/match'}/> : (
+   return !matchData ? <Navigate to={'/match'} /> : (
       <S.PageContainer>
          <Sidebar page='match' />
          <S.ContentContainer>
             <S.Flex>
-               <Title text='Partida finalizada' $uppercase/>
+               <Title text='Partida finalizada' $uppercase />
                <S.ButtonContainer>
-                  <Button.Primary 
-                  value='Salvar partida' 
-                  $marginTop='0rem' 
-                  fontSize='1.2rem'
-                  onClick={submitMatch}
+                  <Button.Primary
+                     value='Salvar partida'
+                     $marginTop='0rem'
+                     fontSize='1.2rem'
+                     onClick={submitMatch}
                   />
                </S.ButtonContainer>
             </S.Flex>
             <S.FinishedMatchGrid>
                <S.Container>
-                  <Title text='Times' size='1.2rem'/>
+                  <Title text='Times' size='1.2rem' />
                   <S.TeamsContainer>
                      <MS.Team>
                         <S.TeamImage src={matchData.challenger.picture} />
@@ -107,88 +108,89 @@ export default function FinishedMatch() {
                </S.Container>
 
                <S.Container>
-                  <Title text='Marcações adicionadas na partida' size='1.2rem'/>
+                  <Title text='Marcações adicionadas na partida' size='1.2rem' />
                   <Accordion.Root collapsible type='single' asChild>
                      <S.FlagsContainer>
-                        {  
-                           Object.keys(matchData.flags).length != 0 
-                           ?
-                           Object.keys(matchData.flags).map(key => (
-                              <Quarters key={key} title={key} events={matchData.flags[key]}/>
-                           )) 
-                           :
-                           <S.NoContent>
-                              Não foram feitas marcações durante a partida.
-                           </S.NoContent>
+                        {
+                           Object.keys(matchData.flags).length != 0
+                              ?
+                              Object.keys(matchData.flags).map(key => (
+                                 <Quarters key={key} title={key} events={matchData.flags[key]} />
+                              ))
+                              :
+                              <S.NoContent>
+                                 Não foram feitas marcações durante a partida.
+                              </S.NoContent>
                         }
                      </S.FlagsContainer>
                   </Accordion.Root>
                </S.Container>
 
                <S.Container>
-                  <Title text='Jogadores que participaram da partida' size='1.2rem'/>
+                  <Title text='Jogadores que participaram da partida' size='1.2rem' />
                   <MS.AthletesList>
                      {
-                        matchData.players.length != 0 
-                        ?
-                        matchData && matchData.players.map((player, index) => {
-                           return (
-                           <S.Athlete key={index} onClick={() => handleSelectedPlayer(index)} $active={selectedPlayer && selectedPlayer.id === player.id}>
-                              <MS.AthleteInfo>
-                                 <MS.AthleteImage src={player.picture}/>
+                        matchData.players.length != 0
+                           ?
+                           matchData && matchData.players.map((player, index) => {
+                              return (
+                                 <S.Athlete key={index} onClick={() => handleSelectedPlayer(index)} $active={selectedPlayer && selectedPlayer.id === player.id}>
+                                    <MS.AthleteInfo>
+                                       <MS.AthleteImage src={player.picture} />
 
-                                 <MS.Column>
-                                    <MS.AthleteName>{player.firstName} {player.lastName}</MS.AthleteName>
-                                 </MS.Column>
+                                       <MS.Column>
+                                          <MS.AthleteName>{player.firstName} {player.lastName}</MS.AthleteName>
+                                       </MS.Column>
 
-                                 <Dialog childTrigger title="Adicionar ao jogador" trigger={
-                                    <S.AddNoteBtn title='Adicionar nota'>
-                                       <Notepad size={32}/>
-                                    </S.AddNoteBtn>
-                                 }>
-                                    <Label>
-                                       Adicione uma nota sobre a partida.
-                                       <Input.Default 
-                                       placeholder={"Bom desempenho durante a partida, mas..."} 
-                                       value={player.observations}
-                                       />
-                                    </Label>
+                                       <Dialog childTrigger title="Adicionar ao jogador" trigger={
+                                          <S.AddNoteBtn title='Adicionar nota'>
+                                             <Notepad size={32} />
+                                          </S.AddNoteBtn>
+                                       }>
+                                          <Label>
+                                             Adicione uma nota sobre a partida.
+                                             <Input.Default
+                                                placeholder={"Bom desempenho durante a partida, mas..."}
+                                                value={player.observations}
+                                             />
+                                          </Label>
 
-                                    <Button.Primary width="100%" value="Salvar" />
-                                 </Dialog>
+                                          <Button.Primary width="100%" value="Salvar" />
+                                       </Dialog>
 
-                              </MS.AthleteInfo>
-                           </S.Athlete>
-                        )})
-                        :
-                        <S.NoContent>
-                        Não foram encontrados dados de jogadores que participaram da partida.
-                        </S.NoContent>
+                                    </MS.AthleteInfo>
+                                 </S.Athlete>
+                              )
+                           })
+                           :
+                           <S.NoContent>
+                              Não foram encontrados dados de jogadores que participaram da partida.
+                           </S.NoContent>
                      }
                   </MS.AthletesList>
                </S.Container>
 
                <S.Container>
-                  <Title text='Estatísticas' size='1.2rem'/>
+                  <Title text='Estatísticas' size='1.2rem' />
                   <S.DurationContainer>
                      <span>Duração total da partida</span>
                      <span>{Utils.sumTimes(matchData.stats.times)}</span>
                   </S.DurationContainer>
-                  {  
-                     !selectedPlayer 
-                     ?
-                     <S.StatsContainer>
-                        <Title text={`Geral do time`} size='1.2rem' color={Utils.colors.orange100}/>
-                        <Stats stats={matchData.stats.teamStats}/>
-                     </S.StatsContainer> 
-                     : (
+                  {
+                     !selectedPlayer
+                        ?
                         <S.StatsContainer>
-                           <Title text={`${selectedPlayer.firstName} ${selectedPlayer.lastName}`} size='1.2rem' color={Utils.colors.orange100}/>
-                           <Stats stats={selectedPlayer.stats}/>
+                           <Title text={`Geral do time`} size='1.2rem' color={Utils.colors.orange100} />
+                           <Stats stats={matchData.stats.teamStats} />
                         </S.StatsContainer>
-                     )
+                        : (
+                           <S.StatsContainer>
+                              <Title text={`${selectedPlayer.firstName} ${selectedPlayer.lastName}`} size='1.2rem' color={Utils.colors.orange100} />
+                              <Stats stats={selectedPlayer.stats} />
+                           </S.StatsContainer>
+                        )
                   }
-                     
+
                </S.Container>
             </S.FinishedMatchGrid>
          </S.ContentContainer>

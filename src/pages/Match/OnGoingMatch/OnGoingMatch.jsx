@@ -14,7 +14,7 @@ import * as Accordion from '@radix-ui/react-accordion';
 
 import Athlete from './Athlete';
 
-export default function OnGoingMatch({ allPlayers, gameData }) {
+export default function OnGoingMatch({ allPlayers, gameId }) {
    const navigate = useNavigate();
    const { seconds, minutes, hours, isRunning, start, pause, reset } = useStopwatch();
    const [times, setTimes] = useState([]);
@@ -118,26 +118,26 @@ export default function OnGoingMatch({ allPlayers, gameData }) {
                ...player.stats,
                [stat]: player.stats[stat] + value
             };
-   
+
             if (stat === 'pts') {
                const pointMapping = {
                   1: 'pts1',
                   2: 'pts2',
                   3: 'pts3',
                };
-   
+
                const pointStat = pointMapping[value];
                if (pointStat) {
                   updatedStats[pointStat] += 1;
                }
             }
-   
+
             return { ...player, stats: updatedStats };
          }
          return player;
       }));
    };
-   
+
 
    const handleFinishQuarter = () => {
       times.push(`${formatTime(hours)}:${formatTime(minutes)}:${formatTime(seconds)}`);
@@ -167,22 +167,20 @@ export default function OnGoingMatch({ allPlayers, gameData }) {
          const allZeros = Object.values(player.stats).every(value => value === 0);
          return !allZeros;
       });
-
       return {
-         gameId: 1,
          challenged,
          challenger: {
             ...challenger,
             stats: { ...teamStats }
          },
-         // gameId: gameData.gameId,
+         gameId,
          players: matchPlayers,
          flags: handleFlags(),
          stats: {
             times,
             teamStats
          }
-      }      
+      }
    }
 
    const finishGame = () => {
@@ -250,7 +248,7 @@ export default function OnGoingMatch({ allPlayers, gameData }) {
                   <Accordion.Root collapsible asChild>
                      <S.AthletesList>
                         {players.map(player => (
-                           <Athlete 
+                           <Athlete
                               key={player.id}
                               player={player}
                               addStatistic={addTeamStatistic}
@@ -280,45 +278,45 @@ export default function OnGoingMatch({ allPlayers, gameData }) {
                      </S.Timer>
                      <S.AddFlag>
                         <span>{currentQuarter}º Quarto</span>
-                        <input type='text' value={flagInput} onChange={ (e) => { setFlagInput(e.target.value) } }/>
+                        <input type='text' value={flagInput} onChange={(e) => { setFlagInput(e.target.value) }} />
                      </S.AddFlag>
                      <S.FlagButton onClick={addFlag}>+ marcação</S.FlagButton>
                   </S.TimerContainer>
-                  
+
                   {
                      currentQuarter > 3
-                     ? (
-                        <Dialog 
-                        title='Finalizar partida'
-                        childTrigger
-                        trigger={
+                        ? (
+                           <Dialog
+                              title='Finalizar partida'
+                              childTrigger
+                              trigger={
+                                 <S.Flags>
+                                    <S.FlagButton onClick={handleFinishQuarter}>{currentQuarter == 4 ? 'Finalizar partida' : 'Finalizar quarto'}</S.FlagButton>
+                                 </S.Flags>
+                              }>
+                              <S.FinishMatch>
+                                 <span>Deseja finalizar a partida? IMPORTANTE: Não será possível editar as informações da partida após avançar.</span>
+                                 <div>
+                                    <Button.Primary
+                                       onClick={finishGame}
+                                       value='Finalizar partida'
+                                    />
+                                    <Close>
+                                       <Button.Secondary
+                                          value='Ir para prorrogação'
+                                       />
+                                    </Close>
+                                 </div>
+                              </S.FinishMatch>
+                           </Dialog>
+                        )
+                        : (
                            <S.Flags>
                               <S.FlagButton onClick={handleFinishQuarter}>{currentQuarter == 4 ? 'Finalizar partida' : 'Finalizar quarto'}</S.FlagButton>
                            </S.Flags>
-                        }>
-                           <S.FinishMatch>
-                              <span>Deseja finalizar a partida? IMPORTANTE: Não será possível editar as informações da partida após avançar.</span>
-                              <div>
-                                 <Button.Primary
-                                 onClick={finishGame}
-                                 value='Finalizar partida'
-                                 />
-                                 <Close>
-                                    <Button.Secondary
-                                    value='Ir para prorrogação'
-                                    />
-                                 </Close>
-                              </div>
-                           </S.FinishMatch>
-                        </Dialog>
-                     )
-                     : (
-                        <S.Flags>
-                           <S.FlagButton onClick={handleFinishQuarter}>{currentQuarter == 4 ? 'Finalizar partida' : 'Finalizar quarto'}</S.FlagButton>
-                        </S.Flags>
-                     )
+                        )
                   }
-                  
+
                </S.Container>
             </S.MatchGrid>
          </S.ContentContainer>
