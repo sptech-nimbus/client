@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { Navigate } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { Navigate, useNavigate } from 'react-router-dom';
 
 import * as S from './FinishedMatch.styled';
 import * as MS from '../OnGoingMatch/Match.styled';
@@ -9,21 +9,26 @@ import Title from '@components/Title/Title';
 import Button from '@components/Button/Button'
 import Input from '@components/Input/Input'
 import Label from '@components/Label/Label'
-import { Dialog } from '@components/Dialog/Dialog';
+import { Dialog, DialogClose } from '@components/Dialog/Dialog';
 import Utils from '@utils/Helpers';
 
 import * as Accordion from '@radix-ui/react-accordion';
 import { Notepad } from '@phosphor-icons/react';
+import { ToastContainer, toast } from 'react-toastify';
 
 import Quarters from './Quarters';
 import Stats from './Stats';
 
 import athleteHistoric from "@api/athleteHistoric";
+import game from "@api/game";
 
 export default function FinishedMatch() {
+   const navigate = useNavigate();
    const [matchData, setMatchData] = useState(JSON.parse(sessionStorage.getItem('matchData')));
    const [selectedPlayer, setSelectedPlayer] = useState();
-   console.log(matchData);
+   const [isSubmitted, setIsSubmitted] = useState(false);
+   const [observationsInput, setObservationsInput] = useState('');
+
 
    const handleSelectedPlayer = (key) => {
       if (selectedPlayer) {
@@ -35,9 +40,23 @@ export default function FinishedMatch() {
       }
    }
 
+   const handleObservations = (index, observations) => {
+      matchData.players[index].observations = observations;
+      setMatchData({ ...matchData });
+   }
+
    const submitHistorics = async (stats) => {
       try {
          await athleteHistoric.postList(stats, localStorage.getItem("token"));
+      }
+      catch (err) {
+         console.log(err);
+      }
+   }
+
+   const submitGameResult = async (body) => {
+      try {
+         await game.result.post(body, localStorage.getItem("token"));
       }
       catch (err) {
          console.log(err);
@@ -48,11 +67,13 @@ export default function FinishedMatch() {
       const gameResult = {
          challengerPts: matchData.challenger.pts,
          challengedPts: matchData.challenged.pts,
-         gameId: matchData.gameId
+         gameId: {
+            id: matchData.gameId
+         }
       }
 
       const mappedStats = matchData.players.map(player => ({
-         observations: "",
+         observations: player.observations,
          offRebounds: player.stats.offReb,
          defRebounds: player.stats.defReb,
          blocks: player.stats.blk,
@@ -71,13 +92,47 @@ export default function FinishedMatch() {
          athlete: { id: player.id }
       }));
 
-      submitHistorics(mappedStats);
+      try {
+         await Promise.all([
+            submitHistorics(mappedStats),
+            submitGameResult(gameResult)
+         ]);
+
+         setIsSubmitted(true);
+      }
+      catch(err) {
+         toast.error("Houve um problema ao enviar os dados. Por favor, aguarde um momento antes de tentar novamente.");
+      }
+      await submitHistorics(mappedStats);
+      await submitGameResult(gameResult);
+
+      setIsSubmitted(true);
 
       sessionStorage.removeItem('matchData');
    }
 
+   useEffect(() => {
+      if(isSubmitted) {
+         toast.success('Partida cadastrada! Aguarde o treinador do outro time confirmar o resultado da partida ou confirme você mesmo.', { autoClose: 2000 });
+         setTimeout(() => {
+              navigate('/match');
+         }, 2600);
+      }
+   }, [isSubmitted]);
+
    return !matchData ? <Navigate to={'/match'} /> : (
       <S.PageContainer>
+         <ToastContainer
+            autoClose={3000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            theme="dark"
+            limit={3}
+         />
          <Sidebar page='match' />
          <S.ContentContainer>
             <S.Flex>
@@ -133,6 +188,10 @@ export default function FinishedMatch() {
                         matchData.players.length != 0
                            ?
                            matchData && matchData.players.map((player, index) => {
+                              const setObservations = (observations) => {
+                                 handleObservations(index, observations);
+                              }
+                              
                               return (
                                  <S.Athlete key={index} onClick={() => handleSelectedPlayer(index)} $active={selectedPlayer && selectedPlayer.id === player.id}>
                                     <MS.AthleteInfo>
@@ -142,20 +201,28 @@ export default function FinishedMatch() {
                                           <MS.AthleteName>{player.firstName} {player.lastName}</MS.AthleteName>
                                        </MS.Column>
 
-                                       <Dialog childTrigger title="Adicionar ao jogador" trigger={
+                                       <Dialog childTrigger title="Adicionar nota ao jogador" trigger={
                                           <S.AddNoteBtn title='Adicionar nota'>
                                              <Notepad size={32} />
                                           </S.AddNoteBtn>
                                        }>
-                                          <Label>
-                                             Adicione uma nota sobre a partida.
-                                             <Input.Default
-                                                placeholder={"Bom desempenho durante a partida, mas..."}
-                                                value={player.observations}
-                                             />
-                                          </Label>
-
-                                          <Button.Primary width="100%" value="Salvar" />
+                                          <S.DialogContainer>
+                                             <Label>
+                                                Adicione uma nota sobre a partida.
+                                                <Input.Default
+                                                   placeholder={"Bom desempenho durante a partida, mas..."}
+                                                   value={observationsInput}
+                                                   onChange={(e) => setObservationsInput(e.target.value)}
+                                                   onBlur={(e) => setObservations(e.target.value)}
+                                                />
+                                             </Label>
+                                             <DialogClose>
+                                                <Button.Primary
+                                                   value='Adicionar' 
+                                                   width='100%'
+                                                />
+                                             </DialogClose>
+                                          </S.DialogContainer>
                                        </Dialog>
 
                                     </MS.AthleteInfo>
