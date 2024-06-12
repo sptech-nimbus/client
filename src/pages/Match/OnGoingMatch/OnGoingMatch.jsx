@@ -94,7 +94,7 @@ export default function OnGoingMatch({ allPlayers, gameId, teams }) {
    const addTeamStatistic = (stat, value) => {
       setTeamStats(prevStats => ({
          ...prevStats,
-         [stat]: prevStats[stat] + value
+         [stat]: value > 0 ? prevStats[stat] + value : prevStats[stat]
       }));
 
       if (stat === 'pts') {
@@ -120,16 +120,20 @@ export default function OnGoingMatch({ allPlayers, gameId, teams }) {
    const updatePlayerStats = (playerId, stat, value) => {
       setPlayers(prevPlayers => prevPlayers.map(player => {
          if (player.id === playerId) {
-            const updatedStats = {
-               ...player.stats,
-               [stat]: player.stats[stat] + value
-            };
+            const updatedStats = { ...player.stats };
+
+            if(value > 0) {
+               updatePlayerStats[stat] += value;
+            }
 
             if (stat === 'pts') {
                const pointMapping = {
                   1: 'pts1',
                   2: 'pts2',
                   3: 'pts3',
+                  '-1': 'pts1Err',
+                  '-2': 'pts2Err',
+                  '-3': 'pts3Err'
                };
 
                const pointStat = pointMapping[value];

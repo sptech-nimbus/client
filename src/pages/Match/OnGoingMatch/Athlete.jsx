@@ -44,9 +44,9 @@ export default function Athlete({ player, addStatistic, updatePlayerStats }) {
                            <S.AddButton onClick={() => addStatisticHandler('pts', 3)}>+3 pts</S.AddButton>
                         </S.AddAction>
                         <S.AddAction>
-                           <S.AddButton $isError onClick={() => addStatisticHandler('pts1Err', 1)}>+1 pts</S.AddButton>
-                           <S.AddButton $isError onClick={() => addStatisticHandler('pts2Err', 2)}>+2 pts</S.AddButton>
-                           <S.AddButton $isError onClick={() => addStatisticHandler('pts3Err', 3)}>+3 pts</S.AddButton>
+                           <S.AddButton $isError onClick={() => addStatisticHandler('pts', -1)}>+1 pts</S.AddButton>
+                           <S.AddButton $isError onClick={() => addStatisticHandler('pts', -2)}>+2 pts</S.AddButton>
+                           <S.AddButton $isError onClick={() => addStatisticHandler('pts', -3)}>+3 pts</S.AddButton>
                         </S.AddAction>
                      </S.PopoverContent>
                   </Popover>
