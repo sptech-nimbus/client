@@ -63,8 +63,10 @@ export function Dialog({ title, children, trigger, childTrigger, noClose, ...pro
                   </S.DrawerClose>
                   }
                </S.DrawerHeader>
-               <S.DrawerDescription>
-                  {children}
+               <S.DrawerDescription asChild>
+                  <div>
+                     {children}
+                  </div>
                </S.DrawerDescription>
             </S.DialogContent>
          </D.Portal>
