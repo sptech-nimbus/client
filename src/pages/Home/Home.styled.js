@@ -175,3 +175,52 @@ export const NoContent = styled.div`
    padding: 2rem;
    text-align: center;
 `
+
+export const PendingList = styled.div`
+   width: 100%;
+   height: 100%;
+   display: flex;
+   flex-direction: column;
+   gap: 1rem;
+`
+
+export const Pending = styled.div`
+   width: 100%;
+   display: flex;
+   background-color: ${Colors.gray800};
+   padding: 1rem;
+   border-radius: .8rem;   
+   gap: 2rem;
+   align-items: center;
+   justify-content: space-between;
+
+   span:nth-child(1) {
+      font-weight: 600;
+      color: ${Colors.orange100};
+   }
+
+   span:nth-child(3) {
+      max-width: 20ch;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+   }
+
+   button {
+      background: none;
+      color: ${Colors.orange100};
+      background-color: ${Colors.orange500};
+      border: none;
+      cursor: pointer;
+      padding: .5rem;
+      border-radius: .4rem;
+   }
+`
+
+export const LoaderContainer = styled.div`
+   width: 100vw;
+   height: 100vh;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+`

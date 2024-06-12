@@ -6,17 +6,21 @@ import { useState, useEffect } from 'react';
 import { RadarChart, DoughnutChart } from '../../components/Charts';
 import Results from './Result';
 import Title from '@components/Title/Title';
+import Loader from '@components/Loader/Loader';
 
-import game from '../../api/game';
-import graph from '../../api/graph';
+import game from '@api/game';
+import graph from '@api/graph';
+import team from '@api/team';
 
 import { Colors } from "@utils/Helpers";
 
 export default function Home() {
+   const [games, setGames] = useState();
    const [events, setEvents] = useState([]);
    const [winsGraph, setWinsGraph] = useState();
+   const [gameResults, setGameReults] = useState();
+   const [isLoading, setIsLoading] = useState(false);
    const [performanceGraph, setPerformanceGraph] = useState();
-   const [games, setGames] = useState();
 
    const [lastGame, setLastGame] = useState({
       game: {
@@ -69,8 +73,24 @@ export default function Home() {
          );
 
          if(response.status === 200) {
-            setGames(response.data.data);
+            const notConfirmed = response.data.data.filter(game => !game.confirmed);
+            setGames(notConfirmed);
          }
+      }
+      catch(err) {
+         console.log(err);
+      }
+   }
+
+   const fetchNotConfirmedResult = async () => {
+      try {
+         const response = await game.result.notConfirmed(
+            sessionStorage.getItem('teamId'), localStorage.getItem('token')
+         );
+
+         if(response.status === 200) {
+            setGameReults(response.data.data);
+         }  
       }
       catch(err) {
          console.log(err);
@@ -122,16 +142,6 @@ export default function Home() {
 
       setWinsGraph([res.data.data.wins, res.data.data.loses]);
    }
-
-   useEffect(() => {
-      fetchGames();
-      fetchLastGame();
-      fetchNextGame();
-      fetchAllEvents();
-      fetchWins();
-   }, []);
-
-   useEffect(() => {console.log(games);}, [games])
 
    const radarConfig = {
       data: {
@@ -216,8 +226,29 @@ export default function Home() {
       }
    }
 
+   useEffect(() => {
+      const fetchData = async () => {
+         try {
+            setIsLoading(true);
+            await Promise.all([
+               fetchGames(),
+               fetchNotConfirmedResult(),
+               fetchLastGame(),
+               fetchNextGame(),
+               fetchAllEvents(),
+               fetchWins()
+            ]);
+         } catch (err) {
+            console.error(err);
+         } finally {
+            setIsLoading(false);
+         }
+      }
+
+      fetchData();
+   }, []);
+
    function LastGame({ lastGame }) {
-      
       return (
          <S.MatchCard >
             <S.MatchHeader>
@@ -288,7 +319,48 @@ export default function Home() {
       )
    }
 
-   return (
+   function Pending({ data }) {
+      const [teamName, setTeamName] = useState('Carregando...');
+      const [gameId, setGameId] = useState(data.id);
+      const date = new Date(data.finalDateTime);
+   
+      const confirm = async () => {
+         await game.confirm(gameId, { id: localStorage.getItem("id") },localStorage.getItem('token'));
+         setGames(games.filter(game => game.id !== gameId)); 
+      }
+
+      const fetchTeam = async () => {
+         try {
+            const teamId = data.challenger === sessionStorage.getItem('teamId') ? data.challenger : data.challenged;
+            const response = await team.get(teamId, localStorage.getItem('token'));
+   
+            return response.data.data.name;
+         }
+         catch(err) {
+            console.log(err);
+            return ''
+         }
+      }
+
+      useEffect(() => { 
+         async function fetchData() {
+            const teamDataName = await fetchTeam();
+            setTeamName(teamDataName);
+         }
+         fetchData() 
+      }, [teamName]);
+
+      return (
+         <S.Pending>
+            <span>Jogo</span>
+            <span title={teamName}>{teamName}</span>
+            <span>{date.toLocaleDateString('pt-br')}</span>
+            <button onClick={() => confirm()}>Confirmar</button>
+         </S.Pending>
+      )
+   }
+
+   return isLoading ? <S.LoaderContainer><Loader /></S.LoaderContainer> : (
       <S.PageContainer>
          <Background.Default />
          <Sidebar page='home' />
@@ -307,8 +379,14 @@ export default function Home() {
                </S.MatchContainer>
 
                <S.Container>
-                  <Title text='Próximos eventos do time' size='1rem' color={Colors.orange100} />
-                  <S.NoContent>Não foram encontrados eventos agendados.</S.NoContent>
+                  <Title text='Acões pendentes' size='1rem' color={Colors.orange100} />
+                  {!games ? <S.NoContent>Não foram encontradas ações pendentes.</S.NoContent> : (
+                  <S.PendingList>
+                     {games.map((game, index) => (
+                        <Pending key={index} data={game} />
+                     ))}
+                  </S.PendingList>
+                  )}
                </S.Container>
 
                <S.Container>
