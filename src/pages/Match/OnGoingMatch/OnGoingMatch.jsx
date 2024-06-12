@@ -14,7 +14,9 @@ import * as Accordion from '@radix-ui/react-accordion';
 
 import Athlete from './Athlete';
 
-export default function OnGoingMatch({ allPlayers, gameId }) {
+import Utils from '@utils/Helpers';
+
+export default function OnGoingMatch({ allPlayers, gameId, teams }) {
    const navigate = useNavigate();
    const { seconds, minutes, hours, isRunning, start, pause, reset } = useStopwatch();
    const [times, setTimes] = useState([]);
@@ -24,16 +26,18 @@ export default function OnGoingMatch({ allPlayers, gameId }) {
    const [currentQuarter, setCurrentQuarter] = useState(1);
 
    const [challenged, setChallenged] = useState({
-      id: 0,
-      name: 'Nome challenged',
-      picture: 'https://1000logos.net/wp-content/uploads/2017/12/Los-Angeles-Clippers-Logo.png',
+      id: teams.challenged.id,
+      name: teams.challenged.name,
+      picture: teams.challenged.picture,
+      initials: teams.challenged.initials,
       pts: 0
    });
 
    const [challenger, setChallenger] = useState({
-      id: 0,
-      name: 'Nome challenger',
-      picture: 'https://seeklogo.com/images/A/atlanta-hawks-logo-A108D0AC8D-seeklogo.com.png',
+      id: teams.challenger.id,
+      name: teams.challenger.name,
+      picture: teams.challenger.picture,
+      initials: teams.challenger.initials,
    });
 
    const [players, setPlayers] = useState(allPlayers);
@@ -56,7 +60,9 @@ export default function OnGoingMatch({ allPlayers, gameId }) {
    });
 
    useEffect(() => {
-      sessionStorage.removeItem('matchData')
+      console.log(teams);
+      sessionStorage.removeItem('matchData');
+
       const mapPlayers = players.map(player => ({
          observations: '',
          ...player,
@@ -199,12 +205,20 @@ export default function OnGoingMatch({ allPlayers, gameId }) {
                <S.Container>
                   <S.TeamsContainer>
                      <S.Team>
-                        <S.TeamImage src={challenger.picture} />
+                        {
+                        challenger.picture ? 
+                        <S.TeamImage src={challenger.picture} /> : 
+                        <S.TeamInicials>{challenger.initials}</S.TeamInicials>
+                        }
                         <S.TeamName>{challenger.name}</S.TeamName>
                      </S.Team>
                      <S.Versus>VS</S.Versus>
                      <S.Team>
-                        <S.TeamImage src={challenged.picture} />
+                        {
+                        challenged.picture ? 
+                        <S.TeamImage src={challenged.picture} /> : 
+                        <S.TeamInicials>{challenged.initials}</S.TeamInicials>
+                        }
                         <S.TeamName>{challenged.name}</S.TeamName>
                      </S.Team>
                   </S.TeamsContainer>

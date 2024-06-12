@@ -122,6 +122,19 @@ export const TeamImage = styled.img`
    background-color: ${props => props.src ? 'transparent': Colors.gray200};
 `
 
+export const TeamInicials = styled.div`
+   width: 150px;
+   height: 150px;
+   border-radius: 50%;
+   background-color: ${props => props.src ? 'transparent': Colors.gray500};
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   font-size: 1.2rem;
+   font-weight: 600;
+   color: ${Colors.gray300};
+`
+
 export const Versus = styled.span`
    font-family: 'Catamaran';
    font-size: 2rem;

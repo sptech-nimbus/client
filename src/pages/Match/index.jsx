@@ -10,6 +10,8 @@ import athlete from '@api/athlete';
 import game from '@api/game';
 import team from '@api/team';
 
+import Utils from '@utils/Helpers';
+
 const LoaderContainer = styled.div`
    width: 100vw;
    height: 100vh;
@@ -21,6 +23,8 @@ const LoaderContainer = styled.div`
 export default function Match({ isMatchFinished }) {
    const [isLoading, setIsLoading] = useState(false);
    const [allPlayers, setAllPlayers] = useState([]);
+   const [challenger, setChallenger] = useState({});
+   const [challenged, setChallenged] = useState({});
 
    const fetchPlayers = async () => {
       try {
@@ -55,53 +59,42 @@ export default function Match({ isMatchFinished }) {
       }
    }
 
-   const fetchTeam = async (teamId) => {
-      try {
-         const response = await team.get(
-            teamId,
-            localStorage.getItem('token')
-         )
-
-         return response;
-      }
-      catch (err) {
-         console.log(err);
-      }
-   }
-
    const [gamesToday, setGamesToday] = useState([]);
 
-      useEffect(() => {
-         const fetchData = async () => {
-            await fetchPlayers();
-            const games = await fetchGames();
+   useEffect(() => {
+      const fetchData = async () => {
+         await fetchPlayers();
+         const games = await fetchGames();
 
-            const gamesTodayFilter = games.filter(game => {
-               const today = new Date().toLocaleDateString('pt-br');
-               const initialDate = new Date(game.inicialDateTime).toLocaleDateString('pt-br');
+         const gamesTodayFilter = games.filter(game => {
+            const today = new Date().toLocaleDateString('pt-br');
+            const initialDate = new Date(game.inicialDateTime).toLocaleDateString('pt-br');
 
-               return today === initialDate;
-            });
-            setGamesToday(gamesTodayFilter);
+            return (today === initialDate) && game.confirmed && !game.gameResult;
+         });
+         console.log(gamesTodayFilter);
+         setGamesToday(gamesTodayFilter);
 
-            // const challengerId = gamesToday[0].challenger;
-            // const challengedId = gamesToday[0].challenged;
+         const challengerRes = await team.get(gamesTodayFilter[0].challenger, localStorage.getItem('token'));
+         const challengedRes = await team.get(gamesTodayFilter[0].challenged, localStorage.getItem('token'));
+         
+         setChallenged({ ...challengedRes.data.data, initials: Utils.getTeamInitials(challengedRes.data.data.name) });
+         setChallenger({ ...challengerRes.data.data, initials: Utils.getTeamInitials(challengerRes.data.data.name) });
 
-            // const challenger = await fetchTeam(challengerId);
-            // const challenged = await fetchTeam(challengedId);
+         setIsLoading(false);
+      }
 
-            // console.log(challenger);
-            // console.log(challenged);
-
-            setIsLoading(false);
-         }
-
-         fetchData()
-      }, []);
+      fetchData()
+   }, []);
 
    return isLoading ?
       <LoaderContainer>
          <Loader />
       </LoaderContainer> : isMatchFinished ?
-         <FinishedMatch /> : <OnGoingMatch gameId={gamesToday[0] ? gamesToday[0].id : null} allPlayers={allPlayers} />
+      <FinishedMatch /> : 
+      <OnGoingMatch
+      teams={{ challenger, challenged }}
+      gameId={gamesToday[0] ? gamesToday[0].id : null} 
+      allPlayers={allPlayers} 
+      />
 }
