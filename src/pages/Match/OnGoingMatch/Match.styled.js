@@ -201,6 +201,10 @@ export const Pts = styled.span`
          transition: all .3s ease-in;
       }
    `}
+
+   ${props => props.$adversary && css`
+      cursor: pointer;
+   `}
 `
 
 export const AthletesList = styled.div`
@@ -279,6 +283,7 @@ export const isPlaying = styled.span`
    display: flex;
    justify-content: center;
    align-items: center;
+   cursor: pointer;
 `
 
 export const Column = styled.div`
@@ -310,6 +315,10 @@ export const AddAction = styled.div`
    display: flex;
    gap: .5rem;
    flex-wrap: wrap;
+
+   ${props => props.$adversary && css`
+      flex-direction: column;
+   `}
 `
 
 export const AddButton = styled.button`
@@ -462,7 +471,6 @@ export const StartingPlayer = styled.button`
    padding: 0;
    font-size: 1.8rem;
    border-radius: 50%;
-   cursor: pointer;
    border: none;
    background-color: transparent;
    color: ${Colors.orange500};

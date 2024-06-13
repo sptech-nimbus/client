@@ -8,6 +8,7 @@ import Sidebar from "@components/Sidebar/Sidebar";
 import Title from "@components/Title/Title";
 import Button from "@components/Button/Button";
 import { Dialog, DialogClose as Close } from "@components/Dialog/Dialog";
+import Popover from "@components/Popover/Popover";
 
 import { Play, Pause, ClockClockwise } from '@phosphor-icons/react';
 import * as Accordion from '@radix-ui/react-accordion';
@@ -240,7 +241,17 @@ export default function OnGoingMatch({ allPlayers, gameId, teams }) {
                   <S.OnGoingPts>
                      <S.Pts $isWinning={teamStats.pts > challenged.pts}>{teamStats.pts}</S.Pts>
                      <S.Versus>X</S.Versus>
-                     <S.Pts $isWinning={challenged.pts > teamStats.pts}>{challenged.pts}</S.Pts>
+                     <Popover side='right' trigger={
+                        <S.Pts $adversary $isWinning={challenged.pts > teamStats.pts}>{challenged.pts}</S.Pts>
+                     }>
+                        <S.PopoverContent>
+                        <S.AddAction $adversary>
+                           <S.AddButton onClick={() => setChallenged({ ...challenged, pts: challenged.pts + 1 })}>+1 pts</S.AddButton>
+                           <S.AddButton onClick={() => setChallenged({ ...challenged, pts: challenged.pts + 2 })}>+2 pts</S.AddButton>
+                           <S.AddButton onClick={() => setChallenged({ ...challenged, pts: challenged.pts + 3 })}>+3 pts</S.AddButton>
+                        </S.AddAction>
+                        </S.PopoverContent>
+                     </Popover>
                   </S.OnGoingPts>
                   <S.TitleContainer>
                      <Title text='Estatísticas do seu time' size='1.2rem' />
