@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import * as S from './MyTeams.styled';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '@contexts/auth';
 
 import Background from "@components/Background/Background";
@@ -10,22 +10,31 @@ import { SecondaryButton as Button } from '@components/Button/Button';
 
 import team from '../../api/team';
 
+const useQuery = () => {
+   return new URLSearchParams(useLocation().search);
+}
+
 export default function MyTeams() {
    const navigate = useNavigate();
    const { chooseTeam } = useAuth();
    const [coachTeams, setCoachTeams] = useState([]);
+   const [reqStatus, setReqStatus] = useState();
+
+   const query = useQuery();
+   const auto = query.get('auto');
 
    async function fetchData() {
-      const { data } = await team.getAllTeams(localStorage.getItem('token'));
-      console.log(data)
-      setCoachTeams(data.data);
+      const response = await team.byUser(localStorage.getItem('personaId'), localStorage.getItem('token'));
+      setReqStatus(response.status);
+      setCoachTeams(response.data.data);
    }
-   fetchData();
-   
-   console.log(coachTeams)
    
    useEffect(() => {
-      if (coachTeams.length === 1) {
+      fetchData();
+   }, []);
+
+   useEffect(() => {
+      if (coachTeams.length === 1 && auto !== 'false') {
          chooseTeam(coachTeams[0].id);
          localStorage.setItem('teamId',coachTeams[0].id);
          navigate('/home');
@@ -39,20 +48,27 @@ export default function MyTeams() {
       }
    };
 
-   const teamsElements = coachTeams.map(team => (
-      <S.Team key={team.id} onClick={() => handleTeamSelection(team.id)}>
-         <S.TeamImage src={team.picture} />
-         <S.TeamName>{team.name}</S.TeamName>
-      </S.Team>
-   ));
+   const getTeamInitials = (name) => {
+      const nameArray = name.split(' ');
+      let initials = '';
+
+      nameArray.forEach(element => initials += element[0]);
+
+      return initials;
+   }
 
    return (
       <S.Header>
          <Background.Default />
          <S.ContentContainer>
-            <S.TeamsContainer hasTeams={teamsElements.length == 0}>
-               {teamsElements.length !== 0
-                  ? teamsElements
+            <S.TeamsContainer $hasTeams={reqStatus === 200}>
+               {reqStatus === 200
+                  ? coachTeams.map(team => (
+                     <S.Team key={team.id} onClick={() => handleTeamSelection(team.id)}>
+                        { team.picture ? <S.TeamImage src={team.picture} /> : <S.TemplateImage>{getTeamInitials(team.name)}</S.TemplateImage> }
+                        <S.TeamName>{team.name}</S.TeamName>
+                     </S.Team>
+                  ))
                   : (
                      <>
                         <S.NoTeams>Não há times cadastrados.</S.NoTeams>

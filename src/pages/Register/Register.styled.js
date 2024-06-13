@@ -72,7 +72,7 @@ export const TabsTrigger = styled.button`
   border-bottom: 4px solid transparent;
   cursor: pointer;
  
-  ${props => props.active && `
+  ${props => props.$active && `
     border-bottom: 4px solid #FF7425;
   `}
 `;

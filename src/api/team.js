@@ -13,8 +13,7 @@ async function getAllTeamsByCoach(id, token) {
 }
 
 async function getAllTeams(token) {
-    const response = await axios.get(`${config.baseURL}/${path}`,
-    {
+    const response = await axios.get(`${config.baseURL}/${path}`, {
         headers: {
             'Authorization': `Bearer ${token}`,
             'Content-Type': 'application/json'
@@ -50,8 +49,10 @@ async function getActiveInjuries({ param }) {
     return response;
 }
 
-async function getTeamEspecific({ param }) {
-    const response = await axios.get(`${config.baseURL}/${path}/${param}`)
+async function getTeamEspecific( id, token ) {
+    const response = await axios.get(`${config.baseURL}/${path}/${id}`, {
+        headers: { Authorization: `Bearer ${token}` }
+    })
 
     return response;
 }

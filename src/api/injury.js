@@ -3,13 +3,19 @@ import config from "./config";
 
 const path = "injuries";
 
-async function postInjury({ body }) {
-    const response = await axios.post(`${config.baseURL}/${path}`, body)
+async function postInjury(body, token) {
+    const response = await axios.post(`${config.baseURL}/${path}`, body, {
+        headers: { Authorization: `Bearer ${token}` }
+    });
+
     return response;
 }
 
-async function getInjuriesFromAthlete({ param }) {
-    const response = await axios.post(`${config.baseURL}/${path}/from-athlete/${param}`)
+async function getInjuriesFromAthlete(playerId, token) {
+    const response = await axios.get(`${config.baseURL}/${path}/from-athlete/${playerId}`, {
+        headers: { Authorization: `Bearer ${token}` }
+    });
+
     return response;
 }
 

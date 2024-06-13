@@ -12,11 +12,52 @@ import { CustomAsyncSelect as Select } from "@components/Select/Select";
 
 import { LineChart, PieChart, BarChart } from "@components/Charts";
 
-export default function ComparisonLayout() {
+export default function ComparisonLayout({ stats }) {
    const { addNotification } = useNotification();
-   const [isLoading, setIsLoading] = useState(false);
+
    const [options, setOptions] = useState([]);
+   const [isLoading, setIsLoading] = useState(false);
    const [inputValue, setInputValue] = useState('');
+
+   const [teamStats, setTeamStats] = useState({
+      wins: [0, 0],
+      pointsDivision: [0, 0],
+      foulsPerGame: {
+         labels: [],
+         values: [],
+      },
+      pointsPerGame: {
+         labels: [],
+         values: [],
+      },
+      reboundsPerGame: {
+         labels: [],
+         values: [],
+      }
+   });
+
+   const [adversaryStats, setAdversatyStats] = useState({
+      wins: [0, 0],
+      pointsDivision: [0, 0],
+      foulsPerGame: {
+         labels: [],
+         values: [],
+      },
+      pointsPerGame: {
+         labels: [],
+         values: [],
+      },
+      reboundsPerGame: {
+         labels: [],
+         values: [],
+      }
+   });
+
+   const mappedStats = stats => ({
+      wins: stats.wins[0],
+      pointsDivision: stats.pointsDivision[0] + pointsDivision[1],
+      ...stats
+   });
 
    useEffect(() => {
       async function fetchData() {
@@ -33,6 +74,7 @@ export default function ComparisonLayout() {
             setIsLoading(false);
          }
       }
+
       loadOptions('', options => setOptions(options));
       fetchData();
    }, []);
@@ -67,7 +109,7 @@ export default function ComparisonLayout() {
          ],
          datasets: [{
            label: 'Vitórias',
-           data: [300, 100],
+           data: [teamStats.wins, adversaryStats.wins],
            backgroundColor: [
              Colors.orange500,
              Colors.orange300,
@@ -83,7 +125,7 @@ export default function ComparisonLayout() {
          ],
          datasets: [{
            label: 'Pontos convertidos',
-           data: [542, 670],
+           data: [teamStats.pointsDivision, adversaryStats.pointsDivision],
            backgroundColor: [
              Colors.orange500,
              Colors.orange300,
@@ -110,21 +152,21 @@ export default function ComparisonLayout() {
 
    const barConfig = {
       data: {
-         labels: ['10/12', '12/12', '14/12', '16/12', '18/12', '20/12'],
+         labels: teamStats.reboundsPerGame.labels,
          datasets: [
            {
              label: 'Seu time',
              backgroundColor: `${Colors.orange500}`,
              borderColor: `${Colors.orange500}`,
              borderWidth: 1,
-             data: [65, 59, 80, 81, 73, 65]
+             data: teamStats.reboundsPerGame.values
            },
            {
             label: 'Time adversário',
             backgroundColor: `${Colors.orange300}`,
             borderColor: `${Colors.orange300}`,
             borderWidth: 1,
-            data: [34, 69, 66, 67, 55, 70]
+            data: adversaryStats.reboundsPerGame.values
           }
          ],
        },
@@ -158,14 +200,14 @@ export default function ComparisonLayout() {
 
    const lineConfig = {
       data: {
-         labels: ['10/12', '12/12', '14/12', '16/12', '18/12'],
+         labels: teamStats.foulsPerGame.labels,
          datasets: [
            {
              label: 'Seu time',
              backgroundColor: `${Colors.orange500}`,
              borderColor: `${Colors.orange500}`,
              borderWidth: 3,
-             data: [5, 8, 8, 9, 10],
+             data: teamStats.foulsPerGame.values,
              lineTension: .4,
            },
            {
@@ -173,7 +215,7 @@ export default function ComparisonLayout() {
             backgroundColor: `${Colors.orange300}`,
             borderColor: `${Colors.orange300}`,
             borderWidth: 3,
-            data: [ 6, 5, 4, 8, 9],
+            data: adversaryStats.foulsPerGame.values,
             lineTension: .4,
           }
          ],
@@ -205,7 +247,7 @@ export default function ComparisonLayout() {
 
    const areaConfig = {
       data: {
-         labels: ['10/12', '12/12', '14/12', '16/12', '18/12', '20/12'],
+         labels: teamStats.pointsPerGame.labels,
          datasets: [
            {
             //  fill: true,
@@ -213,7 +255,7 @@ export default function ComparisonLayout() {
              backgroundColor: `${Colors.orange500}`,
              borderColor: `${Colors.orange500}`,
              borderWidth: 3,
-             data: [65, 59, 80, 51, 73, 65],
+             data: teamStats.pointsPerGame.values,
              lineTension: .4,
            },
            {
@@ -222,7 +264,7 @@ export default function ComparisonLayout() {
              backgroundColor: `${Colors.orange300}`,
              borderColor: `${Colors.orange300}`,
              borderWidth: 3,
-             data: [40, 68, 40, 120, 20, 32],
+             data: adversaryStats.pointsPerGame.values,
              lineTension: .4,
            },
          ],

@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-vars */
-
+import * as S from "./Team.styled";
 import { useState, useEffect } from "react";
+
 import Title from "@components/Title/Title";
 import Input from "@components/Input/Input";
 import Button from "@components/Button/Button";
@@ -10,12 +11,12 @@ import * as D from "@components/Dialog/Dialog";
 import Background from "@components/Background/Background";
 import RadioGroup from "@components/RadioGroup/RadioGroup";
 import ToggleGroup from "@components/ToggleGroup/ToggleGroup";
-import { useNotification } from "@contexts/notification";
-import { SquaresFour, Rows, Faders } from "@phosphor-icons/react";
-import * as S from "./Team.styled";
+import { SquaresFour, Rows, Faders, Bandaids, Star } from "@phosphor-icons/react";
+
 import athlete from "@api/athlete";
 import TeamGrid from "./TeamGrid";
 import TeamTable from "./TeamTable";
+
 import Utils from "@utils/Helpers";
 
 export default function TeamRoster() {
@@ -36,11 +37,13 @@ export default function TeamRoster() {
          try {
             setIsLoading(true);
             const response = await athlete.byTeam(
-               localStorage.getItem('teamId'),
+               sessionStorage.getItem('teamId'),
                localStorage.getItem('token')
             );
-            setPlayersData(response.data.data);
-            console.log(response.data.data);
+
+            if (response.status === 200) {
+               setPlayersData(response.data.data);
+            }
          } catch (error) {
             console.log('Houve um erro durante a requisição:', error.message);
          } finally {
@@ -136,18 +139,12 @@ export default function TeamRoster() {
       setTableState(true);
    }
 
-   const randomPosition = () => {
-      const positions = ['Armador', 'Ala-Armador', 'Ala', 'Ala-Pivô', 'Pivô', 'Pivô'];
-      const random = Math.floor(Math.random() * positions.length);
-      return positions[random];
-   }
-
    return (
       <S.PageContainer>
          <Background.Default />
          <Sidebar page="team" />
          <S.ContentContainer>
-            <Title text="Elenco" uppercase size='3rem' />
+            <Title text="Elenco" $uppercase size='3rem' />
             <S.FilterLine>
                <Input.Default
                   value={filters.search}
@@ -213,6 +210,14 @@ export default function TeamRoster() {
                      <Rows size={36} />
                   </ToggleGroup.Item>
                </ToggleGroup.Root>
+               <S.Legend>
+                  <Star size={26} color={Utils.colors.orange500} weight="fill"/>
+                  Jogador titular
+               </S.Legend>
+               <S.Legend>
+                  <Bandaids size={26} color={Utils.colors.orange300} weight="fill"/>
+                  Jogador lesionado
+               </S.Legend>
             </S.FilterLine>
             <S.MainContainer>
                {isLoading

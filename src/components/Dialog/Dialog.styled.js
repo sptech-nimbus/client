@@ -66,6 +66,13 @@ export const DialogContent = styled(DrawerContent)`
    border-radius: 1rem;
 `
 
+export const LoadingContent = styled(DialogContent)`
+   background: none;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+`
+
 export const DrawerTitle = styled(D.Title)`
    width: 100%;
    text-align: left;
@@ -197,7 +204,7 @@ text-transform: capitalize;
 font-weight: bold;
 font-family: 'Catamaran', sans-serif;
 transition: background-color .2s ease-in, border-color .2s ease-in, color .2s ease-in;
-margin-top: ${props => props.marginTop ? props.marginTop : '5%'};
+margin-top: ${props => props.$marginTop ? props.$marginTop : '5%'};
 
 &:hover {
    border-color: ${Colors.orange300};

@@ -32,24 +32,24 @@ const useQuery = () => {
 }
 
 function Chart({ data }) {
-      const pieConfig = {
+   const pieConfig = {
       data: {
-            labels: [
-               'Lesões graves',
-               'Lesões médias',
-               'Lesões leves',
+         labels: [
+            'Lesões graves',
+            'Lesões médias',
+            'Lesões leves',
+         ],
+         datasets: [{
+            label: 'Gravidade das lesões',
+            data: data,
+            backgroundColor: [
+               Utils.colors.orange500,
+               Utils.colors.orange300,
+               Utils.colors.orange200,
             ],
-            datasets: [{
-               label: 'Gravidade das lesões',
-               data: data,
-               backgroundColor: [
-                  Utils.colors.orange500,
-                  Utils.colors.orange300,
-                  Utils.colors.orange200,
-               ],
-               borderColor: Utils.colors.gray700,
-               hoverOffset: 4
-            }]
+            borderColor: Utils.colors.gray700,
+            hoverOffset: 4
+         }]
       },
       options: {
          responsive: true,
@@ -66,7 +66,7 @@ function Chart({ data }) {
       }
    }
 
-   return <PieChart data={pieConfig.data} options={pieConfig.options}/>;
+   return <PieChart data={pieConfig.data} options={pieConfig.options} />;
 }
 
 export function NoContent() {
@@ -75,32 +75,35 @@ export function NoContent() {
 
    return (
       <S.NoInjury>
-         <Title text='Não foram encontradas lesões associadas ao atleta.' size='' color='#a6a6a6'/>
-         <InjuryDialog playerId={playerId}/>
+         <Title text='Não foram encontradas lesões associadas ao atleta.' size='' color='#a6a6a6' />
+         <InjuryDialog playerId={playerId} />
       </S.NoInjury>
    )
 }
 
-export default function AthleteInjuries({ playerData }) { 
+export default function AthleteInjuries({ playerData }) {
    const query = useQuery();
    const playerId = query.get('id');
 
    const [isLoading, setIsLoading] = useState(false);
-   const [allInjuries, setAllInjuries] = useState([]);  
+   const [allInjuries, setAllInjuries] = useState([]);
    const [totalDays, setTotalDays] = useState(0);
    const [totalInjuries, setTotalInjuries] = useState(0);
    const [injuriesGraph, setInjuriesGraph] = useState([]);
+   const [lastSixMonths, setLastSixMonths] = useState(0);
 
    useEffect(() => {
       async function fetchData() {
          try {
             setIsLoading(true);
-            const response = await axios.get('https://3yyr7.wiremockapi.cloud/injuries');
-            setAllInjuries(response.data);
-            // const response = await injury.getInjuriesFromAthlete(`?athlete=${playerId}`);
-            // setAllInjuries(response.data.data);
+
+            const response = await injury.getInjuriesFromAthlete(playerId, localStorage.getItem('token'));
+
+            if (response.status === 200) {
+               setAllInjuries(response.data.data);
+            }
          }
-         catch(err) {
+         catch (err) {
             console.log(err);
          }
          finally {
@@ -109,131 +112,132 @@ export default function AthleteInjuries({ playerData }) {
       }
 
       fetchData();
-   }, []);
+   }, [playerId]);
 
    useEffect(() => {
       if (allInjuries.length > 0) {
-         const total = allInjuries.reduce((total, injury) => total + Utils.calcDayDiff(injury.initialDate, injury.finalDate), 0);
-         
+         const now = new Date();
+
+         const total = allInjuries.reduce((total, injury) => total + Utils.calcDayDiff(injury.inicialDate, injury.finalDate), 0);
+
+         const sixMonths = allInjuries.filter(i => new Date(i.inicialDate) > new Date(now.setMonth(now.getMonth() - 6))).length;
+
          const severityCounts = allInjuries.reduce((total, injury) => {
-            const severity = calculateSeverity(injury.initialDate, injury.finalDate);
+            const severity = calculateSeverity(injury.inicialDate, injury.finalDate);
             if (severity === 'Grave') {
                total[0] += 1;
-            } 
+            }
             else if (severity === 'Média') {
                total[1] += 1;
             }
             else if (severity === 'Leve') {
                total[2] += 1;
-            } 
+            }
             return total;
-         }, [ 0, 0, 0 ]);
+         }, [0, 0, 0]);
 
          setTotalInjuries(allInjuries.length);
          setTotalDays(total);
          setInjuriesGraph(severityCounts);
+         setLastSixMonths(sixMonths);
       }
    }, [allInjuries]);
 
-   useEffect(() => { 
-      console.log(injuriesGraph); 
-   }, [injuriesGraph]);
-
    return (
-      isLoading 
-      ? <LoaderContainer> <Loader /> </LoaderContainer> 
-      : allInjuries.length == 0 
-      ? <NoContent />
-      : (
-      <>
-         <S.ToastContainer>
-            <ToastContainer
-               autoClose={8000}
-               hideProgressBar={false}
-               newestOnTop={false}
-               closeOnClick
-               rtl={false}
-               pauseOnFocusLoss
-               draggable
-               theme="dark"
-               limit={3}
-            />
-         </S.ToastContainer>
+      isLoading
+         ? <LoaderContainer> <Loader /> </LoaderContainer>
+         : allInjuries.length == 0
+            ? <NoContent />
+            : (
+               <>
+                  <S.ToastContainer>
+                     <ToastContainer
+                        autoClose={8000}
+                        hideProgressBar={false}
+                        newestOnTop={false}
+                        closeOnClick
+                        rtl={false}
+                        pauseOnFocusLoss
+                        draggable
+                        theme="dark"
+                        limit={3}
+                     />
+                  </S.ToastContainer>
 
-         <Title text={`Lesões do jogador: [nome do jogador]`}/>
-         <S.InjuryGrid>
-            <S.Container>
-               <Title text='Infomações gerais' size='1.2rem'/>
-                  <S.InjuryDashboard>
-                     <S.DashInfo>
-                        <span>Lesões totais</span>
-                        <span>{totalInjuries}</span>
-                     </S.DashInfo>
-                     <S.DashInfo>
-                        <span>Últimos 6 meses</span>
-                        <span>2 lesões</span>
-                     </S.DashInfo>
-                     <S.DashInfo>
-                        <span>Total de dias lesionado</span>
-                        <span>{totalDays}</span>
-                     </S.DashInfo>
-                  </S.InjuryDashboard>
-            </S.Container>
+                  <Title text={`Lesões do jogador: ${playerData.firstName} ${playerData.lastName}`} />
+                  <S.InjuryGrid>
+                     <S.Container>
+                        <Title text='Infomações gerais' size='1.2rem' />
+                        <S.InjuryDashboard>
+                           <S.DashInfo>
+                              <span>Lesões totais</span>
+                              <span>{totalInjuries}</span>
+                           </S.DashInfo>
+                           <S.DashInfo>
+                              <span>Últimos 6 meses</span>
+                              <span>{lastSixMonths}</span>
+                           </S.DashInfo>
+                           <S.DashInfo>
+                              <span>Total de dias lesionado</span>
+                              <span>{totalDays}</span>
+                           </S.DashInfo>
+                        </S.InjuryDashboard>
+                     </S.Container>
 
-            <S.Container>
-               <Title text='Divisão da gravidade das lesões do atleta' size='1.2rem'/>
-               <S.ChartContainer>
-                  <Chart data={injuriesGraph}/>
-               </S.ChartContainer>
-            </S.Container>
+                     <S.Container>
+                        <Title text='Divisão da gravidade das lesões do atleta' size='1.2rem' />
+                        <S.ChartContainer>
+                           <Chart data={injuriesGraph} />
+                        </S.ChartContainer>
+                     </S.Container>
 
-            <S.Container>
-               <InjuryDialog playerId={playerId}/>
-               <S.InjuryContainer>
-                  <Title text='Histório de lesões' size='1.2rem'/>
-                  <S.InjuryHist>
-                     { allInjuries && allInjuries.map(injury => (
-                     <Accordion.Root type='single' collapsible key={injury.injuryId}>
-                        <Accordion.Item value={injury.athleteId} asChild>
-                           <S.Injury>
-                              <Accordion.Trigger asChild>
-                                 <S.InjuryContent>
-                                    <S.Column>
-                                       <span>Tipo</span>
-                                       <span>{injury.type}</span>
-                                    </S.Column>
-                                    <S.Column>
-                                       <span>Gravidade</span>
-                                       <span>{calculateSeverity(injury.initialDate, injury.finalDate)}</span>
-                                    </S.Column>
-                                    <S.Arrow>
-                                       <CaretDown weight='bold'/>
-                                    </S.Arrow>
-                                 </S.InjuryContent>
-                              </Accordion.Trigger>
-                              <Accordion.Content asChild>
-                                 <S.InjuryContentHidden>
-                                    <S.Column>
-                                       <span>Inicio</span>
-                                       <span>{Utils.formatDate(injury.initialDate)}</span>
-                                    </S.Column>
-                  
-                                    <S.Column>
-                                       <span>Fim</span>
-                                       <span>{Utils.formatDate(injury.finalDate)}</span>
-                                    </S.Column>
-                                 </S.InjuryContentHidden>
-                              </Accordion.Content>
-                           </S.Injury>
-                        </Accordion.Item>
-                     </Accordion.Root>
-                     )) }
-                  </S.InjuryHist>
-               </S.InjuryContainer>
-            </S.Container>
-         </S.InjuryGrid>
-      </>
-   )
+                     <S.Container>
+                        <InjuryDialog playerId={playerId} />
+                        <S.InjuryContainer>
+                           <Title text='Histório de lesões' size='1.2rem' />
+                           <S.InjuryHist>
+                              <Accordion.Root type='single' collapsible>
+                                 {allInjuries && allInjuries.map(injury => (
+                                    <Accordion.Item value={injury.injuryId} key={injury.injuryId} asChild>
+                                       <S.Injury>
+                                          <Accordion.Trigger asChild>
+                                             <S.InjuryContent>
+                                                <S.Column>
+                                                   <span>Tipo</span>
+                                                   <span>{injury.type}</span>
+                                                </S.Column>
+                                                <S.Column>
+                                                   <span>Gravidade</span>
+                                                   <span>{calculateSeverity(injury.inicialDate, injury.finalDate)}</span>
+                                                </S.Column>
+                                                <S.Arrow>
+                                                   <CaretDown weight='bold' />
+                                                </S.Arrow>
+                                             </S.InjuryContent>
+                                          </Accordion.Trigger>
+
+                                          <Accordion.Content asChild>
+                                             <S.InjuryContentHidden>
+                                                <S.Column>
+                                                   <span>Inicio</span>
+                                                   <span>{Utils.formatDate(injury.inicialDate)}</span>
+                                                </S.Column>
+
+                                                <S.Column>
+                                                   <span>Fim</span>
+                                                   <span>{Utils.formatDate(injury.finalDate)}</span>
+                                                </S.Column>
+                                             </S.InjuryContentHidden>
+                                          </Accordion.Content>
+                                       </S.Injury>
+                                    </Accordion.Item>
+                                 ))}
+                              </Accordion.Root>
+                           </S.InjuryHist>
+                        </S.InjuryContainer>
+                     </S.Container>
+                  </S.InjuryGrid>
+               </>
+            )
    )
 }
- 

@@ -97,10 +97,10 @@ export default function FormStepOne({onSubmit}) {
             <S.TabsRoot>
                 <span>Selecione como deseja se cadastrar</span>
                 <S.TabsList>
-                    <S.TabsTrigger value="coach" onClick={(e) => { e.preventDefault(); handleTabClick("coach"); }} active={userData.typeUser === "coach"}>
+                    <S.TabsTrigger value="coach" onClick={(e) => { e.preventDefault(); handleTabClick("coach"); }} $active={userData.typeUser === "coach"}>
                         Treinador
                     </S.TabsTrigger>
-                    <S.TabsTrigger value="athlete" onClick={(e) => { e.preventDefault(); handleTabClick("athlete"); }} active={userData.typeUser === "athlete"}>
+                    <S.TabsTrigger value="athlete" onClick={(e) => { e.preventDefault(); handleTabClick("athlete"); }} $active={userData.typeUser === "athlete"}>
                         Jogador
                     </S.TabsTrigger>
                 </S.TabsList>
@@ -185,6 +185,6 @@ export default function FormStepOne({onSubmit}) {
     );
 }
 
-FormStepOne.propTypes = {
-    onSubmit: PropTypes.func.isRequired,
-};
+// FormStepOne.propTypes = {
+//     onSubmit: PropTypes.func.isRequired,
+// };

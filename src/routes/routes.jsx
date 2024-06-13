@@ -15,14 +15,17 @@ import Chat from '@pages/Chat';
 import ForgotPassword from '@pages/ForgotPassword';
 import MyTeams from '@pages/MyTeams';
 import Match from '@pages/Match';
+import JoinTeam from '@pages/JoinTeam';
 
 import ProtectedRoute from './ProtectedRoute';
+import RequireQueryParams from './RequireQueryParams';
 
 export default function AppRoutes() {
    return (
       <Router>
          <Routes>
             <Route path="*" element={<NotFound />} />
+            <Route path="/not-found" element={<NotFound />} />
             <Route path="/" element={<LandingPage />} />
             <Route path="/about-us" element={<AboutUs />} />
             <Route path="/login" element={<Login />} />
@@ -112,6 +115,11 @@ export default function AppRoutes() {
                   </ProtectedRoute>
                } 
             />
+            <Route path='/join-team' element={
+            <RequireQueryParams>
+               <JoinTeam />
+            </RequireQueryParams>   
+            }/>
          </Routes>
       </Router>
    )

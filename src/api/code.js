@@ -1,16 +1,12 @@
 import axios from "axios";
 import config from "./config";
 
-const path = "codes";
+const url = `${config.baseURL}/codes`;
 
-async function validateCode({ code, date }) {
-    try {
-        const response = await axios.post(`${config.baseURL}/${path}?code=${code}&date=${date}`)
+async function validateCode(code) {
+    const response = await axios.get(`${url}/validate-code?code=${code}&now=${Date.now()}`);
 
-        return response;
-    } catch (err) {
-        throw err;
-    }
+    return response;
 }
 
 const code = {
