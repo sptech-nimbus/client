@@ -15,18 +15,17 @@ import { PrimaryButton as Button } from "@components/Button/Button";
 import DeskComparison from './DeskComparison';
 
 export default function AthleteDesk({ playerData, adversaryData, isComparison }) {
+   const birthDateString = playerData.birthDate
+      ? new Date(playerData.birthDate).toLocaleDateString('pt-br')
+      : 'Data não disponível';
 
-   const birthDateString = playerData.birthDate 
-   ? new Date(playerData.birthDate).toLocaleDateString('pt-br') 
-   : 'Data não disponível';
-
-   return isComparison ? <DeskComparison playerData={playerData} adversaryData={adversaryData}/> : (
+   return isComparison ? <DeskComparison playerData={playerData} adversaryData={adversaryData} /> : (
       <S.InfoWrapper>
          <S.InfoGrid>
             <S.Container>
                <S.PlayerImg src={playerData.picture} />
             </S.Container>
-            
+
             <S.Container>
                <Title text='Informações do jogador' size='1.3rem' />
                <S.InfomationContainer>
@@ -80,7 +79,7 @@ export default function AthleteDesk({ playerData, adversaryData, isComparison })
                      <S.Label>Categoria:</S.Label>
                      <span>{playerData.category ?? 'Não definido.'}</span>
                   </S.Information>
-                  
+
                   <S.Information>
                      <S.Label>Pontos marcados:</S.Label>
                      <span>{playerData.pts} pontos</span>
@@ -100,7 +99,7 @@ export default function AthleteDesk({ playerData, adversaryData, isComparison })
                      <S.Label>E-mail:</S.Label>
                      <span>{playerData.email ?? 'Não definido.'}</span>
                   </S.Information>
-                  
+
                   <S.Information>
                      <S.Label>Telefone 1:</S.Label>
                      <span>{playerData.phone ?? 'Não definido.'}</span>
@@ -114,7 +113,7 @@ export default function AthleteDesk({ playerData, adversaryData, isComparison })
             </S.Container>
          </S.InfoGrid>
          <S.Buttons>
-            <UpdateDialog athlete={playerData} trigger={<Button value='Editar'/>} />
+            <UpdateDialog athlete={playerData} trigger={<Button value='Editar' />} />
             <DeleteDialog athlete={playerData} trigger={<Button value='Deletar' />} />
             <Button value='Baixar PDF' />
          </S.Buttons>

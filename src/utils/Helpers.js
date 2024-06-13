@@ -160,6 +160,15 @@ export const Size = {
    desktop: `(min-width: ${Size.desktop})`,
  };
 
+ const getTeamInitials = (name) => {
+   const nameArray = name.split(' ');
+   let initials = '';
+
+   nameArray.forEach(element => initials += element[0]);
+
+   return initials;
+}
+
 const Utils = {
    calcAge,
    months,
@@ -171,7 +180,8 @@ const Utils = {
    size: Size,
    formatDate,
    calcDayDiff,
-   sumTimes
+   sumTimes,
+   getTeamInitials
 }
 
 export default Utils;

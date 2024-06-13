@@ -1,16 +1,41 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import * as S from './Match.styled';
 import Popover from "@components/Popover/Popover";
 
 import { CaretDown, Star } from '@phosphor-icons/react';
 import * as Accordion from '@radix-ui/react-accordion';
 
+import { useStopwatch } from 'react-timer-hook';
+
 export default function Athlete({ player, addStatistic, updatePlayerStats }) {
+   const { seconds, minutes, isRunning, start, pause } = useStopwatch();
 
    const addStatisticHandler = (stat, value) => {
       addStatistic(stat, value);
       updatePlayerStats(player.id, stat, value);
-   };
+   }
+
+   const formatTime = (time) => time.toString().padStart(2, '0');
+
+  function Playing({ isStarter }) {
+      const handleTimer = () => {
+         if(isRunning) {
+            pause();
+            updatePlayerStats(player.id, 'minutes', `${formatTime(minutes)}:${formatTime(seconds)}`);
+         }
+         else {
+            start();
+         }
+      }
+   
+      return (
+         <S.isPlaying onClick={() => { 
+            handleTimer(); 
+         }} $isPlaying={isRunning}>
+            {isRunning ? 'Jogando' : 'No banco'}
+         </S.isPlaying>
+      )
+   }
 
    return (
       <Accordion.Item value={player.id} asChild>
@@ -20,18 +45,20 @@ export default function Athlete({ player, addStatistic, updatePlayerStats }) {
 
                <S.Column>
                   <S.AthleteName>{player.firstName} {player.lastName}</S.AthleteName>
-                  <S.isPlaying $isPlaying>Jogando</S.isPlaying>
+                  <Playing isStarter={player.isStarting}/>
                </S.Column>
 
                <S.StartingPlayer title='Jogador titular'>
-                  <Star weight='fill' />
+                  <Star weight={player.isStarting ? 'fill' : 'regular'} />
                </S.StartingPlayer>
 
+               {isRunning &&
                <Accordion.Trigger asChild>
                   <S.CollapsibleArrow>
                      <CaretDown weight='bold' />
                   </S.CollapsibleArrow>
                </Accordion.Trigger>   
+               }
             </S.AthleteInfo>
 
             <S.AccordionContent asChild>
@@ -44,9 +71,9 @@ export default function Athlete({ player, addStatistic, updatePlayerStats }) {
                            <S.AddButton onClick={() => addStatisticHandler('pts', 3)}>+3 pts</S.AddButton>
                         </S.AddAction>
                         <S.AddAction>
-                           <S.AddButton $isError onClick={() => addStatisticHandler('pts1Err', 1)}>+1 pts</S.AddButton>
-                           <S.AddButton $isError onClick={() => addStatisticHandler('pts2Err', 2)}>+2 pts</S.AddButton>
-                           <S.AddButton $isError onClick={() => addStatisticHandler('pts3Err', 3)}>+3 pts</S.AddButton>
+                           <S.AddButton $isError onClick={() => addStatisticHandler('pts', -1)}>+1 pts</S.AddButton>
+                           <S.AddButton $isError onClick={() => addStatisticHandler('pts', -2)}>+2 pts</S.AddButton>
+                           <S.AddButton $isError onClick={() => addStatisticHandler('pts', -3)}>+3 pts</S.AddButton>
                         </S.AddAction>
                      </S.PopoverContent>
                   </Popover>
