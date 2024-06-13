@@ -67,6 +67,7 @@ export default function OnGoingMatch({ allPlayers, gameId, teams }) {
          observations: '',
          ...player,
          stats: {
+            minutes: '',
             pts: 0,
             ast: 0,
             blk: 0,
@@ -87,9 +88,12 @@ export default function OnGoingMatch({ allPlayers, gameId, teams }) {
       setPlayers(mapPlayers);
    }, []);
 
-   const formatTime = (time) => {
-      return time.toString().padStart(2, '0');
-   };
+   const formatTime = (time) => time.toString().padStart(2, '0');
+
+   const timeToDecimal = (time) => {
+      const [minutes, seconds] = time.split(':').map(Number);
+      return minutes + (seconds / 60);
+  }
 
    const addTeamStatistic = (stat, value) => {
       setTeamStats(prevStats => ({
@@ -124,6 +128,10 @@ export default function OnGoingMatch({ allPlayers, gameId, teams }) {
 
             if(value > 0) {
                updatePlayerStats[stat] += value;
+            }
+
+            if (stat === 'minutes') {
+               updatedStats.minutes = Number(timeToDecimal(value).toFixed(2));
             }
 
             if (stat === 'pts') {
@@ -174,7 +182,7 @@ export default function OnGoingMatch({ allPlayers, gameId, teams }) {
 
    const handleResult = () => {
       const matchPlayers = players.filter(player => {
-         const allZeros = Object.values(player.stats).every(value => value === 0);
+         const allZeros = Object.values(player.stats).every(value => !value);
          return !allZeros;
       });
       return {

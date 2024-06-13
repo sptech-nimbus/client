@@ -279,7 +279,6 @@ export const isPlaying = styled.span`
    display: flex;
    justify-content: center;
    align-items: center;
-   cursor: pointer;
 `
 
 export const Column = styled.div`

@@ -1,18 +1,41 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import * as S from './Match.styled';
 import Popover from "@components/Popover/Popover";
 
 import { CaretDown, Star } from '@phosphor-icons/react';
 import * as Accordion from '@radix-ui/react-accordion';
 
-import Playing from './Playing';
+import { useStopwatch } from 'react-timer-hook';
 
 export default function Athlete({ player, addStatistic, updatePlayerStats }) {
+   const { seconds, minutes, isRunning, start, pause } = useStopwatch();
 
    const addStatisticHandler = (stat, value) => {
       addStatistic(stat, value);
       updatePlayerStats(player.id, stat, value);
-   };
+   }
+
+   const formatTime = (time) => time.toString().padStart(2, '0');
+
+  function Playing({ isStarter }) {
+      const handleTimer = () => {
+         if(isRunning) {
+            pause();
+            updatePlayerStats(player.id, 'minutes', `${formatTime(minutes)}:${formatTime(seconds)}`);
+         }
+         else {
+            start();
+         }
+      }
+   
+      return (
+         <S.isPlaying onClick={() => { 
+            handleTimer(); 
+         }} $isPlaying={isRunning}>
+            {isRunning ? 'Jogando' : 'No banco'}
+         </S.isPlaying>
+      )
+   }
 
    return (
       <Accordion.Item value={player.id} asChild>
@@ -29,11 +52,13 @@ export default function Athlete({ player, addStatistic, updatePlayerStats }) {
                   <Star weight={player.isStarting ? 'fill' : 'regular'} />
                </S.StartingPlayer>
 
+               {isRunning &&
                <Accordion.Trigger asChild>
                   <S.CollapsibleArrow>
                      <CaretDown weight='bold' />
                   </S.CollapsibleArrow>
                </Accordion.Trigger>   
+               }
             </S.AthleteInfo>
 
             <S.AccordionContent asChild>

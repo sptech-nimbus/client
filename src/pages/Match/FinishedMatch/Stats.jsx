@@ -47,7 +47,10 @@ export default function Stats({ stats }) {
                <div><span>Rebotes ofensivos</span> <span>{stats.offReb}</span></div>
                <div><span>Rebotes defensivos</span> <span>{stats.defReb}</span></div>
             </Row>
-            <div><span>Faltas</span> <span>{stats.foul}</span></div>
+            <Row>
+               <div><span>Faltas</span> <span>{stats.foul}</span></div>
+               <div><span>Minutos</span> <span>{stats.minutes}</span></div>
+            </Row>
          </StatsContainer>
       </>
    )

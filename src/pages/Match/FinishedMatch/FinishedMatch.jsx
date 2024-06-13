@@ -30,6 +30,7 @@ export default function FinishedMatch() {
    const [observationsInput, setObservationsInput] = useState('');
    const [isLoading, setIsLoading] = useState(false);
 
+   console.log(matchData);
 
    const handleSelectedPlayer = (key) => {
       if (selectedPlayer) {
@@ -80,7 +81,7 @@ export default function FinishedMatch() {
          blocks: player.stats.blk,
          fouls: player.stats.foul,
          turnovers: player.stats.turnover,
-         minutes: 0.0,
+         minutes: player.minutes,
          assists: player.stats.ast,
          freeThrowConverted: player.stats.pts1,
          freeThrowAttempted: player.stats.pts1 + player.stats.pts1Error,
@@ -251,7 +252,7 @@ export default function FinishedMatch() {
                         ?
                         <S.StatsContainer>
                            <Title text={`Geral do time`} size='1.2rem' color={Utils.colors.orange100} />
-                           <Stats stats={matchData.stats.teamStats} />
+                           <Stats stats={{ ...matchData.stats.teamStats, minutes: Utils.sumTimes(matchData.stats.times) }} />
                         </S.StatsContainer>
                         : (
                            <S.StatsContainer>
