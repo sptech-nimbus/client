@@ -5,6 +5,8 @@ import Popover from "@components/Popover/Popover";
 import { CaretDown, Star } from '@phosphor-icons/react';
 import * as Accordion from '@radix-ui/react-accordion';
 
+import Playing from './Playing';
+
 export default function Athlete({ player, addStatistic, updatePlayerStats }) {
 
    const addStatisticHandler = (stat, value) => {
@@ -20,11 +22,11 @@ export default function Athlete({ player, addStatistic, updatePlayerStats }) {
 
                <S.Column>
                   <S.AthleteName>{player.firstName} {player.lastName}</S.AthleteName>
-                  <S.isPlaying $isPlaying>Jogando</S.isPlaying>
+                  <Playing isStarter={player.isStarting}/>
                </S.Column>
 
                <S.StartingPlayer title='Jogador titular'>
-                  <Star weight='fill' />
+                  <Star weight={player.isStarting ? 'fill' : 'regular'} />
                </S.StartingPlayer>
 
                <Accordion.Trigger asChild>

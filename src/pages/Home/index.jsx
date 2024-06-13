@@ -299,7 +299,7 @@ export default function Home() {
                   <span>{nextGame.challenged.name}</span>
                </S.MatchInfo>
                <S.MatchResults>
-                  <span>{nextGame.game.day}/{nextGame.game.month}</span>
+                  <span>{nextGame.game.day.toString().padStart(2, '0')}/{nextGame.game.month.toString().padStart(2, '0')}</span>
                   <span>{nextGame.game.hour}</span>
                </S.MatchResults>
                </>

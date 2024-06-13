@@ -271,14 +271,15 @@ export const AthleteName = styled.span`
 export const isPlaying = styled.span`
    width: fit-content;
    text-align: center;
-   padding-inline: .5rem 1rem;
-   background-color: ${props => props.$isPlaying ? Colors.green : Colors.gray100};
+   padding-inline: .8rem;
+   background-color: ${props => props.$isPlaying ? Colors.green : Colors.gray500};
    color: ${Colors.gray100};
    border-radius: 1rem;
    font-size: .8rem;
    display: flex;
    justify-content: center;
    align-items: center;
+   cursor: pointer;
 `
 
 export const Column = styled.div`

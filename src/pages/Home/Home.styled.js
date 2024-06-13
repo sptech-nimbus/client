@@ -182,6 +182,26 @@ export const PendingList = styled.div`
    display: flex;
    flex-direction: column;
    gap: 1rem;
+   overflow-y: auto;
+   padding-right: 1rem;
+
+   &::-webkit-scrollbar {
+      width: 8px;
+   }
+
+   &::-webkit-scrollbar-track {
+      border-radius: 8px;
+      background-color: ${Colors.gray700};
+   }
+
+   &::-webkit-scrollbar-thumb {
+      background: ${Colors.orange500}; 
+      border-radius: 10px;
+   }
+
+   &::-webkit-scrollbar-thumb:hover {
+      background: ${Colors.orange300}; 
+   }
 `
 
 export const Pending = styled.div`
