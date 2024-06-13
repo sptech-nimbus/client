@@ -380,11 +380,11 @@ export default function Home() {
                   <Title text='Acões pendentes' size='1rem' color={Colors.orange100} />
                   {!games && !gameResults ? <S.NoContent>Não foram encontradas ações pendentes.</S.NoContent> : (
                   <S.PendingList>
-                     {games.map((game, index) => (
+                     {games && games.map((game, index) => (
                         <Pending key={index} data={game} />
                      ))}
 
-                     {gameResults.map((game, index) => (
+                     {gameResults && gameResults.map((game, index) => (
                         <Pending key={index} data={game} />
                      ))}
                   </S.PendingList>
