@@ -245,3 +245,7 @@ export const AddNoteBtn = styled.div`
 export const DialogContainer = styled.div`
    padding: 1rem 2rem;
 `
+
+export const LoadingContainer = styled.div`
+   position: absolute;
+`

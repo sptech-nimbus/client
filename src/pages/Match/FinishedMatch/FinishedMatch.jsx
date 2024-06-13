@@ -9,7 +9,7 @@ import Title from '@components/Title/Title';
 import Button from '@components/Button/Button'
 import Input from '@components/Input/Input'
 import Label from '@components/Label/Label'
-import { Dialog, DialogClose } from '@components/Dialog/Dialog';
+import { Dialog, DialogClose, LoadingDialog } from '@components/Dialog/Dialog';
 import Utils from '@utils/Helpers';
 
 import * as Accordion from '@radix-ui/react-accordion';
@@ -28,6 +28,7 @@ export default function FinishedMatch() {
    const [selectedPlayer, setSelectedPlayer] = useState();
    const [isSubmitted, setIsSubmitted] = useState(false);
    const [observationsInput, setObservationsInput] = useState('');
+   const [isLoading, setIsLoading] = useState(false);
 
 
    const handleSelectedPlayer = (key) => {
@@ -67,7 +68,7 @@ export default function FinishedMatch() {
       const gameResult = {
          challengerPts: matchData.challenger.pts,
          challengedPts: matchData.challenged.pts,
-         gameId: {
+         game: {
             id: matchData.gameId
          }
       }
@@ -79,7 +80,7 @@ export default function FinishedMatch() {
          blocks: player.stats.blk,
          fouls: player.stats.foul,
          turnovers: player.stats.turnover,
-         minutes: 0,
+         minutes: 0.0,
          assists: player.stats.ast,
          freeThrowConverted: player.stats.pts1,
          freeThrowAttempted: player.stats.pts1 + player.stats.pts1Error,
@@ -93,22 +94,21 @@ export default function FinishedMatch() {
       }));
 
       try {
+         setIsLoading(true);
          await Promise.all([
             submitHistorics(mappedStats),
             submitGameResult(gameResult)
          ]);
 
          setIsSubmitted(true);
+         sessionStorage.removeItem('matchData');
       }
       catch(err) {
          toast.error("Houve um problema ao enviar os dados. Por favor, aguarde um momento antes de tentar novamente.");
       }
-      await submitHistorics(mappedStats);
-      await submitGameResult(gameResult);
-
-      setIsSubmitted(true);
-
-      sessionStorage.removeItem('matchData');
+      finally {
+         setIsLoading(false);
+      }
    }
 
    useEffect(() => {
@@ -135,6 +135,9 @@ export default function FinishedMatch() {
          />
          <Sidebar page='match' />
          <S.ContentContainer>
+         <S.LoadingContainer>
+            <LoadingDialog open={isLoading}/>
+         </S.LoadingContainer>
             <S.Flex>
                <Title text='Partida finalizada' $uppercase />
                <S.ButtonContainer>
@@ -152,12 +155,12 @@ export default function FinishedMatch() {
                   <S.TeamsContainer>
                      <MS.Team>
                         <S.TeamImage src={matchData.challenger.picture} />
-                        <MS.TeamName>{matchData.challenger.name}</MS.TeamName>
+                        <MS.TeamName title={matchData.challenger.name}>{matchData.challenger.name}</MS.TeamName>
                      </MS.Team>
                      <MS.Versus>VS</MS.Versus>
                      <MS.Team>
                         <S.TeamImage src={matchData.challenged.picture} />
-                        <MS.TeamName>{matchData.challenged.name}</MS.TeamName>
+                        <MS.TeamName title={matchData.challenged.name}>{matchData.challenged.name}</MS.TeamName>
                      </MS.Team>
                   </S.TeamsContainer>
                </S.Container>

@@ -66,6 +66,13 @@ export const DialogContent = styled(DrawerContent)`
    border-radius: 1rem;
 `
 
+export const LoadingContent = styled(DialogContent)`
+   background: none;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+`
+
 export const DrawerTitle = styled(D.Title)`
    width: 100%;
    text-align: left;
