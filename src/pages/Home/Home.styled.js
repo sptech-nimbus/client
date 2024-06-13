@@ -175,3 +175,77 @@ export const NoContent = styled.div`
    padding: 2rem;
    text-align: center;
 `
+
+export const PendingList = styled.div`
+   width: 100%;
+   height: 100%;
+   display: flex;
+   flex-direction: column;
+   gap: 1rem;
+   overflow-y: auto;
+   padding-right: 1rem;
+
+   &::-webkit-scrollbar {
+      width: 8px;
+   }
+
+   &::-webkit-scrollbar-track {
+      border-radius: 8px;
+      background-color: ${Colors.gray700};
+   }
+
+   &::-webkit-scrollbar-thumb {
+      background: ${Colors.orange500}; 
+      border-radius: 10px;
+   }
+
+   &::-webkit-scrollbar-thumb:hover {
+      background: ${Colors.orange300}; 
+   }
+`
+
+export const Pending = styled.div`
+   width: 100%;
+   display: grid;
+   grid-template-columns: .7fr 1.4fr 1fr 1fr;
+   background-color: ${Colors.gray800};
+   padding: 1rem;
+   border-radius: .8rem;   
+   align-items: center;
+   justify-content: space-between;
+   gap: 1rem;
+
+   span:nth-child(1) {
+      font-weight: 600;
+      color: ${Colors.orange100};
+   }
+
+   span:nth-child(2) {
+      max-width: 20ch;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+   }
+
+   span:nth-child(3) {
+      text-align: center;
+   }
+
+   button {
+      background: none;
+      color: ${Colors.orange100};
+      background-color: ${Colors.orange500};
+      border: none;
+      cursor: pointer;
+      padding: .5rem;
+      border-radius: .4rem;
+   }
+`
+
+export const LoaderContainer = styled.div`
+   width: 100vw;
+   height: 100vh;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+`

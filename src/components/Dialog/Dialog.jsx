@@ -1,16 +1,11 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
-
-import { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
-
 import * as D from "@radix-ui/react-dialog";
 import { X } from "@phosphor-icons/react";
 import Label from '@components/Label/Label';
 import Input from '@components/Input/Input';
 
-import { TooltipInput as Tooltip } from '@components/Tooltip/Tooltip';
-import { TextValidation, PastDateValidation } from '@utils/Validations';
+import Loader from '@components/Loader/Loader';
 
 import * as S from "./Dialog.styled";
 import * as LS from '../../pages/Login/Login.styles';
@@ -63,10 +58,28 @@ export function Dialog({ title, children, trigger, childTrigger, noClose, ...pro
                   </S.DrawerClose>
                   }
                </S.DrawerHeader>
-               <S.DrawerDescription>
-                  {children}
+               <S.DrawerDescription asChild>
+                  <div>
+                     {children}
+                  </div>
                </S.DrawerDescription>
             </S.DialogContent>
+         </D.Portal>
+      </D.Root>
+   )
+}
+
+export function LoadingDialog({ open, ...props }) { 
+   return (
+      <D.Root modal {...props} open={open}>
+         <S.DialogTrigger>
+         </S.DialogTrigger>
+
+         <D.Portal>
+            <S.DrawerOverlay />
+            <S.LoadingContent>
+               <Loader />
+            </S.LoadingContent>
          </D.Portal>
       </D.Root>
    )

@@ -3,12 +3,15 @@ import styled from "styled-components";
 import { useEffect, useState } from "react";
 import OnGoingMatch from "./OnGoingMatch/OnGoingMatch";
 import FinishedMatch from "./FinishedMatch/FinishedMatch";
+import NoMatch from "./NoMatch/NoMatch";
 
 import Loader from '@components/Loader/Loader';
 
 import athlete from '@api/athlete';
 import game from '@api/game';
 import team from '@api/team';
+
+import Utils from '@utils/Helpers';
 
 const LoaderContainer = styled.div`
    width: 100vw;
@@ -21,6 +24,8 @@ const LoaderContainer = styled.div`
 export default function Match({ isMatchFinished }) {
    const [isLoading, setIsLoading] = useState(false);
    const [allPlayers, setAllPlayers] = useState([]);
+   const [challenger, setChallenger] = useState({});
+   const [challenged, setChallenged] = useState({});
 
    const fetchPlayers = async () => {
       try {
@@ -30,11 +35,11 @@ export default function Match({ isMatchFinished }) {
             localStorage.getItem('token')
          );
 
-         if(response.status === 200) {
+         if (response.status === 200) {
             setAllPlayers(response.data.data);
          }
       }
-      catch(err) {
+      catch (err) {
          console.log(err);
       }
    }
@@ -46,49 +51,38 @@ export default function Match({ isMatchFinished }) {
             localStorage.getItem('token')
          );
 
-         if(response.status === 200) {
+         if (response.status === 200) {
             return response.data.data;
          }
       }
-      catch(err) {
+      catch (err) {
          console.log(err);
       }
    }
 
-   const fetchTeam = async (teamId) => {
-      try {
-         const response = await team.get(
-            teamId,
-            localStorage.getItem('token')
-         )
+   const [gamesToday, setGamesToday] = useState([]);
 
-         return response;
-      }
-      catch(err) {
-         console.log(err);
-      }
-   }
-   
    useEffect(() => {
       const fetchData = async () => {
          await fetchPlayers();
          const games = await fetchGames();
-         
-         const gamesToday = games.filter(game => {
+
+         const gamesTodayFilter = games.filter(game => {
             const today = new Date().toLocaleDateString('pt-br');
             const initialDate = new Date(game.inicialDateTime).toLocaleDateString('pt-br');
 
-            return today === initialDate;
+            return (today === initialDate) && game.confirmed && !game.gameResult;
          });
+         console.log(gamesTodayFilter);
+         setGamesToday(gamesTodayFilter);
 
-         // const challengerId = gamesToday[0].challenger;
-         // const challengedId = gamesToday[0].challenged;
-
-         // const challenger = await fetchTeam(challengerId);
-         // const challenged = await fetchTeam(challengedId);
-
-         // console.log(challenger);
-         // console.log(challenged);
+         if(gamesTodayFilter.length > 0) {
+            const challengerRes = await team.get(gamesTodayFilter[0].challenger, localStorage.getItem('token'));
+            const challengedRes = await team.get(gamesTodayFilter[0].challenged, localStorage.getItem('token'));
+            
+            setChallenged({ ...challengedRes.data.data, initials: Utils.getTeamInitials(challengedRes.data.data.name) });
+            setChallenger({ ...challengerRes.data.data, initials: Utils.getTeamInitials(challengerRes.data.data.name) });
+         }
 
          setIsLoading(false);
       }
@@ -96,9 +90,17 @@ export default function Match({ isMatchFinished }) {
       fetchData()
    }, []);
 
-   return isLoading ? 
-   <LoaderContainer>
-      <Loader />
-   </LoaderContainer> : isMatchFinished ? 
-   <FinishedMatch/> : <OnGoingMatch allPlayers={allPlayers}/>
+   return isLoading ? (
+      <LoaderContainer>
+         <Loader />
+      </LoaderContainer>
+   ) : isMatchFinished ? (
+      <FinishedMatch />  
+   ) : gamesToday.length > 0 ? ( 
+      <OnGoingMatch
+      teams={{ challenger, challenged }}
+      gameId={gamesToday[0] ? gamesToday[0].id : null} 
+      allPlayers={allPlayers} 
+      />
+   ) : <NoMatch />
 }

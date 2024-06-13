@@ -15,11 +15,9 @@ const useQuery = () => {
 }
 
 export default function Stats({ playerData, adversaryData, isComparison }) {
-
   const query = useQuery();
   const athleteId = query.get('id');
 
-  const [historics, setHistorics] = useState([]);
   const [avgs, setAvgs] = useState({
     points: 0,
     assists: 0,
@@ -37,20 +35,32 @@ export default function Stats({ playerData, adversaryData, isComparison }) {
     }
 
     const setAverages = historics => {
-      setAvgs({
-        assists: historics.reduce((a, c) => calcAvg(a.assists, c.assists)) / historics.length,
-        freeThrows: historics.reduce((a, c) => calcAvg(a.freeThrowConverted, c.freeThrowConverted)) / historics.length,
-        points: (historics.reduce((a, c) => calcAvg(a.twoPointsConverted, c.twoPointsConverted)) + historics.reduce((a, c) => calcAvg(a.threePointsConverted, c.threePointsConverted))) / historics.length,
-        steals: historics.reduce((a, c) => calcAvg(a.steals, c.steals)) / historics.length,
-        threePoints: historics.reduce((a, c) => calcAvg(a.threePointsConverted, c.threePointsConverted)),
-        twoPoints: historics.reduce((a, c) => calcAvg(a.twoPointsConverted, c.twoPointsConverted)),
-        rebounds: (historics.reduce((a, c) => calcAvg(a.offRebounds, c.offRebounds)) + historics.reduce((a, c) => calcAvg(a.defRebounds, c.defRebounds))) / historics.length,
-        blocks: historics.reduce((a, c) => calcAvg(a.blocks, c.blocks)),
-      });
+      if (historics.length > 1) {
+        setAvgs({
+          assists: historics.reduce((a, c) => calcAvg(a.assists, c.assists)) / historics.length,
+          freeThrows: historics.reduce((a, c) => calcAvg(a.freeThrowConverted, c.freeThrowConverted)) / historics.length,
+          points: (historics.reduce((a, c) => calcAvg(a.twoPointsConverted, c.twoPointsConverted)) + historics.reduce((a, c) => calcAvg(a.threePointsConverted, c.threePointsConverted)) + historics.reduce((a, c) => calcAvg(a.freeThrowConverted, c.freeThrowConverted))) / historics.length,
+          steals: historics.reduce((a, c) => calcAvg(a.steals, c.steals)) / historics.length,
+          threePoints: historics.reduce((a, c) => calcAvg(a.threePointsConverted, c.threePointsConverted)),
+          twoPoints: historics.reduce((a, c) => calcAvg(a.twoPointsConverted, c.twoPointsConverted)),
+          rebounds: (historics.reduce((a, c) => calcAvg(a.offRebounds, c.offRebounds)) + historics.reduce((a, c) => calcAvg(a.defRebounds, c.defRebounds))) / historics.length,
+          blocks: historics.reduce((a, c) => calcAvg(a.blocks, c.blocks)),
+        });
+      } else {
+        setAvgs({
+          assists: historics[0].assists,
+          freeThrows: historics[0].freeThrowConverted,
+          points: historics[0].freeThrowConverted + historics[0].twoPointsConverted + historics[0].threePointsConverted,
+          steals: historics[0].steals,
+          threePoints: historics[0].threePointsConverted,
+          twoPoints: historics[0].twoPointsConverted,
+          rebounds: historics[0].offRebounds + historics[0].defRebounds,
+          blocks: historics[0].blocks
+        });
+      }
     }
 
     const setObservations = historics => {
-      console.log(historics);
       setAnnotations(historics.map(h => {
         if (h.observations) {
           return {
@@ -64,8 +74,6 @@ export default function Stats({ playerData, adversaryData, isComparison }) {
 
     const fetchData = async () => {
       const response = await athleteHistoric.get(athleteId, localStorage.getItem('token'));
-
-      setHistorics(response.data.data);
 
       setAverages(response.data.data);
 
@@ -90,31 +98,31 @@ export default function Stats({ playerData, adversaryData, isComparison }) {
     },
     options: {
       scales: {
-         r: {
-            grid: {
-               color: `${Colors.gray100}65`,
-            },
-            angleLines: {
-               color: `${Colors.gray100}65`,
-            }
-         }
+        r: {
+          grid: {
+            color: `${Colors.gray100}65`,
+          },
+          angleLines: {
+            color: `${Colors.gray100}65`,
+          }
+        }
       },
       responsive: true,
       maintainAspectRatio: false,
       plugins: {
-         legend: {
-            labels: {
-               color: Colors.orange100,
-               boxWidth: 20,
-               font: {
-                  size: 18,
-                  family: 'Poppins'
-               }
-            },
-            position: 'right'
-         }
+        legend: {
+          labels: {
+            color: Colors.orange100,
+            boxWidth: 20,
+            font: {
+              size: 18,
+              family: 'Poppins'
+            }
+          },
+          position: 'right'
+        }
       }
-   }
+    }
   }
 
   const options = {
@@ -157,11 +165,10 @@ export default function Stats({ playerData, adversaryData, isComparison }) {
   const [annotations, setAnnotations] = useState([]);
 
   const notes = annotations.map(note => {
-    console.log(note);
     return note ? <Note note={note} key={note.id} /> : ''
   })
 
-  return isComparison ? <StatsComparison playerData={playerData} playerAvgs={avgs} adversaryData={adversaryData}/> : (
+  return isComparison ? <StatsComparison playerData={playerData} playerAvgs={avgs} adversaryData={adversaryData} /> : (
     <S.StatsGrid>
       <S.ContainerStats>
         <S.PlayerImg src={playerData.picture} />

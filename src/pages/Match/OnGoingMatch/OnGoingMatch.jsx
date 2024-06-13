@@ -14,7 +14,9 @@ import * as Accordion from '@radix-ui/react-accordion';
 
 import Athlete from './Athlete';
 
-export default function OnGoingMatch({ allPlayers, gameData }) {
+import Utils from '@utils/Helpers';
+
+export default function OnGoingMatch({ allPlayers, gameId, teams }) {
    const navigate = useNavigate();
    const { seconds, minutes, hours, isRunning, start, pause, reset } = useStopwatch();
    const [times, setTimes] = useState([]);
@@ -24,16 +26,18 @@ export default function OnGoingMatch({ allPlayers, gameData }) {
    const [currentQuarter, setCurrentQuarter] = useState(1);
 
    const [challenged, setChallenged] = useState({
-      id: 0,
-      name: 'Nome challenged',
-      picture: 'https://1000logos.net/wp-content/uploads/2017/12/Los-Angeles-Clippers-Logo.png',
+      id: teams.challenged.id,
+      name: teams.challenged.name,
+      picture: teams.challenged.picture,
+      initials: teams.challenged.initials,
       pts: 0
    });
 
    const [challenger, setChallenger] = useState({
-      id: 0,
-      name: 'Nome challenger',
-      picture: 'https://seeklogo.com/images/A/atlanta-hawks-logo-A108D0AC8D-seeklogo.com.png',
+      id: teams.challenger.id,
+      name: teams.challenger.name,
+      picture: teams.challenger.picture,
+      initials: teams.challenger.initials,
    });
 
    const [players, setPlayers] = useState(allPlayers);
@@ -56,11 +60,14 @@ export default function OnGoingMatch({ allPlayers, gameData }) {
    });
 
    useEffect(() => {
-      sessionStorage.removeItem('matchData')
+      console.log(teams);
+      sessionStorage.removeItem('matchData');
+
       const mapPlayers = players.map(player => ({
          observations: '',
          ...player,
          stats: {
+            minutes: '',
             pts: 0,
             ast: 0,
             blk: 0,
@@ -81,14 +88,17 @@ export default function OnGoingMatch({ allPlayers, gameData }) {
       setPlayers(mapPlayers);
    }, []);
 
-   const formatTime = (time) => {
-      return time.toString().padStart(2, '0');
-   };
+   const formatTime = (time) => time.toString().padStart(2, '0');
+
+   const timeToDecimal = (time) => {
+      const [minutes, seconds] = time.split(':').map(Number);
+      return minutes + (seconds / 60);
+  }
 
    const addTeamStatistic = (stat, value) => {
       setTeamStats(prevStats => ({
          ...prevStats,
-         [stat]: prevStats[stat] + value
+         [stat]: value > 0 ? prevStats[stat] + value : prevStats[stat]
       }));
 
       if (stat === 'pts') {
@@ -114,30 +124,38 @@ export default function OnGoingMatch({ allPlayers, gameData }) {
    const updatePlayerStats = (playerId, stat, value) => {
       setPlayers(prevPlayers => prevPlayers.map(player => {
          if (player.id === playerId) {
-            const updatedStats = {
-               ...player.stats,
-               [stat]: player.stats[stat] + value
-            };
-   
+            const updatedStats = { ...player.stats };
+
+            if(value > 0) {
+               updatePlayerStats[stat] += value;
+            }
+
+            if (stat === 'minutes') {
+               updatedStats.minutes = Number(timeToDecimal(value).toFixed(2));
+            }
+
             if (stat === 'pts') {
                const pointMapping = {
                   1: 'pts1',
                   2: 'pts2',
                   3: 'pts3',
+                  '-1': 'pts1Err',
+                  '-2': 'pts2Err',
+                  '-3': 'pts3Err'
                };
-   
+
                const pointStat = pointMapping[value];
                if (pointStat) {
                   updatedStats[pointStat] += 1;
                }
             }
-   
+
             return { ...player, stats: updatedStats };
          }
          return player;
       }));
    };
-   
+
 
    const handleFinishQuarter = () => {
       times.push(`${formatTime(hours)}:${formatTime(minutes)}:${formatTime(seconds)}`);
@@ -164,25 +182,23 @@ export default function OnGoingMatch({ allPlayers, gameData }) {
 
    const handleResult = () => {
       const matchPlayers = players.filter(player => {
-         const allZeros = Object.values(player.stats).every(value => value === 0);
+         const allZeros = Object.values(player.stats).every(value => !value);
          return !allZeros;
       });
-
       return {
-         gameId: 1,
          challenged,
          challenger: {
             ...challenger,
             stats: { ...teamStats }
          },
-         // gameId: gameData.gameId,
+         gameId,
          players: matchPlayers,
          flags: handleFlags(),
          stats: {
             times,
             teamStats
          }
-      }      
+      }
    }
 
    const finishGame = () => {
@@ -201,12 +217,20 @@ export default function OnGoingMatch({ allPlayers, gameData }) {
                <S.Container>
                   <S.TeamsContainer>
                      <S.Team>
-                        <S.TeamImage src={challenger.picture} />
+                        {
+                        challenger.picture ? 
+                        <S.TeamImage src={challenger.picture} /> : 
+                        <S.TeamInicials>{challenger.initials}</S.TeamInicials>
+                        }
                         <S.TeamName>{challenger.name}</S.TeamName>
                      </S.Team>
                      <S.Versus>VS</S.Versus>
                      <S.Team>
-                        <S.TeamImage src={challenged.picture} />
+                        {
+                        challenged.picture ? 
+                        <S.TeamImage src={challenged.picture} /> : 
+                        <S.TeamInicials>{challenged.initials}</S.TeamInicials>
+                        }
                         <S.TeamName>{challenged.name}</S.TeamName>
                      </S.Team>
                   </S.TeamsContainer>
@@ -250,7 +274,7 @@ export default function OnGoingMatch({ allPlayers, gameData }) {
                   <Accordion.Root collapsible asChild>
                      <S.AthletesList>
                         {players.map(player => (
-                           <Athlete 
+                           <Athlete
                               key={player.id}
                               player={player}
                               addStatistic={addTeamStatistic}
@@ -280,45 +304,45 @@ export default function OnGoingMatch({ allPlayers, gameData }) {
                      </S.Timer>
                      <S.AddFlag>
                         <span>{currentQuarter}º Quarto</span>
-                        <input type='text' value={flagInput} onChange={ (e) => { setFlagInput(e.target.value) } }/>
+                        <input type='text' value={flagInput} onChange={(e) => { setFlagInput(e.target.value) }} />
                      </S.AddFlag>
                      <S.FlagButton onClick={addFlag}>+ marcação</S.FlagButton>
                   </S.TimerContainer>
-                  
+
                   {
                      currentQuarter > 3
-                     ? (
-                        <Dialog 
-                        title='Finalizar partida'
-                        childTrigger
-                        trigger={
+                        ? (
+                           <Dialog
+                              title='Finalizar partida'
+                              childTrigger
+                              trigger={
+                                 <S.Flags>
+                                    <S.FlagButton onClick={handleFinishQuarter}>{currentQuarter == 4 ? 'Finalizar partida' : 'Finalizar quarto'}</S.FlagButton>
+                                 </S.Flags>
+                              }>
+                              <S.FinishMatch>
+                                 <span>Deseja finalizar a partida? IMPORTANTE: Não será possível editar as informações da partida após avançar.</span>
+                                 <div>
+                                    <Button.Primary
+                                       onClick={finishGame}
+                                       value='Finalizar partida'
+                                    />
+                                    <Close>
+                                       <Button.Secondary
+                                          value='Ir para prorrogação'
+                                       />
+                                    </Close>
+                                 </div>
+                              </S.FinishMatch>
+                           </Dialog>
+                        )
+                        : (
                            <S.Flags>
                               <S.FlagButton onClick={handleFinishQuarter}>{currentQuarter == 4 ? 'Finalizar partida' : 'Finalizar quarto'}</S.FlagButton>
                            </S.Flags>
-                        }>
-                           <S.FinishMatch>
-                              <span>Deseja finalizar a partida? IMPORTANTE: Não será possível editar as informações da partida após avançar.</span>
-                              <div>
-                                 <Button.Primary
-                                 onClick={finishGame}
-                                 value='Finalizar partida'
-                                 />
-                                 <Close>
-                                    <Button.Secondary
-                                    value='Ir para prorrogação'
-                                    />
-                                 </Close>
-                              </div>
-                           </S.FinishMatch>
-                        </Dialog>
-                     )
-                     : (
-                        <S.Flags>
-                           <S.FlagButton onClick={handleFinishQuarter}>{currentQuarter == 4 ? 'Finalizar partida' : 'Finalizar quarto'}</S.FlagButton>
-                        </S.Flags>
-                     )
+                        )
                   }
-                  
+
                </S.Container>
             </S.MatchGrid>
          </S.ContentContainer>

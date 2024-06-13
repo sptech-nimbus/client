@@ -241,3 +241,11 @@ export const AddNoteBtn = styled.div`
    justify-content: center;
    border-radius: .4rem;
 `
+
+export const DialogContainer = styled.div`
+   padding: 1rem 2rem;
+`
+
+export const LoadingContainer = styled.div`
+   position: absolute;
+`
