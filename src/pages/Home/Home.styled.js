@@ -186,24 +186,29 @@ export const PendingList = styled.div`
 
 export const Pending = styled.div`
    width: 100%;
-   display: flex;
+   display: grid;
+   grid-template-columns: .7fr 1.4fr 1fr 1fr;
    background-color: ${Colors.gray800};
    padding: 1rem;
    border-radius: .8rem;   
-   gap: 2rem;
    align-items: center;
    justify-content: space-between;
+   gap: 1rem;
 
    span:nth-child(1) {
       font-weight: 600;
       color: ${Colors.orange100};
    }
 
-   span:nth-child(3) {
+   span:nth-child(2) {
       max-width: 20ch;
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
+   }
+
+   span:nth-child(3) {
+      text-align: center;
    }
 
    button {

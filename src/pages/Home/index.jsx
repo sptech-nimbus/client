@@ -127,17 +127,6 @@ export default function Home() {
       }
    }
 
-   async function fetchAllEvents() {
-      const res = await graph.allEvents(sessionStorage.getItem('teamId'), localStorage.getItem('token'));
-
-      const events = [...res.data.data.games, ...res.data.data.trainings];
-
-      const orderedEvents = events.sort(sortByDate);
-      console.log(orderedEvents);
-      setEvents(orderedEvents);
-
-   }
-
    async function fetchWins() {
       const res = await graph.getWins(sessionStorage.getItem('teamId'), 10, localStorage.getItem('token'));
 
@@ -236,7 +225,6 @@ export default function Home() {
                fetchNotConfirmedResult(),
                fetchLastGame(),
                fetchNextGame(),
-               fetchAllEvents(),
                fetchWins()
             ]);
          } catch (err) {
@@ -326,7 +314,11 @@ export default function Home() {
       const date = new Date(data.finalDateTime);
    
       const confirm = async () => {
-         await game.confirm(gameId, { id: localStorage.getItem("id") },localStorage.getItem('token'));
+         data.gameResult ? 
+            await game.result.confirm(data.gameResult.id, { id: localStorage.getItem("id") },localStorage.getItem('token')) 
+         :
+            await game.confirm(gameId, { id: localStorage.getItem("id") },localStorage.getItem('token'));
+
          setGames(games.filter(game => game.id !== gameId)); 
       }
 
@@ -353,9 +345,14 @@ export default function Home() {
 
       return (
          <S.Pending>
-            <span>Jogo</span>
+            <span>{data.gameResult ? 'Resultado' : 'Jogo'}</span>
             <span title={teamName}>{teamName}</span>
-            <span>{date.toLocaleDateString('pt-br')}</span>
+            <span>
+            {
+            data.gameResult ? `${data.gameResult.challengerPoints} x ${data.gameResult.challengedPoints}` :
+            date.toLocaleDateString('pt-br')
+            }
+            </span>
             <button onClick={() => confirm()}>Confirmar</button>
          </S.Pending>
       )
@@ -381,9 +378,13 @@ export default function Home() {
 
                <S.Container>
                   <Title text='Acões pendentes' size='1rem' color={Colors.orange100} />
-                  {!games ? <S.NoContent>Não foram encontradas ações pendentes.</S.NoContent> : (
+                  {!games && !gameResults ? <S.NoContent>Não foram encontradas ações pendentes.</S.NoContent> : (
                   <S.PendingList>
                      {games.map((game, index) => (
+                        <Pending key={index} data={game} />
+                     ))}
+
+                     {gameResults.map((game, index) => (
                         <Pending key={index} data={game} />
                      ))}
                   </S.PendingList>

@@ -73,13 +73,13 @@ async function getNotConfirmedResults(game, token) {
     }
 }
 
-async function confirmGameResult(game, token) {
+async function confirmGameResult(game, body, token) {
     try {
         const res = await axios.patch(`${config.baseURL}/${resultPath}/confirm-game-result/${game}`, body, {
             headers: { Authorization: `Bearer ${token}` }
         });
 
-        return err;
+        return res;
     }
     catch(err) {
         throw err;
