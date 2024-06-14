@@ -8,7 +8,7 @@ import { useAuth } from '@contexts/auth';
 import Background from "@components/Background/Background";
 import { SecondaryButton as Button } from '@components/Button/Button';
 
-import team from '../../api/team';
+import team from '@api/team';
 
 const useQuery = () => {
    return new URLSearchParams(useLocation().search);
@@ -22,23 +22,47 @@ export default function MyTeams() {
 
    const query = useQuery();
    const auto = query.get('auto');
+   let isOk = false;
 
    async function fetchData() {
-      const response = await team.byUser(localStorage.getItem('personaId'), localStorage.getItem('token'));
-      setReqStatus(response.status);
-      setCoachTeams(response.data.data);
+      if(localStorage.getItem('typeUser') === 'Coach'){
+         const response = await team.byUser(localStorage.getItem('personaId'), localStorage.getItem('token'));
+         setReqStatus(response.status);
+         setCoachTeams(response.data.data);
+      } else {
+         team.byAthlete(localStorage.getItem('personaId'), localStorage.getItem('token')).
+         then(response => {   
+            localStorage.setItem('teamId', response.data.data.id)
+            if (response.status === 200){
+               team.get(localStorage.getItem('teamId'), localStorage.getItem('token')).
+               then(r => {
+                  console.log(r.data.data)
+                  if (r.status === 200) {
+                     setReqStatus(r.status);
+                     setCoachTeams([r.data.data]);
+                     isOk = true;
+                  }
+               })
+            }
+         });        
+      }
+   }
+   
+   async function teams() {
+      if (coachTeams.length === 1 && auto !== 'false' && isOk !== false) {
+         chooseTeam(coachTeams[0].id);
+         navigate('/home');
+      }
    }
    
    useEffect(() => {
-      fetchData();
+      
    }, []);
-
+   
    useEffect(() => {
-      if (coachTeams.length === 1 && auto !== 'false') {
-         chooseTeam(coachTeams[0].id);
-         localStorage.setItem('teamId',coachTeams[0].id);
-         navigate('/home');
-      }
+      fetchData()
+      teams()      
+      
    }, [coachTeams]);
 
    const handleTeamSelection = (teamId) => {
