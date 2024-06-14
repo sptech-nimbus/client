@@ -2,8 +2,8 @@ import * as S from './Events.styled.js';
 import { useState, useEffect } from 'react';
 
 import { Calendar } from "react-multi-date-picker";
-import "react-multi-date-picker/styles/layouts/prime.css"
-import "react-multi-date-picker/styles/backgrounds/bg-dark.css"
+import "react-multi-date-picker/styles/layouts/prime.css";
+import "react-multi-date-picker/styles/backgrounds/bg-dark.css";
 
 import Title from "@components/Title/Title";
 
@@ -131,7 +131,6 @@ export default function EventsVisualization() {
             headerOrder={["MONTH_YEAR", "LEFT_BUTTON", "RIGHT_BUTTON"]}
             monthYearSeparator=" "
             showOtherDays
-            disableYearPicker
          />
 
          <S.EventsContainer>

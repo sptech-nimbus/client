@@ -198,7 +198,18 @@ export const OptionWithImage = styled.div`
 `
 
 export const OptionImage = styled.img`
+   width: 28px;
+   height: 28px;
+   border-radius: .5rem;
+`
+
+export const OptionNoImage = styled.div`
    width: 30px;
    height: 30px;
    border-radius: .5rem;
+   background-color: ${Colors.gray800};
+   font-size: .5rem;
+   display: flex;
+   align-items: center;
+   justify-content: center;
 `

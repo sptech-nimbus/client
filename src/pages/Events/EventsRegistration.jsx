@@ -10,81 +10,50 @@ import "react-multi-date-picker/styles/backgrounds/bg-dark.css"
 import Input from "@components/Input/Input";
 import Label from "@components/Label/Label";
 import Button, { PillButtons } from "@components/Button/Button";
-import { CustomAsyncSelect as Select } from "@components/Select/Select";
+import Select from "@components/Select/Select";
 
 import Utils from '@utils/Helpers';
 import { TimeValidation, TextValidation, FutureDateValidation } from '@utils/Validations';
 
 import game from '../../api/game';
 import team from '../../api/team';
-import axios from 'axios';
+
+function Option({ option }) {
+   return (
+      <S.OptionWithImage>
+         {option.picture ? <S.OptionImage src={option.picture} /> : <S.OptionNoImage>{Utils.getTeamInitials(option.name)}</S.OptionNoImage>}
+         <span>{option.name} - {option.category}</span>
+      </S.OptionWithImage>
+   );
+}
 
 export default function EventsRegistration() {
    const { addNotification, getNotificationHist } = useNotification();
-   sessionStorage.setItem('jwt', 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJrYXVhYW5tYXRoZXVzQGdtYWlsLmNvbSIsImlhdCI6MTcxNTY5ODg3OX0.pH2mqkYUr5yPbrReOOSgVxVBd7KEMnTP0Dp1faNO-CWIvj6He7af7W6DP_YsDdS1b7uPmduCTSFhndRm-QgT2Q');
-   sessionStorage.setItem('teamId', 'eaeb6176-5354-41db-a303-388780fbd9c0');
-
    const [dates, setDates] = useState();
    const [options, setOptions] = useState([]);
    const [datesInput, setDatesInput] = useState();
    const [inputValue, setInputValue] = useState('');
    const [eventData, setEventData] = useState({
-      challenged: {
-         name: '',
-         id: ''
-      },
+      challenged: '',
       type: 'Partida',
-      title: '',
-      date: '',
       time: '',
       local: '',
-      description: ''
    });
 
    useEffect(() => {
-      // async function fetchData() {
-      //    const response = await team.getAllTeams(localStorage.getItem('token'));
+      async function fetchData() {
+         const response = await team.getAllTeams(localStorage.getItem('token'));
 
-      //    if(response.status === 200) {
-      //       console.log(options);
-      //       setOptions(response.data.data);
-      //    }
-      // }
-      // fetchData()
-
-      const options = {
-         method: 'GET',
-         url: 'http://localhost:8080/teams',
-         headers: {
-           Authorization: `Bearer ${localStorage.getItem('token')}`
+         if (response.status === 200) {
+            const optionsMap = response.data.data.map(option => ({
+               value: option.id,
+               label: <Option option={option} />,
+            }));
+            setOptions(optionsMap);
          }
-       };
-       
-       axios.request(options).then(function (response) {
-         setOptions(response.data.data);
-       }).catch(function (error) {
-         console.error(error);
-       });
-   }, []);
-
-   const loadOptions = async (inputValue, callback) => {
-      try {
-        const response = await team.byName(inputValue, sessionStorage.getItem('jwt'));
-        const options = response.data.data.map((team) => ({
-          value: team.id,
-          label: (
-            <S.OptionWithImage>
-               <S.OptionImage src={team.picture}/>
-               <span>{team.name} - {team.category}</span>
-            </S.OptionWithImage>
-         ),
-        }));
-        callback(options);
-      } catch (error) {
-         addNotification('error', 'Houve um erro ao buscar os times. Aguarde um momento antes de tentar novamente.');
-         console.error('Failed to load options:', error);
       }
-    };
+      fetchData()
+   }, []);
 
    const handleInputChange = (e) => {
       setEventData({
@@ -127,7 +96,9 @@ export default function EventsRegistration() {
 
    const EventValidation = () => {
       if (
-         TextValidation(eventData.local) && TextValidation(eventData.type) && TimeValidation(eventData.time) && DatesValidation(dates)
+         TextValidation(eventData.type) &&
+         TimeValidation(eventData.time) &&
+         DatesValidation(dates)
       ) {
          return true;
       }
@@ -160,36 +131,30 @@ export default function EventsRegistration() {
             const finalDate = new Date(new Date(formatedDate).setHours(new Date(formatedDate).getHours() + 2));
 
             return {
-               ...eventData,
-               challenged: eventData.challenged.id,
+               challenged: eventData.challenged,
                inicialDateTime: new Date(formatedDate).toISOString(),
                finalDateTime: finalDate.toISOString(),
                challenger: sessionStorage.getItem('teamId')
             }
          });
 
-         if (eventData.type === "game") {
+         if (eventData.type === "Partida") {
             try {
-               await game.post({
-                  body: events
-               });
+               console.log(events);
+               await game.post(events, localStorage.getItem('token'));
             } catch (e) {
-               addNotification('error', `Erro ao cadastrar jogo: ${e}`);
+               addNotification('error', `Erro ao cadastrar jogo: ${e.status}`);
+               console.log(e);
             }
          }
 
          addNotification('success', 'Evento cadastrado!');
 
          setEventData({
-            challenged: {
-               name: '',
-               id: ''
-            },
-            type: '',
-            date: '',
+            challenged: '',
+            type: 'Partida',
             time: '',
             local: '',
-            description: ''
          });
          setDates('');
       }
@@ -224,119 +189,99 @@ export default function EventsRegistration() {
                <Label>
                   Tipo de evento
                   <S.Flex>
-                     <PillButtons 
-                     left="Partida" 
-                     right="Treino" 
-                     color={Utils.colors.gray700} 
-                     $active={eventData.type == 'Treino' ? 'right' : 'left'} 
-                     onClick={handleEventTypeChange}
-                  />
+                     <PillButtons
+                        left="Partida"
+                        right="Treino"
+                        color={Utils.colors.gray700}
+                        $active={eventData.type == 'Treino' ? 'right' : 'left'}
+                        onClick={handleEventTypeChange}
+                     />
                   </S.Flex>
                </Label>
-               {eventData.type == 'Partida' ? 
-               //form de partida
-               <>
-               <Label>
-                  Desafiar time
-                  <Select 
-                     isSearchable
-                     cacheOptions
-                     defaultOptions={options}
-                     onInputChange={(newValue) => setInputValue(newValue)} 
-                     placeholder='Selecione um time para desafiar...'
-                     noOptionsMessage={() => "Não há times disponíveis no momento."}
-                     loadOptions={loadOptions}
-                  />
-               </Label>
-               <S.Flex>
-                  <Label>
-                     Data(s)
-                     <Input.Default
-                        name='date'
-                        value={datesInput}
-                        disabled
-                     />
-                  </Label>
-                  <Label>
-                     Horário
-                     <Input.Masked
-                        name='time'
-                        value={eventData.time}
-                        onChange={handleInputChange}
-                        mask='00:00'
-                     />
-                  </Label>
-               </S.Flex>
-               <Label>
-                  Local
-                  <Input.Default
-                     name='local'
-                     value={eventData.local}
-                     onChange={handleInputChange}
-                  />
-               </Label>
-               <Label>
-                  Descrição
-                  <Input.Textarea
-                     name='description'
-                     value={eventData.description}
-                     onChange={handleDescSize}
-                     rows={5}
-                  />
-                  <S.DescSize>{eventData.description.length}/300</S.DescSize>
-               </Label>
-               </>
+               {eventData.type == 'Partida' ?
+                  //form de partida
+                  <>
+                     <Label>
+                        Desafiar time
+                        <Select
+                           isSearchable
+                           cacheOptions
+                           options={options}
+                           onInputChange={(newValue) => setInputValue(newValue)}
+                           placeholder='Selecione um time para desafiar...'
+                           noOptionsMessage={() => "Não há times disponíveis no momento."}
+                           onChange={(choice) => setEventData({ ...eventData, challenged: choice.value })}
+                        />
+                     </Label>
+                     <S.Flex>
+                        <Label>
+                           Data(s)
+                           <Input.Default
+                              name='date'
+                              value={datesInput}
+                              disabled
+                           />
+                        </Label>
+                        <Label>
+                           Horário
+                           <Input.Masked
+                              name='time'
+                              value={eventData.time}
+                              onChange={handleInputChange}
+                              mask='00:00'
+                           />
+                        </Label>
+                     </S.Flex>
+                     <Label>
+                        Local
+                        <Input.Default
+                           name='local'
+                           value={eventData.local}
+                           onChange={handleInputChange}
+                        />
+                     </Label>
+                  </>
 
-               : 
-               //form de treino
-               <> 
-               <Label>
-                  Nome do evento de treino
-                  <Input.Default
-                     name='title'
-                     value={eventData.title}
-                     onChange={handleInputChange}
-                     autocomplete="off"
-                  />
-               </Label>
-               <S.Flex>
-                  <Label>
-                     Data(s)
-                     <Input.Default
-                        name='date'
-                        value={datesInput}
-                        disabled
-                     />
-                  </Label>
-                  <Label>
-                     Horário
-                     <Input.Masked
-                        name='time'
-                        value={eventData.time}
-                        onChange={handleInputChange}
-                        mask='00:00'
-                     />
-                  </Label>
-               </S.Flex>
-               <Label>
-                  Local
-                  <Input.Default
-                     name='local'
-                     value={eventData.local}
-                     onChange={handleInputChange}
-                  />
-               </Label>
-               <Label>
-                  Descrição
-                  <Input.Textarea
-                     name='description'
-                     value={eventData.description}
-                     onChange={handleDescSize}
-                     rows={5}
-                  />
-                  <S.DescSize>{eventData.description.length}/300</S.DescSize>
-               </Label>
-               </>
+                  :
+                  //form de treino
+                  <>
+                     <Label>
+                        Nome do evento de treino
+                        <Input.Default
+                           name='title'
+                           value={eventData.title}
+                           onChange={handleInputChange}
+                           autocomplete="off"
+                        />
+                     </Label>
+                     <S.Flex>
+                        <Label>
+                           Data(s)
+                           <Input.Default
+                              name='date'
+                              value={datesInput}
+                              disabled
+                           />
+                        </Label>
+                        <Label>
+                           Horário
+                           <Input.Masked
+                              name='time'
+                              value={eventData.time}
+                              onChange={handleInputChange}
+                              mask='00:00'
+                           />
+                        </Label>
+                     </S.Flex>
+                     <Label>
+                        Local
+                        <Input.Default
+                           name='local'
+                           value={eventData.local}
+                           onChange={handleInputChange}
+                        />
+                     </Label>
+                  </>
                }
                <Button.Primary
                   value={'Cadastrar evento'}
