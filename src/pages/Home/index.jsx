@@ -20,7 +20,7 @@ export default function Home() {
    const [games, setGames] = useState();
    const [events, setEvents] = useState([]);
    const [winsGraph, setWinsGraph] = useState();
-   const [gameResults, setGameReults] = useState();
+   const [gameResults, setGameResults] = useState();
    const [isLoading, setIsLoading] = useState(false);
    const [performanceGraph, setPerformanceGraph] = useState();
 
@@ -90,8 +90,10 @@ export default function Home() {
             sessionStorage.getItem('teamId'), localStorage.getItem('token')
          );
 
+         console.log(response.status);
+         console.log(response.data.data);
          if(response.status === 200) {
-            setGameReults(response.data.data);
+            setGameResults(response.data.data);
          }  
       }
       catch(err) {
@@ -311,6 +313,7 @@ export default function Home() {
    function Pending({ data }) {
       const [teamName, setTeamName] = useState('Carregando...');
       const [gameId, setGameId] = useState(data.id);
+      const [isChallenged, setIsChallenged] = useState(data.challenged === sessionStorage.getItem('teamId'));
       const date = new Date(data.finalDateTime);
    
       const confirm = async () => {
@@ -330,7 +333,7 @@ export default function Home() {
 
       const fetchTeam = async () => {
          try {
-            const teamId = data.challenger === sessionStorage.getItem('teamId') ? data.challenger : data.challenged;
+            const teamId = isChallenged ? data.challenger : data.challenged;
             const response = await team.get(teamId, localStorage.getItem('token'));
    
             return response.data.data.name;
@@ -342,6 +345,7 @@ export default function Home() {
       }
 
       useEffect(() => { 
+         console.log(data);
          async function fetchData() {
             const teamDataName = await fetchTeam();
             setTeamName(teamDataName);
@@ -350,8 +354,8 @@ export default function Home() {
       }, [teamName]);
 
       return (
-         <S.Pending>
-            <span>{data.gameResult ? 'Resultado' : 'Jogo'}</span>
+         <S.Pending isChallenged={isChallenged}>
+            <span>yrdyr</span>
             <span title={teamName}>{teamName}</span>
             <span>
             {
@@ -359,7 +363,7 @@ export default function Home() {
             date.toLocaleDateString('pt-br')
             }
             </span>
-            <button onClick={() => confirm()}>Confirmar</button>
+            {!isChallenged ? <button title='Apenas o time desafiado pode confimar o resultado da partida.' disabled>Indisponível</button> : <button onClick={() => confirm()}>Confirmar</button>}
          </S.Pending>
       )
    }
@@ -384,7 +388,7 @@ export default function Home() {
 
                <S.Container>
                   <Title text='Acões pendentes' size='1rem' color={Colors.orange100} />
-                  {!games && !gameResults ? <S.NoContent>Não foram encontradas ações pendentes.</S.NoContent> : (
+                  {(!games && !gameResults) || (games.length === 0 && gameResults.length === 0) ? <S.NoContent>Não foram encontradas ações pendentes.</S.NoContent> : (
                   <S.PendingList>
                      {games && games.map((game, index) => (
                         <Pending key={index} data={game} />

@@ -60,9 +60,9 @@ async function registerGameResult(body, token) {
     }
 }
 
-async function getNotConfirmedResults(game, token) {
+async function getNotConfirmedResults(team, token) {
     try {
-        const res = await axios.get(`${config.baseURL}/${resultPath}/not-confirmed-results/${game}`, 
+        const res = await axios.get(`${config.baseURL}/${resultPath}/not-confirmed-results/${team}`, 
             {headers: { Authorization: `Beaerer ${token}` }
         })
 

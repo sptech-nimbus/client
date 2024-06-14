@@ -240,6 +240,11 @@ export const Pending = styled.div`
       padding: .5rem;
       border-radius: .4rem;
    }
+
+   button[disabled] {
+      background-color: ${Colors.gray500};
+      color: ${Colors.gray200};
+   }
 `
 
 export const LoaderContainer = styled.div`
