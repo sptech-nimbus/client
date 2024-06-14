@@ -151,8 +151,7 @@ export const Result = styled.div`
    border-radius: .5rem;
    font-size: .8rem;
    font-weight: 600;
-   background-color: ${
-   props => props.color 
+   background-color: ${props => props.color
    };
 `
 
@@ -239,6 +238,7 @@ export const Pending = styled.div`
       cursor: pointer;
       padding: .5rem;
       border-radius: .4rem;
+      font-weight: 600;
    }
 
    button[disabled] {

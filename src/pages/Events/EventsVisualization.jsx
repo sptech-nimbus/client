@@ -52,6 +52,7 @@ function Event({ event, type }) {
 export default function EventsVisualization() {
    const [games, setGames] = useState([]);
    const [trainings, setTrainings] = useState([]);
+   const [dates, setDates] = useState([]);
 
    const fetchGames = async () => {
       try {
@@ -103,11 +104,26 @@ export default function EventsVisualization() {
       fetchData();
    }, []);
 
+   useEffect(() => {
+      const newDates = [...dates];
+      games.forEach(game => {
+         const date = new Date(game.inicialDateTime);
+         if (!newDates.includes(date)) newDates.push(date);
+      });
+
+      trainings.forEach(training => {
+         const date = new Date(training.inicialDateTime);
+         if (!newDates.includes(date)) newDates.push(date);
+      });
+      setDates(newDates);
+   }, [games, trainings]);
+
    return (
       <S.AgendaContainer>
          <Calendar
             multiple
             format="DD/MM/YYYY"
+            value={dates}
             months={Utils.months(12)}
             weekDays={Utils.weekDays}
             readOnly
@@ -116,7 +132,6 @@ export default function EventsVisualization() {
             monthYearSeparator=" "
             showOtherDays
             disableYearPicker
-            minDate={new Date()}
          />
 
          <S.EventsContainer>
