@@ -18,7 +18,6 @@ import { Colors } from "@utils/Helpers";
 
 export default function Home() {
    const [games, setGames] = useState();
-   const [events, setEvents] = useState([]);
    const [winsGraph, setWinsGraph] = useState();
    const [gameResults, setGameResults] = useState();
    const [isLoading, setIsLoading] = useState(false);
@@ -90,8 +89,6 @@ export default function Home() {
             sessionStorage.getItem('teamId'), localStorage.getItem('token')
          );
 
-         console.log(response.status);
-         console.log(response.data.data);
          if(response.status === 200) {
             setGameResults(response.data.data);
          }  
@@ -233,6 +230,8 @@ export default function Home() {
             console.error(err);
          } finally {
             setIsLoading(false);
+            console.log(games);
+            console.log(gameResults);
          }
       }
 
@@ -355,7 +354,7 @@ export default function Home() {
 
       return (
          <S.Pending isChallenged={isChallenged}>
-            <span>yrdyr</span>
+            <span>{data.gameResult ? 'Resultado' : 'Jogo'}</span>
             <span title={teamName}>{teamName}</span>
             <span>
             {
@@ -388,7 +387,8 @@ export default function Home() {
 
                <S.Container>
                   <Title text='Acões pendentes' size='1rem' color={Colors.orange100} />
-                  {(!games && !gameResults) || (games.length === 0 && gameResults.length === 0) ? <S.NoContent>Não foram encontradas ações pendentes.</S.NoContent> : (
+                  {
+                  (games && games.length > 0) || (gameResults && gameResults.length > 0) ? (
                   <S.PendingList>
                      {games && games.map((game, index) => (
                         <Pending key={index} data={game} />
@@ -398,7 +398,9 @@ export default function Home() {
                         <Pending key={index} data={game} />
                      ))}
                   </S.PendingList>
-                  )}
+                  ) :
+                  <S.NoContent>Não foram encontradas ações pendentes.</S.NoContent>
+                  }
                </S.Container>
 
                <S.Container>
