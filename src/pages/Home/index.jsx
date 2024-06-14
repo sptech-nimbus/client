@@ -314,12 +314,18 @@ export default function Home() {
       const date = new Date(data.finalDateTime);
    
       const confirm = async () => {
-         data.gameResult ? 
-            await game.result.confirm(data.gameResult.id, { id: localStorage.getItem("id") },localStorage.getItem('token')) 
-         :
+         try {
+            const res = data.gameResult ? await game.result.confirm(data.gameResult.id, { id: localStorage.getItem("id") },localStorage.getItem('token')) :
             await game.confirm(gameId, { id: localStorage.getItem("id") },localStorage.getItem('token'));
 
-         setGames(games.filter(game => game.id !== gameId)); 
+            if(res.status === 200) {
+               setGames(games.filter(game => game.id !== gameId));
+            }
+            console.log(res);
+         }
+         catch(err) {
+            console.log();
+         }
       }
 
       const fetchTeam = async () => {

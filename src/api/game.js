@@ -49,14 +49,14 @@ async function confirmGame(game, coach, token) {
 
 async function registerGameResult(body, token) {
     try {
-        const res = await axios.post(`${config.baseURL}/${resultPath}`, body, {
-            headers: { Authorization: `Bearer ${token}` }
-        });
-
-        return res;
-    }
-    catch(err) {
-        throw err;
+        const response = await axios.post('http://localhost:8080/game-results', body,
+            {
+                headers: { Authorization: `Bearer ${token}` }
+            }
+        );
+        return (response.data.data);
+    } catch (err) {
+        throw err
     }
 }
 

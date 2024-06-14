@@ -128,8 +128,8 @@ export default function OnGoingMatch({ allPlayers, gameId, teams }) {
             const updatedStats = { ...player.stats };
 
             if(value > 0) {
-               updatePlayerStats[stat] += value;
-            }
+               updatedStats[stat] += value;
+            } 
 
             if (stat === 'minutes') {
                updatedStats.minutes = Number(timeToDecimal(value).toFixed(2));
@@ -153,6 +153,7 @@ export default function OnGoingMatch({ allPlayers, gameId, teams }) {
 
             return { ...player, stats: updatedStats };
          }
+         
          return player;
       }));
    };
