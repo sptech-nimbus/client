@@ -24,8 +24,6 @@ export default function EventsRegistration() {
    sessionStorage.setItem('jwt', 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJrYXVhYW5tYXRoZXVzQGdtYWlsLmNvbSIsImlhdCI6MTcxNTY5ODg3OX0.pH2mqkYUr5yPbrReOOSgVxVBd7KEMnTP0Dp1faNO-CWIvj6He7af7W6DP_YsDdS1b7uPmduCTSFhndRm-QgT2Q');
    sessionStorage.setItem('teamId', 'eaeb6176-5354-41db-a303-388780fbd9c0');
 
-   const dateRef = useRef()
-
    const [dates, setDates] = useState();
    const [options, setOptions] = useState([]);
    const [datesInput, setDatesInput] = useState();
@@ -44,20 +42,40 @@ export default function EventsRegistration() {
    });
 
    useEffect(() => {
-      loadOptions('', options => setOptions(options));
+      // async function fetchData() {
+      //    const response = await team.getAllTeams(localStorage.getItem('token'));
+
+      //    if(response.status === 200) {
+      //       console.log(options);
+      //       setOptions(response.data.data);
+      //    }
+      // }
+      // fetchData()
+
+      const options = {
+         method: 'GET',
+         url: 'http://localhost:8080/teams',
+         headers: {
+           Authorization: `Bearer ${localStorage.getItem('token')}`
+         }
+       };
+       
+       axios.request(options).then(function (response) {
+         setOptions(response.data.data);
+       }).catch(function (error) {
+         console.error(error);
+       });
    }, []);
 
    const loadOptions = async (inputValue, callback) => {
       try {
         const response = await team.byName(inputValue, sessionStorage.getItem('jwt'));
-        const data = response.data.data;
-      //   const { data } = await axios.get('https://6642243c3d66a67b34366411.mockapi.io/nimbus/teams');
-        const options = data.map((team) => ({
+        const options = response.data.data.map((team) => ({
           value: team.id,
           label: (
             <S.OptionWithImage>
                <S.OptionImage src={team.picture}/>
-               <>{team.name} - {team.category}</>
+               <span>{team.name} - {team.category}</span>
             </S.OptionWithImage>
          ),
         }));
@@ -210,7 +228,7 @@ export default function EventsRegistration() {
                      left="Partida" 
                      right="Treino" 
                      color={Utils.colors.gray700} 
-                     active={eventData.type == 'Treino' ? 'right' : 'left'} 
+                     $active={eventData.type == 'Treino' ? 'right' : 'left'} 
                      onClick={handleEventTypeChange}
                   />
                   </S.Flex>
@@ -237,7 +255,6 @@ export default function EventsRegistration() {
                         name='date'
                         value={datesInput}
                         disabled
-                        ref={dateRef}
                      />
                   </Label>
                   <Label>
@@ -289,7 +306,6 @@ export default function EventsRegistration() {
                         name='date'
                         value={datesInput}
                         disabled
-                        ref={dateRef}
                      />
                   </Label>
                   <Label>
@@ -324,7 +340,7 @@ export default function EventsRegistration() {
                }
                <Button.Primary
                   value={'Cadastrar evento'}
-                  marginTop='0rem'
+                  $marginTop='0rem'
                   fontSize='1.5rem'
                />
             </S.Form>

@@ -73,12 +73,12 @@ export default function Home() {
             localStorage.getItem('token')
          );
 
-         if(response.status === 200) {
+         if (response.status === 200) {
             const notConfirmed = response.data.data.filter(game => !game.confirmed);
             setGames(notConfirmed);
          }
       }
-      catch(err) {
+      catch (err) {
          console.log(err);
       }
    }
@@ -89,11 +89,11 @@ export default function Home() {
             sessionStorage.getItem('teamId'), localStorage.getItem('token')
          );
 
-         if(response.status === 200) {
+         if (response.status === 200) {
             setGameResults(response.data.data);
-         }  
+         }
       }
-      catch(err) {
+      catch (err) {
          console.log(err);
       }
    }
@@ -230,8 +230,6 @@ export default function Home() {
             console.error(err);
          } finally {
             setIsLoading(false);
-            console.log(games);
-            console.log(gameResults);
          }
       }
 
@@ -246,39 +244,39 @@ export default function Home() {
             </S.MatchHeader>
             {!lastGame.inicialDateTime ? <S.NoContent>Não foram encontrados jogos anteriores.</S.NoContent> : (
                <>
-               <S.MatchTeams>
-                  <S.MatchTeamLogo>
-                     <S.MatchTeamImage src={lastGame.challenger.picture ? lastGame.challenger.picture : ''} />
-                  </S.MatchTeamLogo>
-                  <span>VS</span>
-                  <S.MatchTeamLogo>
-                     <S.MatchTeamImage src={lastGame.challenged.picture ? lastGame.challenger.picture : ''} />
-                  </S.MatchTeamLogo >
+                  <S.MatchTeams>
+                     <S.MatchTeamLogo>
+                        <S.MatchTeamImage src={lastGame.challenger.picture ? lastGame.challenger.picture : ''} />
+                     </S.MatchTeamLogo>
+                     <span>VS</span>
+                     <S.MatchTeamLogo>
+                        <S.MatchTeamImage src={lastGame.challenged.picture ? lastGame.challenger.picture : ''} />
+                     </S.MatchTeamLogo >
 
-               </S.MatchTeams>
-               <S.MatchInfo>
-                  <span>{lastGame.challenger.name}</span>
-                  <span>{lastGame.challenged.name}</span>
-               </S.MatchInfo>
-               <S.MatchResults>
-                  {
-                     lastGame.game.gameResult !== null
-                        ? <>
-                           <span>{lastGame.game.gameResult.challengerPoints}</span>
-                           <Results result={
-                              lastGame.game.gameResult.challengerPoints > lastGame.game.gameResult.challengedPoints
-                                 && lastGame.challenger.id === localStorage.getItem('teamId')
-                                 ? 'win'
-                                 : 'lose'
-                           } />
-                           <span>{lastGame.game.gameResult.challengedPoints}</span>
-                        </>
-                        : <Results />
-                  }
-               </S.MatchResults>
+                  </S.MatchTeams>
+                  <S.MatchInfo>
+                     <span>{lastGame.challenger.name}</span>
+                     <span>{lastGame.challenged.name}</span>
+                  </S.MatchInfo>
+                  <S.MatchResults>
+                     {
+                        lastGame.game.gameResult !== null
+                           ? <>
+                              <span>{lastGame.game.gameResult.challengerPoints}</span>
+                              <Results result={
+                                 lastGame.game.gameResult.challengerPoints > lastGame.game.gameResult.challengedPoints
+                                    && lastGame.challenger.id === localStorage.getItem('teamId')
+                                    ? 'win'
+                                    : 'lose'
+                              } />
+                              <span>{lastGame.game.gameResult.challengedPoints}</span>
+                           </>
+                           : <Results />
+                     }
+                  </S.MatchResults>
                </>
             )}
-         </S.MatchCard> 
+         </S.MatchCard>
       )
    }
 
@@ -290,19 +288,19 @@ export default function Home() {
             </S.MatchHeader>
             {!nextGame.game.day ? <S.NoContent>Não forma encontrados jogos futuros.</S.NoContent> : (
                <>
-               <S.MatchTeams>
-                  <S.MatchTeamLogo />
-                  <span>VS</span>
-                  <S.MatchTeamLogo />
-               </S.MatchTeams>
-               <S.MatchInfo>
-                  <span>{nextGame.challenger.name}</span>
-                  <span>{nextGame.challenged.name}</span>
-               </S.MatchInfo>
-               <S.MatchResults>
-                  <span>{nextGame.game.day.toString().padStart(2, '0')}/{nextGame.game.month.toString().padStart(2, '0')}</span>
-                  <span>{nextGame.game.hour}</span>
-               </S.MatchResults>
+                  <S.MatchTeams>
+                     <S.MatchTeamLogo />
+                     <span>VS</span>
+                     <S.MatchTeamLogo />
+                  </S.MatchTeams>
+                  <S.MatchInfo>
+                     <span>{nextGame.challenger.name}</span>
+                     <span>{nextGame.challenged.name}</span>
+                  </S.MatchInfo>
+                  <S.MatchResults>
+                     <span>{nextGame.game.day.toString().padStart(2, '0')}/{nextGame.game.month.toString().padStart(2, '0')}</span>
+                     <span>{nextGame.game.hour}</span>
+                  </S.MatchResults>
                </>
             )}
          </S.MatchCard>
@@ -314,18 +312,18 @@ export default function Home() {
       const [gameId, setGameId] = useState(data.id);
       const [isChallenged, setIsChallenged] = useState(data.challenged === sessionStorage.getItem('teamId'));
       const date = new Date(data.finalDateTime);
-   
+
       const confirm = async () => {
          try {
-            const res = data.gameResult ? await game.result.confirm(data.gameResult.id, { id: localStorage.getItem("id") },localStorage.getItem('token')) :
-            await game.confirm(gameId, { id: localStorage.getItem("id") },localStorage.getItem('token'));
+            const res = data.gameResult ? await game.result.confirm(data.gameResult.id, { id: localStorage.getItem("id") }, localStorage.getItem('token')) :
+               await game.confirm(gameId, { id: localStorage.getItem("id") }, localStorage.getItem('token'));
 
-            if(res.status === 200) {
+            if (res.status === 200) {
                setGames(games.filter(game => game.id !== gameId));
             }
             console.log(res);
          }
-         catch(err) {
+         catch (err) {
             console.log();
          }
       }
@@ -334,22 +332,22 @@ export default function Home() {
          try {
             const teamId = isChallenged ? data.challenger : data.challenged;
             const response = await team.get(teamId, localStorage.getItem('token'));
-   
+
             return response.data.data.name;
          }
-         catch(err) {
+         catch (err) {
             console.log(err);
             return ''
          }
       }
 
-      useEffect(() => { 
+      useEffect(() => {
          console.log(data);
          async function fetchData() {
             const teamDataName = await fetchTeam();
             setTeamName(teamDataName);
          }
-         fetchData() 
+         fetchData()
       }, [teamName]);
 
       return (
@@ -357,10 +355,10 @@ export default function Home() {
             <span>{data.gameResult ? 'Resultado' : 'Jogo'}</span>
             <span title={teamName}>{teamName}</span>
             <span>
-            {
-            data.gameResult ? `${data.gameResult.challengerPoints} x ${data.gameResult.challengedPoints}` :
-            date.toLocaleDateString('pt-br')
-            }
+               {
+                  data.gameResult ? `${data.gameResult.challengerPoints} x ${data.gameResult.challengedPoints}` :
+                     date.toLocaleDateString('pt-br')
+               }
             </span>
             {!isChallenged ? <button title='Apenas o time desafiado pode confimar o resultado da partida.' disabled>Indisponível</button> : <button onClick={() => confirm()}>Confirmar</button>}
          </S.Pending>
@@ -388,18 +386,18 @@ export default function Home() {
                <S.Container>
                   <Title text='Acões pendentes' size='1rem' color={Colors.orange100} />
                   {
-                  (games && games.length > 0) || (gameResults && gameResults.length > 0) ? (
-                  <S.PendingList>
-                     {games && games.map((game, index) => (
-                        <Pending key={index} data={game} />
-                     ))}
+                     (games && games.length > 0) || (gameResults && gameResults.length > 0) ? (
+                        <S.PendingList>
+                           {games && games.map((game, index) => (
+                              <Pending key={index} data={game} />
+                           ))}
 
-                     {gameResults && gameResults.map((game, index) => (
-                        <Pending key={index} data={game} />
-                     ))}
-                  </S.PendingList>
-                  ) :
-                  <S.NoContent>Não foram encontradas ações pendentes.</S.NoContent>
+                           {gameResults && gameResults.map((game, index) => (
+                              <Pending key={index} data={game} />
+                           ))}
+                        </S.PendingList>
+                     ) :
+                        <S.NoContent>Não foram encontradas ações pendentes.</S.NoContent>
                   }
                </S.Container>
 

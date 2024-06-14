@@ -57,6 +57,7 @@ export const AuthProvider = ({ children }) => {
       setUserId(null);
       setTeamId(null);
       localStorage.clear();
+      sessionStorage.clear();
       setIsAuthenticated(false);
    }
 

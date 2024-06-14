@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import * as S from "./Sidebar.styled";
 
 import { useAuth } from "@contexts/auth";
@@ -15,14 +16,35 @@ import {
 import { useNavigate } from "react-router-dom";
 
 import Popover from "@components/Popover/Popover";
+import team from '@api/team';
 
-export default function Sidebar({page, logo, children}) {
+import Utils from "@utils/Helpers";
+
+export default function Sidebar({page, children}) {
+   const [name, setName] = useState('' || sessionStorage.getItem('teamName'));
+   const [picture, setPicture] = useState('' || sessionStorage.getItem('teamPicture'));
    const navigate = useNavigate();
    const { logout } = useAuth();
 
+   useEffect(() => {
+      async function fetchData() {
+         const response = await team.get(sessionStorage.getItem('teamId'), localStorage.getItem('token')); 
+         
+         if(response.status === 200) {
+            if(response.data.data.picture) {
+               sessionStorage.setItem('teamPicture', response.data.data.picture);
+               setPicture(response.data.data.picture);
+            }
+            sessionStorage.setItem('teamName', response.data.data.name);
+            setName(response.data.data.name);
+         }
+      }
+      fetchData();
+   });
+
    return (
       <S.Container>
-         {logo ? logo : <Placeholder /> }
+         {picture ? <S.TeamImage src={picture}/> : <S.NoImage title={name}>{name && Utils.getTeamInitials(name)}</S.NoImage>}
          <S.IconGroup>
             <S.Icon onClick={() => navigate('/home')} title='Home'>
                <House
