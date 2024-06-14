@@ -15,6 +15,7 @@ import graph from '@api/graph';
 import team from '@api/team';
 
 import { Colors } from "@utils/Helpers";
+import Utils from '@utils/Helpers';
 
 export default function Home() {
    const [games, setGames] = useState();
@@ -99,12 +100,14 @@ export default function Home() {
    }
 
    async function fetchLastGame() {
-      const res = await game.lastGame(sessionStorage.getItem('teamId'), localStorage.getItem('token'));
-
-      if (res.status === 204) {
-         setLastGame(null);
-      } else {
-         setLastGame(res.data.data);
+      try {
+         const res = await game.lastGame(sessionStorage.getItem('teamId'), localStorage.getItem('token'));
+         if (res.status === 200) {
+            setLastGame(res.data.data);
+         }
+      }
+      catch (err) {
+         console.log(err);
       }
    }
 
@@ -242,15 +245,23 @@ export default function Home() {
             <S.MatchHeader>
                <span>Partida anterior</span>
             </S.MatchHeader>
-            {!lastGame.inicialDateTime ? <S.NoContent>Não foram encontrados jogos anteriores.</S.NoContent> : (
+            {lastGame.inicialDateTime ? <S.NoContent>Não foram encontrados jogos anteriores.</S.NoContent> : (
                <>
                   <S.MatchTeams>
                      <S.MatchTeamLogo>
-                        <S.MatchTeamImage src={lastGame.challenger.picture ? lastGame.challenger.picture : ''} />
+                        {
+                           lastGame.challenger.picture
+                              ? <S.MatchTeamImage src={lastGame.challenger.picture ? lastGame.challenger.picture : ''} />
+                              : Utils.getTeamInitials(lastGame.challenger.name)
+                        }
                      </S.MatchTeamLogo>
                      <span>VS</span>
                      <S.MatchTeamLogo>
-                        <S.MatchTeamImage src={lastGame.challenged.picture ? lastGame.challenger.picture : ''} />
+                        {
+                           lastGame.challenged.picture
+                              ? <S.MatchTeamImage src={lastGame.challenged.picture ? lastGame.challenged.picture : ''} />
+                              : Utils.getTeamInitials(lastGame.challenged.name)
+                        }
                      </S.MatchTeamLogo >
 
                   </S.MatchTeams>
@@ -289,9 +300,21 @@ export default function Home() {
             {!nextGame.game.day ? <S.NoContent>Não forma encontrados jogos futuros.</S.NoContent> : (
                <>
                   <S.MatchTeams>
-                     <S.MatchTeamLogo />
+                     <S.MatchTeamLogo>
+                        {
+                           nextGame.challenger.picture
+                              ? <S.MatchTeamImage src={nextGame.challenger.picture ? nextGame.challenger.picture : ''} />
+                              : Utils.getTeamInitials(nextGame.challenger.name)
+                        }
+                     </S.MatchTeamLogo>
                      <span>VS</span>
-                     <S.MatchTeamLogo />
+                     <S.MatchTeamLogo>
+                        {
+                           nextGame.challenged.picture
+                              ? <S.MatchTeamImage src={nextGame.challenged.picture ? nextGame.challenged.picture : ''} />
+                              : Utils.getTeamInitials(nextGame.challenged.name)
+                        }
+                     </S.MatchTeamLogo>
                   </S.MatchTeams>
                   <S.MatchInfo>
                      <span>{nextGame.challenger.name}</span>
@@ -321,7 +344,6 @@ export default function Home() {
             if (res.status === 200) {
                setGames(games.filter(game => game.id !== gameId));
             }
-            console.log(res);
          }
          catch (err) {
             console.log();
@@ -342,7 +364,6 @@ export default function Home() {
       }
 
       useEffect(() => {
-         console.log(data);
          async function fetchData() {
             const teamDataName = await fetchTeam();
             setTeamName(teamDataName);
@@ -351,7 +372,7 @@ export default function Home() {
       }, [teamName]);
 
       return (
-         <S.Pending isChallenged={isChallenged}>
+         <S.Pending $isChallenged={isChallenged}>
             <span>{data.gameResult ? 'Resultado' : 'Jogo'}</span>
             <span title={teamName}>{teamName}</span>
             <span>

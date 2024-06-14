@@ -100,6 +100,9 @@ export const MatchTeamLogo = styled.div`
    height: 5.5vw;
    border-radius: 50%;
    background: ${Colors.gray800};
+   display: flex;
+   align-items: center;
+   justify-content: center;
 `
 
 export const MatchInfo = styled.div`

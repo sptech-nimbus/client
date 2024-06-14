@@ -67,6 +67,7 @@ export const Form = styled.form`
    flex-direction: column;
    gap: 1.2rem;
    height: 100%;
+   justify-content: center;
 `
 
 export const Flex = styled.div`

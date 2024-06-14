@@ -15,8 +15,9 @@ import Select from "@components/Select/Select";
 import Utils from '@utils/Helpers';
 import { TimeValidation, TextValidation, FutureDateValidation } from '@utils/Validations';
 
-import game from '../../api/game';
-import team from '../../api/team';
+import game from '@api/game';
+import team from '@api/team';
+import training from '@api/training';
 
 function Option({ option }) {
    return (
@@ -140,11 +141,33 @@ export default function EventsRegistration() {
 
          if (eventData.type === "Partida") {
             try {
-               console.log(events);
                await game.post(events, localStorage.getItem('token'));
             } catch (e) {
                addNotification('error', `Erro ao cadastrar jogo: ${e.status}`);
                console.log(e);
+            }
+         }
+         else if (eventData.type === "Treino") {
+            try {
+               console.log('training.post parameters:', {
+                  teamId: sessionStorage.getItem('teamId'),
+                  local: events[0].local,
+                  inicialDateTime: events[0].inicialDateTime,
+                  finalDateTime: events[0].finalDateTime
+               });
+               const response = await training.post(
+                  {
+                     teamId: sessionStorage.getItem('teamId'),
+                     local: events[0].local,
+                     inicialDateTime: events[0].inicialDateTime,
+                     finalDateTime: events[0].finalDateTime
+                  },
+                  localStorage.getItem('token')
+               );
+               console.log('training.post response:', response);
+            } catch (e) {
+               addNotification('error', `Erro ao cadastrar treino: ${e.status}`);
+               console.log('treino.post error:', e);
             }
          }
 
@@ -245,15 +268,6 @@ export default function EventsRegistration() {
                   :
                   //form de treino
                   <>
-                     <Label>
-                        Nome do evento de treino
-                        <Input.Default
-                           name='title'
-                           value={eventData.title}
-                           onChange={handleInputChange}
-                           autocomplete="off"
-                        />
-                     </Label>
                      <S.Flex>
                         <Label>
                            Data(s)
