@@ -14,6 +14,7 @@ import Button from '@components/Button/Button';
 import game from '@api/game';
 import graph from '@api/graph';
 import team from '@api/team';
+import blobStorage from '@api/blobStorage';
 
 import { Colors } from "@utils/Helpers";
 import Utils from '@utils/Helpers';
@@ -151,6 +152,8 @@ export default function Home() {
       }
    }
 
+   useEffect(() => { console.log('inputs: ', inputs); }, [inputs]);
+
    const fetchWins = async () => {
       const res = await graph.getWins(sessionStorage.getItem('teamId'), 10, localStorage.getItem('token'));
 
@@ -159,7 +162,19 @@ export default function Home() {
 
    const putTeam = async () => {
       try {
+         const { picture } = inputs;
+         delete inputs.picture;
+
          const response = await team.put(sessionStorage.getItem('teamId'), inputs, localStorage.getItem('token'));
+         if (picture) {
+            try {
+               const res = await blobStorage.post(picture, localStorage.getItem('token'), sessionStorage.getItem('teamId'));
+               console.log(res);
+            }
+            catch (err) {
+               console.log(err);
+            }
+         }
          if (response.status === 200) {
             setDisabledInputs(true);
             window.location.reload();
@@ -477,9 +492,10 @@ export default function Home() {
                               onChange={e => setInputs({ ...inputs, [e.target.name]: e.target.value })}
                            />
                            <Input.Default
-                              name='email'
+                              name='picture'
                               type='file'
                               disabled={disabledInputs}
+                              onChange={e => setInputs({ ...inputs, [e.target.name]: e.target.files[0] })}
                            />
                         </S.TeamInfo>
                      </S.TeamInfoContainer>

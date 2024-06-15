@@ -290,8 +290,8 @@ export const TeamImage = styled.div`
    border-radius: 1rem;
 
    img {
-      width: 100%;
-      height: 100%; 
+      max-width: 250px;
+      max-height: 250px;
       object-fit: cover;
       object-position: center;
    }
