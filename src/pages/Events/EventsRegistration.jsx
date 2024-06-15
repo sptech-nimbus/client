@@ -86,15 +86,6 @@ export default function EventsRegistration() {
       return true;
    }
 
-   const handleDescSize = (e) => {
-      if (eventData.description.length < 300 || e.nativeEvent.inputType === 'deleteContentBackward') {
-         setEventData({
-            ...eventData,
-            description: e.target.value.substring(0, 300)
-         });
-      }
-   }
-
    const EventValidation = () => {
       if (
          TextValidation(eventData.type) &&

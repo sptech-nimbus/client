@@ -110,7 +110,7 @@ export const OptionWithImage = styled.div`
    display: flex;
    align-items: center;
    gap: .5rem;
-` 
+`
 
 export const OptionImage = styled.img`
    width: 30px;
