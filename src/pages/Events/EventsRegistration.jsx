@@ -10,7 +10,7 @@ import "react-multi-date-picker/styles/backgrounds/bg-dark.css"
 import Input from "@components/Input/Input";
 import Label from "@components/Label/Label";
 import Button, { PillButtons } from "@components/Button/Button";
-import Select from "@components/Select/Select";
+import Select, { Option } from "@components/Select/Select";
 
 import Utils from '@utils/Helpers';
 import { TimeValidation, TextValidation, FutureDateValidation } from '@utils/Validations';
@@ -18,15 +18,6 @@ import { TimeValidation, TextValidation, FutureDateValidation } from '@utils/Val
 import game from '@api/game';
 import team from '@api/team';
 import training from '@api/training';
-
-function Option({ option }) {
-   return (
-      <S.OptionWithImage>
-         {option.picture ? <S.OptionImage src={option.picture} /> : <S.OptionNoImage>{Utils.getTeamInitials(option.name)}</S.OptionNoImage>}
-         <span>{option.name} - {option.category}</span>
-      </S.OptionWithImage>
-   );
-}
 
 export default function EventsRegistration() {
    const { addNotification, getNotificationHist } = useNotification();

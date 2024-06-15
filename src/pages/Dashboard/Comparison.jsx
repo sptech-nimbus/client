@@ -6,12 +6,12 @@ import { useNotification } from "@contexts/notification";
 
 import Title from "@components/Title/Title";
 import Loader from "@components/Loader/Loader";
-import Select from "@components/Select/Select";
+import Select, { Option } from "@components/Select/Select";
 
 import { LineChart, PieChart, BarChart } from "@components/Charts";
 
 import graph from '@api/graph';
-import { TextAlignJustify } from '@phosphor-icons/react';
+import team from '@api/team';
 
 export default function ComparisonLayout() {
    const { addNotification } = useNotification();
@@ -20,11 +20,19 @@ export default function ComparisonLayout() {
    const [isLoading, setIsLoading] = useState(false);
    const [inputValue, setInputValue] = useState('');
 
-   const [winsGraph, setWinsGraph] = useState([]);
-   const [pointsDivision, setPointsDivision] = useState([]);
+   const [winsGraph, setWinsGraph] = useState(0);
+   const [pointsDivision, setPointsDivision] = useState(0);
    const [pointsPerGame, setPointsPerGame] = useState({ labels: [], values: [] });
    const [foulsPerGame, setFoulsPerGame] = useState({ labels: [], values: [] });
    const [reboundsPerGame, setReboundsPerGame] = useState({ labels: [], values: [] });
+
+   const [winsGraphAdversary, setWinsGraphAdversary] = useState(0);
+   const [pointsDivisionAdversary, setPointsDivisionAdversary] = useState(0);
+   const [pointsPerGameAdversary, setPointsPerGameAdversary] = useState({ labels: [], values: [] });
+   const [foulsPerGameAdversary, setFoulsPerGamAdversary] = useState({ labels: [], values: [] });
+   const [reboundsPerGameAdversary, setReboundsPerGameAdversary] = useState({ labels: [], values: [] });
+
+   const [adversayId, setAdversaryId] = useState();
 
    async function fetchOptions() {
       const response = await team.getAllTeams(localStorage.getItem('token'));
@@ -107,21 +115,53 @@ export default function ComparisonLayout() {
          throw err;
       }
    }
+   const fetchData = async (teamId, isAdversary) => {
+      setIsLoading(true);
 
-   useEffect(() => {
-      const fetchData = async () => {
-         try {
-            const [winsGraphData, pointsDivisionData, pointsPerGameData, foulsPerGameData, reboundsPerGameData] = await Promise.all([
-               fetchWins(sessionStorage.getItem('teamId')),
-               fetchPointsDivision(sessionStorage.getItem('teamId')),
-               fetchPointsPerGame(sessionStorage.getItem('teamId')),
-               fetchFoulsPerGame(sessionStorage.getItem('teamId')),
-               // fetchReboundsPerGame(sessionStorage.getItem('teamId')),
-            ]);
+      try {
+         const [winsGraphData, pointsDivisionData, pointsPerGameData, foulsPerGameData, reboundsPerGameData] = await Promise.all([
+            fetchWins(teamId),
+            fetchPointsDivision(teamId),
+            fetchPointsPerGame(teamId),
+            fetchFoulsPerGame(teamId),
+            // fetchReboundsPerGame(teamId),
+         ]);
 
-            setWinsGraph([winsGraphData.wins, winsGraphData.loses]);
-            let mappedDivision = [pointsDivisionData.threePointsPorcentage, pointsDivisionData.twoPointsPorcentage];
-            mappedDivision = mappedDivision.map(value => Number(value.toFixed(0)));
+         if (isAdversary) {
+            setWinsGraphAdversary(winsGraphData.wins);
+            let mappedDivision = pointsDivisionData.threePointsPorcentage.toFixed(0);
+            setPointsDivisionAdversary(mappedDivision);
+
+            Object.keys(pointsPerGameData).forEach(gameDate => {
+               const date = new Date(gameDate);
+               setPointsPerGameAdversary(prevState => ({
+                  ...prevState,
+                  labels: [...prevState.labels, `${date.getDate()}/${date.getMonth()}`],
+                  values: [...prevState.values, pointsPerGameData[gameDate]]
+               }));
+            });
+
+            Object.keys(foulsPerGameData).forEach(gameDate => {
+               const date = new Date(gameDate);
+               setFoulsPerGamAdversary(prevState => ({
+                  ...prevState,
+                  labels: [...prevState.labels, `${date.getDate()}/${date.getMonth()}`],
+                  values: [...prevState.values, foulsPerGameData[gameDate]]
+               }));
+            });
+
+            // Object.keys(reboundsPerGameData).forEach(gameDate => {
+            //    const date = new Date(gameDate);
+            //    setReboundsPerGameAdversary(prevState => ({
+            //       ...prevState,
+            //       labels: [...prevState.labels, `${date.getDate()}/${date.getMonth()}`],
+            //       values: [...prevState.values, reboundsPerGameData[gameDate]]
+            //    }));
+            // });
+         }
+         else {
+            setWinsGraph(winsGraphData.wins);
+            let mappedDivision = pointsDivisionData.threePointsPorcentage.toFixed(0);
             setPointsDivision(mappedDivision);
 
             Object.keys(pointsPerGameData).forEach(gameDate => {
@@ -151,22 +191,32 @@ export default function ComparisonLayout() {
             //    }));
             // });
          }
-         catch (err) {
-            console.log(err);
-            throw err;
-         }
       }
+      catch (err) {
+         console.log(err);
+         throw err;
+      }
+      finally {
+         setIsLoading(false);
+      }
+   }
 
-      fetchData();
+   useEffect(() => {
+      fetchOptions();
+      fetchData(sessionStorage.getItem('teamId'), false);
    }, []);
 
    useEffect(() => {
-      console.log('wins: ', winsGraph);
-      console.log('pointsDivision: ', pointsDivision);
-      console.log('pointsPerGame: ', pointsPerGame);
-      console.log('foulsPerGame: ', foulsPerGame);
-      //console.log('reboundsPerGame: ', reboundsPerGame);
-   }, [winsGraph, pointsDivision, pointsPerGame, foulsPerGame, reboundsPerGame]);
+      fetchData(adversayId, true);
+   }, [adversayId]);
+
+   useEffect(() => {
+      console.log('wins: ', winsGraphAdversary);
+      console.log('division: ', pointsDivisionAdversary);
+      console.log('pts per game:', pointsPerGameAdversary);
+      console.log('fouls per game: ', foulsPerGameAdversary);
+      // console.log('rebounds per game', reboundsPerGameAdversary);
+   }, [winsGraphAdversary, pointsDivisionAdversary, pointsPerGameAdversary, foulsPerGameAdversary, reboundsPerGameAdversary]);
 
    //configurações de gráficos
    const pieConfig = {
@@ -178,7 +228,7 @@ export default function ComparisonLayout() {
             ],
             datasets: [{
                label: 'Vitórias',
-               data: winsGraph,
+               data: [winsGraph, winsGraphAdversary],
                backgroundColor: [
                   Colors.orange500,
                   Colors.orange300,
@@ -194,7 +244,7 @@ export default function ComparisonLayout() {
             ],
             datasets: [{
                label: 'Pontos convertidos',
-               data: pointsDivision,
+               data: [pointsDivision, pointsDivisionAdversary],
                backgroundColor: [
                   Colors.orange500,
                   Colors.orange300,
@@ -219,6 +269,7 @@ export default function ComparisonLayout() {
       }
    }
 
+   //rebouds
    const barConfig = {
       data: {
          labels: [],
@@ -267,16 +318,17 @@ export default function ComparisonLayout() {
       }
    }
 
+   //pontos e faltas
    const lineConfig = {
       data: {
-         labels: [],
+         labels: foulsPerGame.labels,
          datasets: [
             {
                label: 'Seu time',
                backgroundColor: `${Colors.orange500}`,
                borderColor: `${Colors.orange500}`,
                borderWidth: 3,
-               data: [],
+               data: foulsPerGame.values,
                lineTension: .4,
             },
             {
@@ -284,7 +336,7 @@ export default function ComparisonLayout() {
                backgroundColor: `${Colors.orange300}`,
                borderColor: `${Colors.orange300}`,
                borderWidth: 3,
-               data: [],
+               data: foulsPerGameAdversary.values,
                lineTension: .4,
             }
          ],
@@ -314,9 +366,10 @@ export default function ComparisonLayout() {
       }
    }
 
+   //pontos
    const areaConfig = {
       data: {
-         labels: [],
+         labels: pointsPerGame.labels,
          datasets: [
             {
                //  fill: true,
@@ -324,7 +377,7 @@ export default function ComparisonLayout() {
                backgroundColor: `${Colors.orange500}`,
                borderColor: `${Colors.orange500}`,
                borderWidth: 3,
-               data: [],
+               data: pointsPerGame.values,
                lineTension: .4,
             },
             {
@@ -333,7 +386,7 @@ export default function ComparisonLayout() {
                backgroundColor: `${Colors.orange300}`,
                borderColor: `${Colors.orange300}`,
                borderWidth: 3,
-               data: [],
+               data: pointsPerGameAdversary.values,
                lineTension: .4,
             },
          ],
@@ -372,7 +425,7 @@ export default function ComparisonLayout() {
    return isLoading ?
       <S.LoaderContainer>
          <Loader />
-         <span>Buscando informações <br /> dteamStats.o seu time...</span>
+         <span>Buscando informações <br /> de desempenho do seu time...</span>
       </S.LoaderContainer>
       : (
          <S.ComparisonGrid>
@@ -383,43 +436,59 @@ export default function ComparisonLayout() {
                   cacheOptions
                   options={options}
                   onInputChange={(newValue) => setInputValue(newValue)}
-                  placeholder='Selecione um time para desafiar...'
+                  placeholder='Selecione um time para comparação...'
                   noOptionsMessage={() => "Não há times disponíveis no momento."}
+                  onChange={(choice) => setAdversaryId(choice.value)}
                />
             </S.SelectContainer>
 
             <S.ComparisonContainer>
                <Title text='Vitórias dos times' size='1rem' color={Colors.orange100} />
                <S.ChartContainer>
-                  <PieChart data={pieConfig.data[0]} options={pieConfig.options} />
+                  {winsGraph.length === 0
+                     ? <S.NoContent>Não foram encontrados dados para o gráfico em questão</S.NoContent>
+                     : <PieChart data={pieConfig.data[0]} options={pieConfig.options} />
+                  }
                </S.ChartContainer>
             </S.ComparisonContainer>
 
             <S.ComparisonContainer>
                <Title text='Pontos por jogo nos últimos jogos' size='1rem' color={Colors.orange100} />
                <S.ChartContainer>
-                  <LineChart data={areaConfig.data} options={areaConfig.options} />
+                  {pointsPerGame.labels.length === 0
+                     ? <S.NoContent>Não foram encontrados dados para o gráfico em questão</S.NoContent>
+                     : <LineChart data={areaConfig.data} options={areaConfig.options} />
+                  }
                </S.ChartContainer>
             </S.ComparisonContainer>
 
             <S.ComparisonContainer>
                <Title text='Faltas cometidas pelos times' size='1rem' color={Colors.orange100} />
                <S.ChartContainer>
-                  <LineChart data={lineConfig.data} options={lineConfig.options} />
+                  {foulsPerGame.labels.length === 0
+                     ? <S.NoContent>Não foram encontrados dados para o gráfico em questão</S.NoContent>
+                     : <LineChart data={lineConfig.data} options={lineConfig.options} />
+                  }
                </S.ChartContainer>
             </S.ComparisonContainer>
 
             <S.ComparisonContainer>
                <Title text='Divisão de pontos convertidos' size='1rem' color={Colors.orange100} />
                <S.ChartContainer>
-                  <PieChart data={pieConfig.data[1]} options={pieConfig.options} />
+                  {pointsDivision.length === 0
+                     ? <S.NoContent>Não foram encontrados dados para o gráfico em questão</S.NoContent>
+                     : <PieChart data={pieConfig.data[1]} options={pieConfig.options} />
+                  }
                </S.ChartContainer>
             </S.ComparisonContainer>
 
             <S.ComparisonContainer>
                <Title text='Quantidade de rebotes por partida' size='1rem' color={Colors.orange100} />
                <S.ChartContainer>
-                  <BarChart data={barConfig.data} options={barConfig.options} />
+                  {reboundsPerGame.labels.length === 0
+                     ? <S.NoContent>Não foram encontrados dados para o gráfico em questão</S.NoContent>
+                     : <BarChart data={barConfig.data} options={barConfig.options} />
+                  }
                </S.ChartContainer>
             </S.ComparisonContainer>
          </S.ComparisonGrid>

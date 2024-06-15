@@ -91,6 +91,7 @@ export default function DashboardLayout() {
 
    useEffect(() => {
       const fetchData = async () => {
+         setIsLoading(true);
          try {
             const [winsGraphData, pointsDivisionData, pointsPerGameData, foulsPerGameData, reboundsPerGameData] = await Promise.all([
                fetchWins(sessionStorage.getItem('teamId')),
@@ -135,6 +136,9 @@ export default function DashboardLayout() {
          catch (err) {
             console.log(err);
             throw err;
+         }
+         finally {
+            setIsLoading(false);
          }
       }
 
@@ -329,10 +333,9 @@ export default function DashboardLayout() {
                <Title text='Resultados do time' size='1rem' color={Colors.orange100} />
                <S.ChartContainer>
                   {winsGraph.length === 0
-                     ? <S.NoContent>Não foram encontrados dados de desempenho do time.</S.NoContent>
+                     ? <S.NoContent>Não foram encontrados dados para o gráfico em questão</S.NoContent>
                      : <PieChart data={pieConfig.data[0]} options={pieConfig.options} />
                   }
-
                </S.ChartContainer>
             </S.Container>
 
@@ -340,7 +343,7 @@ export default function DashboardLayout() {
                <Title text='Pontos por jogo nos últimos jogos' size='1rem' color={Colors.orange100} />
                <S.ChartContainer>
                   {pointsPerGame.labels.length === 0
-                     ? <S.NoContent>Não foram encontrados dados de desempenho do time.</S.NoContent>
+                     ? <S.NoContent>Não foram encontrados dados para o gráfico em questão</S.NoContent>
                      : <LineChart data={areaConfig.data} options={areaConfig.options} />
                   }
                </S.ChartContainer>
@@ -350,7 +353,7 @@ export default function DashboardLayout() {
                <Title text='Faltas cometidas pelo time' size='1rem' color={Colors.orange100} />
                <S.ChartContainer>
                   {foulsPerGame.labels.length === 0
-                     ? <S.NoContent>Não foram encontrados dados de desempenho do time.</S.NoContent>
+                     ? <S.NoContent>Não foram encontrados dados para o gráfico em questão</S.NoContent>
                      : <LineChart data={lineConfig.data} options={lineConfig.options} />
                   }
                </S.ChartContainer>
@@ -360,7 +363,7 @@ export default function DashboardLayout() {
                <Title text='Divisão de pontos convertidos' size='1rem' color={Colors.orange100} />
                <S.ChartContainer>
                   {pointsDivision.length === 0
-                     ? <S.NoContent>Não foram encontrados dados de desempenho do time.</S.NoContent>
+                     ? <S.NoContent>Não foram encontrados dados para o gráfico em questão</S.NoContent>
                      : <PieChart data={pieConfig.data[1]} options={pieConfig.options} />
                   }
                </S.ChartContainer>
@@ -370,7 +373,7 @@ export default function DashboardLayout() {
                <Title text='Quantidade de rebotes por partida' size='1rem' color={Colors.orange100} />
                <S.ChartContainer>
                   {reboundsPerGame.labels.length === 0
-                     ? <S.NoContent>Não foram encontrados dados de desempenho do time.</S.NoContent>
+                     ? <S.NoContent>Não foram encontrados dados para o gráfico em questão</S.NoContent>
                      : <BarChart data={barConfig.data} options={barConfig.options} />
                   }
                </S.ChartContainer>
