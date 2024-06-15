@@ -257,3 +257,54 @@ export const LoaderContainer = styled.div`
    align-items: center;
    justify-content: center;
 `
+
+export const TeamInfoTitle = styled.div`
+   display: flex;
+   align-items: center;
+   gap: 1rem;
+   justify-content: space-between;
+
+   div {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      cursor: pointer;
+   }
+`
+
+export const TeamInfoContainer = styled.div`
+   width: 100%;
+   height: 100%;
+   display: grid;
+   grid-template-columns: .8fr 1fr;
+`
+
+export const TeamImage = styled.div`
+   width: 100%;
+   height: 100%;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   background-color: ${Colors.gray800};
+   border: none;
+   border-radius: 1rem;
+
+   img {
+      width: 100%;
+      height: 100%; 
+      object-fit: cover;
+      object-position: center;
+   }
+
+   span {
+      font-size: 3rem;
+      font-weight: 700;
+   }
+`
+
+export const TeamInfo = styled.div`
+   display: flex;
+   flex-direction: column;
+   justify-content: space-between;
+   padding: 0 1rem;
+`

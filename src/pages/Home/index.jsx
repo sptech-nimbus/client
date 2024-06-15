@@ -1,14 +1,15 @@
 /* eslint-disable no-unused-vars */
 
 import * as S from './Home.styled';
-import Sidebar from "@components/Sidebar/Sidebar";
-import Background from "@components/Background/Background";
 import { useState, useEffect } from 'react';
 
-import { RadarChart, DoughnutChart } from '../../components/Charts';
-import Results from './Result';
+import Sidebar from "@components/Sidebar/Sidebar";
+import { DoughnutChart } from '@components/Charts';
+import Background from "@components/Background/Background";
 import Title from '@components/Title/Title';
 import Loader from '@components/Loader/Loader';
+import Input from '@components/Input/Input';
+import Button from '@components/Button/Button';
 
 import game from '@api/game';
 import graph from '@api/graph';
@@ -17,11 +18,19 @@ import team from '@api/team';
 import { Colors } from "@utils/Helpers";
 import Utils from '@utils/Helpers';
 
+import Results from './Result';
+
+import { Pencil } from '@phosphor-icons/react';
+
 export default function Home() {
+   const [teamInfo, setTeamInfo] = useState();
+   const [inputs, setInputs] = useState({});
+   const [disabledInputs, setDisabledInputs] = useState(true);
+   const [isLoading, setIsLoading] = useState(false);
+
    const [games, setGames] = useState();
    const [winsGraph, setWinsGraph] = useState();
    const [gameResults, setGameResults] = useState();
-   const [isLoading, setIsLoading] = useState(false);
    const [performanceGraph, setPerformanceGraph] = useState();
 
    const [lastGame, setLastGame] = useState({
@@ -65,6 +74,19 @@ export default function Home() {
 
    const sortByDate = (a, b) => {
       return new Date(a.inicialDateTime).getTime() - new new Date(b.inicialDateTime).getTime();
+   }
+
+   const fetchTeam = async () => {
+      try {
+         const response = await team.get(sessionStorage.getItem('teamId'), localStorage.getItem('token'));
+         if (response.status === 200) {
+            setTeamInfo(response.data.data);
+            setInputs(response.data.data);
+         }
+      }
+      catch (err) {
+         console.log(err);
+      }
    }
 
    const fetchGames = async () => {
@@ -129,10 +151,23 @@ export default function Home() {
       }
    }
 
-   async function fetchWins() {
+   const fetchWins = async () => {
       const res = await graph.getWins(sessionStorage.getItem('teamId'), 10, localStorage.getItem('token'));
 
       setWinsGraph([res.data.data.wins, res.data.data.loses]);
+   }
+
+   const putTeam = async () => {
+      try {
+         const response = await team.put(sessionStorage.getItem('teamId'), inputs, localStorage.getItem('token'));
+         if (response.status === 200) {
+            setDisabledInputs(true);
+            window.location.reload();
+         }
+      }
+      catch (err) {
+         console.log(err);
+      }
    }
 
    const radarConfig = {
@@ -223,6 +258,7 @@ export default function Home() {
          try {
             setIsLoading(true);
             await Promise.all([
+               fetchTeam(),
                fetchGames(),
                fetchNotConfirmedResult(),
                fetchLastGame(),
@@ -393,10 +429,61 @@ export default function Home() {
          <S.ContentContainer>
             <S.HomeGrid>
                <S.Container>
-                  <Title text='Desempenho do time nos últimos jogos' size='1rem' color={Colors.orange100} />
-                  <S.ChartContainer>
-                     {!performanceGraph ? <S.NoContent>Não foram encontrados dados de desempenho do time.</S.NoContent> : <RadarChart data={radarConfig.data} options={radarConfig.options} />}
-                  </S.ChartContainer>
+                  <S.TeamInfoTitle>
+                     <Title text={disabledInputs ? 'Informações do time' : 'Atualizar informações do time'} size='1rem' color={Colors.orange100} />
+                     <div>
+                        {!disabledInputs &&
+                           <Button.Primary
+                              $marginTop="0rem"
+                              value="Salvar"
+                              fontSize=".9rem"
+                              onClick={putTeam}
+                           />
+                        }
+                        <Pencil
+                           size={24}
+                           weight='bold'
+                           color={disabledInputs ? Colors.gray500 : Colors.orange100}
+                           onClick={() => {
+                              setInputs(teamInfo);
+                              setDisabledInputs(!disabledInputs);
+                           }}
+                        />
+                     </div>
+                  </S.TeamInfoTitle>
+                  {teamInfo && inputs &&
+                     <S.TeamInfoContainer>
+                        <S.TeamImage>
+                           {teamInfo.picture ? <img src={teamInfo.picture} alt="" /> : <span>{Utils.getTeamInitials(teamInfo.name)}</span>}
+                        </S.TeamImage>
+
+                        <S.TeamInfo>
+                           <Input.Default
+                              name='name'
+                              value={inputs.name}
+                              disabled={disabledInputs}
+                              onChange={e => setInputs({ ...inputs, [e.target.name]: e.target.value })}
+                           />
+                           <Input.Default
+                              name='category'
+                              value={inputs.category}
+                              disabled={disabledInputs}
+                              onChange={e => setInputs({ ...inputs, [e.target.name]: e.target.value })}
+                           />
+                           <Input.Default
+                              name='local'
+                              value={inputs.local}
+                              disabled={disabledInputs}
+                              onChange={e => setInputs({ ...inputs, [e.target.name]: e.target.value })}
+                           />
+                           <Input.Default
+                              name='email'
+                              type='file'
+                              disabled={disabledInputs}
+                           />
+                        </S.TeamInfo>
+                     </S.TeamInfoContainer>
+                  }
                </S.Container>
 
                <S.MatchContainer>

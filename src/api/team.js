@@ -30,23 +30,23 @@ async function getTeamsByName(name, token) {
 
 async function registerTeam(body = {}, token) {
     try {
-        const response = await axios.post(`${config.baseURL}/${path}`, body, { 
+        const response = await axios.post(`${config.baseURL}/${path}`, body, {
             headers: { Authorization: `Bearer ${token}` }
         });
         return response;
     }
-    catch(err) {
+    catch (err) {
         throw err;
     }
 }
 
-async function getActiveInjuries({ param }) {
+async function getActiveInjuries(param) {
     const response = await axios.get(`${config.baseURL}/${path}/active-injuries/${param}`)
 
     return response;
 }
 
-async function getTeamEspecific( id, token ) {
+async function getTeamEspecific(id, token) {
     const response = await axios.get(`${config.baseURL}/${path}/${id}`, {
         headers: { Authorization: `Bearer ${token}` }
     })
@@ -54,26 +54,28 @@ async function getTeamEspecific( id, token ) {
     return response;
 }
 
-async function putTeam({ param, body }) {
-    const response = await axios.put(`${config.baseURL}/${path}/${param}`, body)
+async function putTeam(teamId, body, token) {
+    const response = await axios.put(`${config.baseURL}/${path}/${teamId}`, body, {
+        headers: { Authorization: `Bearer ${token}` }
+    })
 
     return response;
 }
 
-async function requestChangeOwner({ param, body }) {
+async function requestChangeOwner(param, body) {
     const response = await axios.patch(`${config.baseURL}/${path}/change-owner-request/${param}`, body)
 
     return response;
 }
 
-async function acceptChangeOwner({ param, body }) {
+async function acceptChangeOwner(param, body) {
 
     const response = await axios.patch(`${config.baseURL}/${path}/change-team-owner-by-code/${param}`, body)
 
     return response;
 }
 
-async function deleteTeam({ param, body }) {
+async function deleteTeam(param, body) {
     const response = await axios.delete(`${config.baseURL}/${path}/${param}`, body)
 
     return response;
