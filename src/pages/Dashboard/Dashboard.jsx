@@ -8,7 +8,9 @@ import Title from "@components/Title/Title";
 import Loader from "@components/Loader/Loader";
 
 import { LineChart, PieChart, BarChart } from "@components/Charts";
+
 import graph from '../../api/graph';
+import axios from 'axios';
 
 export default function DashboardLayout() {
    const { addNotification } = useNotification();
@@ -36,7 +38,6 @@ export default function DashboardLayout() {
    const fetchPointsDivision = async (teamId) => {
       try {
          const response = await graph.getPointsDivision(teamId, 10, localStorage.getItem('token'));
-
          if (response.status === 200) {
             return response.data.data;
          }
@@ -103,7 +104,6 @@ export default function DashboardLayout() {
 
             setWinsGraph([winsGraphData.wins, winsGraphData.loses]);
             let mappedDivision = [pointsDivisionData.threePointsPorcentage, pointsDivisionData.twoPointsPorcentage];
-            mappedDivision = mappedDivision.map(value => Number(value.toFixed(0)));
             setPointsDivision(mappedDivision);
 
             Object.keys(pointsPerGameData).forEach(gameDate => {

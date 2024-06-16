@@ -161,7 +161,7 @@ export default function ComparisonLayout() {
          }
          else {
             setWinsGraph(winsGraphData.wins);
-            let mappedDivision = pointsDivisionData.threePointsPorcentage.toFixed(0);
+            let mappedDivision = [pointsDivisionData.threePointsPorcentage, pointsDivisionData.twoPointsPorcentage];
             setPointsDivision(mappedDivision);
 
             Object.keys(pointsPerGameData).forEach(gameDate => {

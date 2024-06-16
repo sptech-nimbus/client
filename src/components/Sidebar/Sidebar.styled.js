@@ -92,7 +92,7 @@ export const MenuItem = styled.li`
       background-color: ${Colors.gray700};
    }
 
-   &:nth-child(4) {
+   &:nth-child(3) {
       color: ${Colors.red};
    }
 `
