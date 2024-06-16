@@ -280,8 +280,10 @@ export const TeamInfoContainer = styled.div`
 `
 
 export const TeamImage = styled.div`
-   width: 100%;
-   height: 100%;
+   width: 250px;
+   height: 250px;
+   max-width: 250px;
+   max-height: 250px;
    display: flex;
    align-items: center;
    justify-content: center;
@@ -292,6 +294,7 @@ export const TeamImage = styled.div`
    img {
       max-width: 250px;
       max-height: 250px;
+      border-radius: 1rem;
       object-fit: cover;
       object-position: center;
    }

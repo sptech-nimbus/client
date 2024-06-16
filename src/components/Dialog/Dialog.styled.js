@@ -158,8 +158,6 @@ export const DialogDeleteContent = styled(DrawerContent)`
 export const DeleteDialogTitle = styled(D.Title)`
    width: 100%;
    display: flex;
-   justify-content: center;
-   align-items: center;
 `
 
 export const DeleteDescription = styled(D.Description)`
@@ -167,7 +165,7 @@ width: ${props => props.width};
 display: ${props => props.display};
 justify-content: ${props => props.justify};
 align-items: ${props => props.align};
-flex-direction: ${props => props.flexdirection};
+flex-direction: ${props => props.flexDirection};
 gap: ${props => props.gap};
 margin: ${props => props.margin};
 `
@@ -180,23 +178,23 @@ export const InfoDeleteAthlete = styled(D.Description)`
 `
 export const ButtonDelete = styled(SecondaryButton)`
 width: ${props => props.width};
-font-size: ${props => 
-   props.fontSize ? props.fontSize :
-   props.size == `md` ? `1.1rem` : 
-   props.size == `sm` ? `.7rem` : `1rem`
-};
-padding: ${props => 
-   props.size == `md` ? `.3rem 3.3rem` : 
-   props.size == `sm` ? `.1rem 1.5rem` : `.1rem 1.5rem`
-};
-border-radius: ${props => 
-   props.size == `md` ? `.8rem` : 
-   props.size == `sm` ? `.5rem` : '.5rem'
-};
-border: ${props => 
-   props.size == `md` ? `3px` : 
-   props.size == `sm` ? `2px` : '2px'
-} solid ${props => props.color ? props.color : Colors.orange500};
+font-size: ${props =>
+      props.fontSize ? props.fontSize :
+         props.size == `md` ? `1.1rem` :
+            props.size == `sm` ? `.7rem` : `1rem`
+   };
+padding: ${props =>
+      props.size == `md` ? `.3rem 3.3rem` :
+         props.size == `sm` ? `.1rem 1.5rem` : `.1rem 1.5rem`
+   };
+border-radius: ${props =>
+      props.size == `md` ? `.8rem` :
+         props.size == `sm` ? `.5rem` : '.5rem'
+   };
+border: ${props =>
+      props.size == `md` ? `3px` :
+         props.size == `sm` ? `2px` : '2px'
+   } solid ${props => props.color ? props.color : Colors.orange500};
 background-color: ${props => props.color ? props.color : `transparent`};
 color: ${props => props.fontColor ? props.fontColor : Colors.orange500};
 cursor: pointer;

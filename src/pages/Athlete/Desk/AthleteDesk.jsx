@@ -112,10 +112,11 @@ export default function AthleteDesk({ playerData, adversaryData, isComparison })
                </S.InfomationContainer>
             </S.Container>
          </S.InfoGrid>
-         <S.Buttons>
-            <UpdateDialog athlete={playerData} trigger={<Button value='Editar' />} />
-            <DeleteDialog athlete={playerData} trigger={<Button value='Deletar' />} />
-         </S.Buttons>
+         {localStorage.getItem('type') === 'Athlete' &&
+            <S.Buttons>
+               <UpdateDialog athleteInfo={playerData} trigger={<Button value='Editar' />} />
+            </S.Buttons>
+         }
       </S.InfoWrapper>
    );
 }

@@ -10,8 +10,14 @@ import Loader from '@components/Loader/Loader';
 import * as S from "./Dialog.styled";
 import * as LS from '../../pages/Login/Login.styles';
 
+import athlete from "../../api/athlete";
+import athleteDesc from "../../api/athleteDesc";
+import blobStorage from "../../api/blobStorage";
 
-export function Drawer({title, children, trigger}) {
+import { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
+
+export function Drawer({ title, children, trigger }) {
    return (
       <D.Root>
          <S.DrawerTrigger>
@@ -25,7 +31,7 @@ export function Drawer({title, children, trigger}) {
                      {title}
                   </S.DrawerTitle>
                   <S.DrawerClose>
-                     <X/>
+                     <X />
                   </S.DrawerClose>
                </S.DrawerHeader>
                <S.DrawerDescription>
@@ -37,7 +43,7 @@ export function Drawer({title, children, trigger}) {
    )
 }
 
-export function Dialog({ title, children, trigger, childTrigger, noClose, ...props }) { 
+export function Dialog({ title, children, trigger, childTrigger, noClose, ...props }) {
    return (
       <D.Root modal {...props}>
          <S.DialogTrigger asChild={childTrigger}>
@@ -52,10 +58,10 @@ export function Dialog({ title, children, trigger, childTrigger, noClose, ...pro
                      {title}
                   </S.DialogTitle>
                   {
-                  !noClose &&
-                  <S.DrawerClose>
-                     <X/>
-                  </S.DrawerClose>
+                     !noClose &&
+                     <S.DrawerClose>
+                        <X />
+                     </S.DrawerClose>
                   }
                </S.DrawerHeader>
                <S.DrawerDescription asChild>
@@ -69,7 +75,7 @@ export function Dialog({ title, children, trigger, childTrigger, noClose, ...pro
    )
 }
 
-export function LoadingDialog({ open, ...props }) { 
+export function LoadingDialog({ open, ...props }) {
    return (
       <D.Root modal {...props} open={open}>
          <S.DialogTrigger>
@@ -88,175 +94,253 @@ export function LoadingDialog({ open, ...props }) {
 export function DialogClose({ children }) {
    return (
       <D.Close asChild>
-         { children }
+         {children}
       </D.Close>
    )
 }
 
-export function DeleteDialog({ athlete, trigger }) {
+export function DeleteDialog({ athleteInfo, trigger }) {
    function DeleteAthlete(e) {
       console.log(e)
    }
 
-    return (  
-        <D.Root>
-            <S.DialogTrigger>
-                {trigger}
-            </S.DialogTrigger>
+   return (
+      <D.Root>
+         <S.DialogTrigger>
+            {trigger}
+         </S.DialogTrigger>
 
-            <D.Portal>
-                <S.DrawerOverlay/>
-                    <S.DialogDeleteContent
-                        width='45vw'
-                    >
-                       <S.DrawerHeader>
-                           <S.DeleteDialogTitle>
-                              Excluir o jogador
-                           </S.DeleteDialogTitle>
-                           <S.DrawerClose>
-                              <X/>
-                           </S.DrawerClose>
-                        </S.DrawerHeader>
-                        <S.DelS>
-                           <S.DeleteDescription
-                              display='block'
-                              flexdirection='row'
-                           >
-                              Tem certeza que deseja excluir o atleta <strong>{athlete.firstName} {athlete.lastName}</strong>?
-                           </S.DeleteDescription>
-                           <S.ButtonDelete
-                              value='Excluir Jogador'
-                              width='10rem'
-                              size='sm'
-                              fontSize='1rem'
-                              onClick={() => DeleteAthlete(athlete.id)}
-                           />
-                        </S.DelS>
-                    </S.DialogDeleteContent>
-            </D.Portal>
-        </D.Root>
-    )
+         <D.Portal>
+            <S.DrawerOverlay />
+            <S.DialogDeleteContent
+            >
+               <S.DrawerHeader>
+                  <S.DeleteDialogTitle>
+                     Excluir o jogador
+                  </S.DeleteDialogTitle>
+                  <S.DrawerClose>
+                     <X />
+                  </S.DrawerClose>
+               </S.DrawerHeader>
+               <S.DelS>
+                  <S.DeleteDescription
+                     display='block'
+                     flexDirection='row'
+                  >
+                     Tem certeza que deseja excluir o atleta <strong>{athleteInfo.firstName} {athleteInfo.lastName}</strong>?
+                  </S.DeleteDescription>
+                  <S.ButtonDelete
+                     value='Excluir Jogador'
+                     width='10rem'
+                     size='sm'
+                     fontSize='1rem'
+                     onClick={() => DeleteAthlete(athleteInfo.id)}
+                  />
+               </S.DelS>
+            </S.DialogDeleteContent>
+         </D.Portal>
+      </D.Root>
+   )
 }
 
-export function UpdateDialog({ athlete, trigger }) {
-   function UpdateAthlete(e) {
-      console.log('deletando ', e)
+export function UpdateDialog({ athleteInfo, trigger }) {
+   const [athleteData, setAthleteData] = useState(athleteInfo);
+
+   const updateImage = async () => {
+      if (athleteData.newPicture) {
+         try {
+            const res = await blobStorage.post(athleteData.newPicture, localStorage.getItem('token'), localStorage.getItem('id'));
+            console.log(res);
+         }
+         catch (err) {
+            console.log(err);
+         }
+      }
    }
-   return (  
-       <D.Root>
-           <S.DialogTrigger>
-               {trigger}
-           </S.DialogTrigger>
-           <D.Portal>
-               <S.DrawerOverlay/>
-                   <S.DialogDeleteContent
-                     width='fit-content'
-                   >
-                      <S.DrawerHeader>
-                          <S.DeleteDialogTitle>
-                             Editar o jogador
-                          </S.DeleteDialogTitle>
-                          <S.DrawerClose>
-                             <X/>
-                          </S.DrawerClose>
-                       </S.DrawerHeader>
-                       <S.DelS>
-                          <S.DeleteDescription
-                              width='90%'
-                              display='flex'
-                              flexdirection='row'
-                              gap='5rem'
-                              justify='center'
-                              align='center'
-                          >
-                              <LS.InputsContainer>
-                                 <Label>
-                                       <span>Nome <S.Mandatory>*</S.Mandatory></span>
-                                       <S.InputLine>
-                                          <Input.Default
-                                             placeholder={athlete.firstName}
-                                             value={athlete.firstName}
-                                          />
-                                       </S.InputLine>
-                                 </Label>
-                                 <Label>
-                                    <span>E-mail <S.Mandatory>*</S.Mandatory></span>
-                                    <S.InputLine>
-                                       <Input.Default
-                                          placeholder={athlete.email}
-                                          value={athlete.email}
-                                       />
-                                    </S.InputLine>
-                                 </Label>
-                                 <Label>
-                                    Peso
-                                    <S.InputLine>
-                                          <Input.Masked
-                                             placeholder={athlete.weight}
-                                             value={athlete.weight}
-                                          />
-                                    </S.InputLine>
-                                 </Label>
-                                 <Label>
-                                    Posição
-                                    <Input.Default
-                                       placeholder={'Pivo'}
-                                       value={athlete.position}
-                                       width='100%'
-                                    />
-                              </Label>
-                              </LS.InputsContainer>
-                              <LS.InputsContainer>
-                                 <Label>
-                                    <span>Sobrenome <S.Mandatory>*</S.Mandatory></span>
-                                    <S.InputLine>
-                                       <Input.Default
-                                          placeholder={athlete.lastName}
-                                          value={athlete.lastName}
-                                       />
-                                    </S.InputLine>
-                                 </Label>
-                                 <Label>
-                                    Telefone
-                                    <S.InputLine>
-                                       <Input.Masked
-                                          mask={'(00) 00000-0000'}
-                                          placeholder={athlete.phone}
-                                          value={athlete.phone}
-                                       />
-                                    </S.InputLine>
-                                 </Label>
-                                 <Label>
-                                    Altura
-                                    <S.InputLine>
-                                          <Input.Masked
-                                             placeholder={'1.90m'}
-                                             value={athlete.height}
-                                             width='50%'
-                                          />
-                                    </S.InputLine>
-                                 </Label>
-                                 <Label>
-                                    Categoria
-                                    <Input.Masked
-                                       mask={'Sub-00'}
-                                       placeholder={'Sub-20'}
-                                       value={athlete.category}
-                                       width='40%'
-                                    />
-                                 </Label>
-                              </LS.InputsContainer>
-                          </S.DeleteDescription>
-                          <S.ButtonDelete
-                             value='Salvar'
-                             width='10rem'
-                             size='sm'
-                             fontSize='1rem'
-                             onClick={() => UpdateAthlete(athlete.id)}
-                          />
-                       </S.DelS>
-                   </S.DialogDeleteContent>
-           </D.Portal>
-       </D.Root>
+
+   const updateAthlete = async () => {
+      try {
+         const athleteUpdate = {
+            firstName: athleteData.firstName,
+            lastName: athleteData.lastName,
+            birthDate: athleteData.birthDate,
+            phone: athleteData.phone,
+            category: athleteData.category,
+            isStarting: true
+         }
+
+         const athleteDescUpdate = {
+            weight: athleteData.weight,
+            height: athleteData.height,
+            position: athleteData.position,
+            address: athleteData.address,
+            number: athleteData.number,
+            athlete: {
+               id: localStorage.getItem('personaId')
+            }
+         }
+
+         await Promise.all([
+            athlete.put(localStorage.getItem('personaId'), athleteUpdate, localStorage.getItem('token')),
+            athleteDesc.put(localStorage.getItem('personaId'), athleteDescUpdate, localStorage.getItem('token')),
+            updateImage()
+         ]);
+      } catch (error) {
+         console.log(error);
+      }
+      finally {
+         window.location.reload();
+      }
+   }
+
+   return (
+      <D.Root>
+         <S.DialogTrigger>
+            {trigger}
+         </S.DialogTrigger>
+         <D.Portal>
+            <S.DrawerOverlay />
+            <S.DialogDeleteContent
+               width='fit-content'
+            >
+               <S.DrawerHeader>
+                  <S.DeleteDialogTitle>
+                     Editar o jogador
+                  </S.DeleteDialogTitle>
+                  <S.DrawerClose>
+                     <X />
+                  </S.DrawerClose>
+               </S.DrawerHeader>
+               <S.DelS>
+                  <S.DeleteDescription
+                     width='90%'
+                     display='flex'
+                     flexdirection='row'
+                     gap='5rem'
+                     justify='center'
+                     align='center'
+                  >
+                     <LS.InputsContainer>
+                        <Label>
+                           <span>Nome <S.Mandatory>*</S.Mandatory></span>
+                           <S.InputLine>
+                              <Input.Default
+                                 name="firstName"
+                                 placeholder={athleteData.firstName}
+                                 value={athleteData.firstName}
+                                 onChange={e => setAthleteData({ ...athleteData, [e.target.name]: e.target.value })}
+                              />
+                           </S.InputLine>
+                        </Label>
+                        <Label>
+                           <span>E-mail <S.Mandatory>*</S.Mandatory></span>
+                           <S.InputLine>
+                              <Input.Default
+                                 name="email"
+                                 placeholder={athleteData.email}
+                                 value={athleteData.email}
+                                 onChange={e => setAthleteData({ ...athleteData, [e.target.name]: e.target.value })}
+                              />
+                           </S.InputLine>
+                        </Label>
+                        <Label>
+                           Peso
+                           <S.InputLine>
+                              <Input.Masked
+                                 name="weight"
+                                 placeholder={athleteData.weight}
+                                 value={athleteData.weight}
+                                 onChange={e => setAthleteData({ ...athleteData, [e.target.name]: e.target.value })}
+                              />
+                           </S.InputLine>
+                        </Label>
+                        <Label>
+                           Posição
+                           <Input.Default
+                              name="position"
+                              placeholder={'Pivo'}
+                              value={athleteData.position}
+                              width='100%'
+                              onChange={e => setAthleteData({ ...athleteData, [e.target.name]: e.target.value })}
+                           />
+                        </Label>
+                        <Label>
+                           Imagem
+                           <Input.Default
+                              name="newPicture"
+                              type='file'
+                              onChange={e => setAthleteData({ ...athleteData, [e.target.name]: e.target.files[0] })}
+                           />
+                        </Label>
+                     </LS.InputsContainer>
+                     <LS.InputsContainer>
+                        <Label>
+                           <span>Sobrenome <S.Mandatory>*</S.Mandatory></span>
+                           <S.InputLine>
+                              <Input.Default
+                                 name="lastName"
+                                 placeholder={athleteData.lastName}
+                                 value={athleteData.lastName}
+                                 onChange={e => setAthleteData({ ...athleteData, [e.target.name]: e.target.value })}
+                              />
+                           </S.InputLine>
+                        </Label>
+                        <Label>
+                           Telefone
+                           <S.InputLine>
+                              <Input.Masked
+                                 name="phone"
+                                 mask={'(00) 00000-0000'}
+                                 placeholder={athleteData.phone}
+                                 value={athleteData.phone}
+                                 onChange={e => setAthleteData({ ...athleteData, [e.target.name]: e.target.value })}
+                              />
+                           </S.InputLine>
+                        </Label>
+                        <Label>
+                           Altura
+                           <S.InputLine>
+                              <Input.Masked
+                                 name="height"
+                                 placeholder={'1.90m'}
+                                 value={athleteData.height}
+                                 width='50%'
+                                 onChange={e => setAthleteData({ ...athleteData, [e.target.name]: e.target.value })}
+                              />
+                           </S.InputLine>
+                        </Label>
+                        <Label>
+                           Categoria
+                           <Input.Masked
+                              name="category"
+                              mask={'Sub-00'}
+                              placeholder={'Sub-20'}
+                              value={athleteData.category}
+                              width='40%'
+                              onChange={e => setAthleteData({ ...athleteData, [e.target.name]: e.target.value })}
+                           />
+                        </Label>
+                        <Label>
+                           Número
+                           <Input.Default
+                              name="numbrt"
+                              placeholder={athleteData.number ?? 'Não definido...'}
+                              value={athleteData.number}
+                              onChange={e => setAthleteData({ ...athleteData, [e.target.name]: e.target.value })}
+                           />
+                        </Label>
+                     </LS.InputsContainer>
+                  </S.DeleteDescription>
+                  <S.ButtonDelete
+                     value='Salvar'
+                     width='10rem'
+                     size='sm'
+                     fontSize='1rem'
+                     onClick={() => updateAthlete()}
+                  />
+               </S.DelS>
+            </S.DialogDeleteContent>
+         </D.Portal>
+      </D.Root>
    )
 }
