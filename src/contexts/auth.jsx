@@ -41,11 +41,13 @@ export const AuthProvider = ({ children }) => {
          const { token, userId, personaId } = response.data.data;
          console.log('response do login', response);
 
+         console.log(response);
          localStorage.setItem('token', token);
          localStorage.setItem('id', userId);
          localStorage.setItem('personaId', personaId);
          localStorage.setItem('type', response.data.serverMsg);
 
+         
          setToken(token);
          setUserId(userId);
 

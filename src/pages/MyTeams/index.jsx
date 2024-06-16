@@ -8,7 +8,7 @@ import { useAuth } from '@contexts/auth';
 import Background from "@components/Background/Background";
 import { SecondaryButton as Button } from '@components/Button/Button';
 
-import team from '../../api/team';
+import team from '@api/team';
 
 const useQuery = () => {
    return new URLSearchParams(useLocation().search);
