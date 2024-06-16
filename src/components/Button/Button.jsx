@@ -41,7 +41,7 @@ export function PillButtons({
    onClickRight, 
    color = Colors.orange500, 
    fontColor, 
-   active, 
+   $active, 
    ...props 
    }) {
    return (
@@ -50,7 +50,7 @@ export function PillButtons({
             color={color} 
             name={left} 
             onClick={onClickLeft ?? onClick}
-            active={active == 'left'}
+            $active={$active == 'left'}
             fontColor={fontColor}
             {...props}
          >
@@ -60,7 +60,7 @@ export function PillButtons({
             color={color} 
             name={right} 
             onClick={onClickRight ?? onClick}
-            active={active == 'right'}
+            $active={$active == 'right'}
             fontColor={fontColor}
             {...props}
          >

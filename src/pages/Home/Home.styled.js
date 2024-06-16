@@ -100,6 +100,9 @@ export const MatchTeamLogo = styled.div`
    height: 5.5vw;
    border-radius: 50%;
    background: ${Colors.gray800};
+   display: flex;
+   align-items: center;
+   justify-content: center;
 `
 
 export const MatchInfo = styled.div`
@@ -151,8 +154,7 @@ export const Result = styled.div`
    border-radius: .5rem;
    font-size: .8rem;
    font-weight: 600;
-   background-color: ${
-   props => props.color 
+   background-color: ${props => props.color
    };
 `
 
@@ -239,6 +241,12 @@ export const Pending = styled.div`
       cursor: pointer;
       padding: .5rem;
       border-radius: .4rem;
+      font-weight: 600;
+   }
+
+   button[disabled] {
+      background-color: ${Colors.gray500};
+      color: ${Colors.gray200};
    }
 `
 
@@ -248,4 +256,55 @@ export const LoaderContainer = styled.div`
    display: flex;
    align-items: center;
    justify-content: center;
+`
+
+export const TeamInfoTitle = styled.div`
+   display: flex;
+   align-items: center;
+   gap: 1rem;
+   justify-content: space-between;
+
+   div {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      cursor: pointer;
+   }
+`
+
+export const TeamInfoContainer = styled.div`
+   width: 100%;
+   height: 100%;
+   display: grid;
+   grid-template-columns: .8fr 1fr;
+`
+
+export const TeamImage = styled.div`
+   width: 100%;
+   height: 100%;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   background-color: ${Colors.gray800};
+   border: none;
+   border-radius: 1rem;
+
+   img {
+      max-width: 250px;
+      max-height: 250px;
+      object-fit: cover;
+      object-position: center;
+   }
+
+   span {
+      font-size: 3rem;
+      font-weight: 700;
+   }
+`
+
+export const TeamInfo = styled.div`
+   display: flex;
+   flex-direction: column;
+   justify-content: space-between;
+   padding: 0 1rem;
 `

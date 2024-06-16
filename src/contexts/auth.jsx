@@ -13,6 +13,7 @@ export const AuthProvider = ({ children }) => {
    const [userId, setUserId] = useState(localStorage.getItem('id') || null);
    const [teamId, setTeamId] = useState(localStorage.getItem('teamId') || null);
    const [personaId, setPersonaId] = useState(localStorage.getItem('personaId') || null);
+   const [type, setType] = useState(localStorage.getItem('type') || null);
    const [isAuthenticated, setIsAuthenticated] = useState(false);
 
    useEffect(() => {
@@ -20,12 +21,14 @@ export const AuthProvider = ({ children }) => {
       const storedUserId = localStorage.getItem('id');
       const storedTeamId = localStorage.getItem('teamId');
       const storedPersonaId = localStorage.getItem('personaId');
+      const storedType = localStorage.getItem('type');
 
       if (storedToken && storedUserId) {
          setToken(storedToken);
          setUserId(storedUserId);
          setTeamId(storedTeamId);
          setPersonaId(storedPersonaId);
+         setType(storedType);
          setIsAuthenticated(true);
       } else {
          setIsAuthenticated(false);
@@ -36,12 +39,13 @@ export const AuthProvider = ({ children }) => {
       try {
          const response = await user.login(credentials);
          const { token, userId, personaId } = response.data.data;
+         console.log('response do login', response);
 
          console.log(response);
          localStorage.setItem('token', token);
          localStorage.setItem('id', userId);
          localStorage.setItem('personaId', personaId);
-         localStorage.setItem('typeUser', response.data.serverMsg);
+         localStorage.setItem('type', response.data.serverMsg);
 
          
          setToken(token);
@@ -60,6 +64,7 @@ export const AuthProvider = ({ children }) => {
       setUserId(null);
       setTeamId(null);
       localStorage.clear();
+      sessionStorage.clear();
       setIsAuthenticated(false);
    }
 
@@ -74,7 +79,7 @@ export const AuthProvider = ({ children }) => {
    }
 
    return (
-      <AuthContext.Provider value={{ token, userId, teamId, personaId, chooseTeam, logoutTeam, isAuthenticated, login, logout }}>
+      <AuthContext.Provider value={{ token, userId, teamId, personaId, chooseTeam, logoutTeam, type, isAuthenticated, login, logout }}>
          {children}
       </AuthContext.Provider>
    )

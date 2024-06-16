@@ -163,7 +163,7 @@ export const Table = styled.table`
    box-sizing: border-box;
    border-spacing: 0;
    overflow: scroll;
-`  
+`
 
 export const PlayerTableImage = styled.img`
    width: 3.5rem;
@@ -301,4 +301,11 @@ export const Legend = styled.div`
    align-items: center;
    color: ${Colors.orange100};
    gap: .5rem;
+`
+
+export const TitleContainer = styled.div`
+   display: flex;
+   width: 100%;
+   justify-content: space-between;
+   align-items: center;
 `

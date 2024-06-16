@@ -16,12 +16,13 @@ import { useMediaQuery } from 'react-responsive';
 import { ToastContainer } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 
-export default function FormStepThreeAthlete({onSubmit}) {
+export default function FormStepThreeAthlete({ onSubmit }) {
     const { addNotification } = useNotification();
     const [weight, setWeight] = useState('');
     const [height, setHeight] = useState('');
     const [position, setPosition] = useState('');
     const [category, setCategory] = useState('');
+    const [picture, setPicture] = useState();
 
     const [toastPosition, setToastPosition] = useState('top-right');
 
@@ -74,7 +75,7 @@ export default function FormStepThreeAthlete({onSubmit}) {
     }
 
     function handleSubmit(e) {
-        e.preventDefault(); 
+        e.preventDefault();
 
         setHeight(height.replace('m', ''));
         setWeight(weight.replace('kg', ''));
@@ -83,16 +84,15 @@ export default function FormStepThreeAthlete({onSubmit}) {
             WeightValidation(weight.replace('kg', '')) &&
             HeightValidation(height.replace('m', '')) &&
             PositionValidation(position) &&
-            CategoryValidation(category))
-        {
+            CategoryValidation(category)) {
             console.log(weight)
-            onSubmit({ weight, height, position, category });
+            onSubmit({ weight, height, position, category, picture });
         }
         else {
-            if (!WeightValidation(weight)) addNotification('error','Peso inválido');
-            if (!HeightValidation(height)) addNotification('error','Altura inválido');
-            if (!PositionValidation(position)) addNotification('error','Posição inválida');
-            if (!CategoryValidation(category)) addNotification('error','Categoria inválida');
+            if (!WeightValidation(weight)) addNotification('error', 'Peso inválido');
+            if (!HeightValidation(height)) addNotification('error', 'Altura inválido');
+            if (!PositionValidation(position)) addNotification('error', 'Posição inválida');
+            if (!CategoryValidation(category)) addNotification('error', 'Categoria inválida');
             console.log(weight, height, position, category)
         }
     }
@@ -110,7 +110,7 @@ export default function FormStepThreeAthlete({onSubmit}) {
                 draggable
                 theme="dark"
                 limit={3}
-            /> 
+            />
             <LS.InputsContainer>
                 <Label>
                     Peso
@@ -154,9 +154,16 @@ export default function FormStepThreeAthlete({onSubmit}) {
                             width='40%'
                         />
                     </Label>
+                    <Label>
+                        Imagem
+                        <Input.Default
+                            type="file"
+                            onChange={e => setPicture(e.target.files[0])}
+                        />
+                    </Label>
                 </LS.InputsContainer>
             </LS.InputsContainer>
-            <Button.Primary 
+            <Button.Primary
                 value={'Continuar'}
                 size={'md'}
                 width={'100%'}
@@ -169,4 +176,4 @@ export default function FormStepThreeAthlete({onSubmit}) {
 
 FormStepThreeAthlete.propTypes = {
     onSubmit: PropTypes.func.isRequired,
- };
+};

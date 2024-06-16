@@ -16,50 +16,53 @@ import team from "@api/team";
 import blobStorage from "@api/blobStorage";
 
 export default function TeamRegister() {
-    const { token, personaId, id } = useAuth();
-    const navigate = useNavigate();
-    
-    const [isRegisterFinished, setIsRegisterFinished] = useState(false);
-    const [teamData, setTeamData] = useState({});
+  const { token, personaId, id } = useAuth();
+  const navigate = useNavigate();
 
-    useEffect(() => {
-        if(isRegisterFinished) {
-          //  toast.success('Cadastro realizado!', { autoClose: 5000 });
-           setTeamData({});
-          //  setTimeout(() => {
-          //       navigate('/my-teams');
-          //  }, 2600);
+  const [isRegisterFinished, setIsRegisterFinished] = useState(false);
+  const [teamData, setTeamData] = useState({});
+
+  useEffect(() => {
+    if (isRegisterFinished) {
+      toast.success('Cadastro realizado!', { autoClose: 5000 });
+      setTeamData({});
+      setTimeout(() => {
+        navigate('/my-teams');
+      }, 2600);
+    }
+  }, [isRegisterFinished]);
+
+  const handleFormSubmit = async (formData) => {
+    teamData.name = formData.name;
+    teamData.category = formData.category;
+    teamData.local = formData.local;
+    teamData.coach = { id: localStorage.getItem('personaId') }
+    const { picture } = formData;
+    delete teamData.picture;
+
+    try {
+      const { data } = await team.post(teamData, token);
+      if (picture) {
+        console.log(picture);
+        try {
+          await blobStorage.post(picture, localStorage.getItem('token'), data.data.id);
+
+          setIsRegisterFinished(true);
         }
-     }, [isRegisterFinished]);
-
-    const handleFormSubmit = async (formData) => {
-      teamData.name = formData.name;
-      teamData.category = formData.category;
-      teamData.local = formData.local;
-      teamData.coach = { id: localStorage.getItem('personaId') }
-      const { picture }  = formData;
-      delete teamData.picture;
-
-      try {
-          const { data } = await team.post(teamData, token);
-          if(picture) {
-            try {
-              await blobStorage.post(picture, localStorage.getItem('token'), data.data.id);
-            }
-            catch(err) {
-              console.log(err);
-              // addNotification("error", "Seu time foi cadastrado, porém houve um erro ao cadastrarmos a imagem dele. Por favor tente novamente em outro momento.")
-            }
-            finally {
-              setIsRegisterFinished(true);
-            }
-          }
-      }
-      catch(err) {
-         console.log(err);
-        //  addNotification("error", "Houve um erro ao cadastrar o time. Por favor, aguarde um momento antes de tentar novamente");
+        catch (err) {
+          console.log(err);
+          // addNotification("error", "Seu time foi cadastrado, porém houve um erro ao cadastrarmos a imagem dele. Por favor tente novamente em outro momento.")
+        }
+        finally {
+          setIsRegisterFinished(true);
+        }
       }
     }
+    catch (err) {
+      console.log(err);
+      //  addNotification("error", "Houve um erro ao cadastrar o time. Por favor, aguarde um momento antes de tentar novamente");
+    }
+  }
 
   return (
     <LS.Header>

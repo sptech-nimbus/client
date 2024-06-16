@@ -213,6 +213,7 @@ export const Buttons = styled.div`
    gap: 1rem;
    width: 100%;
    grid-column: 1 / 2;
+   margin-top: 1rem;
 `
 
 export const ChartContainer = styled.div`
@@ -407,10 +408,9 @@ export const Severity = styled.span`
    font-size: 2rem !important;
    text-transform: uppercase;
    font-weight: 900 !important;
-   color: ${
-      props => 
-         props.degree == 'Leve' ?
-            Colors.green :
+   color: ${props =>
+      props.degree == 'Leve' ?
+         Colors.green :
          props.degree == 'Média' ?
             Colors.yellow :
             Colors.red

@@ -8,7 +8,6 @@ import NotFound from "@pages/NotFound";
 import PlayerInfo from "@pages/Athlete";
 import AboutUs from '@pages/AboutUs';
 import Home from '@pages/Home';
-import Settings from '@pages/Settings';
 import Dashboard from "@pages/Dashboard";
 import Events from '@pages/Events';
 import Chat from '@pages/Chat';
@@ -19,6 +18,7 @@ import JoinTeam from '@pages/JoinTeam';
 
 import ProtectedRoute from './ProtectedRoute';
 import RequireQueryParams from './RequireQueryParams';
+import CoachRoute from './CoachRoute';
 
 export default function AppRoutes() {
    return (
@@ -31,95 +31,95 @@ export default function AppRoutes() {
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/register/team" element={<Register team />} />
-            <Route 
-               path="/home" 
+            <Route
+               path="/home"
                element={
                   <ProtectedRoute requireTeam>
-                     <Home />
+                     <CoachRoute>
+                        <Home />
+                     </CoachRoute>
                   </ProtectedRoute>
-               } 
+               }
             />
-            <Route 
-               path="/dashboard" 
+            <Route
+               path="/dashboard"
                element={
                   <ProtectedRoute requireTeam>
                      <Dashboard />
                   </ProtectedRoute>
-               } 
+               }
             />
-            <Route 
-               path="/roster" 
+            <Route
+               path="/roster"
                element={
                   <ProtectedRoute requireTeam>
-                     <TeamRoster />
+                     <CoachRoute>
+                        <TeamRoster />
+                     </CoachRoute>
                   </ProtectedRoute>
-               } 
+               }
             />
-            <Route 
-               path="/athlete" 
+            <Route
+               path="/athlete"
                element={
                   <ProtectedRoute requireTeam>
                      <PlayerInfo />
                   </ProtectedRoute>
-               } 
+               }
             />
-            <Route 
-               path="/config" 
-               element={
-                  <ProtectedRoute requireTeam>
-                     <Settings />
-                  </ProtectedRoute>
-               } 
-            />
-            <Route 
-               path="/events" 
+            <Route
+               path="/events"
                element={
                   <ProtectedRoute requireTeam>
                      <Events />
                   </ProtectedRoute>
-               } 
+               }
             />
-            <Route 
-               path="/chat" 
+            <Route
+               path="/chat"
                element={
                   <ProtectedRoute requireTeam>
                      <Chat />
                   </ProtectedRoute>
-               } 
+               }
             />
-            <Route 
-               path="/forgot-password" 
-               element={<ForgotPassword />} 
+            <Route
+               path="/forgot-password"
+               element={<ForgotPassword />}
             />
-            <Route 
-               path="/my-teams" 
+            <Route
+               path="/my-teams"
                element={
                   <ProtectedRoute>
                      <MyTeams />
                   </ProtectedRoute>
-               } 
+               }
             />
-            <Route 
-               path="/match" 
+            <Route
+               path="/match"
                element={
                   <ProtectedRoute>
-                     <Match />
+                     <CoachRoute>
+                        <Match />
+                     </CoachRoute>
                   </ProtectedRoute>
-               } 
+               }
             />
-            <Route 
-               path="/match/finished" 
+            <Route
+               path="/match/finished"
                element={
                   <ProtectedRoute>
-                     <Match isMatchFinished/>
+                     <CoachRoute>
+                        <Match isMatchFinished />
+                     </CoachRoute>
                   </ProtectedRoute>
-               } 
+               }
             />
             <Route path='/join-team' element={
-            <RequireQueryParams>
-               <JoinTeam />
-            </RequireQueryParams>   
-            }/>
+               <RequireQueryParams>
+                  <JoinTeam />
+               </RequireQueryParams>
+            } />
          </Routes>
       </Router>
    )

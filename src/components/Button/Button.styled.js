@@ -66,7 +66,7 @@ export const RightButton = styled.button`
    font-size: 1rem;
    font-weight: 600;
    color: ${props => props.color ?? Colors.orange500};
-   background-color: ${props => props.active ? props.color : 'transparent'};
+   background-color: ${props => props.$active ? props.color : 'transparent'};
    ${props => props.active && css`
       background-color: ${props => props.color ?? Colors.orange500};
       color: ${props => props.fontColor ?? Colors.orange100};

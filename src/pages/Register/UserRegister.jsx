@@ -22,12 +22,11 @@ import FormStepThreeAthlete from './AthleteRegister/FormStepThree';
 import FormStepFour from './AthleteRegister/FormStepFour';
 
 import user from '@api/user';
-import team from '@api/team';
+import blobStorage from '@api/blobStorage';
 import athleteDesc from '@api/athleteDesc';
 import { useNavigate, useNavigation } from 'react-router-dom';
 
 import { ToastContainer, toast } from 'react-toastify';
-import axios from 'axios';
 
 export default function UserRegister({ teamRegister = false }) {
     const { addNotification } = useNotification();
@@ -54,8 +53,8 @@ export default function UserRegister({ teamRegister = false }) {
         name: '',
         category: '',
         local: '',
-        coach: { 
-            id: '' 
+        coach: {
+            id: ''
         }
     });
 
@@ -69,13 +68,13 @@ export default function UserRegister({ teamRegister = false }) {
     });
 
     useEffect(() => {
-        if(isRegisterFinished) {
-           toast.success('Cadastro realizado! Redirecionando para tela de login...', { autoClose: 2000 });
-           setTimeout(() => {
+        if (isRegisterFinished) {
+            toast.success('Cadastro realizado! Redirecionando para tela de login...', { autoClose: 2000 });
+            setTimeout(() => {
                 navigate('/login');
-           }, 2600);
+            }, 2600);
         }
-     }, [isRegisterFinished]);
+    }, [isRegisterFinished]);
 
     async function handleFormSubmit(formData) {
         if (step == 1) {
@@ -104,15 +103,15 @@ export default function UserRegister({ teamRegister = false }) {
                     }
                 });
                 try {
-                    await login({email: formData.email, password: formData.password});
+                    await login({ email: formData.email, password: formData.password });
                     navigate('/register/team');
                 }
-                catch(err) {
+                catch (err) {
                     addNotification('error', 'Houve um erro a validação dos seus dados. Por favor aguarde um momento antes de tentar novamente.')
                 }
                 setStep(step + 1);
             }
-            catch(err) {
+            catch (err) {
                 console.log('erro', err);
             }
         }
@@ -135,6 +134,7 @@ export default function UserRegister({ teamRegister = false }) {
             setStep(step + 1);
         }
         else if (step == 3 && typeUser == "athlete") {
+            console.log(formData);
             setPersonData({
                 ...personData,
                 category: null,
@@ -146,7 +146,7 @@ export default function UserRegister({ teamRegister = false }) {
             athleteDescData.position = formData.position;
             personData.category = formData.category;
             personData.isStarting = false;
-            
+
             user.post({
                 email: userData.email,
                 password: userData.password,
@@ -159,14 +159,24 @@ export default function UserRegister({ teamRegister = false }) {
                         email: userData.email,
                         password: userData.password,
                     }).then(response => {
-                        let token = response.data.data.token;
+                        const token = response.data.data.token;
                         athleteDescData.athlete.id = response.data.data.personaId
 
-                        if(response.status == 200){
-                            athleteDesc.post(athleteDescData, token);   
+                        if (response.status == 200) {
+                            athleteDesc.post(athleteDescData, token);
+                        }
+                        console.log('id da desgraça: ', response.data.data.userId);
+
+                        if (formData.picture && response.status == 200) {
+                            blobStorage.post(formData.picture, token, response.data.data.userId)
+                                .then(response => {
+                                    console.log(response);
+                                }).catch(err => {
+                                    console.log(err);
+                                });
                         }
                     });
-                       
+
                 }
             }).catch(error => {
                 console.log((error));
@@ -175,7 +185,7 @@ export default function UserRegister({ teamRegister = false }) {
 
             setStep(step + 1);
         }
-        else if (step == 4 && typeUser == "athlete") { 
+        else if (step == 4 && typeUser == "athlete") {
             setIsRegisterFinished(!isRegisterFinished);
         }
     }
@@ -196,15 +206,15 @@ export default function UserRegister({ teamRegister = false }) {
 
             <Background.Login />
             <LS.Title>Cadastro</LS.Title>
-            {step == 1 ? 
+            {step == 1 ?
                 <FormStepOne onSubmit={handleFormSubmit} />
                 :
                 typeUser === "athlete" ? (
                     <>
-                        {step > 1 && 
-                        <S.StepperWrapper>
-                            <Stepper steps={4} currentStep={step} />
-                        </S.StepperWrapper>
+                        {step > 1 &&
+                            <S.StepperWrapper>
+                                <Stepper steps={4} currentStep={step} />
+                            </S.StepperWrapper>
                         }
                         {step == 2 && <FormStepTwoAthlete onSubmit={handleFormSubmit} />}
                         {step == 3 && <FormStepThreeAthlete onSubmit={handleFormSubmit} />}
@@ -212,10 +222,10 @@ export default function UserRegister({ teamRegister = false }) {
                     </>
                 ) : (
                     <>
-                        {step > 1 && 
-                        <S.StepperWrapper>
-                            <Stepper steps={2} currentStep={step} />
-                        </S.StepperWrapper>
+                        {step > 1 &&
+                            <S.StepperWrapper>
+                                <Stepper steps={2} currentStep={step} />
+                            </S.StepperWrapper>
                         }
                         {step == 2 && <FormStepTwo onSubmit={handleFormSubmit} />}
                     </>

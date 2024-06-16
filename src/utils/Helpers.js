@@ -3,19 +3,19 @@ export const calcAge = (birthDate) => {
    const birth = new Date(birthDate);
 
    let age = currDate.getFullYear() - birth.getFullYear();
-   const monthDiff = currDate.getMonth() - birth.getMonth(); 
-   
+   const monthDiff = currDate.getMonth() - birth.getMonth();
+
    if (monthDiff < 0 || (monthDiff === 0 && currDate.getDate() < birth.getDate())) {
       age--;
    }
-  
-  return age;
+
+   return age;
 }
 
 export const filterByAttr = (array, attr, param) => {
    return array.filter(item => {
-     const itemValue = item[attr]
-     return itemValue.toLowerCase().includes(param.toLowerCase());
+      const itemValue = item[attr]
+      return itemValue.toLowerCase().includes(param.toLowerCase());
    });
 }
 
@@ -53,9 +53,9 @@ export const Months = [
    'Outubro',
    'Novembro',
    'Dezembro'
- ];
+];
 
- const weekDays = [
+const weekDays = [
    "Dom",
    "Seg",
    "Ter",
@@ -64,17 +64,17 @@ export const Months = [
    "Sex",
    "Sáb",
 ]
- 
+
 export const months = (config) => {
    let cfg = config || {};
    let count = cfg.count || 12;
    let section = cfg.section;
    let values = [];
    let i, value;
- 
+
    for (i = 0; i < count; ++i) {
-     value = Months[Math.ceil(i) % 12];
-     values.push(value.substring(0, section));
+      value = Months[Math.ceil(i) % 12];
+      values.push(value.substring(0, section));
    }
 
    return values;
@@ -120,14 +120,14 @@ export const calcDayDiff = (inicialDate, finalDate) => {
    const endDate = new Date(finalDate);
    const diffTime = Math.abs(endDate - startDate);
    return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-}; 
+};
 
 export const sumTimes = (times) => {
    let totalSeconds = 0;
 
    times.forEach(time => {
-         const [hours, minutes, seconds] = time.split(':').map(Number);
-         totalSeconds += (hours * 3600) + (minutes * 60) + seconds;
+      const [hours, minutes, seconds] = time.split(':').map(Number);
+      totalSeconds += (hours * 3600) + (minutes * 60) + seconds;
    });
 
    const totalHours = Math.floor(totalSeconds / 3600);
@@ -148,9 +148,9 @@ export const Size = {
    laptop: '1024px',
    laptopL: '1440px',
    desktop: '2560px'
- }
+}
 
- export const Device = {
+export const Device = {
    mobileS: `(min-width: ${Size.mobileS})`,
    mobileM: `(min-width: ${Size.mobileM})`,
    mobileL: `(min-width: ${Size.mobileL})`,
@@ -158,14 +158,15 @@ export const Size = {
    laptop: `(min-width: ${Size.laptop})`,
    laptopL: `(min-width: ${Size.laptopL})`,
    desktop: `(min-width: ${Size.desktop})`,
- };
+};
 
- const getTeamInitials = (name) => {
+const getTeamInitials = (name) => {
    const nameArray = name.split(' ');
    let initials = '';
 
    nameArray.forEach(element => initials += element[0]);
 
+   initials = initials.replace('undefined', '').toUpperCase();
    return initials;
 }
 

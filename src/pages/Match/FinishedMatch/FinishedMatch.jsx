@@ -30,8 +30,6 @@ export default function FinishedMatch() {
    const [observationsInput, setObservationsInput] = useState('');
    const [isLoading, setIsLoading] = useState(false);
 
-   console.log(matchData);
-
    const handleSelectedPlayer = (key) => {
       if (selectedPlayer) {
          if (matchData.players[key].id == selectedPlayer.id) setSelectedPlayer(0);
@@ -56,22 +54,22 @@ export default function FinishedMatch() {
       }
    }
 
-   const submitGameResult = async (body) => {
+   const submitGameResult = async (challengerPoints, challengedPoints, gameId) => {
       try {
-         await game.result.post(body, localStorage.getItem("token"));
+         await game.result.post(challengerPoints, challengedPoints, gameId, localStorage.getItem("token"));
       }
       catch (err) {
          console.log(err);
       }
    }
 
+   console.log(matchData);
+
    const submitMatch = async () => {
       const gameResult = {
-         challengerPts: matchData.challenger.pts,
-         challengedPts: matchData.challenged.pts,
-         game: {
-            id: matchData.gameId
-         }
+         challengerPoints: matchData.stats.teamStats.pts, 
+         challengedPoints: matchData.challenged.pts, 
+         game: { id: matchData.gameId } 
       }
 
       const mappedStats = matchData.players.map(player => ({
@@ -97,7 +95,7 @@ export default function FinishedMatch() {
       try {
          setIsLoading(true);
          await Promise.all([
-            submitHistorics(mappedStats),
+            // submitHistorics(mappedStats),
             submitGameResult(gameResult)
          ]);
 
@@ -116,8 +114,8 @@ export default function FinishedMatch() {
       if(isSubmitted) {
          toast.success('Partida cadastrada! Aguarde o treinador do outro time confirmar o resultado da partida ou confirme você mesmo.', { autoClose: 2000 });
          setTimeout(() => {
-              navigate('/match');
-         }, 2600);
+              window.location.reload(true);
+         }, 2800);
       }
    }, [isSubmitted]);
 

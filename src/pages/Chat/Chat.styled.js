@@ -72,10 +72,13 @@ export const MessagesArea = styled.div`
 export const MessagesContainer = styled.div`
    display: flex;
    flex-direction: column;
-   max-height: 80%;
+   height: 90%;
+   max-height: 90%;
    width: 100%;
    overflow-y: auto;
    padding-right: .5rem;
+   gap: .5rem;
+   justify-content: flex-end;
 
    &::-webkit-scrollbar {
       width: 6px;
