@@ -1,5 +1,5 @@
 const config = {
-    baseURL: 'http://20.84.68.248:3000'
+    baseURL: 'http://nimbus-api-c9bze0cmgydycsda.eastus-01.azurewebsites.net:3000'
 }
 
 export default config;
