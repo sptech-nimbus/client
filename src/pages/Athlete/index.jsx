@@ -89,7 +89,7 @@ function SelectPlayerDialog({ isOpen = false, set, onConfirm }) {
                      {allPlayers && allPlayers.map(player => (
                         <S.Athlete key={player.id} onClick={() => handleSelectedPlayer(player)} $active={selectedPlayer && selectedPlayer.id == player.id}>
                            <Athlete.AthleteInfo>
-                              <Athlete.AthleteImage />
+                              <Athlete.AthleteImage src={player.picture ?? 'https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png?20150327203541'} />
                               <Athlete.Column>
                                  <Athlete.AthleteName>{player.firstName} {player.lastName}</Athlete.AthleteName>
                                  <Athlete.AthleteName>{player.athleteDesc.position}</Athlete.AthleteName>

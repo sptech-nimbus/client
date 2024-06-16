@@ -205,14 +205,14 @@ export default function TeamRoster() {
                   </S.FiltersContainer>
                </D.Drawer>
 
-               <ToggleGroup.Root type="single" defaultValue={"grid"}>
+               {/* <ToggleGroup.Root type="single" defaultValue={"grid"}>
                   <ToggleGroup.Item value="grid" aria-label="Alinhado por grades" data-state={gridState} onClick={handleGridStateChange}>
                      <SquaresFour size={36} />
                   </ToggleGroup.Item>
                   <ToggleGroup.Item value="rows" aria-label="Alinhado por linhas" data-state={tableState} onClick={handleTableStateChange}>
                      <Rows size={36} />
                   </ToggleGroup.Item>
-               </ToggleGroup.Root>
+               </ToggleGroup.Root> */}
                <S.Legend>
                   <Star size={26} color={Utils.colors.orange500} weight="fill" />
                   Jogador titular

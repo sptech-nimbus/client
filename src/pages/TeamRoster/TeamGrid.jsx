@@ -53,17 +53,10 @@ export default function TeamGrid({ players }) {
                      {player.athleteDesc.position}
                   </S.PlayerPosition>
                   <S.Buttons>
-                     <S.ShowInfoButton onClick={() => navigate(`/athlete?id=${player.id}`, localStorage.setItem('personaId', player.id))}>
+                     <S.ShowInfoButton onClick={() => navigate(`/athlete?id=${player.id}&isStarting=${player.isStarting}`, localStorage.setItem('personaId', player.id))}>
                         <Eye size={24} weight="bold" />
                      </S.ShowInfoButton>
-                     <UpdateDialog athleteInfo={player}
-                        trigger={
-                           <S.ShowInfoButton style={{ backgroundColor: `${Colors.green}` }}>
-                              <Pencil size={26} weight="bold" />
-                           </S.ShowInfoButton>
-                        }
-                     />
-                     <DeleteDialog athlete={player}
+                     <DeleteDialog athleteInfo={player.id}
                         trigger={
                            <S.ShowInfoButton style={{ backgroundColor: `${Colors.red}` }}>
                               <Trash size={26} weight="bold" />

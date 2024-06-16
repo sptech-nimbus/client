@@ -245,7 +245,7 @@ export default function DeskComparison({ playerData, adversaryData }) {
                <>
                   <Title text={`${adversaryData.firstName} ${adversaryData.lastName}`} size='1.3rem' />
                   <S.Flex>
-                     <S.PlayerImgComparison src={adversaryData.picture} />
+                     <S.PlayerImgComparison src={adversaryData.picture ?? 'https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png?20150327203541'} />
                      <S.InfomationContainer>
                         <S.Information>
                            <S.Label>Posição: </S.Label>

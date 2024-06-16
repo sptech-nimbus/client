@@ -38,8 +38,9 @@ export const FilterLine = styled.div`
 export const PlayerImage = styled.img`
    width: 250px;
    height: 250px;
-   background-color: ${Colors.gray200};
    border-radius: 1rem;
+   object-fit: cover;
+   object-position: center;
 `
 
 export const PlayerName = styled.span`

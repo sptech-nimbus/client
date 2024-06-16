@@ -119,14 +119,14 @@ export const TeamImage = styled.img`
    border-radius: 50%;
    object-fit: cover;
    object-position: center;
-   background-color: ${props => props.src ? 'transparent': Colors.gray200};
+   background-color: ${props => props.src ? 'transparent' : Colors.gray200};
 `
 
 export const TeamInicials = styled.div`
    width: 150px;
    height: 150px;
    border-radius: 50%;
-   background-color: ${props => props.src ? 'transparent': Colors.gray500};
+   background-color: ${props => props.src ? 'transparent' : Colors.gray500};
    display: flex;
    align-items: center;
    justify-content: center;
@@ -264,6 +264,8 @@ export const CollapsibleArrow = styled.div`
 export const AthleteImage = styled.img`
    width: 60px;
    height: 60px;
+   object-fit: cover;
+   object-position: center;
    border-radius: 50%;
    background-color: ${props => props.src ? 'transparent' : Colors.gray200};
 `

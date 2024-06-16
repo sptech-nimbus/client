@@ -100,8 +100,14 @@ export function DialogClose({ children }) {
 }
 
 export function DeleteDialog({ athleteInfo, trigger }) {
-   function DeleteAthlete(e) {
-      console.log(e)
+   const deleteAthlete = async () => {
+      try {
+         await athlete.registerTeam(athleteInfo, { id: '6d8dd9c6-f6cb-451c-976f-02a5b03ed217' }, localStorage.getItem('token'));
+         window.location.reload();
+      }
+      catch (error) {
+         console.log(error);
+      }
    }
 
    return (
@@ -134,7 +140,7 @@ export function DeleteDialog({ athleteInfo, trigger }) {
                      width='10rem'
                      size='sm'
                      fontSize='1rem'
-                     onClick={() => DeleteAthlete(athleteInfo.id)}
+                     onClick={() => deleteAthlete()}
                   />
                </S.DelS>
             </S.DialogDeleteContent>
@@ -145,6 +151,7 @@ export function DeleteDialog({ athleteInfo, trigger }) {
 
 export function UpdateDialog({ athleteInfo, trigger }) {
    const [athleteData, setAthleteData] = useState(athleteInfo);
+   console.log(athleteInfo);
 
    const updateImage = async () => {
       if (athleteData.newPicture) {
@@ -156,6 +163,9 @@ export function UpdateDialog({ athleteInfo, trigger }) {
             console.log(err);
          }
       }
+      else {
+         console.log('no new image');
+      }
    }
 
    const updateAthlete = async () => {
@@ -166,7 +176,7 @@ export function UpdateDialog({ athleteInfo, trigger }) {
             birthDate: athleteData.birthDate,
             phone: athleteData.phone,
             category: athleteData.category,
-            isStarting: true
+            isStarting: false
          }
 
          const athleteDescUpdate = {
