@@ -38,7 +38,9 @@ export default function ComparisonLayout() {
       const response = await team.getAllTeams(localStorage.getItem('token'));
 
       if (response.status === 200) {
-         const optionsMap = response.data.data.map(option => ({
+         const filteredOptions = response.data.data.filter(option => option.id !== sessionStorage.getItem('teamId') && option.id !== '6d8dd9c6-f6cb-451c-976f-02a5b03ed217');
+
+         const optionsMap = filteredOptions.map(option => ({
             value: option.id,
             label: <Option option={option} />,
          }));
