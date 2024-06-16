@@ -40,7 +40,7 @@ export default function Chat() {
 
    useEffect(() => {
       const getMessagesRes = async () => {
-         const messagesRes = await getMessages(sessionStorage.getItem('teamId'), 1, 20);
+         const messagesRes = await getMessages(sessionStorage.getItem('teamId'), 1, 100);
          setMessages(messagesRes.data.page);
       }
 
