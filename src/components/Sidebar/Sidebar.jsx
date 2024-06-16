@@ -13,7 +13,8 @@ import {
    Gear,
    Placeholder,
    Basketball,
-   Check
+   Check,
+   User
 } from "@phosphor-icons/react";
 import { useNavigate } from "react-router-dom";
 
@@ -25,6 +26,7 @@ import Utils from "@utils/Helpers";
 export default function Sidebar({ page, children }) {
    const [name, setName] = useState('' || sessionStorage.getItem('teamName'));
    const [picture, setPicture] = useState('' || sessionStorage.getItem('teamPicture'));
+   const [type, setType] = useState(localStorage.getItem('type'));
    const navigate = useNavigate();
    const { logout } = useAuth();
 
@@ -58,38 +60,69 @@ export default function Sidebar({ page, children }) {
       <S.Container>
          {picture ? <S.TeamImage src={picture} /> : <S.NoImage title={name}>{name && Utils.getTeamInitials(name)}</S.NoImage>}
          <S.IconGroup>
-            <S.Icon onClick={() => navigate('/home')} title='Home'>
-               <House
-                  weight={page == 'home' ? 'fill' : 'regular'}
-               />
-            </S.Icon>
+            {
+               type === 'Coach' &&
+               <S.Icon onClick={() => navigate('/home')} title='Home'>
+                  <House
+                     weight={page == 'home' ? 'fill' : 'regular'}
+                  />
+               </S.Icon>
+            }
             <S.Icon onClick={() => navigate('/dashboard')} title='Dashboard'>
                <ChartDonut
                   weight={page == 'dashboard' ? 'fill' : 'regular'}
                />
             </S.Icon>
+            {
+               type === 'Athlete' &&
+               <S.Icon onClick={() => navigate('/chat')} title='Chat'>
+                  <ChatCircleDots
+                     weight={page == 'chat' ? 'fill' : 'regular'}
+                  />
+               </S.Icon>
+            }
+            {
+               type === 'Athlete' &&
+               <S.Icon onClick={() => navigate(`/athlete?id=${localStorage.getItem('personaId')}`)} title='Perfil'>
+                  <User
+                     weight={page == 'team' ? 'fill' : 'regular'}
+                  />
+               </S.Icon>
+            }
          </S.IconGroup>
          <S.IconGroup>
-            <S.Icon onClick={() => navigate('/roster')} title='Elenco'>
-               <UsersFour
-                  weight={page == 'team' ? 'fill' : 'regular'}
-               />
-            </S.Icon>
-            <S.Icon onClick={() => navigate('/chat')} title='Chat'>
-               <ChatCircleDots
-                  weight={page == 'chat' ? 'fill' : 'regular'}
-               />
-            </S.Icon>
-            <S.Icon onClick={() => navigate('/events')} title='Agenda'>
-               <CalendarBlank
-                  weight={page == 'agenda' ? 'fill' : 'regular'}
-               />
-            </S.Icon>
-            <S.Icon onClick={() => navigate('/match')} title='Cadastrar estatísticas'>
-               <Basketball
-                  weight={page == 'match' ? 'fill' : 'regular'} size={32}
-               />
-            </S.Icon>
+            {
+               type === 'Coach' &&
+               <S.Icon onClick={() => navigate('/roster')} title='Elenco'>
+                  <UsersFour
+                     weight={page == 'team' ? 'fill' : 'regular'}
+                  />
+               </S.Icon>
+            }
+            {
+               type === 'Coach' &&
+               <S.Icon onClick={() => navigate('/chat')} title='Chat'>
+                  <ChatCircleDots
+                     weight={page == 'chat' ? 'fill' : 'regular'}
+                  />
+               </S.Icon>
+            }
+            {
+               type === 'Coach' &&
+               <S.Icon onClick={() => navigate('/events')} title='Agenda'>
+                  <CalendarBlank
+                     weight={page == 'agenda' ? 'fill' : 'regular'}
+                  />
+               </S.Icon>
+            }
+            {
+               type === 'Coach' &&
+               <S.Icon onClick={() => navigate('/match')} title='Cadastrar estatísticas'>
+                  <Basketball
+                     weight={page == 'match' ? 'fill' : 'regular'} size={32}
+                  />
+               </S.Icon>
+            }
          </S.IconGroup>
          {children}
          <S.IconGroupFooter>
@@ -109,8 +142,6 @@ export default function Sidebar({ page, children }) {
                   </S.MenuList>
                </Popover>
             </S.Icon>
-            <S.Line />
-            <S.Image />
          </S.IconGroupFooter>
       </S.Container>
    )

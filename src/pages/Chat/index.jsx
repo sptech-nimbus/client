@@ -50,19 +50,19 @@ export default function Chat() {
                localStorage.getItem('teamId'),
                localStorage.getItem('token')
             );
-   
+
             setAllPlayers(data);
          }
-         catch(err) {
+         catch (err) {
             console.log(err);
          }
       }
 
       const fetchCurrentUser = async () => {
          try {
-            const { data: { data } } = await athlete.get(localStorage.getItem('id'),localStorage.getItem('token'));
+            const { data: { data } } = await athlete.get(localStorage.getItem('id'), localStorage.getItem('token'));
          }
-         catch(err) {
+         catch (err) {
             console.log(err);
          }
       }
@@ -143,14 +143,14 @@ export default function Chat() {
                <span>Jogadores do time</span>
                <S.OnlineList>
                   {allPlayers && allPlayers.map(player => (
-                        <S.Athlete>
-                           <S.AthleteImage src={player.picture} alt="" />
-                           <S.AthleteInfo online={true}>
-                              <span>{player.firstName} {player.lastName}</span>
-                              <Status status='online' />
-                           </S.AthleteInfo>
-                        </S.Athlete>
-                     )
+                     <S.Athlete>
+                        <S.AthleteImage src={player.picture} alt="" />
+                        <S.AthleteInfo online={true}>
+                           <span>{player.firstName} {player.lastName}</span>
+                           <Status status='online' />
+                        </S.AthleteInfo>
+                     </S.Athlete>
+                  )
                   )}
                </S.OnlineList>
             </S.ListContainer>

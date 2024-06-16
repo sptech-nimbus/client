@@ -12,6 +12,14 @@ async function getAllTeamsByCoach(id, token) {
     return res;
 }
 
+async function getTeamByAthlete(id, token) {
+    const res = await axios.get(`${config.baseURL}/${path}/by-athlete/${id}`, {
+        headers: { Authorization: `Bearer ${token}` }
+    });
+
+    return res;
+}
+
 async function getAllTeams(token) {
     const response = await axios.get(`${config.baseURL}/${path}`, {
         headers: { Authorization: `Bearer ${token}` }
@@ -91,7 +99,8 @@ const team = {
     requestChangeOwner,
     acceptChangeOwner,
     byName: getTeamsByName,
-    byUser: getAllTeamsByCoach
+    byUser: getAllTeamsByCoach,
+    byAthlete: getTeamByAthlete
 }
 
 export default team;

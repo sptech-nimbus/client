@@ -5,18 +5,18 @@ export default function Message({ msg }) {
    const currentDate = new Date();
 
    return (
-      <S.Container isSender={msg.userId == localStorage.personaId}>
-         <S.User isSender={msg.userId == localStorage.personaId}>
+      <S.Container isSender={msg.userId == localStorage.id}>
+         <S.User isSender={msg.userId == localStorage.id}>
             {msg.username}
          </S.User>
          <S.Content>
-               {msg.message}
+            {msg.message}
          </S.Content>
          <S.Date>
             {
-               currentDate.toLocaleDateString('pt-br') == date.toLocaleDateString('pt-br') 
-               ? (date.toLocaleTimeString('pt-br'))
-               : (`${date.toLocaleDateString('pt-BR')} - ${date.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}`)
+               currentDate.toLocaleDateString('pt-br') == date.toLocaleDateString('pt-br')
+                  ? (date.toLocaleTimeString('pt-br'))
+                  : (`${date.toLocaleDateString('pt-BR')} - ${date.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}`)
             }
          </S.Date>
       </S.Container>
