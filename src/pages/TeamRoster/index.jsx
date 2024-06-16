@@ -18,6 +18,7 @@ import TeamGrid from "./TeamGrid";
 import TeamTable from "./TeamTable";
 
 import Utils from "@utils/Helpers";
+import team from '@api/team';
 
 export default function TeamRoster() {
    const [isLoading, setIsLoading] = useState(false);
@@ -139,6 +140,22 @@ export default function TeamRoster() {
       setTableState(true);
    }
 
+   const handleDownloadCSV = async () => {
+      const response = await team.downloadCSV();
+
+      if (response.status === 200) {
+         const downloadWindow = window.open(response.data, '_blank');
+         if (downloadWindow) {
+            downloadWindow.onload = () => {
+               downloadWindow.close();
+            }
+         }
+         else {
+            console.log('Error opening download window');
+         }
+      }
+   }
+
    return (
       <S.PageContainer>
          <Background.Default />
@@ -146,7 +163,7 @@ export default function TeamRoster() {
          <S.ContentContainer>
             <S.TitleContainer>
                <Title text="Elenco" $uppercase size='3rem' />
-               <Button.Primary $marginTop="0rem" value="Baixar arquivo CSV" />
+               <Button.Primary $marginTop="0rem" value="Baixar arquivo CSV" onClick={handleDownloadCSV} />
             </S.TitleContainer>
             <S.FilterLine>
                <Input.Default

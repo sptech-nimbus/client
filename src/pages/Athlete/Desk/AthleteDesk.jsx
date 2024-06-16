@@ -13,17 +13,49 @@ import { DeleteDialog, UpdateDialog } from "@components/Dialog/Dialog";
 import { PrimaryButton as Button } from "@components/Button/Button";
 
 import DeskComparison from './DeskComparison';
+import athlete from '@api/athlete';
+import { useLocation } from "react-router-dom";
+
+const useQuery = () => {
+   return new URLSearchParams(useLocation().search);
+}
 
 export default function AthleteDesk({ playerData, adversaryData, isComparison }) {
    const birthDateString = playerData.birthDate
       ? new Date(playerData.birthDate).toLocaleDateString('pt-br')
       : 'Data não disponível';
 
+   const query = useQuery();
+   const starter = query.get('isStarting');
+   const playerId = query.get('id');
+
+   const toggleStarter = async () => {
+      const changeStarter = starter === 'true' ? false : true;
+
+      const athleteUpdate = {
+         firstName: playerData.firstName,
+         lastName: playerData.lastName,
+         birthDate: playerData.birthDate,
+         phone: playerData.phone,
+         category: playerData.category,
+         isStarting: changeStarter,
+         picture: playerData.picture
+      }
+
+      try {
+         const res = await athlete.put(playerId, athleteUpdate, localStorage.getItem('token'));
+         console.log(res);
+      }
+      catch (err) {
+         console.log(err);
+      }
+   }
+
    return isComparison ? <DeskComparison playerData={playerData} adversaryData={adversaryData} /> : (
       <S.InfoWrapper>
          <S.InfoGrid>
             <S.Container>
-               <S.PlayerImg src={playerData.picture} />
+               <S.PlayerImg src={playerData.picture ?? 'https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png?20150327203541'} />
             </S.Container>
 
             <S.Container>
@@ -68,6 +100,10 @@ export default function AthleteDesk({ playerData, adversaryData, isComparison })
                   <S.Information>
                      <S.Label>Endereço: </S.Label>
                      <span>{playerData.address ?? 'Não definido'}</span>
+                  </S.Information>
+                  <S.Information>
+                     <S.Label>Titular: </S.Label>
+                     <span>{starter === 'true' ? 'Sim' : 'Não'}</span>
                   </S.Information>
                </S.InfomationContainer>
             </S.Container>
@@ -115,6 +151,12 @@ export default function AthleteDesk({ playerData, adversaryData, isComparison })
          {localStorage.getItem('type') === 'Athlete' &&
             <S.Buttons>
                <UpdateDialog athleteInfo={playerData} trigger={<Button value='Editar' />} />
+            </S.Buttons>
+         }
+         {localStorage.getItem('type') === 'Coach' &&
+            <S.Buttons>
+               <DeleteDialog athleteInfo={playerData} trigger={<Button value='Deletar' />} />
+               <Button value='Mudar titularidade' $marginTop='0.5rem' onClick={toggleStarter} />
             </S.Buttons>
          }
       </S.InfoWrapper>

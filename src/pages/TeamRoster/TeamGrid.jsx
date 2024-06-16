@@ -9,6 +9,8 @@ import { Pencil, Trash, Eye, Star, Bandaids } from "@phosphor-icons/react";
 import { useNavigate } from "react-router-dom";
 import { DeleteDialog, UpdateDialog } from "@components/Dialog/Dialog";
 
+import athlete from '@api/athlete';
+
 export default function TeamGrid({ players }) {
    console.log(players);
    const navigate = useNavigate();
@@ -16,6 +18,25 @@ export default function TeamGrid({ players }) {
    const athletes = players.map(player => {
       return { ...player, fullName: `${player.firstName} ${player.lastName}` }
    });
+
+   const toggleStarter = async (playerData) => {
+      const athleteUpdate = {
+         firstName: playerData.firstName,
+         lastName: playerData.lastName,
+         birthDate: playerData.birthDate,
+         phone: playerData.phone,
+         category: playerData.category,
+         isStarting: playerData.isStarting ? false : true,
+         picture: playerData.picture
+      }
+      try {
+         await athlete.put(playerData.id, athleteUpdate, localStorage.getItem('token'));
+         window.location.reload();
+      }
+      catch (err) {
+         console.log(err);
+      }
+   }
 
    const isInjuried = (injury) => {
       const today = new Date();
@@ -41,6 +62,7 @@ export default function TeamGrid({ players }) {
                      <Star
                         weight={player.isStarting ? 'fill' : 'regular'}
                         color={Colors.orange500}
+                        onClick={() => toggleStarter(player)}
                      />
                      <Bandaids
                         weight={activeInjuries != 0 ? 'fill' : 'regular'}

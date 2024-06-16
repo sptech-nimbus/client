@@ -176,7 +176,8 @@ export function UpdateDialog({ athleteInfo, trigger }) {
             birthDate: athleteData.birthDate,
             phone: athleteData.phone,
             category: athleteData.category,
-            isStarting: false
+            isStarting: false,
+            picture: athleteData.picture
          }
 
          const athleteDescUpdate = {
@@ -188,6 +189,10 @@ export function UpdateDialog({ athleteInfo, trigger }) {
             athlete: {
                id: localStorage.getItem('personaId')
             }
+         }
+
+         if (athleteData.newPicure) {
+            delete playerData.picture;
          }
 
          await Promise.all([
