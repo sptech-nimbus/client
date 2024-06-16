@@ -89,7 +89,7 @@ export function InjuryDialog({ playerId }) {
    return (
       <Dialog
          title='Adicionar nova lesão'
-         trigger={<Button.Primary value='+ Adicionar lesão' marginTop="0px" fontSize="1.2rem" width="100%" />}
+         trigger={<Button.Primary value='+ Adicionar lesão' $marginTop="0px" fontSize="1.2rem" width="100%" />}
       >
          <DialogContainer onSubmit={handleSubmit}>
             <Label>

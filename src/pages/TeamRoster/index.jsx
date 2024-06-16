@@ -144,7 +144,10 @@ export default function TeamRoster() {
          <Background.Default />
          <Sidebar page="team" />
          <S.ContentContainer>
-            <Title text="Elenco" $uppercase size='3rem' />
+            <S.TitleContainer>
+               <Title text="Elenco" $uppercase size='3rem' />
+               <Button.Primary $marginTop="0rem" value="Baixar arquivo CSV" />
+            </S.TitleContainer>
             <S.FilterLine>
                <Input.Default
                   value={filters.search}
@@ -211,11 +214,11 @@ export default function TeamRoster() {
                   </ToggleGroup.Item>
                </ToggleGroup.Root>
                <S.Legend>
-                  <Star size={26} color={Utils.colors.orange500} weight="fill"/>
+                  <Star size={26} color={Utils.colors.orange500} weight="fill" />
                   Jogador titular
                </S.Legend>
                <S.Legend>
-                  <Bandaids size={26} color={Utils.colors.orange300} weight="fill"/>
+                  <Bandaids size={26} color={Utils.colors.orange300} weight="fill" />
                   Jogador lesionado
                </S.Legend>
             </S.FilterLine>

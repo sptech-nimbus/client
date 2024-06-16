@@ -7,8 +7,6 @@ import Title from "@components/Title/Title";
 import { PieChart } from "@components/Charts";
 import Loader, { LoaderContainer } from "@components/Loader/Loader";
 
-import axios from 'axios';
-
 import Utils from '@utils/Helpers';
 import * as Accordion from '@radix-ui/react-accordion';
 import { CaretDown } from '@phosphor-icons/react';
@@ -195,12 +193,13 @@ export default function AthleteInjuries({ playerData }) {
                         <InjuryDialog playerId={playerId} />
                         <S.InjuryContainer>
                            <Title text='Histório de lesões' size='1.2rem' />
-                           <S.InjuryHist>
-                              <Accordion.Root type='single' collapsible>
-                                 {allInjuries && allInjuries.map(injury => (
-                                    <Accordion.Item value={injury.injuryId} key={injury.injuryId} asChild>
-                                       <S.Injury>
-                                          <Accordion.Trigger asChild>
+                           <Accordion.Root type='single' collapsible asChild>
+                              <S.InjuryHist>
+                                 {allInjuries && allInjuries.map(injury => {
+
+                                    return (
+                                       <Accordion.Item value={injury.id} key={injury.id} asChild>
+                                          <S.Injury>
                                              <S.InjuryContent>
                                                 <S.Column>
                                                    <span>Tipo</span>
@@ -210,30 +209,33 @@ export default function AthleteInjuries({ playerData }) {
                                                    <span>Gravidade</span>
                                                    <span>{calculateSeverity(injury.inicialDate, injury.finalDate)}</span>
                                                 </S.Column>
-                                                <S.Arrow>
-                                                   <CaretDown weight='bold' />
-                                                </S.Arrow>
+                                                <Accordion.Trigger asChild>
+                                                   <S.Arrow>
+                                                      <CaretDown weight='bold' />
+                                                   </S.Arrow>
+                                                </Accordion.Trigger>
                                              </S.InjuryContent>
-                                          </Accordion.Trigger>
 
-                                          <Accordion.Content asChild>
-                                             <S.InjuryContentHidden>
-                                                <S.Column>
-                                                   <span>Inicio</span>
-                                                   <span>{Utils.formatDate(injury.inicialDate)}</span>
-                                                </S.Column>
 
-                                                <S.Column>
-                                                   <span>Fim</span>
-                                                   <span>{Utils.formatDate(injury.finalDate)}</span>
-                                                </S.Column>
-                                             </S.InjuryContentHidden>
-                                          </Accordion.Content>
-                                       </S.Injury>
-                                    </Accordion.Item>
-                                 ))}
-                              </Accordion.Root>
-                           </S.InjuryHist>
+                                             <Accordion.Content asChild>
+                                                <S.InjuryContentHidden>
+                                                   <S.Column>
+                                                      <span>Inicio</span>
+                                                      <span>{Utils.formatDate(injury.inicialDate)}</span>
+                                                   </S.Column>
+
+                                                   <S.Column>
+                                                      <span>Fim</span>
+                                                      <span>{Utils.formatDate(injury.finalDate)}</span>
+                                                   </S.Column>
+                                                </S.InjuryContentHidden>
+                                             </Accordion.Content>
+                                          </S.Injury>
+                                       </Accordion.Item>
+                                    )
+                                 })}
+                              </S.InjuryHist>
+                           </Accordion.Root>
                         </S.InjuryContainer>
                      </S.Container>
                   </S.InjuryGrid>
