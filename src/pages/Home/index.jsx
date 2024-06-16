@@ -1,5 +1,6 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unused-vars */
-
+/* eslint-disable react/prop-types */
 import * as S from './Home.styled';
 import Sidebar from "@components/Sidebar/Sidebar";
 import Background from "@components/Background/Background";
