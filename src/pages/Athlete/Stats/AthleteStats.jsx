@@ -30,34 +30,40 @@ export default function Stats({ playerData, adversaryData, isComparison }) {
   });
 
   useEffect(() => {
-    const calcAvg = (a, c) => {
-      return a + c;
-    }
-
     const setAverages = historics => {
-      if (historics.length > 1) {
-        setAvgs({
-          assists: historics.reduce((a, c) => calcAvg(a.assists, c.assists)) / historics.length,
-          freeThrows: historics.reduce((a, c) => calcAvg(a.freeThrowConverted, c.freeThrowConverted)) / historics.length,
-          points: (historics.reduce((a, c) => calcAvg(a.twoPointsConverted, c.twoPointsConverted)) + historics.reduce((a, c) => calcAvg(a.threePointsConverted, c.threePointsConverted)) + historics.reduce((a, c) => calcAvg(a.freeThrowConverted, c.freeThrowConverted))) / historics.length,
-          steals: historics.reduce((a, c) => calcAvg(a.steals, c.steals)) / historics.length,
-          threePoints: historics.reduce((a, c) => calcAvg(a.threePointsConverted, c.threePointsConverted)),
-          twoPoints: historics.reduce((a, c) => calcAvg(a.twoPointsConverted, c.twoPointsConverted)),
-          rebounds: (historics.reduce((a, c) => calcAvg(a.offRebounds, c.offRebounds)) + historics.reduce((a, c) => calcAvg(a.defRebounds, c.defRebounds))) / historics.length,
-          blocks: historics.reduce((a, c) => calcAvg(a.blocks, c.blocks)),
-        });
-      } else {
-        setAvgs({
-          assists: historics[0].assists,
-          freeThrows: historics[0].freeThrowConverted,
-          points: historics[0].freeThrowConverted + historics[0].twoPointsConverted + historics[0].threePointsConverted,
-          steals: historics[0].steals,
-          threePoints: historics[0].threePointsConverted,
-          twoPoints: historics[0].twoPointsConverted,
-          rebounds: historics[0].offRebounds + historics[0].defRebounds,
-          blocks: historics[0].blocks
-        });
-      }
+      let sums = {
+        offRebounds: 0,
+        defRebounds: 0,
+        blocks: 0,
+        fouls: 0,
+        turnovers: 0,
+        minutes: 0,
+        assists: 0,
+        freeThrowConverted: 0,
+        freeThrowAttempted: 0,
+        steals: 0,
+        threePointsConverted: 0,
+        threePointsAttempted: 0,
+        twoPointsConverted: 0,
+        twoPointsAttempted: 0
+      };
+
+      historics.forEach(h => {
+        Object.keys(h).forEach(k => {
+          sums[k] += Number(h[k]);
+        })
+      });
+
+      setAvgs({
+        points: (sums.freeThrowConverted + sums.twoPointsConverted + sums.threePointsConverted) / historics.length,
+        assists: sums.assists / historics.length,
+        steals: sums.steals / historics.length,
+        freeThrows: sums.freeThrowConverted / historics.length,
+        twoPoints: sums.twoPointsConverted / historics.length,
+        threePoints: sums.threePointsConverted / historics.length,
+        rebounds: (sums.defRebounds + sums.offRebounds) / historics.length,
+        blocks: sums.blocks / historics.length
+      });
     }
 
     const setObservations = historics => {
