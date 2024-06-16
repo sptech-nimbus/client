@@ -116,7 +116,7 @@ export const Team = styled.div`
 export const TeamImage = styled.img`
    width: 150px;
    height: 150px;
-   border-radius: 50%;
+   border-radius: 1rem;
    object-fit: cover;
    object-position: center;
    background-color: ${props => props.src ? 'transparent' : Colors.gray200};
@@ -493,4 +493,8 @@ export const FinishMatch = styled.div`
       display: flex;
       gap: 1rem;
    }
+`
+
+export const TitleContainerGoing = styled(TitleContainer)`
+   justify-content: space-between;
 `
