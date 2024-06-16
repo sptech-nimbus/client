@@ -21,39 +21,36 @@ export default function ForgotPassword() {
    const [step, setStep] = useState(1);
    const [userId, setUserId] = useState('');
 
-   const handleSubmit =  async (formData) => {
-      if(step == 1) {
-         console.log(formData);
+   const handleSubmit = async (formData) => {
+      if (step == 1) {
          try {
             await user.changePasswordRequest(formData.email);
             setStep(step + 1);
          }
-         catch(err) {
-            addNotification('error','Erro ao enviar e-mail. Por favor aguarde alguns minutos antes de tentar novamente.');
-            console.log(err);
+         catch (err) {
+            addNotification('error', 'Erro ao enviar e-mail. Por favor aguarde alguns minutos antes de tentar novamente.');
          }
       }
-      if(step == 2) {
-         console.log(formData);
+      if (step == 2) {
          try {
             const response = await code.validateCode(formData.code);
-            setUserId(response);
+            setUserId(response.data.data.mainUser.id);
             setStep(step + 1);
          }
-         catch(err) {
-            addNotification('error','Código inserido inválido.');
+         catch (err) {
+            addNotification('error', 'Código inserido inválido.');
          }
       }
-      if(step == 3) {
+      if (step == 3) {
          try {
             await user.changePassword(userId, formData);
             toast.success('Senha atualizada! Redirecionando para tela de login...', { autoClose: 2000 });
             setTimeout(() => {
-                 navigate('/login');
+               navigate('/login');
             }, 2600);
          }
-         catch(err) {
-            addNotification('error','Houve um erro ao atualizar a senha. Por favor aguarde alguns minutos antes de tentar novamente.');
+         catch (err) {
+            addNotification('error', 'Houve um erro ao atualizar a senha. Por favor aguarde alguns minutos antes de tentar novamente.');
             console.log(err);
          }
       }
@@ -61,7 +58,7 @@ export default function ForgotPassword() {
 
    return (
       <S.Header>
-         <ToastContainer   
+         <ToastContainer
             autoClose={8000}
             hideProgressBar={false}
             newestOnTop={false}
@@ -71,12 +68,12 @@ export default function ForgotPassword() {
             draggable
             theme="dark"
             limit={3}
-         /> 
+         />
 
          <Background.Login />
-         {step == 1 && <FormStepOne onSubmit={handleSubmit}/>}
-         {step == 2 && <FormStepTwo onSubmit={handleSubmit}/>}
-         {step == 3 && <FormStepThree onSubmit={handleSubmit}/>}
+         {step == 1 && <FormStepOne onSubmit={handleSubmit} />}
+         {step == 2 && <FormStepTwo onSubmit={handleSubmit} />}
+         {step == 3 && <FormStepThree onSubmit={handleSubmit} />}
       </S.Header>
    )
 }

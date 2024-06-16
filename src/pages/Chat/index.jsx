@@ -12,82 +12,21 @@ import Status from './Status';
 
 import { MagnifyingGlass, PaperPlaneRight, ChatCircleDots } from '@phosphor-icons/react';
 
-export default function Chat() {
-   sessionStorage.setItem('userId', '123');
-   sessionStorage.setItem('teamId', '312');
-   sessionStorage.setItem('username', 'kauan oliveira');
+import athlete from '@api/athlete';
 
+export default function Chat() {
+   const [user, setUser] = useState();
+   const [allPlayers, setAllPlayers] = useState([]);
    const [newMessage, setNewMessage] = useState('');
-   const [messages, setMessages] = useState([
-      {
-        date: "2024-05-25T14:30:00Z",
-        message: "Olá, como você está?",
-        userId: "1",
-        username: "joao123"
-      },
-      {
-        date: "2024-05-25T14:32:00Z",
-        message: "Estou bem, obrigado! E você?",
-        userId: "27754777-4b9c-4960-9b1a-75377502ad03",
-        username: "maria456"
-      },
-      {
-        date: "2024-05-25T14:34:00Z",
-        message: "Também estou bem. O que você tem feito ultimamente?",
-        userId: "1",
-        username: "joao123"
-      },
-      {
-        date: "2024-05-25T14:36:00Z",
-        message: "Tenho trabalhado em alguns projetos. E você?",
-        userId: "27754777-4b9c-4960-9b1a-75377502ad03",
-        username: "maria456"
-      },
-      {
-        date: "2024-05-25T14:38:00Z",
-        message: "Tenho estudado bastante para a faculdade.",
-        userId: "1",
-        username: "joao123"
-      },
-      {
-        date: "2024-05-25T14:40:00Z",
-        message: "Isso é ótimo! Qual é o seu curso?",
-        userId: "27754777-4b9c-4960-9b1a-75377502ad03",
-        username: "maria456"
-      },
-      {
-        date: "2024-05-25T14:42:00Z",
-        message: "Estou estudando engenharia.",
-        userId: "1",
-        username: "joao123"
-      },
-      {
-        date: "2024-05-25T14:44:00Z",
-        message: "Que legal! Eu estudo ciência da computação.",
-        userId: "27754777-4b9c-4960-9b1a-75377502ad03",
-        username: "maria456"
-      },
-      {
-        date: "2024-05-25T14:46:00Z",
-        message: "Que coincidência! Podemos trocar dicas de estudo.",
-        userId: "1",
-        username: "joao123"
-      },
-      {
-        date: "2024-05-26T14:48:00Z",
-        message: "Com certeza! Vamos marcar um dia para isso.",
-        userId: "27754777-4b9c-4960-9b1a-75377502ad03",
-        username: "maria456"
-      }
-    ]);
+   const [messages, setMessages] = useState([]);
 
    const sendMessage = () => {
       const date = new Date();
 
       socket.emit('ttm', {
          user: {
-            id: sessionStorage.getItem('userId'),
-            username: sessionStorage.getItem('username')
+            id: localStorage.getItem('id'),
+            username: localStorage.getItem('username')
          },
          content: newMessage,
          date: date.toISOString(),
@@ -99,33 +38,58 @@ export default function Chat() {
       setNewMessage('');
    }
 
-   // useEffect(() => {
-   //    const getMessagesRes = async () => {
-   //       const messagesRes = await getMessages('312', 1, 20);
+   useEffect(() => {
+      const getMessagesRes = async () => {
+         const messagesRes = await getMessages(sessionStorage.getItem('teamId'), 1, 20);
+         setMessages(messagesRes.data.page);
+      }
 
-   //       setMessages(messagesRes.data.page);
-   //    }
+      const fetchAllPlayers = async () => {
+         try {
+            const { data: { data } } = await athlete.byTeam(
+               localStorage.getItem('teamId'),
+               localStorage.getItem('token')
+            );
+   
+            setAllPlayers(data);
+         }
+         catch(err) {
+            console.log(err);
+         }
+      }
 
-   //    if (!socket.connected) {
-   //       socket.auth = {
-   //          user: {
-   //             id: sessionStorage.getItem('userId')
-   //          },
-   //          teams: [sessionStorage.getItem('teamId')]
-   //       };
+      const fetchCurrentUser = async () => {
+         try {
+            const { data: { data } } = await athlete.get(localStorage.getItem('id'),localStorage.getItem('token'));
+         }
+         catch(err) {
+            console.log(err);
+         }
+      }
 
-   //       socket.on('connection', console.log('Usuário conectado'));
+      if (!socket.connected) {
+         socket.auth = {
+            user: {
+               id: localStorage.getItem('id')
+            },
+            teams: [sessionStorage.getItem('teamId')]
+         };
 
-   //       socket.on('ttm', m => {
-   //          console.log(m);
-   //          setMessages(oldMessages => [...oldMessages, m]);
-   //       });
+         socket.on('connection', console.log('Usuário conectado'));
+         socket.on('ttm', m => {
+            setMessages(oldMessages => [...oldMessages, m]);
+         });
+         socket.on('messageError', e => {
+            console.log(e);
+         });
 
-   //       socket.connect();
+         socket.connect();
+         getMessagesRes();
+      }
 
-   //       getMessagesRes();
-   //    }
-   // }, []);
+      fetchAllPlayers();
+   }, []);
+
 
    return (
       <S.PageContainer>
@@ -141,22 +105,22 @@ export default function Chat() {
                   {
                      messages.map(message => {
                         return (
-                        <S.MessageBox isSender={message.userId == localStorage.getItem('personaId')}>
-                           <Message msg={message}/>
-                        </S.MessageBox>
+                           <S.MessageBox isSender={message.userId == localStorage.getItem('id')}>
+                              <Message msg={message} />
+                           </S.MessageBox>
                         )
                      })
                   }
                </S.MessagesContainer>
                <S.InputContainer>
                   <Input.Default
-                  placeholder='Mensagem'
-                  value={newMessage}
-                  onInput={e => setNewMessage(e.target.value)}
+                     placeholder='Mensagem'
+                     value={newMessage}
+                     onInput={e => setNewMessage(e.target.value)}
                   >
                      <ChatCircleDots />
                   </Input.Default>
-                  <Button.Primary onClick={sendMessage} marginTop='0%' value='Enviar' fontSize='1.3rem'/>
+                  <Button.Primary onClick={sendMessage} $marginTop='0%' value='Enviar' fontSize='1.3rem' />
                </S.InputContainer>
             </S.MessagesArea>
          </S.ContentContainer>
@@ -165,7 +129,7 @@ export default function Chat() {
                <S.AthleteImage src="https://loremflickr.com/cache/resized/65535_53323386360_17d01a1eb8_b_640_480_nofilter.jpg" alt="" />
                <S.CurrentUserInfo>
                   <span>Nome do usuário</span>
-                  <Status status='online'/>
+                  <Status status='online' />
                </S.CurrentUserInfo>
             </S.CurrentUserContainer>
 
@@ -178,45 +142,16 @@ export default function Chat() {
             <S.ListContainer>
                <span>Jogadores do time</span>
                <S.OnlineList>
-                  <S.Athlete>
-                     <S.AthleteImage src="https://loremflickr.com/cache/resized/65535_53323386360_17d01a1eb8_b_640_480_nofilter.jpg" alt="" />
-                     <S.AthleteInfo online={true}>
-                        <span>Nome do jogador</span>
-                        <Status status='online'/>
-                     </S.AthleteInfo>
-                  </S.Athlete>
-
-                  <S.Athlete>
-                     <S.AthleteImage src="https://loremflickr.com/cache/resized/65535_53323386360_17d01a1eb8_b_640_480_nofilter.jpg" alt="" />
-                     <S.AthleteInfo online={true}>
-                        <span>Nome do jogador</span>
-                        <Status status='online'/>
-                     </S.AthleteInfo>
-                  </S.Athlete>
-
-                  <S.Athlete>
-                     <S.AthleteImage src="https://loremflickr.com/cache/resized/65535_53323386360_17d01a1eb8_b_640_480_nofilter.jpg" alt="" />
-                     <S.AthleteInfo online={true}>
-                        <span>Nome do jogador</span>
-                        <Status status='online'/>
-                     </S.AthleteInfo>
-                  </S.Athlete>
-
-                  <S.Athlete>
-                     <S.AthleteImage src="https://loremflickr.com/cache/resized/65535_53323386360_17d01a1eb8_b_640_480_nofilter.jpg" alt="" />
-                     <S.AthleteInfo online={true}>
-                        <span>Nome do jogador</span>
-                        <Status status='online'/>
-                     </S.AthleteInfo>
-                  </S.Athlete>
-
-                  <S.Athlete>
-                     <S.AthleteImage src="https://loremflickr.com/cache/resized/65535_53323386360_17d01a1eb8_b_640_480_nofilter.jpg" alt="" />
-                     <S.AthleteInfo online={true}>
-                        <span>Nome do jogador</span>
-                        <Status status='online'/>
-                     </S.AthleteInfo>
-                  </S.Athlete>
+                  {allPlayers && allPlayers.map(player => (
+                        <S.Athlete>
+                           <S.AthleteImage src={player.picture} alt="" />
+                           <S.AthleteInfo online={true}>
+                              <span>{player.firstName} {player.lastName}</span>
+                              <Status status='online' />
+                           </S.AthleteInfo>
+                        </S.Athlete>
+                     )
+                  )}
                </S.OnlineList>
             </S.ListContainer>
          </S.RightBar>

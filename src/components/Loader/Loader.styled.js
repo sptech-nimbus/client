@@ -1,4 +1,4 @@
-import styled, { keyframes } from 'styled-components';
+import styled, { keyframes, css } from 'styled-components';
 import { Colors } from "@utils/Helpers";
 
 const l9 = keyframes`
@@ -37,4 +37,9 @@ export const LoaderContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+
+  ${props => props.$fullScreen && css`
+    width: 100vw;
+    height: 100vh;
+  `}
 `

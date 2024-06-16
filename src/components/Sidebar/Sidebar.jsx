@@ -63,7 +63,7 @@ export default function Sidebar({page, logo, children}) {
                <Popover trigger={<Gear weight={page == 'settings' ? 'fill' : 'regular'}/>} side='right' sideOffset={20}>
                   <S.MenuList>
                      <S.MenuItem>Conta</S.MenuItem>
-                     <S.MenuItem>Meus times</S.MenuItem>
+                     <S.MenuItem onClick={() => {navigate('/my-teams?auto=false')}}>Meus times</S.MenuItem>
                      <S.MenuItem>Configurações</S.MenuItem>
                      <S.MenuItem onClick={logout}>Sair</S.MenuItem>
                   </S.MenuList>

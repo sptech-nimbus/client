@@ -36,10 +36,12 @@ const DialogContainer = styled.form`
 
 export function InjuryDialog({ playerId }) {
    const [injuryData, setInjuryData] = useState({
-      initialDate: '',
+      inicialDate: '',
       finalDate: '',
       type: '',
-      athleteId: playerId
+      athlete: {
+         id: playerId
+      }
    });
 
    const handleInputChange = (e) => {
@@ -47,55 +49,55 @@ export function InjuryDialog({ playerId }) {
          ...injuryData,
          [e.target.name]: e.target.value
       });
-      console.log(injuryData);
    }
 
    const handleSubmit = async (e) => {
       e.preventDefault();
 
-      if(injuryData.finalDate && injuryData.initialDate && injuryData.type) {
+      if (injuryData.finalDate && injuryData.inicialDate && injuryData.type) {
          try {
-            await injury.post(injuryData);
+            await injury.post(injuryData, localStorage.getItem('token'));
 
             setInjuryData({
-               initialDate: '',
+               inicialDate: '',
                finalDate: '',
                type: '',
                athleteId: playerId
             });
+
             window.location.reload();
          }
-         catch(err) {
-            if(err.response) {
+         catch (err) {
+            if (err.response) {
                toast.error(`Erro do servidor: ${err.response.status} - ${err.response.message}`)
             }
-            else if(err.request) {
+            else if (err.request) {
                toast.error(`Erro na requisição: O servidor não respondeu. Por favor, aguarde um momento antes de tentar novamente.`);
             }
             else {
-               toast.error(`Erro: ${êrr.message}`);
+               toast.error(`Erro: ${err.message}`);
             }
          }
       }
       else {
-         if(!injuryData.initialDate) toast.error(`Preencha o período inicial do tratamento.`)
-         if(!injuryData.finalDate) toast.error(`Preencha o período final do tratamento.`)
-         if(!injuryData.type) toast.error(`Preencha o tipo da lesão.`);
+         if (!injuryData.inicialDate) toast.error(`Preencha o período inicial do tratamento.`)
+         if (!injuryData.finalDate) toast.error(`Preencha o período final do tratamento.`)
+         if (!injuryData.type) toast.error(`Preencha o tipo da lesão.`);
       }
    }
 
    return (
       <Dialog
-      title='Adicionar nova lesão' 
-      trigger={<Button.Primary value='+ Adicionar lesão' marginTop="0px" fontSize="1.2rem" width="100%"/>}
+         title='Adicionar nova lesão'
+         trigger={<Button.Primary value='+ Adicionar lesão' marginTop="0px" fontSize="1.2rem" width="100%" />}
       >
          <DialogContainer onSubmit={handleSubmit}>
             <Label>
                Tipo de lesão
                <Input.Default
-               name='type'
-               value={injuryData.type}
-               onChange={handleInputChange}
+                  name='type'
+                  value={injuryData.type}
+                  onChange={handleInputChange}
                />
             </Label>
 
@@ -105,26 +107,28 @@ export function InjuryDialog({ playerId }) {
                   <Label>
                      Início
                      <Input.Default
-                     name='initialDate'
-                     value={injuryData.initialDate}
-                     onChange={handleInputChange}
+                        type='date'
+                        name='inicialDate'
+                        value={injuryData.inicialDate}
+                        onChange={handleInputChange}
                      />
                   </Label>
                   <Label>
                      Final
                      <Input.Default
-                     name='finalDate'
-                     value={injuryData.finalDate}
-                     onChange={handleInputChange}
+                        type='date'
+                        name='finalDate'
+                        value={injuryData.finalDate}
+                        onChange={handleInputChange}
                      />
                   </Label>
                </Flex>
             </Column>
 
             <Button.Primary
-            width="100%"
-            value="Adicionar lesão"
-            fontSize="1.2rem"
+               width="100%"
+               value="Adicionar lesão"
+               fontSize="1.2rem"
             />
          </DialogContainer>
       </Dialog>

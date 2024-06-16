@@ -26,6 +26,7 @@ export const MainContainer = styled.div`
 `
 
 export const FilterLine = styled.div`
+   position: relative;
    display: flex;
    align-items: center;
    margin: 0;
@@ -43,6 +44,10 @@ export const PlayerImage = styled.img`
 
 export const PlayerName = styled.span`
    width: 100%;
+   display: flex;
+   align-items: center;
+   justify-content: space-between;
+   width: 100%;
    overflow: hidden;
    font-family: "Catamaran";
    text-overflow: ellipsis;
@@ -50,6 +55,12 @@ export const PlayerName = styled.span`
    font-weight: 600;
    text-align: justify;
    color: ${Colors.orange100};
+`
+
+export const NameIcons = styled.div`
+   display: flex;
+   align-items: center;
+   gap: .2rem;
 `
 
 export const PlayerLine = styled.div`
@@ -94,13 +105,13 @@ export const ShowInfoButton = styled.button`
 export const CardsContainer = styled.div`
    display: flex;
    width: 100%;
-   height: ${props => props.hasData ? 'fit-content' : '70vh'};;
+   height: ${props => props.$hasData ? 'fit-content' : '70vh'};;
    max-height: 70vh;
-   overflow-y: ${props => props.hasData ? "scroll" : "hidden"};
-   justify-content: ${props => props.hasData ? 'space-between' : 'center'};
-   align-items: ${props => props.hasData ? 'start' : 'center'};
+   overflow-y: ${props => props.$hasData ? "scroll" : "hidden"};
+   justify-content: ${props => props.$hasData ? '' : 'center'};
+   align-items: ${props => props.$hasData ? 'start' : 'center'};
    flex-wrap: wrap;
-   gap: 3rem;
+   gap: 5rem;
    padding-right: 1rem;
 
    &::-webkit-scrollbar {
@@ -274,4 +285,20 @@ export const NotFoundContainer = styled.div`
    align-items: center;
    justify-content: center;
    color: #a6a6a6;
+`
+
+export const StartingPlayer = styled.button`
+   padding-top: .4rem;
+   font-size: 1.2rem;
+   cursor: pointer;
+   border: none;
+   background-color: transparent;
+   color: ${Colors.orange500};
+`
+
+export const Legend = styled.div`
+   display: flex;
+   align-items: center;
+   color: ${Colors.orange100};
+   gap: .5rem;
 `

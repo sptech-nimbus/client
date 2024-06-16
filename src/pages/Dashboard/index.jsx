@@ -20,6 +20,7 @@ export default function Dashboard() {
    const adversaryId = query.get('adversaryId');
 
    const [isComparison, setIsComparison] = useState(!!adversaryId);
+   const [teamStats, setTeamStats] = useState();
    const handleVizualitionMode = () => setIsComparison(!isComparison);
 
    return (
@@ -29,10 +30,10 @@ export default function Dashboard() {
          
          <S.ContentContainer>
             <S.Flex>
-               <Title text='Dashboard' uppercase/> 
+               <Title text='Dashboard' $uppercase/> 
                <Switch label='Comparação de times' id='switch_comparacao' onCheckedChange={handleVizualitionMode} checked={isComparison}/>
             </S.Flex>
-            {isComparison ? <ComparisonLayout /> : <DashboardLayout />}
+            {isComparison ? <ComparisonLayout stats={teamStats}/> : <DashboardLayout setTeamStats={setTeamStats}/>}
          </S.ContentContainer>
       </S.PageContainer>
    )

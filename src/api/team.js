@@ -13,8 +13,7 @@ async function getAllTeamsByCoach(id, token) {
 }
 
 async function getAllTeams(token) {
-    const response = await axios.get(`${config.baseURL}/${path}`,
-    {
+    const response = await axios.get(`${config.baseURL}/${path}`, {
         headers: {
             'Authorization': `Bearer ${token}`,
             'Content-Type': 'application/json'
@@ -50,8 +49,10 @@ async function getActiveInjuries({ param }) {
     return response;
 }
 
-async function getTeamEspecific({ param }) {
-    const response = await axios.get(`${config.baseURL}/${path}/${param}`)
+async function getTeamEspecific( id, token ) {
+    const response = await axios.get(`${config.baseURL}/${path}/${id}`, {
+        headers: { Authorization: `Bearer ${token}` }
+    })
 
     return response;
 }
@@ -81,6 +82,14 @@ async function deleteTeam({ param, body }) {
     return response;
 }
 
+async function getByAthlete( id, token){
+    const response = await axios.get(`${config.baseURL}/${path}/by-athlete/${id}`, {
+        headers: { Authorization: `Bearer ${token}` }
+    })
+
+    return response;
+}
+
 const team = {
     post: registerTeam,
     delete: deleteTeam,
@@ -91,7 +100,8 @@ const team = {
     requestChangeOwner,
     acceptChangeOwner,
     byName: getTeamsByName,
-    byUser: getAllTeamsByCoach
+    byUser: getAllTeamsByCoach,
+    byAthlete: getByAthlete
 }
 
 export default team;

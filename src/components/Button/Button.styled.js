@@ -27,7 +27,7 @@ export const PrimaryButton = styled.input`
    font-weight: bold;
    font-family: 'Catamaran', sans-serif;
    transition: background-color .2s ease-in, border-color .2s ease-in, color .2s ease-in;
-   margin-top: ${props => props.marginTop ? props.marginTop : '5%'};
+   margin-top: ${props => props.$marginTop ? props.$marginTop : '5%'};
 
    &:hover {
       background-color: ${Colors.orange300};
