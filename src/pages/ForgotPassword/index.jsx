@@ -33,7 +33,9 @@ export default function ForgotPassword() {
       }
       if (step == 2) {
          try {
+            console.log(formData.code);
             const response = await code.validateCode(formData.code);
+            console.log(response);
             setUserId(response.data.data.mainUser.id);
             setStep(step + 1);
          }

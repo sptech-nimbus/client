@@ -115,7 +115,6 @@ export default function AthleteDesk({ playerData, adversaryData, isComparison })
          <S.Buttons>
             <UpdateDialog athlete={playerData} trigger={<Button value='Editar' />} />
             <DeleteDialog athlete={playerData} trigger={<Button value='Deletar' />} />
-            <Button value='Baixar PDF' />
          </S.Buttons>
       </S.InfoWrapper>
    );

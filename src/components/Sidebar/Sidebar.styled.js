@@ -92,8 +92,27 @@ export const MenuItem = styled.li`
       background-color: ${Colors.gray700};
    }
 
-   &:nth-child(4) {
+   &:nth-child(3) {
       color: ${Colors.red};
    }
 `
 
+export const TeamImage = styled.img`
+   width: 35px;
+   height: 35px;
+   border-radius: 50%;
+`
+
+export const NoImage = styled.div`
+   width: 35px;
+   height: 35px;
+   overflow: hidden;
+   font-size: 10px;
+   font-weight: 800;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   background-color: ${Colors.gray200};
+   color: ${Colors.gray500};
+   border-radius: 50%;
+`

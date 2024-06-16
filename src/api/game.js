@@ -4,10 +4,18 @@ import config from "./config";
 const path = "games";
 const resultPath = "game-results";
 
-async function postGame({ body }) {
-    const response = await axios.post(`${config.baseURL}/${path}`, body);
-
-    return response;
+async function postGame(body, token) {
+    try {
+        console.log("Attempting to post game:", body);
+        const response = await axios.post(`${config.baseURL}/${path}`, body, {
+            headers: { Authorization: `Bearer ${token}` }
+        });
+        console.log("Game posted successfully:", response);
+        return response;
+    } catch (err) {
+        console.log("Error posting game:", err);
+        throw err;
+    }
 }
 
 async function getByTeam(id, token) {
@@ -42,33 +50,34 @@ async function confirmGame(game, coach, token) {
 
         return res;
     }
-    catch(err) {
+    catch (err) {
         throw err;
     }
 }
 
 async function registerGameResult(body, token) {
     try {
-        const res = await axios.post(`${config.baseURL}/${resultPath}`, body, {
-            headers: { Authorization: `Bearer ${token}` }
-        });
-
-        return res;
-    }
-    catch(err) {
-        throw err;
+        const response = await axios.post('http://localhost:8080/game-results', body,
+            {
+                headers: { Authorization: `Bearer ${token}` }
+            }
+        );
+        return (response.data.data);
+    } catch (err) {
+        throw err
     }
 }
 
-async function getNotConfirmedResults(game, token) {
+async function getNotConfirmedResults(team, token) {
     try {
-        const res = await axios.get(`${config.baseURL}/${resultPath}/not-confirmed-results/${game}`, 
-            {headers: { Authorization: `Beaerer ${token}` }
-        })
+        const res = await axios.get(`${config.baseURL}/${resultPath}/not-confirmed-results/${team}`,
+            {
+                headers: { Authorization: `Beaerer ${token}` }
+            })
 
         return res;
     }
-    catch(err) {
+    catch (err) {
         throw err;
     }
 }
@@ -81,7 +90,7 @@ async function confirmGameResult(game, body, token) {
 
         return res;
     }
-    catch(err) {
+    catch (err) {
         throw err;
     }
 }

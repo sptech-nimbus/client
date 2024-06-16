@@ -5,13 +5,13 @@ const path = "athletes";
 
 async function getUserById(id, token) {
     try {
-        const response = await axios.get(`${config.baseURL}/${path}/ms-get-athlete/${id}`, 
-        {
-            headers: { 
-                'Authorization': `Bearer ${token}`,
-                'Content-Type': 'application/json'
-            }
-        });
+        const response = await axios.get(`${config.baseURL}/${path}/ms-get-athlete/${id}`,
+            {
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                }
+            });
         return response;
     }
     catch (err) {
@@ -34,7 +34,7 @@ async function getByTeam(teamId, token) {
     return res;
 }
 
-async function registerTeam({ param, body, token }) {
+async function registerTeam(param, body, token) {
     const response = await axios.patch(`${config.baseURL}/${path}/register-team/${param}`, body, {
         headers: { Authorization: `Bearer ${token}` }
     })

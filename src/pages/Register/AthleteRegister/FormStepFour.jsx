@@ -20,7 +20,7 @@ import { useMediaQuery } from 'react-responsive';
 import { ToastContainer, toast } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 
-export default function FormStepFour({onSubmit}) {
+export default function FormStepFour({ onSubmit }) {
     const { addNotification } = useNotification();
     const [teamCode, setTeamCode] = useState('');
     const [teamCodeTtpOpen, setTeamCodeTtpOpen] = useState(false);
@@ -69,17 +69,10 @@ export default function FormStepFour({onSubmit}) {
             <LS.InputsContainer>
                 <Label>
                     <span>
-                        O código do time é disponibilizado pelo treinador atual do time que deseja se cadastrar. Contate o treinador do time em questão e peça para ele gerar o código.
+                        Seu cadastro foi realizado! Para continuar, entre em contato com o treinador do seu time e peça para ele te enviar o link de associação ao time.
                     </span>
                 </Label>
             </LS.InputsContainer>
-            <Button.Primary
-                value={'Continuar'}
-                size={'md'}
-                width={'100%'}
-                fontSize={'1.5rem'}
-                onClick={handleSubmit}
-            />
         </S.Form>
     )
 }

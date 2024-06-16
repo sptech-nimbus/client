@@ -1,7 +1,12 @@
 import { useState } from 'react';
 import Select from 'react-select';
 import AsyncSelect from 'react-select/async';
+
 import { Colors } from '../../utils/Helpers';
+import Utils from '../../utils/Helpers';
+
+import styled from 'styled-components';
+
 
 const defaultStyles = {
   control: (styles, state) => ({
@@ -11,9 +16,9 @@ const defaultStyles = {
     borderRadius: '.6rem',
     width: "100%",
     alignItems: "center",
-    border: state.isFocused 
-            ? `1px solid ${Colors.gray100}`
-            : `1px solid ${Colors.gray600}`,
+    border: state.isFocused
+      ? `1px solid ${Colors.gray100}`
+      : `1px solid ${Colors.gray600}`,
     outline: 'none',
     justifyContent: "space-between",
     gap: "8px",
@@ -29,16 +34,16 @@ const defaultStyles = {
     backgroundColor: '#212121',
     color: Colors.gray100,
     padding: '.5rem',
-    border:`1px solid ${Colors.gray600}`,
+    border: `1px solid ${Colors.gray600}`,
     borderRadius: '.6rem'
   }),
   option: (styles, state) => ({
     ...styles,
     fontFamily: 'Poppins',
     borderRadius: '.5rem',
-    backgroundColor: state.isFocused 
-    ? Colors.orange500
-    : '#212121',
+    backgroundColor: state.isFocused
+      ? Colors.orange500
+      : '#212121',
     '&:hover': {
       backgroundColor: Colors.orange300
     }
@@ -50,15 +55,15 @@ const defaultStyles = {
   placeholder: (styles, state) => ({
     ...styles,
   }),
-  singleValue: (styles, state)=> ({
+  singleValue: (styles, state) => ({
     ...styles,
     color: Colors.gray100
   })
 };
 
-export default ({options, name, placeholder, isSearchable, isClearable, isLoading, isDisabled, defaultValue, styles = defaultStyles, ...props }) => {
+export default ({ options, name, placeholder, isSearchable, isClearable, isLoading, isDisabled, defaultValue, styles = defaultStyles, ...props }) => {
   return (
-    <Select 
+    <Select
       {...props}
       name={name}
       options={options}
@@ -75,7 +80,7 @@ export default ({options, name, placeholder, isSearchable, isClearable, isLoadin
 
 export function CustomAsyncSelect({ cacheOptions, defaultOptions, options, name, placeholder, isSearchable, isClearable, isLoading, isDisabled, defaultValue, styles = defaultStyles, ...props }) {
   return (
-    <AsyncSelect 
+    <AsyncSelect
       {...props}
       name={name}
       options={options}
@@ -88,4 +93,36 @@ export function CustomAsyncSelect({ cacheOptions, defaultOptions, options, name,
       styles={styles}
     />
   )
-} 
+}
+
+const OptionWithImage = styled.div`
+   display: flex;
+   align-items: center;
+   gap: .5rem;
+`
+
+const OptionImage = styled.img`
+   width: 28px;
+   height: 28px;
+   border-radius: .5rem;
+`
+
+const OptionNoImage = styled.div`
+   width: 30px;
+   height: 30px;
+   border-radius: .5rem;
+   background-color: ${Colors.gray800};
+   font-size: .5rem;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+`
+
+export function Option({ option }) {
+  return (
+    <OptionWithImage>
+      {option.picture ? <OptionImage src={option.picture} /> : <OptionNoImage>{Utils.getTeamInitials(option.name)}</OptionNoImage>}
+      <span>{option.name} - {option.category}</span>
+    </OptionWithImage>
+  );
+}

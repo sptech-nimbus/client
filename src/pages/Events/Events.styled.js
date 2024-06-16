@@ -67,6 +67,7 @@ export const Form = styled.form`
    flex-direction: column;
    gap: 1.2rem;
    height: 100%;
+   justify-content: center;
 `
 
 export const Flex = styled.div`
@@ -97,6 +98,7 @@ export const AgendaContainer = styled.div`
 export const Subtitles = styled.div`
    display: flex;
    gap: 2rem;
+   font-size: .8rem;
 `
 
 export const Subtitle = styled.span`
@@ -163,14 +165,17 @@ export const Event = styled.div`
    background-color: ${Colors.gray800};
    border-radius: .8rem;
    padding: 1rem;
-   cursor: pointer;
 `
 
 export const EventType = styled.div`
-   width: 20px;
-   height: 20px;
+   width: 15px;
+   height: 15px;
    background-color: ${props => props.type == 'match' ? Colors.red : Colors.green};
    border-radius: 50%;
+
+   ${props => (props.type == 'match' && !props.$finished) && css`
+      background-color: ${Colors.orange500};
+   `}
 `
 
 export const EventSection = styled.div`
@@ -185,16 +190,4 @@ export const Adversary = styled.span`
    overflow: hidden;
    text-overflow: ellipsis;
    white-space: nowrap;
-`
-
-export const OptionWithImage = styled.div`
-   display: flex;
-   align-items: center;
-   gap: .5rem;
-` 
-
-export const OptionImage = styled.img`
-   width: 30px;
-   height: 30px;
-   border-radius: .5rem;
 `
