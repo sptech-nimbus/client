@@ -1,6 +1,6 @@
 import * as S from './Chat.styled';
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { socket } from "../../utils/Socket";
 import { getMessages } from "../../api/chat";
 
@@ -19,6 +19,14 @@ export default function Chat() {
    const [allPlayers, setAllPlayers] = useState([]);
    const [newMessage, setNewMessage] = useState('');
    const [messages, setMessages] = useState([]);
+
+   const msgEndRef = useRef(null);
+
+   const scrollToBottom = () => {
+      msgEndRef.current.scrollIntoView({ behavior: "smooth" });
+   }
+
+   useEffect(() => { scrollToBottom() }, [])
 
    const sendMessage = () => {
       const date = new Date();
@@ -61,6 +69,7 @@ export default function Chat() {
       const fetchCurrentUser = async () => {
          try {
             const { data: { data } } = await athlete.get(localStorage.getItem('id'), localStorage.getItem('token'));
+
          }
          catch (err) {
             console.log(err);
@@ -111,6 +120,7 @@ export default function Chat() {
                         )
                      })
                   }
+                  <div ref={msgEndRef} />
                </S.MessagesContainer>
                <S.InputContainer>
                   <Input.Default
