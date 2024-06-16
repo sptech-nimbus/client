@@ -47,7 +47,7 @@ export default function Chat() {
       const fetchAllPlayers = async () => {
          try {
             const { data: { data } } = await athlete.byTeam(
-               localStorage.getItem('teamId'),
+               sessionStorage.getItem('teamId'),
                localStorage.getItem('token')
             );
 
@@ -96,8 +96,8 @@ export default function Chat() {
          <Sidebar page='chat' />
          <S.ContentContainer>
             <S.TopBar>
-               <img src="https://loremflickr.com/cache/resized/65535_53323386360_17d01a1eb8_b_640_480_nofilter.jpg" alt="" />
-               <span>Nome do time</span>
+               <img src={sessionStorage.getItem('teamPicture')} alt="" />
+               <span>{sessionStorage.getItem('teamName')}</span>
             </S.TopBar>
 
             <S.MessagesArea>
@@ -105,7 +105,7 @@ export default function Chat() {
                   {
                      messages.map(message => {
                         return (
-                           <S.MessageBox isSender={message.userId == localStorage.getItem('id')}>
+                           <S.MessageBox key={message} isSender={message.userId == localStorage.getItem('id')}>
                               <Message msg={message} />
                            </S.MessageBox>
                         )
@@ -143,7 +143,7 @@ export default function Chat() {
                <span>Jogadores do time</span>
                <S.OnlineList>
                   {allPlayers && allPlayers.map(player => (
-                     <S.Athlete>
+                     <S.Athlete key={player}>
                         <S.AthleteImage src={player.picture} alt="" />
                         <S.AthleteInfo online={true}>
                            <span>{player.firstName} {player.lastName}</span>
