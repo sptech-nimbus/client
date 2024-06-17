@@ -67,9 +67,9 @@ export default function FinishedMatch() {
 
    const submitMatch = async () => {
       const gameResult = {
-         challengerPoints: matchData.stats.teamStats.pts, 
-         challengedPoints: matchData.challenged.pts, 
-         game: { id: matchData.gameId } 
+         challengerPoints: matchData.stats.teamStats.pts,
+         challengedPoints: matchData.challenged.pts,
+         game: { id: matchData.gameId }
       }
 
       const mappedStats = matchData.players.map(player => ({
@@ -95,14 +95,14 @@ export default function FinishedMatch() {
       try {
          setIsLoading(true);
          await Promise.all([
-            // submitHistorics(mappedStats),
+            submitHistorics(mappedStats),
             submitGameResult(gameResult)
          ]);
 
          setIsSubmitted(true);
          sessionStorage.removeItem('matchData');
       }
-      catch(err) {
+      catch (err) {
          toast.error("Houve um problema ao enviar os dados. Por favor, aguarde um momento antes de tentar novamente.");
       }
       finally {
@@ -111,10 +111,10 @@ export default function FinishedMatch() {
    }
 
    useEffect(() => {
-      if(isSubmitted) {
+      if (isSubmitted) {
          toast.success('Partida cadastrada! Aguarde o treinador do outro time confirmar o resultado da partida ou confirme você mesmo.', { autoClose: 2000 });
          setTimeout(() => {
-              window.location.reload(true);
+            //   window.location.reload(true);
          }, 2800);
       }
    }, [isSubmitted]);
@@ -134,9 +134,9 @@ export default function FinishedMatch() {
          />
          <Sidebar page='match' />
          <S.ContentContainer>
-         <S.LoadingContainer>
-            <LoadingDialog open={isLoading}/>
-         </S.LoadingContainer>
+            <S.LoadingContainer>
+               <LoadingDialog open={isLoading} />
+            </S.LoadingContainer>
             <S.Flex>
                <Title text='Partida finalizada' $uppercase />
                <S.ButtonContainer>
@@ -193,7 +193,7 @@ export default function FinishedMatch() {
                               const setObservations = (observations) => {
                                  handleObservations(index, observations);
                               }
-                              
+
                               return (
                                  <S.Athlete key={index} onClick={() => handleSelectedPlayer(index)} $active={selectedPlayer && selectedPlayer.id === player.id}>
                                     <MS.AthleteInfo>
@@ -220,7 +220,7 @@ export default function FinishedMatch() {
                                              </Label>
                                              <DialogClose>
                                                 <Button.Primary
-                                                   value='Adicionar' 
+                                                   value='Adicionar'
                                                    width='100%'
                                                 />
                                              </DialogClose>
