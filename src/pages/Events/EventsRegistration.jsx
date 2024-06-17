@@ -37,7 +37,9 @@ export default function EventsRegistration() {
          const response = await team.getAllTeams(localStorage.getItem('token'));
 
          if (response.status === 200) {
-            const optionsMap = response.data.data.map(option => ({
+            const filteredOptions = response.data.data.filter(option => option.id !== sessionStorage.getItem('teamId') && option.id !== '1f0dffe7-7d33-4ea8-896c-ce9696632daa');
+
+            const optionsMap = filteredOptions.map(option => ({
                value: option.id,
                label: <Option option={option} />,
             }));
@@ -230,6 +232,7 @@ export default function EventsRegistration() {
                         <Label>
                            Horário
                            <Input.Masked
+                              type='time'
                               name='time'
                               value={eventData.time}
                               onChange={handleInputChange}
@@ -262,6 +265,7 @@ export default function EventsRegistration() {
                         <Label>
                            Horário
                            <Input.Masked
+                              type='time'
                               name='time'
                               value={eventData.time}
                               onChange={handleInputChange}

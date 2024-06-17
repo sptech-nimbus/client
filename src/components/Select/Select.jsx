@@ -104,6 +104,8 @@ const OptionWithImage = styled.div`
 const OptionImage = styled.img`
    width: 28px;
    height: 28px;
+   object-fit: cover;
+   object-position: center;
    border-radius: .5rem;
 `
 

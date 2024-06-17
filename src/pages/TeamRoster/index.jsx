@@ -72,6 +72,18 @@ export default function TeamRoster() {
       }
    }
 
+   const sortPlayersByPosition = (players) => {
+      return players.sort((a, b) => {
+         if (a.athleteDesc.position < b.athleteDesc.position) {
+            return -1;
+         }
+         if (a.athleteDesc.position > b.athleteDesc.position) {
+            return 1;
+         }
+         return 0;
+      });
+   };
+
    useEffect(() => {
       let filteredPlayers = playersData;
 
@@ -83,7 +95,7 @@ export default function TeamRoster() {
       if (filters.alphabetical === 'z-a') filteredPlayers.reverse();
 
       if (filters.position !== 'default') {
-         filteredPlayers = Utils.filterByAttr(filteredPlayers, 'position', filters.position);
+         filteredPlayers = sortPlayersByPosition(filteredPlayers);
       }
 
       if (filters.age !== 'default') {
@@ -190,7 +202,7 @@ export default function TeamRoster() {
                               { value: 'z-a', label: 'Z a A.' }
                            ]} />
                      </S.Filter>
-                     <S.FilterTitle>Por posição</S.FilterTitle>
+                     {/* <S.FilterTitle>Por posição</S.FilterTitle>
                      <S.Filter>
                         <S.FilterDescription>Jogadores da posição</S.FilterDescription>
                         <RadioGroup
@@ -204,7 +216,7 @@ export default function TeamRoster() {
                               { value: 'Ala-Pivô', label: 'Ala-pivô' },
                               { value: 'Pivô', label: 'Pivô' }
                            ]} />
-                     </S.Filter>
+                     </S.Filter> */}
                      <S.FilterTitle>Por idade</S.FilterTitle>
                      <S.Filter>
                         <S.FilterDescription>Ordenador por idade</S.FilterDescription>

@@ -103,20 +103,20 @@ export default function FormStepThree({ onSubmit }) {
         if (TeamCodeValidation(teamData.code)) {
             onSubmit(teamData.code);
         }
-        else if ((validateFields() && ImageValidation(teamData.picture)) || (!teamData.picture && validateFields())) {   
+        else if ((validateFields() && ImageValidation(teamData.picture)) || (!teamData.picture && validateFields())) {
             delete teamData.code;
             onSubmit(teamData);
         }
         else {
-            if (!teamData.name) addNotification('error','Preencha o nome do time.');
-            if (!teamData.category) addNotification('error','Preencha a categoria do time.');
-            if (!teamData.local) addNotification('error','Preencha a localidade do time.');
+            if (!teamData.name) addNotification('error', 'Preencha o nome do time.');
+            if (!teamData.category) addNotification('error', 'Preencha a categoria do time.');
+            if (!teamData.local) addNotification('error', 'Preencha a localidade do time.');
             if (teamData.code) {
-                if (!TeamCodeValidation(teamData.code)) addNotification('error','Código inserido é inválido');
+                if (!TeamCodeValidation(teamData.code)) addNotification('error', 'Código inserido é inválido');
             }
-            
-            if(teamData.picture) {
-                if(!ImageValidation(teamData.picture)) addNotification('error','A extensão de arquivo inserida é inválida');
+
+            if (teamData.picture) {
+                if (!ImageValidation(teamData.picture)) addNotification('error', 'A extensão de arquivo inserida é inválida');
             }
         }
     }
@@ -134,9 +134,9 @@ export default function FormStepThree({ onSubmit }) {
                 draggable
                 theme="dark"
                 limit={3}
-            /> 
+            />
             <LS.InputsContainer>
-                <Label>
+                {/* <Label>
             Código do time existente
                     <S.InputLine>
                         <Input.Default
@@ -159,7 +159,7 @@ export default function FormStepThree({ onSubmit }) {
                         }
 
                     </S.InputLine>
-                </Label>
+                </Label> */}
                 <Label>
                     Nome do time
                     <S.InputLine>
@@ -174,8 +174,8 @@ export default function FormStepThree({ onSubmit }) {
                         {
                             !isBelow799 &&
                             <Tooltip side='right' open={teamNameTtpOpen} onHover={handleTeamNameTtpChange}>
-                                    <span>O nome do time deve possuir pelo menos 2 caracteres e não deve possuir números ou caracteres especiais.</span>
-                                </Tooltip>
+                                <span>O nome do time deve possuir pelo menos 2 caracteres e não deve possuir números ou caracteres especiais.</span>
+                            </Tooltip>
                         }
                     </S.InputLine>
                 </Label>
@@ -216,8 +216,8 @@ export default function FormStepThree({ onSubmit }) {
                         {
                             !isBelow799 &&
                             <Tooltip side='right' open={teamPictureTtpOpen} onHover={handleTeamPictureTtpChange}>
-                                    <span>As extensões de arquivo aceitas são .jpg, .jpeg e .png.</span>
-                                </Tooltip>
+                                <span>As extensões de arquivo aceitas são .jpg, .jpeg e .png.</span>
+                            </Tooltip>
                         }
                     </S.InputLine>
                 </Label>
@@ -228,7 +228,7 @@ export default function FormStepThree({ onSubmit }) {
                     onClick={handleChkAmateur}
                 /> */}
             </LS.InputsContainer>
-            <Button.Primary 
+            <Button.Primary
                 value={'Continuar'}
                 size={'md'}
                 width={'100%'}

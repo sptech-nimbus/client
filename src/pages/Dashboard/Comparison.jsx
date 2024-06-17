@@ -38,7 +38,7 @@ export default function ComparisonLayout() {
       const response = await team.getAllTeams(localStorage.getItem('token'));
 
       if (response.status === 200) {
-         const filteredOptions = response.data.data.filter(option => option.id !== sessionStorage.getItem('teamId') && option.id !== '6d8dd9c6-f6cb-451c-976f-02a5b03ed217');
+         const filteredOptions = response.data.data.filter(option => option.id !== sessionStorage.getItem('teamId') && option.id !== '1f0dffe7-7d33-4ea8-896c-ce9696632daa');
 
          const optionsMap = filteredOptions.map(option => ({
             value: option.id,
@@ -64,7 +64,7 @@ export default function ComparisonLayout() {
 
    const fetchPointsDivision = async (teamId) => {
       try {
-         const response = await graph.getPointsDivision(teamId, 10, localStorage.getItem('token'));
+         const response = await graph.getPointsDivision(teamId, 100, localStorage.getItem('token'));
 
          if (response.status === 200) {
             return response.data.data;
@@ -76,12 +76,23 @@ export default function ComparisonLayout() {
       }
    }
 
+   function sortObjectByKey(obj) {
+      const sortedKeys = Object.keys(obj).sort((a, b) => new Date(a) - new Date(b));
+      const sortedObj = {};
+
+      sortedKeys.forEach(key => {
+         sortedObj[key] = obj[key];
+      });
+
+      return sortedObj;
+   }
+
    const fetchPointsPerGame = async (teamId) => {
       try {
-         const response = await graph.getPointsPerGame(teamId, 6, localStorage.getItem('token'));
+         const response = await graph.getPointsPerGame(teamId, 100, localStorage.getItem('token'));
 
          if (response.status === 200) {
-            return response.data.data;
+            return sortObjectByKey(response.data.data);
          }
       }
       catch (err) {
@@ -92,10 +103,10 @@ export default function ComparisonLayout() {
 
    const fetchFoulsPerGame = async (teamId) => {
       try {
-         const response = await graph.foulsPerGame(teamId, 5, localStorage.getItem('token'));
+         const response = await graph.foulsPerGame(teamId, 100, localStorage.getItem('token'));
 
          if (response.status === 200) {
-            return response.data.data;
+            return sortObjectByKey(response.data.data);
          }
       }
       catch (err) {
@@ -106,7 +117,7 @@ export default function ComparisonLayout() {
 
    const fetchReboundsPerGame = async (teamId) => {
       try {
-         const response = await graph.reboundsPerGame(teamId, 5, localStorage.getItem('token'));
+         const response = await graph.reboundsPerGame(teamId, 100, localStorage.getItem('token'));
 
          if (response.status === 200) {
             return response.data.data;
@@ -163,7 +174,7 @@ export default function ComparisonLayout() {
          }
          else {
             setWinsGraph(winsGraphData.wins);
-            let mappedDivision = [pointsDivisionData.threePointsPorcentage, pointsDivisionData.twoPointsPorcentage];
+            let mappedDivision = pointsDivisionData.threePointsPorcentage.toFixed(0);
             setPointsDivision(mappedDivision);
 
             Object.keys(pointsPerGameData).forEach(gameDate => {
@@ -424,75 +435,78 @@ export default function ComparisonLayout() {
       },
    }
 
-   return isLoading ?
-      <S.LoaderContainer>
-         <Loader />
-         <span>Buscando informações <br /> de desempenho do seu time...</span>
-      </S.LoaderContainer>
-      : (
-         <S.ComparisonGrid>
-            <S.SelectContainer>
-               <span>Selecione um time para comparar o desempenho:</span>
-               <Select
-                  isSearchable
-                  cacheOptions
-                  options={options}
-                  onInputChange={(newValue) => setInputValue(newValue)}
-                  placeholder='Selecione um time para comparação...'
-                  noOptionsMessage={() => "Não há times disponíveis no momento."}
-                  onChange={(choice) => setAdversaryId(choice.value)}
-               />
-            </S.SelectContainer>
+   return (
+      <S.ComparisonGrid>
+         <S.SelectContainer>
+            <span>Selecione um time para comparar o desempenho:</span>
+            <Select
+               isSearchable
+               cacheOptions
+               options={options}
+               onInputChange={(newValue) => setInputValue(newValue)}
+               placeholder='Selecione um time para comparação...'
+               noOptionsMessage={() => "Não há times disponíveis no momento."}
+               onChange={(choice) => setAdversaryId(choice.value)}
+            />
+         </S.SelectContainer>
+         {isLoading ?
+            <S.LoaderContainer>
+               <Loader />
+            </S.LoaderContainer>
+            : (
+               <>
+                  <S.ComparisonContainer>
+                     <Title text='Vitórias dos times' size='1rem' color={Colors.orange100} />
+                     <S.ChartContainer>
+                        {winsGraph.length === 0
+                           ? <S.NoContent>Não foram encontrados dados para o gráfico em questão</S.NoContent>
+                           : <PieChart data={pieConfig.data[0]} options={pieConfig.options} />
+                        }
+                     </S.ChartContainer>
+                  </S.ComparisonContainer>
 
-            <S.ComparisonContainer>
-               <Title text='Vitórias dos times' size='1rem' color={Colors.orange100} />
-               <S.ChartContainer>
-                  {winsGraph.length === 0
-                     ? <S.NoContent>Não foram encontrados dados para o gráfico em questão</S.NoContent>
-                     : <PieChart data={pieConfig.data[0]} options={pieConfig.options} />
-                  }
-               </S.ChartContainer>
-            </S.ComparisonContainer>
+                  <S.ComparisonContainer>
+                     <Title text='Pontos por jogo nos últimos jogos' size='1rem' color={Colors.orange100} />
+                     <S.ChartContainer>
+                        {pointsPerGame.labels.length === 0
+                           ? <S.NoContent>Não foram encontrados dados para o gráfico em questão</S.NoContent>
+                           : <LineChart data={areaConfig.data} options={areaConfig.options} />
+                        }
+                     </S.ChartContainer>
+                  </S.ComparisonContainer>
 
-            <S.ComparisonContainer>
-               <Title text='Pontos por jogo nos últimos jogos' size='1rem' color={Colors.orange100} />
-               <S.ChartContainer>
-                  {pointsPerGame.labels.length === 0
-                     ? <S.NoContent>Não foram encontrados dados para o gráfico em questão</S.NoContent>
-                     : <LineChart data={areaConfig.data} options={areaConfig.options} />
-                  }
-               </S.ChartContainer>
-            </S.ComparisonContainer>
+                  <S.ComparisonContainer>
+                     <Title text='Faltas cometidas pelos times' size='1rem' color={Colors.orange100} />
+                     <S.ChartContainer>
+                        {foulsPerGame.labels.length === 0
+                           ? <S.NoContent>Não foram encontrados dados para o gráfico em questão</S.NoContent>
+                           : <LineChart data={lineConfig.data} options={lineConfig.options} />
+                        }
+                     </S.ChartContainer>
+                  </S.ComparisonContainer>
 
-            <S.ComparisonContainer>
-               <Title text='Faltas cometidas pelos times' size='1rem' color={Colors.orange100} />
-               <S.ChartContainer>
-                  {foulsPerGame.labels.length === 0
-                     ? <S.NoContent>Não foram encontrados dados para o gráfico em questão</S.NoContent>
-                     : <LineChart data={lineConfig.data} options={lineConfig.options} />
-                  }
-               </S.ChartContainer>
-            </S.ComparisonContainer>
+                  <S.ComparisonContainer>
+                     <Title text='Divisão de pontos convertidos' size='1rem' color={Colors.orange100} />
+                     <S.ChartContainer>
+                        {pointsDivision.length === 0
+                           ? <S.NoContent>Não foram encontrados dados para o gráfico em questão</S.NoContent>
+                           : <PieChart data={pieConfig.data[1]} options={pieConfig.options} />
+                        }
+                     </S.ChartContainer>
+                  </S.ComparisonContainer>
 
-            <S.ComparisonContainer>
-               <Title text='Divisão de pontos convertidos' size='1rem' color={Colors.orange100} />
-               <S.ChartContainer>
-                  {pointsDivision.length === 0
-                     ? <S.NoContent>Não foram encontrados dados para o gráfico em questão</S.NoContent>
-                     : <PieChart data={pieConfig.data[1]} options={pieConfig.options} />
-                  }
-               </S.ChartContainer>
-            </S.ComparisonContainer>
-
-            <S.ComparisonContainer>
-               <Title text='Quantidade de rebotes por partida' size='1rem' color={Colors.orange100} />
-               <S.ChartContainer>
-                  {reboundsPerGame.labels.length === 0
-                     ? <S.NoContent>Não foram encontrados dados para o gráfico em questão</S.NoContent>
-                     : <BarChart data={barConfig.data} options={barConfig.options} />
-                  }
-               </S.ChartContainer>
-            </S.ComparisonContainer>
-         </S.ComparisonGrid>
-      )
+                  <S.ComparisonContainer>
+                     <Title text='Quantidade de rebotes por partida' size='1rem' color={Colors.orange100} />
+                     <S.ChartContainer>
+                        {reboundsPerGame.labels.length === 0
+                           ? <S.NoContent>Não foram encontrados dados para o gráfico em questão</S.NoContent>
+                           : <BarChart data={barConfig.data} options={barConfig.options} />
+                        }
+                     </S.ChartContainer>
+                  </S.ComparisonContainer>
+               </>
+            )
+         }
+      </S.ComparisonGrid>
+   )
 }

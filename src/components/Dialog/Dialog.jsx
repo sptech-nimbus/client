@@ -64,10 +64,8 @@ export function Dialog({ title, children, trigger, childTrigger, noClose, ...pro
                      </S.DrawerClose>
                   }
                </S.DrawerHeader>
-               <S.DrawerDescription asChild>
-                  <div>
-                     {children}
-                  </div>
+               <S.DrawerDescription>
+                  {children}
                </S.DrawerDescription>
             </S.DialogContent>
          </D.Portal>
@@ -102,7 +100,7 @@ export function DialogClose({ children }) {
 export function DeleteDialog({ athleteInfo, trigger }) {
    const deleteAthlete = async () => {
       try {
-         await athlete.registerTeam(athleteInfo, { id: '6d8dd9c6-f6cb-451c-976f-02a5b03ed217' }, localStorage.getItem('token'));
+         await athlete.registerTeam(athleteInfo, { id: '1f0dffe7-7d33-4ea8-896c-ce9696632daa' }, localStorage.getItem('token'));
          window.location.reload();
       }
       catch (error) {

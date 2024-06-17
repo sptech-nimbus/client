@@ -5,8 +5,8 @@ import { Colors } from '@utils/Helpers';
 export default function Results({ result }) {
    let color;
    let text;
-   
-   switch(result) {
+
+   switch (result) {
       case 'win':
          color = Colors.green;
          text = 'Vitória'
@@ -14,6 +14,10 @@ export default function Results({ result }) {
       case 'lose':
          color = Colors.red;
          text = 'Derrota'
+         break;
+      case 'draw':
+         color = Colors.yellow;
+         text = 'Empate';
          break;
       default:
          color = Colors.yellow;

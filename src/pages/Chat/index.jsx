@@ -139,13 +139,13 @@ export default function Chat() {
             </S.MessagesArea>
          </S.ContentContainer>
          <S.RightBar>
-            <S.CurrentUserContainer>
+            {/* <S.CurrentUserContainer>
                <S.AthleteImage src="https://loremflickr.com/cache/resized/65535_53323386360_17d01a1eb8_b_640_480_nofilter.jpg" alt="" />
                <S.CurrentUserInfo>
                   <span>Nome do usuário</span>
                   <Status status='online' />
                </S.CurrentUserInfo>
-            </S.CurrentUserContainer>
+            </S.CurrentUserContainer> */}
 
             <Input.Default
                placeholder="Pesquisar jogador"
@@ -161,7 +161,7 @@ export default function Chat() {
                         <S.AthleteImage src={player.picture} alt="" />
                         <S.AthleteInfo online={true}>
                            <span>{player.firstName} {player.lastName}</span>
-                           <Status status='online' />
+                           {/* <Status status='online' /> */}
                         </S.AthleteInfo>
                      </S.Athlete>
                   )

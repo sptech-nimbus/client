@@ -101,6 +101,8 @@ export const TeamImage = styled.img`
    width: 35px;
    height: 35px;
    border-radius: 50%;
+   object-fit: cover;
+   object-position: center;
 `
 
 export const NoImage = styled.div`
