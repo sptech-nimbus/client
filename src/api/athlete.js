@@ -20,10 +20,18 @@ async function getUserById(id, token) {
     }
 }
 
-async function putAthlete({ param, body }) {
-    const response = await axios.put(`${config.baseURL}/${path}/${param}`, body);
+async function putAthlete(id, body, token) {
+    console.log('id', id, 'body', body, 'token', token);
+    try {
+        const response = await axios.put(`${config.baseURL}/${path}/${id}`, body, {
+            headers: { Authorization: `Bearer ${token}` }
+        });
 
-    return response;
+        return response;
+    }
+    catch (err) {
+        console.log(err);
+    }
 }
 
 async function getByTeam(teamId, token) {

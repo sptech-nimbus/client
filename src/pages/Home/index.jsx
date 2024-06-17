@@ -128,6 +128,7 @@ export default function Home() {
          const res = await game.lastGame(sessionStorage.getItem('teamId'), localStorage.getItem('token'));
          if (res.status === 200) {
             setLastGame(res.data.data);
+            console.log('lastGame: ', res.data.data);
          }
       }
       catch (err) {
@@ -292,12 +293,13 @@ export default function Home() {
    }, []);
 
    function LastGame({ lastGame }) {
+      console.log('lastGame no componente: ', lastGame);
       return (
          <S.MatchCard >
             <S.MatchHeader>
                <span>Partida anterior</span>
             </S.MatchHeader>
-            {lastGame.inicialDateTime ? <S.NoContent>Não foram encontrados jogos anteriores.</S.NoContent> : (
+            {!lastGame.challenger.id ? <S.NoContent>Não foram encontrados jogos anteriores.</S.NoContent> : (
                <>
                   <S.MatchTeams>
                      <S.MatchTeamLogo>

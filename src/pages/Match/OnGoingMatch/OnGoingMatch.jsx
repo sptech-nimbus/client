@@ -16,11 +16,13 @@ import * as Accordion from '@radix-ui/react-accordion';
 import Athlete from './Athlete';
 
 import Utils from '@utils/Helpers';
+import Stack from '@utils/Stack';
 
 export default function OnGoingMatch({ allPlayers, gameId, teams }) {
    const navigate = useNavigate();
    const { seconds, minutes, hours, isRunning, start, pause, reset } = useStopwatch();
    const [times, setTimes] = useState([]);
+   const [actionStack, setActionStack] = useState(new Stack([]));
 
    const [flagInput, setFlagInput] = useState('');
    const [flags, setFlags] = useState([])
@@ -94,9 +96,11 @@ export default function OnGoingMatch({ allPlayers, gameId, teams }) {
    const timeToDecimal = (time) => {
       const [minutes, seconds] = time.split(':').map(Number);
       return minutes + (seconds / 60);
-  }
+   }
 
    const addTeamStatistic = (stat, value) => {
+      actionStack.push({ type: 'team', stat, value });
+
       setTeamStats(prevStats => ({
          ...prevStats,
          [stat]: value > 0 ? prevStats[stat] + value : prevStats[stat]
@@ -127,9 +131,9 @@ export default function OnGoingMatch({ allPlayers, gameId, teams }) {
          if (player.id === playerId) {
             const updatedStats = { ...player.stats };
 
-            if(value > 0) {
+            if (value > 0) {
                updatedStats[stat] += value;
-            } 
+            }
 
             if (stat === 'minutes') {
                updatedStats.minutes = Number(timeToDecimal(value).toFixed(2));
@@ -153,11 +157,45 @@ export default function OnGoingMatch({ allPlayers, gameId, teams }) {
 
             return { ...player, stats: updatedStats };
          }
-         
+
          return player;
       }));
    };
 
+   const undoLastAction = () => {
+      console.log(actionStack);
+
+      const lastAction = actionStack.pop();
+      if (!lastAction) {
+         return;
+      }
+
+      if (lastAction.type === 'team') {
+         const { stat, value } = lastAction;
+         setTeamStats(prevStats => {
+            const newValue = value > 0 ? prevStats[stat] - value : prevStats[stat];
+            const updatedStats = { ...prevStats, [stat]: newValue };
+
+            if (stat === 'pts') {
+               const pointMapping = {
+                  1: 'pts1',
+                  2: 'pts2',
+                  3: 'pts3',
+                  '-1': 'pts1Err',
+                  '-2': 'pts2Err',
+                  '-3': 'pts3Err'
+               };
+
+               const pointStat = pointMapping[value];
+               if (pointStat) {
+                  updatedStats[pointStat] -= 1;
+               }
+
+            }
+            return updatedStats;
+         });
+      }
+   }
 
    const handleFinishQuarter = () => {
       times.push(`${formatTime(hours)}:${formatTime(minutes)}:${formatTime(seconds)}`);
@@ -214,24 +252,27 @@ export default function OnGoingMatch({ allPlayers, gameId, teams }) {
          <Background.Default />
          <Sidebar page='match' />
          <S.ContentContainer>
-            <Title text='Partida em andamento' $uppercase />
+            <S.TitleContainerGoing>
+               <Title text='Partida em andamento' $uppercase />
+               <Button.Secondary $marginTop="0rem" value="Desfazer" onClick={undoLastAction} />
+            </S.TitleContainerGoing>
             <S.MatchGrid>
                <S.Container>
                   <S.TeamsContainer>
                      <S.Team>
                         {
-                        challenger.picture ? 
-                        <S.TeamImage src={challenger.picture} /> : 
-                        <S.TeamInicials>{challenger.initials}</S.TeamInicials>
+                           challenger.picture ?
+                              <S.TeamImage src={challenger.picture} /> :
+                              <S.TeamInicials>{challenger.initials}</S.TeamInicials>
                         }
                         <S.TeamName>{challenger.name}</S.TeamName>
                      </S.Team>
                      <S.Versus>VS</S.Versus>
                      <S.Team>
                         {
-                        challenged.picture ? 
-                        <S.TeamImage src={challenged.picture} /> : 
-                        <S.TeamInicials>{challenged.initials}</S.TeamInicials>
+                           challenged.picture ?
+                              <S.TeamImage src={challenged.picture} /> :
+                              <S.TeamInicials>{challenged.initials}</S.TeamInicials>
                         }
                         <S.TeamName>{challenged.name}</S.TeamName>
                      </S.Team>
@@ -246,11 +287,11 @@ export default function OnGoingMatch({ allPlayers, gameId, teams }) {
                         <S.Pts $adversary $isWinning={challenged.pts > teamStats.pts}>{challenged.pts}</S.Pts>
                      }>
                         <S.PopoverContent>
-                        <S.AddAction $adversary>
-                           <S.AddButton onClick={() => setChallenged({ ...challenged, pts: challenged.pts + 1 })}>+1 pts</S.AddButton>
-                           <S.AddButton onClick={() => setChallenged({ ...challenged, pts: challenged.pts + 2 })}>+2 pts</S.AddButton>
-                           <S.AddButton onClick={() => setChallenged({ ...challenged, pts: challenged.pts + 3 })}>+3 pts</S.AddButton>
-                        </S.AddAction>
+                           <S.AddAction $adversary>
+                              <S.AddButton onClick={() => setChallenged({ ...challenged, pts: challenged.pts + 1 })}>+1 pts</S.AddButton>
+                              <S.AddButton onClick={() => setChallenged({ ...challenged, pts: challenged.pts + 2 })}>+2 pts</S.AddButton>
+                              <S.AddButton onClick={() => setChallenged({ ...challenged, pts: challenged.pts + 3 })}>+3 pts</S.AddButton>
+                           </S.AddAction>
                         </S.PopoverContent>
                      </Popover>
                   </S.OnGoingPts>

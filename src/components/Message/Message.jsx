@@ -4,6 +4,12 @@ export default function Message({ msg }) {
    const date = new Date(`${msg.date}`);
    const currentDate = new Date();
 
+   console.log(msg);
+
+   if (!msg.message) {
+      return;
+   }
+
    return (
       <S.Container isSender={msg.userId == localStorage.id}>
          <S.User isSender={msg.userId == localStorage.id}>

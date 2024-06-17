@@ -1,6 +1,6 @@
 import * as S from './Chat.styled';
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { socket } from "../../utils/Socket";
 import { getMessages } from "../../api/chat";
 
@@ -19,6 +19,18 @@ export default function Chat() {
    const [allPlayers, setAllPlayers] = useState([]);
    const [newMessage, setNewMessage] = useState('');
    const [messages, setMessages] = useState([]);
+
+   const msgEndRef = useRef(null);
+   const containerRef = useRef(null);
+
+   const scrollToBottom = () => {
+      if (msgEndRef.current) {
+         // msgEndRef.current.scrollIntoView({ behavior: "smooth" });
+         msgEndRef.current.scrollTop = msgEndRef.current.scrollHeight;
+      }
+   }
+
+   useEffect(() => { scrollToBottom() }, [messages])
 
    const sendMessage = () => {
       const date = new Date();
@@ -40,14 +52,14 @@ export default function Chat() {
 
    useEffect(() => {
       const getMessagesRes = async () => {
-         const messagesRes = await getMessages(sessionStorage.getItem('teamId'), 1, 20);
+         const messagesRes = await getMessages(sessionStorage.getItem('teamId'), 1, 100);
          setMessages(messagesRes.data.page);
       }
 
       const fetchAllPlayers = async () => {
          try {
             const { data: { data } } = await athlete.byTeam(
-               localStorage.getItem('teamId'),
+               sessionStorage.getItem('teamId'),
                localStorage.getItem('token')
             );
 
@@ -61,6 +73,7 @@ export default function Chat() {
       const fetchCurrentUser = async () => {
          try {
             const { data: { data } } = await athlete.get(localStorage.getItem('id'), localStorage.getItem('token'));
+
          }
          catch (err) {
             console.log(err);
@@ -96,21 +109,22 @@ export default function Chat() {
          <Sidebar page='chat' />
          <S.ContentContainer>
             <S.TopBar>
-               <img src="https://loremflickr.com/cache/resized/65535_53323386360_17d01a1eb8_b_640_480_nofilter.jpg" alt="" />
-               <span>Nome do time</span>
+               <img src={sessionStorage.getItem('teamPicture')} alt="" />
+               <span>{sessionStorage.getItem('teamName')}</span>
             </S.TopBar>
 
             <S.MessagesArea>
-               <S.MessagesContainer>
+               <S.MessagesContainer ref={msgEndRef}>
                   {
                      messages.map(message => {
                         return (
-                           <S.MessageBox isSender={message.userId == localStorage.getItem('id')}>
+                           <S.MessageBox key={message} isSender={message.userId == localStorage.getItem('id')}>
                               <Message msg={message} />
                            </S.MessageBox>
                         )
                      })
                   }
+                  {/* <span ref={msgEndRef} /> */}
                </S.MessagesContainer>
                <S.InputContainer>
                   <Input.Default
@@ -143,7 +157,7 @@ export default function Chat() {
                <span>Jogadores do time</span>
                <S.OnlineList>
                   {allPlayers && allPlayers.map(player => (
-                     <S.Athlete>
+                     <S.Athlete key={player}>
                         <S.AthleteImage src={player.picture} alt="" />
                         <S.AthleteInfo online={true}>
                            <span>{player.firstName} {player.lastName}</span>

@@ -184,7 +184,6 @@ export const PlayerImg = styled.img`
    max-height: 100%;
    object-fit: cover;
    border-radius: .5rem;
-   background-color: ${Colors.orange100};
    border: 1px solid ${Colors.gray600};
 `
 

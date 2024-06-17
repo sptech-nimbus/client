@@ -4,7 +4,7 @@ import config from "./config";
 
 const path = "athlete-descs";
 
-async function registerAthleteDesc(body, token ) {
+async function registerAthleteDesc(body, token) {
     try {
         const response = await axios.post(
             `${config.baseURL}/${path}`,
@@ -38,10 +38,17 @@ async function getAthleteAllInfo(athleteId, token) {
     return res;
 }
 
-async function putAthleteDesc({ param, body }) {
-    const response = await axios.put(`${config.baseURL}/${path}/${param}`, body)
+async function putAthleteDesc(param, body, token) {
+    try {
+        const response = await axios.put(`${config.baseURL}/${path}/${param}`, body, {
+            headers: { Authorization: `Bearer ${token}` }
+        });
 
-    return response;
+        return response;
+    }
+    catch (err) {
+        throw err;
+    }
 }
 
 const athleteDesc = {

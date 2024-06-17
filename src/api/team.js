@@ -89,12 +89,27 @@ async function deleteTeam(param, body) {
     return response;
 }
 
-async function getByAthlete( id, token){
+async function getByAthlete(id, token) {
     const response = await axios.get(`${config.baseURL}/${path}/by-athlete/${id}`, {
         headers: { Authorization: `Bearer ${token}` }
     })
 
     return response;
+}
+
+const downloadCSV = async () => {
+    try {
+        const response = await axios.get(`${config.baseURL}/teams/generate-csv/${sessionStorage.getItem('teamId')}`, {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem('token')}`
+            }
+        });
+
+        return response;
+    }
+    catch (err) {
+        console.log(err);
+    }
 }
 
 const team = {
@@ -108,7 +123,8 @@ const team = {
     acceptChangeOwner,
     byName: getTeamsByName,
     byUser: getAllTeamsByCoach,
-    byAthlete: getTeamByAthlete
+    byAthlete: getTeamByAthlete,
+    downloadCSV: downloadCSV
 }
 
 export default team;

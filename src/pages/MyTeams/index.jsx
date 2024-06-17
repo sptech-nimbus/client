@@ -34,7 +34,7 @@ export default function MyTeams() {
          const response = await team.byAthlete(localStorage.getItem('personaId'), localStorage.getItem('token'));
          setReqStatus(response.status);
          setAthleteTeam(response.data.data);
-         localStorage.setItem('teamId', response.data.data.id);
+         sessionStorage.setItem('teamId', response.data.data.id);
       }
    }
 
@@ -47,7 +47,7 @@ export default function MyTeams() {
       if (localStorage.getItem('type') === "Coach") {
          if (coachTeams.length === 1 && auto !== 'false') {
             chooseTeam(coachTeams[0].id);
-            localStorage.setItem('teamId', coachTeams[0].id);
+            sessionStorage.setItem('teamId', coachTeams[0].id);
          }
       }
       else {

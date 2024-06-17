@@ -38,15 +38,15 @@ export const AuthProvider = ({ children }) => {
    const login = async (credentials) => {
       try {
          const response = await user.login(credentials);
-         const { token, userId, personaId } = response.data.data;
+         const { token, userId, personaId, username } = response.data.data;
          console.log('response do login', response);
 
          console.log(response);
          localStorage.setItem('token', token);
          localStorage.setItem('id', userId);
          localStorage.setItem('personaId', personaId);
+         localStorage.setItem('username', username);
          localStorage.setItem('type', response.data.serverMsg);
-
          
          setToken(token);
          setUserId(userId);

@@ -26,8 +26,6 @@ export default function Login() {
       password: ''
    });
 
-   
-
    const handleEmailChange = (e) => {
       const { value } = e.target;
       setCredentials({
@@ -49,11 +47,13 @@ export default function Login() {
 
       if (credentials.email && credentials.password) {
          try {
+            console.log('credentials', credentials);
             await login(credentials);
          }
          catch (err) {
             if (err.response) {
                addNotification('error', 'Credenciais inválidas.');
+               console.log(err)
             }
             else if (err.request) {
                addNotification('error', 'Houve um erro ao realizar o login. Por favor tente novamente mais tarde.');
