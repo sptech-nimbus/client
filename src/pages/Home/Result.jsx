@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { Result } from './Home.styled';
 import { Colors } from '@utils/Helpers';
 
