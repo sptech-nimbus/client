@@ -74,7 +74,9 @@ export function NoContent() {
    return (
       <S.NoInjury>
          <Title text='Não foram encontradas lesões associadas ao atleta.' size='' color='#a6a6a6' />
-         <InjuryDialog playerId={playerId} />
+         {localStorage.getItem('type') === 'Coach' &&
+            <InjuryDialog playerId={playerId} />
+         }
       </S.NoInjury>
    )
 }
@@ -190,7 +192,9 @@ export default function AthleteInjuries({ playerData }) {
                      </S.Container>
 
                      <S.Container>
-                        <InjuryDialog playerId={playerId} />
+                        {localStorage.getItem('type') === 'Coach' &&
+                           <InjuryDialog playerId={playerId} />
+                        }
                         <S.InjuryContainer>
                            <Title text='Histório de lesões' size='1.2rem' />
                            <Accordion.Root type='single' collapsible asChild>

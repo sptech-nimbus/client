@@ -174,7 +174,7 @@ export default function StatsComparison({ playerData, playerAvgs, adversaryData 
   return (
     <S.StatsComparisonContainer>
       <S.Container>
-        <Title text={`Desempenho do jogador ${playerData.name}`} size='1.2rem' />
+        <Title text={`Desempenho do jogador(a) ${playerData.firstName} ${playerData.lastName}`} size='1.2rem' />
         <S.ChartContainer>
           <RadarChart data={radarConfig.data} options={radarConfig.options} />
         </S.ChartContainer>
@@ -192,7 +192,7 @@ export default function StatsComparison({ playerData, playerAvgs, adversaryData 
             <Loader />
           </LoaderContainer> :
           <>
-            <Title text='Desempenho do jogador' size='1.2rem' />
+            <Title text={`Desempenho do jogador(a) ${adversaryData.firstName} ${adversaryData.lastName}`} size='1.2rem' />
             <S.ChartContainer>
               <RadarChart data={radarConfig.adversaryData} options={radarConfig.options} />
             </S.ChartContainer>

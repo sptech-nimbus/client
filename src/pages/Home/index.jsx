@@ -74,6 +74,9 @@ export default function Home() {
       }
    });
 
+   const [lastGameData, setLastGameData] = useState();
+   const [nextGameData, setNextGameData] = useState();
+
    const sortByDate = (a, b) => {
       return new Date(a.inicialDateTime).getTime() - new new Date(b.inicialDateTime).getTime();
    }
@@ -123,8 +126,10 @@ export default function Home() {
 
          if (response.status === 200) {
             const { mostRecentGame, nextGame } = findRecentAndNextGames(response.data.data);
-            console.log('mostRecentGame: ', mostRecentGame);
-            console.log('nextGame: ', nextGame);
+
+            setLastGameData(mostRecentGame);
+            setNextGameData(nextGame);
+
             const notConfirmed = response.data.data.filter(game => !game.confirmed);
             setGames(notConfirmed);
          }
@@ -410,7 +415,7 @@ export default function Home() {
                   </S.MatchInfo>
                   <S.MatchResults>
                      <span>{nextGame.game.day.toString().padStart(2, '0')}/{nextGame.game.month.toString().padStart(2, '0')}</span>
-                     <span>{nextGame.game.hour.toString().padStart(2, '0')}</span>
+                     <span>{hourSplit[0].toString().padStart(2, '0')}:{hourSplit[1].toString().padStart(2, '0')}</span>
                   </S.MatchResults>
                </>
             )}

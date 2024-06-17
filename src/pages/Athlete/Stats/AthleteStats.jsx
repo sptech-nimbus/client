@@ -177,7 +177,7 @@ export default function Stats({ playerData, adversaryData, isComparison }) {
   return isComparison ? <StatsComparison playerData={playerData} playerAvgs={avgs} adversaryData={adversaryData} /> : (
     <S.StatsGrid>
       <S.ContainerStats>
-        <S.PlayerImg src={playerData.picture} />
+        <S.PlayerImg src={playerData.picture ?? 'https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png?20150327203541'} />
       </S.ContainerStats>
 
       <S.ContainerStats>

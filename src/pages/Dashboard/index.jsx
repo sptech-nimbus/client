@@ -30,7 +30,9 @@ export default function Dashboard() {
          <S.ContentContainer>
             <S.Flex>
                <Title text='Dashboard' $uppercase />
-               <Switch label='Comparação de times' id='switch_comparacao' onCheckedChange={handleVizualitionMode} checked={isComparison} />
+               {localStorage.getItem('type') === 'Coach' &&
+                  <Switch label='Comparação de times' id='switch_comparacao' onCheckedChange={handleVizualitionMode} checked={isComparison} />
+               }
             </S.Flex>
             {isComparison ? <ComparisonLayout /> : <DashboardLayout />}
          </S.ContentContainer>
