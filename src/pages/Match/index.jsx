@@ -72,8 +72,8 @@ export default function Match({ isMatchFinished }) {
             const today = new Date().toLocaleDateString('pt-br');
             const initialDate = new Date(game.inicialDateTime).toLocaleDateString('pt-br');
 
-            // return (today === initialDate) && game.confirmed && !game.gameResult;
-            return game.confirmed && !game.gameResult;
+            return (today === initialDate) && game.confirmed && !game.gameResult;
+            // return game.confirmed && !game.gameResult;
          });
          console.log(gamesTodayFilter);
          setGamesToday(gamesTodayFilter);
