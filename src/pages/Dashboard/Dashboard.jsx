@@ -50,7 +50,7 @@ export default function DashboardLayout() {
 
    const fetchPointsPerGame = async (teamId) => {
       try {
-         const response = await graph.getPointsPerGame(teamId, 6, localStorage.getItem('token'));
+         const response = await graph.getPointsPerGame(teamId, 100, localStorage.getItem('token'));
 
          if (response.status === 200) {
             return response.data.data;
@@ -64,7 +64,7 @@ export default function DashboardLayout() {
 
    const fetchFoulsPerGame = async (teamId) => {
       try {
-         const response = await graph.foulsPerGame(teamId, 5, localStorage.getItem('token'));
+         const response = await graph.foulsPerGame(teamId, 100, localStorage.getItem('token'));
 
          if (response.status === 200) {
             return response.data.data;
@@ -101,6 +101,8 @@ export default function DashboardLayout() {
                fetchFoulsPerGame(sessionStorage.getItem('teamId')),
                // fetchReboundsPerGame(sessionStorage.getItem('teamId')),
             ]);
+
+            console.log('pointsPerGameData: ', pointsPerGameData);
 
             setWinsGraph([winsGraphData.wins, winsGraphData.loses]);
             let mappedDivision = [pointsDivisionData.threePointsPorcentage, pointsDivisionData.twoPointsPorcentage];

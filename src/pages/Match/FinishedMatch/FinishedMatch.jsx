@@ -22,7 +22,7 @@ import Stats from './Stats';
 import athleteHistoric from "@api/athleteHistoric";
 import game from "@api/game";
 
-export default function FinishedMatch() {
+export default function FinishedMatch({ isChallenger }) {
    const navigate = useNavigate();
    const [matchData, setMatchData] = useState(JSON.parse(sessionStorage.getItem('matchData')));
    const [selectedPlayer, setSelectedPlayer] = useState();
@@ -67,8 +67,8 @@ export default function FinishedMatch() {
 
    const submitMatch = async () => {
       const gameResult = {
-         challengerPoints: matchData.stats.teamStats.pts,
-         challengedPoints: matchData.challenged.pts,
+         challengerPoints: isChallenger ? matchData.stats.teamStats.pts : matchData.challenged.pts,
+         challengedPoints: !isChallenger ? matchData.stats.teamStats.pts : matchData.challenged.pts,
          game: { id: matchData.gameId }
       }
 
@@ -114,7 +114,7 @@ export default function FinishedMatch() {
       if (isSubmitted) {
          toast.success('Partida cadastrada! Aguarde o treinador do outro time confirmar o resultado da partida ou confirme você mesmo.', { autoClose: 2000 });
          setTimeout(() => {
-            //   window.location.reload(true);
+            window.location.reload(true);
          }, 2800);
       }
    }, [isSubmitted]);

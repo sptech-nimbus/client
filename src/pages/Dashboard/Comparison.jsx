@@ -64,7 +64,7 @@ export default function ComparisonLayout() {
 
    const fetchPointsDivision = async (teamId) => {
       try {
-         const response = await graph.getPointsDivision(teamId, 10, localStorage.getItem('token'));
+         const response = await graph.getPointsDivision(teamId, 100, localStorage.getItem('token'));
 
          if (response.status === 200) {
             return response.data.data;
@@ -78,7 +78,7 @@ export default function ComparisonLayout() {
 
    const fetchPointsPerGame = async (teamId) => {
       try {
-         const response = await graph.getPointsPerGame(teamId, 6, localStorage.getItem('token'));
+         const response = await graph.getPointsPerGame(teamId, 100, localStorage.getItem('token'));
 
          if (response.status === 200) {
             return response.data.data;
@@ -92,7 +92,7 @@ export default function ComparisonLayout() {
 
    const fetchFoulsPerGame = async (teamId) => {
       try {
-         const response = await graph.foulsPerGame(teamId, 5, localStorage.getItem('token'));
+         const response = await graph.foulsPerGame(teamId, 100, localStorage.getItem('token'));
 
          if (response.status === 200) {
             return response.data.data;
@@ -106,7 +106,7 @@ export default function ComparisonLayout() {
 
    const fetchReboundsPerGame = async (teamId) => {
       try {
-         const response = await graph.reboundsPerGame(teamId, 5, localStorage.getItem('token'));
+         const response = await graph.reboundsPerGame(teamId, 100, localStorage.getItem('token'));
 
          if (response.status === 200) {
             return response.data.data;

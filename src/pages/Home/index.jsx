@@ -156,7 +156,7 @@ export default function Home() {
    useEffect(() => { console.log('inputs: ', inputs); }, [inputs]);
 
    const fetchWins = async () => {
-      const res = await graph.getWins(sessionStorage.getItem('teamId'), 10, localStorage.getItem('token'));
+      const res = await graph.getWins(sessionStorage.getItem('teamId'), 100, localStorage.getItem('token'));
 
       setWinsGraph([res.data.data.wins, res.data.data.loses]);
    }
@@ -375,7 +375,7 @@ export default function Home() {
                   </S.MatchInfo>
                   <S.MatchResults>
                      <span>{nextGame.game.day.toString().padStart(2, '0')}/{nextGame.game.month.toString().padStart(2, '0')}</span>
-                     <span>{nextGame.game.hour}</span>
+                     <span>{nextGame.game.hour.toString().padStart(2, '0')}</span>
                   </S.MatchResults>
                </>
             )}
