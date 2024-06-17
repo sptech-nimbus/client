@@ -89,12 +89,6 @@ export default function Login() {
             Login
          </S.Title>
          <S.Form onSubmit={handleFormSubmit}>
-            <Input.Google />
-            <S.LineContainer>
-               <S.Line />
-               Ou
-               <S.Line />
-            </S.LineContainer>
             <S.InputsContainer>
                <Label >
                   Insira seu email
