@@ -74,6 +74,9 @@ export default function Home() {
       }
    });
 
+   const [lastGameData, setLastGameData] = useState();
+   const [nextGameData, setNextGameData] = useState();
+
    const sortByDate = (a, b) => {
       return new Date(a.inicialDateTime).getTime() - new new Date(b.inicialDateTime).getTime();
    }
@@ -91,6 +94,29 @@ export default function Home() {
       }
    }
 
+   function sortGamesByDate(games) {
+      return games.sort((a, b) => new Date(a.inicialDateTime) - new Date(b.inicialDateTime));
+   }
+
+   function findRecentAndNextGames(games) {
+      const now = new Date();
+      const sortedGames = sortGamesByDate(games);
+
+      let mostRecentGame = null;
+      let nextGame = null;
+
+      for (let game of sortedGames) {
+         const gameStart = new Date(game.inicialDateTime);
+         if (gameStart <= now) {
+            mostRecentGame = game;
+         } else if (!nextGame && gameStart > now) {
+            nextGame = game;
+         }
+      }
+
+      return { mostRecentGame, nextGame };
+   }
+
    const fetchGames = async () => {
       try {
          const response = await game.getByTeam(
@@ -99,6 +125,11 @@ export default function Home() {
          );
 
          if (response.status === 200) {
+            const { mostRecentGame, nextGame } = findRecentAndNextGames(response.data.data);
+
+            setLastGameData(mostRecentGame);
+            setNextGameData(nextGame);
+
             const notConfirmed = response.data.data.filter(game => !game.confirmed);
             setGames(notConfirmed);
          }
@@ -157,7 +188,7 @@ export default function Home() {
    useEffect(() => { console.log('inputs: ', inputs); }, [inputs]);
 
    const fetchWins = async () => {
-      const res = await graph.getWins(sessionStorage.getItem('teamId'), 10, localStorage.getItem('token'));
+      const res = await graph.getWins(sessionStorage.getItem('teamId'), 100, localStorage.getItem('token'));
 
       setWinsGraph([res.data.data.wins, res.data.data.loses]);
    }
@@ -293,7 +324,6 @@ export default function Home() {
    }, []);
 
    function LastGame({ lastGame }) {
-      console.log('lastGame no componente: ', lastGame);
       return (
          <S.MatchCard >
             <S.MatchHeader>
@@ -329,11 +359,18 @@ export default function Home() {
                            ? <>
                               <span>{lastGame.game.gameResult.challengerPoints}</span>
                               <Results result={
-                                 lastGame.game.gameResult.challengerPoints > lastGame.game.gameResult.challengedPoints
-                                    && lastGame.challenger.id === localStorage.getItem('teamId')
-                                    ? 'win'
-                                    : 'lose'
+                                 lastGame.game.gameResult.challengerPoints === lastGame.game.gameResult.challengedPoints
+                                    ? 'draw'
+                                    : (
+                                       (lastGame.game.gameResult.challengerPoints > lastGame.game.gameResult.challengedPoints
+                                          && lastGame.challenger.id === localStorage.getItem('teamId')) ||
+                                       (lastGame.game.gameResult.challengerPoints < lastGame.game.gameResult.challengedPoints
+                                          && lastGame.challenged.id === localStorage.getItem('teamId'))
+                                    )
+                                       ? 'win'
+                                       : 'lose'
                               } />
+
                               <span>{lastGame.game.gameResult.challengedPoints}</span>
                            </>
                            : <Results />
@@ -346,6 +383,8 @@ export default function Home() {
    }
 
    function NextGame({ nextGame }) {
+      const hourSplit = nextGame.game.hour.split(':');
+
       return (
          <S.MatchCard>
             <S.MatchHeader>
@@ -376,7 +415,7 @@ export default function Home() {
                   </S.MatchInfo>
                   <S.MatchResults>
                      <span>{nextGame.game.day.toString().padStart(2, '0')}/{nextGame.game.month.toString().padStart(2, '0')}</span>
-                     <span>{nextGame.game.hour}</span>
+                     <span>{hourSplit[0].toString().padStart(2, '0')}:{hourSplit[1].toString().padStart(2, '0')}</span>
                   </S.MatchResults>
                </>
             )}

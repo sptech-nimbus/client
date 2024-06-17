@@ -26,6 +26,7 @@ export default function Match({ isMatchFinished }) {
    const [allPlayers, setAllPlayers] = useState([]);
    const [challenger, setChallenger] = useState({});
    const [challenged, setChallenged] = useState({});
+   const [isChallenger, setIsChallenger] = useState(false);
 
    const fetchPlayers = async () => {
       try {
@@ -66,20 +67,28 @@ export default function Match({ isMatchFinished }) {
       const fetchData = async () => {
          await fetchPlayers();
          const games = await fetchGames();
+         console.log('------------------------------');
+         console.log('games', games);
+         console.log('------------------------------');
 
          const gamesTodayFilter = games.filter(game => {
             const today = new Date().toLocaleDateString('pt-br');
             const initialDate = new Date(game.inicialDateTime).toLocaleDateString('pt-br');
 
             return (today === initialDate) && game.confirmed && !game.gameResult;
+            // return game.confirmed && !game.gameResult;
          });
          console.log(gamesTodayFilter);
          setGamesToday(gamesTodayFilter);
 
-         if(gamesTodayFilter.length > 0) {
+         if (gamesTodayFilter.length > 0) {
             const challengerRes = await team.get(gamesTodayFilter[0].challenger, localStorage.getItem('token'));
             const challengedRes = await team.get(gamesTodayFilter[0].challenged, localStorage.getItem('token'));
-            
+
+            if (gamesTodayFilter[0].challenger === sessionStorage.getItem('teamId')) {
+               setIsChallenger(true);
+            }
+
             setChallenged({ ...challengedRes.data.data, initials: Utils.getTeamInitials(challengedRes.data.data.name) });
             setChallenger({ ...challengerRes.data.data, initials: Utils.getTeamInitials(challengerRes.data.data.name) });
          }
@@ -90,17 +99,19 @@ export default function Match({ isMatchFinished }) {
       fetchData()
    }, []);
 
+   console.log('é challenger?', isChallenger);
+
    return isLoading ? (
       <LoaderContainer>
          <Loader />
       </LoaderContainer>
    ) : isMatchFinished ? (
-      <FinishedMatch />  
-   ) : gamesToday.length > 0 ? ( 
+      <FinishedMatch isChallenger={isChallenger} />
+   ) : gamesToday.length > 0 ? (
       <OnGoingMatch
-      teams={{ challenger, challenged }}
-      gameId={gamesToday[0] ? gamesToday[0].id : null} 
-      allPlayers={allPlayers} 
+         teams={{ challenger, challenged }}
+         gameId={gamesToday[0] ? gamesToday[0].id : null}
+         allPlayers={allPlayers}
       />
    ) : <NoMatch />
 }

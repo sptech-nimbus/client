@@ -48,12 +48,23 @@ export default function DashboardLayout() {
       }
    }
 
+   function sortObjectByKey(obj) {
+      const sortedKeys = Object.keys(obj).sort((a, b) => new Date(a) - new Date(b));
+      const sortedObj = {};
+
+      sortedKeys.forEach(key => {
+         sortedObj[key] = obj[key];
+      });
+
+      return sortedObj;
+   }
+
    const fetchPointsPerGame = async (teamId) => {
       try {
-         const response = await graph.getPointsPerGame(teamId, 6, localStorage.getItem('token'));
+         const response = await graph.getPointsPerGame(teamId, 100, localStorage.getItem('token'));
 
          if (response.status === 200) {
-            return response.data.data;
+            return sortObjectByKey(response.data.data);
          }
       }
       catch (err) {
@@ -64,10 +75,10 @@ export default function DashboardLayout() {
 
    const fetchFoulsPerGame = async (teamId) => {
       try {
-         const response = await graph.foulsPerGame(teamId, 5, localStorage.getItem('token'));
+         const response = await graph.foulsPerGame(teamId, 100, localStorage.getItem('token'));
 
          if (response.status === 200) {
-            return response.data.data;
+            return sortObjectByKey(response.data.data);
          }
       }
       catch (err) {
@@ -101,6 +112,8 @@ export default function DashboardLayout() {
                fetchFoulsPerGame(sessionStorage.getItem('teamId')),
                // fetchReboundsPerGame(sessionStorage.getItem('teamId')),
             ]);
+
+            console.log('pointsPerGameData: ', pointsPerGameData);
 
             setWinsGraph([winsGraphData.wins, winsGraphData.loses]);
             let mappedDivision = [pointsDivisionData.threePointsPorcentage, pointsDivisionData.twoPointsPorcentage];

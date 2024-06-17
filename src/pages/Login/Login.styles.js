@@ -47,7 +47,7 @@ export const Header = styled.header`
 
 export const Form = styled.form`
    position: absolute;
-   top: 20%;
+   top: 30%;
    display: flex;
    flex-direction: column;
    gap: 1.2rem;
