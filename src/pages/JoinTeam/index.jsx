@@ -41,12 +41,12 @@ export default function JoinTeam() {
    useEffect(() => {
       async function fetchData() {
          try {
-            const { data: { data } } = await axios.get(`http://localhost:8080/teams/${teamId}`, { 
+            const { data: { data } } = await axios.get(`http://localhost:8080/teams/${teamId}`, {
                headers: { Authorization: `Bearer ${token}` }
             });
             setTeam(data);
          }
-         catch(err) {
+         catch (err) {
             navigate('/not-found');
          }
       }
@@ -60,8 +60,8 @@ export default function JoinTeam() {
 
    const handleSubmit = async (e) => {
       e.preventDefault();
-      
-      if(EmailValidation(credentials.email) && credentials.password) {
+
+      if (EmailValidation(credentials.email) && credentials.password) {
          try {
             const { data: { data } } = await user.login(credentials);
             setPersonaId(data.personaId);
@@ -69,27 +69,27 @@ export default function JoinTeam() {
 
             try {
                await athlete.registerTeam(personaId, { id: teamId }, token);
-               toast.success("Você acabou de entrar para o time "+team.name+"! Redirecionando para a tela de login...", { autoClose: 2000 });
+               toast.success("Você acabou de entrar para o time " + team.name + "! Redirecionando para a tela de login...", { autoClose: 2000 });
                setTimeout(() => {
-                    navigate('/login');
+                  navigate('/login');
                }, 2600);
             }
-            catch(err) {
+            catch (err) {
                console.log(err);
             }
          }
-         catch(err) {
-            if(err.response.status == 401) toast.error(`Credenciais inválidas.`);
+         catch (err) {
+            if (err.response.status == 401) toast.error(`Credenciais inválidas.`);
             else toast.error(`Houve um erro durante a validação de seus dados. Por favor, aguarde um momento antes de tentar novamente.`)
          }
       }
       else {
-         if(!credentials.email && !credentials.password) {
+         if (!credentials.email && !credentials.password) {
             toast.error("Preencha todos os campos");
          }
          else {
-            if(!EmailValidation()) toast.error("O email inserido é inválido.");
-            if(!credentials.password) toast.error("Preencha o campo de senha.");
+            if (!EmailValidation()) toast.error("O email inserido é inválido.");
+            if (!credentials.password) toast.error("Preencha o campo de senha.");
          }
       }
    }
@@ -110,13 +110,13 @@ export default function JoinTeam() {
 
          <Background.Login />
          <LS.Title>
-            <Title text='Entrar para um time' $uppercase/>
+            <Title text='Entrar para um time' $uppercase />
          </LS.Title>
 
          <S.JoinTeamText>Insira suas credenciais para entrar para o time {team.name}</S.JoinTeamText>
 
          <S.JoinTeamGrid>
-            <S.TeamImage src={team.picture}/>
+            <S.TeamImage src={team.picture} />
 
             <S.Form onSubmit={handleSubmit}>
                <Label>
@@ -149,7 +149,7 @@ export default function JoinTeam() {
                   fontSize={'1.5rem'}
                   onClick={handleSubmit}
                />
-            </S.Form>   
+            </S.Form>
          </S.JoinTeamGrid>
       </LS.Header>
    )

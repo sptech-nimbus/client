@@ -72,6 +72,8 @@ export default function FinishedMatch({ isChallenger }) {
          game: { id: matchData.gameId }
       }
 
+      console.log(gameResult);
+
       const mappedStats = matchData.players.map(player => ({
          observations: player.observations,
          offRebounds: player.stats.offReb,

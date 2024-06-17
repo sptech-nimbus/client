@@ -67,6 +67,9 @@ export default function Match({ isMatchFinished }) {
       const fetchData = async () => {
          await fetchPlayers();
          const games = await fetchGames();
+         console.log('------------------------------');
+         console.log('games', games);
+         console.log('------------------------------');
 
          const gamesTodayFilter = games.filter(game => {
             const today = new Date().toLocaleDateString('pt-br');
