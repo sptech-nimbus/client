@@ -21,12 +21,16 @@ export default function Chat() {
    const [messages, setMessages] = useState([]);
 
    const msgEndRef = useRef(null);
+   const containerRef = useRef(null);
 
    const scrollToBottom = () => {
-      msgEndRef.current.scrollIntoView({ behavior: "smooth" });
+      if (msgEndRef.current) {
+         // msgEndRef.current.scrollIntoView({ behavior: "smooth" });
+         msgEndRef.current.scrollTop = msgEndRef.current.scrollHeight;
+      }
    }
 
-   useEffect(() => { scrollToBottom() }, [])
+   useEffect(() => { scrollToBottom() }, [messages])
 
    const sendMessage = () => {
       const date = new Date();
@@ -48,7 +52,7 @@ export default function Chat() {
 
    useEffect(() => {
       const getMessagesRes = async () => {
-         const messagesRes = await getMessages(sessionStorage.getItem('teamId'), 1, 20);
+         const messagesRes = await getMessages(sessionStorage.getItem('teamId'), 1, 100);
          setMessages(messagesRes.data.page);
       }
 
@@ -110,7 +114,7 @@ export default function Chat() {
             </S.TopBar>
 
             <S.MessagesArea>
-               <S.MessagesContainer>
+               <S.MessagesContainer ref={msgEndRef}>
                   {
                      messages.map(message => {
                         return (
@@ -120,7 +124,7 @@ export default function Chat() {
                         )
                      })
                   }
-                  <div ref={msgEndRef} />
+                  {/* <span ref={msgEndRef} /> */}
                </S.MessagesContainer>
                <S.InputContainer>
                   <Input.Default
