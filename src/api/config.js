@@ -1,5 +1,5 @@
 const config = {
-    baseURL: 'http://nimbus.westus.cloudapp.azure.com:8080'
+    baseURL: 'http://localhost:80/api'
 }
 
 export default config;
