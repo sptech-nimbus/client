@@ -1,5 +1,6 @@
 const config = {
-    baseURL: 'http://localhost:80'
+    baseURL: 'http://localhost:80',
+    baseURLChat: ''
 }
 
 export default config;
