@@ -58,7 +58,7 @@ async function confirmGame(game, coach, token) {
 
 async function registerGameResult(body, token) {
     try {
-        const response = await axios.post('http://nimbus.westus.cloudapp.azure.com:8080/game-results', body,
+        const response = await axios.post('${config.baseURL}/game-results', body,
             {
                 headers: { Authorization: `Bearer ${token}` }
             }

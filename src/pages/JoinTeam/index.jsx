@@ -41,7 +41,7 @@ export default function JoinTeam() {
    useEffect(() => {
       async function fetchData() {
          try {
-            const { data: { data } } = await axios.get(`http://nimbus.westus.cloudapp.azure.com:8080/teams/${teamId}`, {
+            const { data: { data } } = await axios.get(`${config.baseURL}/teams/${teamId}`, {
                headers: { Authorization: `Bearer ${token}` }
             });
             setTeam(data);
