@@ -1,5 +1,5 @@
 import { io } from 'socket.io-client';
-import config from "./config";
+import config from "../api/config";
 
 const URL = `http://${config.baseURLChat}:3001/`;
 
